@@ -3,25 +3,13 @@
 #ifndef BOARD_H
 #define BOARD_H
 
-//Include SDL modules
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-
-//Misc inclusions
-#include <iostream>
-using std::cerr;
-using std::endl;
-using std::string;
+//Include texture class
+#include "Texture.h"
 
 class Board{
 public:
 	//Constructor
-	//Args:
-	//SDL_Renderer* renderer - renderer to draw the board with
-	Board(SDL_Renderer* renderer = NULL);
-
-	//Board texture loading method
-	void load();
+	Board();
 
 	//Render assignment method
 	//Args:
@@ -38,11 +26,8 @@ public:
 	~Board();
 
 private:
-	//SDL renderer pointer
-	SDL_Renderer* mRenderer;
-
 	//SDL board texture
-	SDL_Texture* mBoardTexture;
+	Texture mBoardTexture;
 };
 
 #endif

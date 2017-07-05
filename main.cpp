@@ -17,6 +17,7 @@
 
 //Include local modules
 #include "Board.h"
+#include "Player.h"
 
 //Misc library incluson
 #include <iostream>
@@ -53,6 +54,8 @@ SDL_Event event;
 //Game board
 Board board;
 
+//Player object
+Player player;
 
 
 
@@ -78,7 +81,10 @@ int main(int argc, char* argv[]){
 	
 		//Draw game board;
 		board.render();
-		
+	
+		//Draw player sprite();
+		player.render(300, 300);
+	
 		//Render image on screen
 		SDL_RenderPresent(renderer);
 	}
@@ -137,7 +143,7 @@ bool init(){
 					} else {
 						//Initialize game objects
 						board.setRenderer(renderer);
-						board.load();
+						player.setRenderer(renderer);
 					}
 				}
 			}
