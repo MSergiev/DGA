@@ -1,62 +1,24 @@
 #include "Player.h"
 
 Player::Player() {
-	//Initialize data
-	miAnimationTimer = SDL_GetTicks();
-	miCurrentFrame = 0;
-
-	//Initialize animation frame
-	mAnimationFrame.x = 0;
-	mAnimationFrame.y = 0;
-	mAnimationFrame.w = SPRITE_SIZE;
-	mAnimationFrame.h = SPRITE_SIZE;
-}
-
-void Player::setRenderer(SDL_Renderer * renderer){
-	//Load spritesheet texture
-	if(renderer!=NULL){
-		mSprite.setRenderer(renderer);
-		mSprite.load("./GFX/bomb.png");
-	}
+	//Initialize frame dimensions
+	SDL_Rect frame = {0, 0, SPRITE_SIZE, SPRITE_SIZE};
+	//Create sprite object
+	mPlayerSprite = new Sprite(frame, NUM_OF_FRAMES, ANIMATION_DELAY);
 }
 
 void Player::render(int x, int y){
-	//If enough time has passed
-	if(SDL_GetTicks()-miAnimationTimer > ANIMATION_DELAY){
-		//If we are not on the last frame
-		if(miCurrentFrame < NUM_OF_FRAMES-1){
-			//If spritesheet row end has not been reached
-			if(mAnimationFrame.x+SPRITE_SIZE < mSprite.getWidth()){
-				//Go to next frame
-				mAnimationFrame.x+=SPRITE_SIZE;
-			//If spritesheet row end has been reached
-			} else {
-				//Go to next row of frames
-				mAnimationFrame.x = 0;
-				mAnimationFrame.y+=SPRITE_SIZE;
-			}
-			//Increment current frame counter
-			miCurrentFrame++;
-		//If we are on the last frame
-		} else {
-			//Go back to the first frame
-			mAnimationFrame.x = 0;
-			mAnimationFrame.y = 0;
-			//Reset current frame counter
-			miCurrentFrame = 0;
-		}
-		//Restart animation timer
-		miAnimationTimer = SDL_GetTicks();
-	}
-
 	//Render sprite
-	mSprite.render(x, y, &mAnimationFrame);
+	mPlayerSprite->render(x, y);
 }
 
-void Player::free(){
-	//Free resources
-	mSprite.free();
-	mSprite = NULL;
+void Player::setRenderer(SDL_Renderer* renderer){
+	mPlayerSprite->setRenderer(renderer);
+	mPlayerSprite->load("./GFX/bomb.png");	
 }
 
-Player::~Player(){}
+Player::~Player(){
+	//Release resources
+	mPlayerSprite->free();
+	delete mPlayerSprite;
+}

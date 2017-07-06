@@ -11,9 +11,6 @@ using std::cerr;
 using std::endl;
 using std::string;
 
-#include <vector>
-using std::vector;
-
 class Texture{
 public:
 
@@ -55,7 +52,7 @@ public:
 	//double a - rotation angle (0-359)
 	//SDL_Point* c - rotation center
 	//SDL_RendererFlip f - SDL renderer flip flag
-	void render(int x, int y, SDL_Rect* clip = NULL, double a = 0,
+	virtual void render(int x, int y, SDL_Rect* clip = NULL, double a = 0,
 			SDL_Point* c = NULL, SDL_RendererFlip f = SDL_FLIP_NONE);
 
 	//Get image dimensions
@@ -63,10 +60,10 @@ public:
 	int getHeight() const;
 
 	//Resource releasing method;
-	void free();
+	virtual void free();
 
 	//Destructor
-	~Texture();
+	virtual ~Texture();
 
 private:
 
