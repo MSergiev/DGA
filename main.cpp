@@ -18,6 +18,7 @@
 //Include local modules
 #include "Board.h"
 #include "Player.h"
+#include "Recovery.h"
 
 //Misc library incluson
 #include <iostream>
@@ -78,19 +79,34 @@ int main(int argc, char* argv[]){
 		//Clear screen
 		SDL_SetRenderDrawColor(renderer, 255,255,255,255);
 		SDL_RenderClear(renderer);
-	
+
 		//Draw game board;
 		board.render();
-	
+
 		//Draw player sprite();
 		player.render(300, 300);
-	
+
 		//Render image on screen
 		SDL_RenderPresent(renderer);
 	}
 
 	//Free resources
 	free();
+
+	/*
+	// 	if you want to see how Recovery class works:
+		// Statistics is a class that I needed to make for help
+		// but i think it is going to be helpful
+		map<int, Statistics> mP;
+	 	// to use ReadFromXML method you need to make an object of Recovery class
+		Recovery r;
+		// ReadFromXML returns a map <int,Statistics> value
+		mP = r.ReadFromXML();
+		// print the value of the xml file:
+		r.Print(mP);
+		// writes the statistics in the same file
+		r.WriteXML(mP);
+	*/
 
 	//Successful exit
 	return 0;
