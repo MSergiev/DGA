@@ -1,5 +1,5 @@
 /*
- * SoundEffects.cpp
+ * Sound.cpp
  *
  *  Created on: Jul 6, 2017
  *      Author: Puzz
@@ -7,13 +7,13 @@
 
 #include "Sound.h"
 
-//Mix_Chunk* SoundEffects::Seffects[];
-//SoundEffects::SoundEffects()
-//{
-//////	if(!load())
-//////	cerr << "Sound loading failed" << endl;
-//}
-bool SoundEffects::load(){
+Mix_Chunk* Sound::Seffects[];
+Sound::Sound()
+{
+if(!load())
+cerr << "Sound loading failed" << endl;
+}
+bool Sound::load(){
 	bool success = true;
 	if(SDL_Init(SDL_INIT_AUDIO)<0){
 		cerr << "SDL Audio error: " << SDL_GetError() << endl;
@@ -53,31 +53,45 @@ bool SoundEffects::load(){
 	Seffects[27] = Mix_LoadWAV("sudden.wav");
 	Seffects[28] = Mix_LoadWAV("suprise.wav");
 
+	mus[0] = Mix_LoadMUS("rock.wav");
+	mus[1] = Mix_LoadMUS("ambient.wav");
+	mus[2] = Mix_LoadMUS("electric.wav");
+
 	for(int i = 0; i < 28; ++i){
 		if(Seffects[i]==NULL){
 			cerr << "Seffects error: " << Mix_GetError() << endl;
 			success = false;
 		}
 	}
+	for(int i = 0; i < 3; ++i){
+			if(mus[i]==NULL){
+				cerr << "BGM error: " << Mix_GetError() << endl;
+				success = false;
+			}
+		}
 	return success;
 }
 
-void SoundEffects::pause() {
+void Sound::pause() {
 	Mix_PauseMusic();
 }
 
-bool SoundEffects::playing() {
+bool Sound::playing() {
 	return Mix_PlayingMusic();
 }
 
-void SoundEffects::free(){
+void Sound::free(){
 	for (int i = 0; i < 28; i++) {
 		Mix_FreeChunk(Seffects[i]);
 		Seffects[i] = NULL;
 	}
+	for (int i = 0; i < 3; i++) {
+		Mix_FreeMusic(mus[i]);
+		mus[i] = NULL;
+		}
 	Mix_Quit();
 }
-void SoundEffects::play(SEFFECTS sound)
+void Sound::play(SEFFECTS sound)
 {
 	switch(sound){
 		case bruh:
@@ -169,9 +183,26 @@ void SoundEffects::play(SEFFECTS sound)
 			break;
 		}
 	}
+void Sound::music(MUSIC music){
+	if(Mix_PlayingMusic()){
+		Mix_ResumeMusic();
+	}else {
+	switch(music){
+		case rock:
+			Mix_PlayMusic(mus[0], -1);
+			break;
+		case ambient:
+			Mix_PlayMusic(mus[1], -1);
+			break;
+		case electric:
+			Mix_PlayMusic(mus[2], -1);
+			break;
 
-//
-//SoundEffects::~SoundEffects() {
-//	// TODO Auto-generated destructor stub
-//}
+	}
+	}
+}
+
+Sound::~Sound() {
+	// TODO Auto-generated destructor stub
+}
 
