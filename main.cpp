@@ -11,12 +11,9 @@
 #include "Shared.h"
 #include "Board.h"
 #include "Player.h"
-<<<<<<< Updated upstream
 #include "Recovery.h"
-=======
 #include "Sound.h"
 //#include "Recovery.h"
->>>>>>> Stashed changes
 
 //Misc library inclusion
 #include <iostream>
@@ -103,7 +100,7 @@ int main(int argc, char* argv[]){
 		//Render image on screen
 		SDL_RenderPresent(renderer);
 
-		Sound::play(bruh);
+		Sound::music(rock);
 	}
 
 	//Free resources

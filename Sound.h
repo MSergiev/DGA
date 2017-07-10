@@ -31,7 +31,6 @@ public:
 	static void music(MUSIC music);
 	virtual ~Sound();
 private:
-	//static Mix_Chunk* Seffects[29];
 	static Mix_Chunk* Seffects[29];
 	static Mix_Music* mus[3];
 };

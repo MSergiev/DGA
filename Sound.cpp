@@ -8,15 +8,12 @@
 #include "Sound.h"
 
 Mix_Chunk* Sound::Seffects[];
+Mix_Music* Sound::mus[];
+
 Sound::Sound()
 {
-<<<<<<< Updated upstream
-}/*
-=======
-//if(!load())
-//cerr << "Sound loading failed" << endl;
 }
->>>>>>> Stashed changes
+
 bool Sound::load(){
 	bool success = true;
 	if(SDL_Init(SDL_INIT_AUDIO)<0){
@@ -27,52 +24,54 @@ bool Sound::load(){
 		cerr << "Audio error: " << Mix_GetError() << endl;
 		success = false;
 	}
-	Seffects[0] = Mix_LoadWAV("bruh.wav");
-	Seffects[1] = Mix_LoadWAV("camera.wav");
-	Seffects[2] = Mix_LoadWAV("censor.wav");
-	Seffects[3] = Mix_LoadWAV("ding.wav");
-	Seffects[4] = Mix_LoadWAV("drumroll.wav");
-	Seffects[5] = Mix_LoadWAV("fatality.wav");
-	Seffects[6] = Mix_LoadWAV("finishhim.wav");
-	Seffects[7] = Mix_LoadWAV("flashback.wav");
-	Seffects[8] = Mix_LoadWAV("fuck.wav");
-	Seffects[9] = Mix_LoadWAV("fuckedup.wav");
-	Seffects[10] = Mix_LoadWAV("fucku.wav");
-	Seffects[11] = Mix_LoadWAV("gotcha.wav");
-	Seffects[12] = Mix_LoadWAV("whoosh.wav");
-	Seffects[13] = Mix_LoadWAV("headshot.wav");
-	Seffects[14] = Mix_LoadWAV("helpme.wav");
-	Seffects[15] = Mix_LoadWAV("here.wav");
-	Seffects[16] = Mix_LoadWAV("hitmarker.wav");
-	Seffects[17] = Mix_LoadWAV("idgaf.wav");
-	Seffects[18] = Mix_LoadWAV("inception.wav");
-	Seffects[19] = Mix_LoadWAV("jeff.wav");
-	Seffects[20] = Mix_LoadWAV("mario.wav");
-	Seffects[21] = Mix_LoadWAV("more.wav");
-	Seffects[22] = Mix_LoadWAV("punch.wav");
-	Seffects[23] = Mix_LoadWAV("s21.wav");
-	Seffects[24] = Mix_LoadWAV("scratch.wav");
-	Seffects[25] = Mix_LoadWAV("smokeweed.wav");
-	Seffects[26] = Mix_LoadWAV("sparta.wav");
-	Seffects[27] = Mix_LoadWAV("sudden.wav");
-	Seffects[28] = Mix_LoadWAV("suprise.wav");
-
-	mus[0] = Mix_LoadMUS("rock.wav");
-	mus[1] = Mix_LoadMUS("ambient.wav");
-	mus[2] = Mix_LoadMUS("electric.wav");
-
+	Seffects[0] = Mix_LoadWAV("SFX/bruh.wav");
+	Seffects[1] = Mix_LoadWAV("SFX/camera.wav");
+	Seffects[2] = Mix_LoadWAV("SFX/censor.wav");
+	Seffects[3] = Mix_LoadWAV("SFX/ding.wav");
+	Seffects[4] = Mix_LoadWAV("SFX/drumroll.wav");
+	Seffects[5] = Mix_LoadWAV("SFX/fatality.wav");
+	Seffects[6] = Mix_LoadWAV("SFX/finishhim.wav");
+	Seffects[7] = Mix_LoadWAV("SFX/flashback.wav");
+	Seffects[8] = Mix_LoadWAV("SFX/fuck.wav");
+	Seffects[9] = Mix_LoadWAV("SFX/fuckedup.wav");
+	Seffects[10] = Mix_LoadWAV("SFX/fucku.wav");
+	Seffects[11] = Mix_LoadWAV("SFX/gotcha.wav");
+	Seffects[12] = Mix_LoadWAV("SFX/whoosh.wav");
+	Seffects[13] = Mix_LoadWAV("SFX/headshot.wav");
+	Seffects[14] = Mix_LoadWAV("SFX/helpme.wav");
+	Seffects[15] = Mix_LoadWAV("SFX/here.wav");
+	Seffects[16] = Mix_LoadWAV("SFX/hitmarker.wav");
+	Seffects[17] = Mix_LoadWAV("SFX/idgaf.wav");
+	Seffects[18] = Mix_LoadWAV("SFX/inception.wav");
+	Seffects[19] = Mix_LoadWAV("SFX/jeff.wav");
+	Seffects[20] = Mix_LoadWAV("SFX/mario.wav");
+	Seffects[21] = Mix_LoadWAV("SFX/more.wav");
+	Seffects[22] = Mix_LoadWAV("SFX/punch.wav");
+	Seffects[23] = Mix_LoadWAV("SFX/s21.wav");
+	Seffects[24] = Mix_LoadWAV("SFX/scratch.wav");
+	Seffects[25] = Mix_LoadWAV("SFX/smokeweed.wav");
+	Seffects[26] = Mix_LoadWAV("SFX/sparta.wav");
+	Seffects[27] = Mix_LoadWAV("SFX/sudden.wav");
+	Seffects[28] = Mix_LoadWAV("SFX/suprise.wav");
+	
 	for(int i = 0; i < 28; ++i){
 		if(Seffects[i]==NULL){
 			cerr << "Seffects error: " << Mix_GetError() << endl;
 			success = false;
 		}
 	}
+
+	mus[0] = Mix_LoadMUS("BGM/rock.wav");
+	mus[1] = Mix_LoadMUS("BGM/ambient.wav");
+	mus[2] = Mix_LoadMUS("BGM/electric.wav");
+
 	for(int i = 0; i < 3; ++i){
 			if(mus[i]==NULL){
 				cerr << "BGM error: " << Mix_GetError() << endl;
 				success = false;
 			}
 		}
+	
 	return success;
 }
 
@@ -206,7 +205,7 @@ void Sound::music(MUSIC music){
 	}
 	}
 }
-*/
+
 Sound::~Sound() {
 	// TODO Auto-generated destructor stub
 }
