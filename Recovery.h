@@ -7,18 +7,17 @@
 
 #ifndef RECOVERY_H_
 #define RECOVERY_H_
-
 #include "pugixml.hpp"
-#include "Statistics.h"
+#include "Player.h"
 
 #include <iostream>
 #include <sstream>
-#include <map>
+#include <vector>
 
 using std::endl;
 using std::cout;
 using std::cerr;
-using std::map;
+using std::vector;
 using std::stringstream;
 
 class Recovery
@@ -28,13 +27,13 @@ public:
 	virtual ~Recovery();
 
 	// returns map with all the data from the file
-	map< int, Statistics > ReadFromXML();
+	vector< Player > ReadFromXML();
 
 	// puts data in the same file and deletes the previous data
-	void WriteXML(map<int, Statistics>);
+	void WriteXML(vector <Player>);
 
 	// prints the data
-	void Print(map<int, Statistics>);
+	void Print(vector <Player>);
 };
 
 #endif /* RECOVERY_H_ */

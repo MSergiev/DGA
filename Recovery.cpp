@@ -18,62 +18,56 @@ Recovery::~Recovery()
 	// TODO Auto-generated destructor stub
 }
 
-map<int, Statistics> Recovery::ReadFromXML()
+vector< Player > Recovery::ReadFromXML()
 {
 	pugi::xml_document doc;
+
+	// checking if the file is loaded
 	if (!doc.load_file("Recovery.xml"))
 	{
 		cerr << "The XML file would not load." << endl;
 	}
 
-	// making helper variables
-	int playerPos;
-	Statistics stat;
+	// making helper object
+	Player person;
 
-	// the map which will be returned
-	map<int, Statistics> result;
+	// the vector which will be returned
+	vector<Player> result;
 
 	pugi::xml_node players = doc.first_child();
 
 	for (pugi::xml_node player = players.first_child(); player;
 			player = player.next_sibling())
 	{
-		// taking the position for the map
-		playerPos = player.attribute("Position").as_int();
+		// filling the Player object
+		person.setIPlayerPosition(player.attribute("Position").as_int());
+		person.setStrColor(player.child("Name").text().as_string());
+		person.setISteps(player.child("Steps").text().as_int());
+		person.setITaken(player.child("Taken").text().as_int());
+		person.setIHadTaken(player.child("HadTaken").text().as_int());
 
-		// filling the Statistics object
-		stat.setIPlayerPosition(playerPos);
-		stat.setColor(player.child("Name").text().as_string());
-		stat.setISteps(player.child("Steps").text().as_int());
-		stat.setITaken(player.child("Taken").text().as_int());
-		stat.setIHadTaken(player.child("HadTaken").text().as_int());
-
-		// putting the data in the map
-		// key - playerPos
-		// value - Statistics object
-		result[playerPos] = stat;
+		result.push_back(person);
 
 	}
 
 	return result;
 }
 
-void Recovery::WriteXML(map<int, Statistics> stat)
+void Recovery::WriteXML(vector< Player > players)
 {
 	pugi::xml_document doc;
 	// making the biggest node
 	pugi::xml_node game = doc.append_child("Game");
 
-	for (map<int, Statistics>::iterator i = stat.begin();
-			i != stat.end(); i++)
+	for (unsigned int i = 0 ; i < players.size(); i++)
 	{
 		// making the player node
 		pugi::xml_node player = game.append_child("Player");
-		player.append_attribute("Position").set_value(i->first);
+		player.append_attribute("Position").set_value(players[i].getIPlayerPosition());
 
 		// making the subnodes of player
 		pugi::xml_node name = player.append_child("Name");
-		name.append_child(pugi::node_pcdata).set_value(	i->second.getColor().c_str());
+		name.append_child(pugi::node_pcdata).set_value(players[i].getStrColor().c_str());
 
 		// the rest of the values are integer type and we can't use them
 		// in the set_value method - so we are changing them to be string
@@ -81,32 +75,28 @@ void Recovery::WriteXML(map<int, Statistics> stat)
 		stringstream str;
 
 		pugi::xml_node steps = player.append_child("Steps");
-		str << i->second.getISteps();
+		str << players[i].getISteps();
 		steps.append_child(pugi::node_pcdata).set_value(str.str().c_str());
-		// cleaning the input before using the variable again
-		str.str();
+		// setting the input to empty before using the variable again
+		str.str("");
 
 		pugi::xml_node taken = player.append_child("Taken");
-		str << i->second.getITaken();
+		str << players[i].getITaken();
 		taken.append_child(pugi::node_pcdata).set_value(str.str().c_str());
-		// cleaning
-		str.str();
+		str.str("");
 
 		pugi::xml_node hadTaken = player.append_child("HadTaken");
-		str << i->second.getIHadTaken();
+		str << players[i].getIHadTaken();
 		hadTaken.append_child(pugi::node_pcdata).set_value(str.str().c_str());
 	}
 
 	doc.save_file("Recovery.xml");
 }
 
-void Recovery::Print(map<int, Statistics> mP)
+void Recovery::Print(vector< Player > players)
 {
-	for (map<int, Statistics>::iterator o = mP.begin(); o != mP.end();
-			o++)
+	for (unsigned int i = 0; i < players.size(); i++)
 	{
-		cout << o->first << " " << endl;
-		// the value of the key is an object so we call its' print method
-		o->second.print();
+		players[i].print();
 	}
 }

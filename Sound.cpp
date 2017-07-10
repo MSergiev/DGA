@@ -10,9 +10,7 @@
 Mix_Chunk* Sound::Seffects[];
 Sound::Sound()
 {
-if(!load())
-cerr << "Sound loading failed" << endl;
-}
+}/*
 bool Sound::load(){
 	bool success = true;
 	if(SDL_Init(SDL_INIT_AUDIO)<0){
@@ -201,7 +199,7 @@ void Sound::music(MUSIC music){
 	}
 	}
 }
-
+*/
 Sound::~Sound() {
 	// TODO Auto-generated destructor stub
 }
