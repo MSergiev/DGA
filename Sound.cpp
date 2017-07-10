@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*
  * Sound.cpp
  *
@@ -206,3 +207,5 @@ Sound::~Sound() {
 	// TODO Auto-generated destructor stub
 }
 
+=======
+>>>>>>> parent of 1f2efe1... Add files via upload

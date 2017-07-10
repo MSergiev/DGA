@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*
  * Sound.h
  *
@@ -35,3 +36,5 @@ private:
 };
 
 #endif /* SOUND_H_ */
+=======
+>>>>>>> parent of 1f2efe1... Add files via upload
