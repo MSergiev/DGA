@@ -56,13 +56,17 @@ Player red, blue, yellow;
 //Players vector
 vector<Player*> playerVec;
 
-
+//Debug coordinates
+int x, y;
 
 //-----------------------------
 //------------MAIN-------------
 //-----------------------------
 
 int main(int argc, char* argv[]){
+	//Initialize temporary coordinates
+	x=y=0;
+
 	//Push player objects
 	playerVec.push_back(&red);	
 	playerVec.push_back(&blue);	
@@ -87,8 +91,9 @@ int main(int argc, char* argv[]){
 		board.render();
 
 		//Draw player sprites
-		for(unsigned i = 0; i < playerVec.size(); ++i)
-			playerVec[i]->render(i*100+100, i*100+100);
+		red.render(x,y);
+		//for(unsigned i = 0; i < playerVec.size(); ++i)
+			//playerVec[i]->render(i*100+100, i*100+100);
 
 		//Render image on screen
 		SDL_RenderPresent(renderer);
@@ -180,6 +185,10 @@ void eventHandler(){
 	while(SDL_PollEvent(&event)!=0){
 		if(event.type == SDL_QUIT || event.key.keysym.sym == SDLK_ESCAPE)
 			quit = 1;
+		if(event.key.keysym.sym == SDLK_LEFT) x-=10;
+		if(event.key.keysym.sym == SDLK_RIGHT) x+=10;
+		if(event.key.keysym.sym == SDLK_UP) y-=10;
+		if(event.key.keysym.sym == SDLK_DOWN) y+=10;
 	}
 }
 
