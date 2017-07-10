@@ -11,7 +11,12 @@
 #include "Shared.h"
 #include "Board.h"
 #include "Player.h"
+<<<<<<< Updated upstream
 #include "Recovery.h"
+=======
+#include "Sound.h"
+//#include "Recovery.h"
+>>>>>>> Stashed changes
 
 //Misc library inclusion
 #include <iostream>
@@ -97,6 +102,8 @@ int main(int argc, char* argv[]){
 
 		//Render image on screen
 		SDL_RenderPresent(renderer);
+
+		Sound::play(bruh);
 	}
 
 	//Free resources
@@ -134,7 +141,7 @@ bool init(){
 	bool success = 1;
 
 	//Try to initialize SDL
-	if(SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO)<0){
+	if(SDL_Init(SDL_INIT_VIDEO)<0){
 		cerr << "SDL Error: " << SDL_GetError() << endl;
 		success = 0;
 	} else {
@@ -166,6 +173,7 @@ bool init(){
 						cerr << "Renderer error: " << SDL_GetError() << endl;
 						success = 0;
 					} else {
+						Sound::load();
 						//Initialize game objects
 						board.setRenderer(renderer);
 						for (unsigned i = 0; i < playerVec.size(); ++i)

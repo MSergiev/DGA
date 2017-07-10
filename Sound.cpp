@@ -10,7 +10,13 @@
 Mix_Chunk* Sound::Seffects[];
 Sound::Sound()
 {
+<<<<<<< Updated upstream
 }/*
+=======
+//if(!load())
+//cerr << "Sound loading failed" << endl;
+}
+>>>>>>> Stashed changes
 bool Sound::load(){
 	bool success = true;
 	if(SDL_Init(SDL_INIT_AUDIO)<0){
@@ -86,9 +92,10 @@ void Sound::free(){
 	for (int i = 0; i < 3; i++) {
 		Mix_FreeMusic(mus[i]);
 		mus[i] = NULL;
-		}
+	}
 	Mix_Quit();
 }
+
 void Sound::play(SEFFECTS sound)
 {
 	switch(sound){

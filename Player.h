@@ -3,7 +3,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#define SPRITE_SIZE 129
+#define SPRITE_SIZE 64
 #define ANIMATION_DELAY 25
 #define NUM_OF_FRAMES 20
 

@@ -10,6 +10,9 @@ using std::string;
 #define WIDTH 800
 #define HEIGHT 800
 
+//Playing squares count
+#define LENGTH 56
+
 //Player colors
 enum Colors{
 	RED=0, BLUE, YELLOW

@@ -12,6 +12,7 @@
 #include <SDL2/SDL_mixer.h>
 using std::cerr;
 using std::endl;
+
 enum SEFFECTS {bruh,camera,censor,ding,drumroll,fatality,finishhim,
 flashback,fuck,fuckedup,fucku,gotcha,headshot,helpme,here,hitmarker,
 idgaf,inception,jeff,mario,more,punch,s21,scratch,smokeweed,sparta,
@@ -26,13 +27,13 @@ public:
 	static void pause();
 	static bool playing();
 	static void free();
-	static Mix_Chunk* Seffects[29];
-	static Mix_Music* mus[3];
 	static void play(SEFFECTS sound);
 	static void music(MUSIC music);
 	virtual ~Sound();
 private:
 	//static Mix_Chunk* Seffects[29];
+	static Mix_Chunk* Seffects[29];
+	static Mix_Music* mus[3];
 };
 
 #endif /* SOUND_H_ */
