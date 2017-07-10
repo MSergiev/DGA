@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /*
  * Sound.h
  *
@@ -10,7 +9,6 @@
 #define SOUND_H_
 #include <iostream>
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
 using std::cerr;
 using std::endl;
@@ -36,5 +34,3 @@ private:
 };
 
 #endif /* SOUND_H_ */
-=======
->>>>>>> parent of 1f2efe1... Add files via upload
