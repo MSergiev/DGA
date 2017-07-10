@@ -16,7 +16,9 @@ enum SEFFECTS {bruh,camera,censor,ding,drumroll,fatality,finishhim,
 flashback,fuck,fuckedup,fucku,gotcha,headshot,helpme,here,hitmarker,
 idgaf,inception,jeff,mario,more,punch,s21,scratch,smokeweed,sparta,
 sudden,suprise,whoosh};
+
 enum MUSIC{rock,electric,ambient};
+
 class Sound {
 public:
 	Sound();
