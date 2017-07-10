@@ -1,12 +1,4 @@
 //-----------------------------
-//----------CONSTANTS----------
-//-----------------------------
-
-//Screen constants
-#define WIDTH 800
-#define HEIGHT 800
-
-//-----------------------------
 //-----------INCLUDES----------
 //-----------------------------
 
@@ -16,14 +8,17 @@
 #include <SDL2/SDL_mixer.h>
 
 //Include local modules
+#include "Shared.h"
 #include "Board.h"
 #include "Player.h"
-#include "Recovery.h"
+//#include "Recovery.h"
 
 //Misc library incluson
 #include <iostream>
 using std::cerr;
 using std::endl;
+#include <vector>
+using std::vector;
 
 //-----------------------------
 //---------PROTOTYPES----------
@@ -55,8 +50,11 @@ SDL_Event event;
 //Game board
 Board board;
 
-//Player object
-Player player;
+//Player objects
+Player red, blue, yellow;
+
+//Players vector
+vector<Player*> playerVec;
 
 
 
@@ -65,6 +63,11 @@ Player player;
 //-----------------------------
 
 int main(int argc, char* argv[]){
+	//Push player objects
+	playerVec.push_back(&red);	
+	playerVec.push_back(&blue);	
+	playerVec.push_back(&yellow);	
+	
 	//Unused warning elimination
 	argc = 0; argv = 0;
 
@@ -83,8 +86,9 @@ int main(int argc, char* argv[]){
 		//Draw game board;
 		board.render();
 
-		//Draw player sprite();
-		player.render(300, 300);
+		//Draw player sprites
+		for(unsigned i = 0; i < playerVec.size(); ++i)
+			playerVec[i]->render(i*100+100, i*100+100);
 
 		//Render image on screen
 		SDL_RenderPresent(renderer);
@@ -159,7 +163,8 @@ bool init(){
 					} else {
 						//Initialize game objects
 						board.setRenderer(renderer);
-						player.setRenderer(renderer);
+						for (unsigned i = 0; i < playerVec.size(); ++i)
+							playerVec[i]->setRenderer(renderer);
 					}
 				}
 			}
