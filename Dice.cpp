@@ -5,41 +5,17 @@
  *      Author: Puzz
  */
 #include "Dice.h"
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
-SDL_Window* gWindow = NULL;
-SDL_Surface* gScreenSurface = NULL;
 Dice::Dice() {
 }
 Dice::~Dice() {
 }
 
-void Dice::roll() {
-	srand((unsigned)time(0));
-		    int face;
-		    face = (rand()%6)+1;
-	      switch ( face )
-	      {
-	      case 1:
-	   	          cout<<"1"<<endl;
-	   	            break;
-	   	         case 2:
-	   	        	 cout<<"2"<<endl;
-	   	            break;
-	   	         case 3:
-	   	        	 cout<<"3"<<endl;
-	   	            break;
-	   	         case 4:
-	   	        	 cout<<"4"<<endl;
-	   	            break;
-	   	         case 5:
-	   	        	 cout<<"5"<<endl;
-	   	            break;
-	   	         case 6:
-	   	        	 cout<<"6"<<endl;
-	   	            break;
+int Dice::roll() {
+(rand()%6)+1;
+return 0;
 	      }
-	}
+
+
 void Dice::Event(){
 	//Event handler
 				bool quit = false;
@@ -95,20 +71,7 @@ bool Dice::init()
 	}
 
 
-bool Dice::loadMedia() {
-	//Loading success flag
-	bool success = true;
 
-	//Load splash image
-	one = SDL_LoadBMP( "11.bmp" );
-	if( one == NULL )
-	{
-		printf( "Unable to load image %s! SDL Error: %s\n", "x.bmp", SDL_GetError() );
-		success = false;
-	}
-
-	return success;
-}
 void Dice::close() {
 	//Deallocate surface
 	SDL_FreeSurface( one );

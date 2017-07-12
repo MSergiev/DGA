@@ -5,27 +5,22 @@
  *      Author: Puzz
  */
 
-#ifndef SRC_DICE_H_
-#define SRC_DICE_H_
-#include <iostream>
-#include <time.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <stdio.h>
+#ifndef DICE_H
+#define DICE_H
+#include <ctime>
+#include "Sprite.h"
 #include <cstdlib>
-using namespace std;
+using std::rand;
+using std::srand;
+using std::time;
 
 class Dice {
 public:
 	Dice();
 	virtual ~Dice();
+	inline int roll();
+	void Event();
 	bool init();
-	bool loadMedia();
-	void close();
-private:
-	static void roll();
-	static void Event();
-
 };
 
-#endif /* SRC_DICE_H_ */
+#endif /* DICE_H */
