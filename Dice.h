@@ -19,7 +19,7 @@ class Dice {
 public:
 	Dice();
 	virtual ~Dice();
-	inline int roll();
+	int roll();
 	void Event();
 	void init();
 };

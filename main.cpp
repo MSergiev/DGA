@@ -13,6 +13,7 @@
 //#include "Player.h"
 //#include "Recovery.h"
 #include "Sound.h"
+#include "Dice.h"
 //#include "Recovery.h"
 
 //Misc library inclusion
@@ -66,6 +67,9 @@ SDL_Event event;
 //Game board
 Board board;
 
+//Dice object
+Dice dice;
+
 //Player objects
 //Player red, blue, yellow;
 
@@ -102,11 +106,6 @@ int main(int argc, char* argv[]){
 
 	//Play BGM
 	Sound::music(rock);
-
-int pos = 20;
-	cerr << "R: " << pos << " = " << convert(RED, pos) << endl; 
-	cerr << "B: " << pos << " = "  << convert(BLUE, pos) << endl; 
-	cerr << "Y: " << pos << " = "  << convert(YELLOW, pos) << endl << endl;
 
 	//Game loop
 	while(!quit){
@@ -212,6 +211,7 @@ bool init(){
 						success = 0;
 					} else {
 						Sound::load();
+						dice.init();
 						//Initialize game objects
 						board.setRenderer(renderer);
 						//for (unsigned i = 0; i < playerVec.size(); ++i)
@@ -267,17 +267,31 @@ int convert(Colors color, int position){
 
 //Traverse board
 void traverse(){
-	if(SDL_GetTicks() - squareTimer >= 200){
-		square.x+=NEXT_SQUARE[posCounter].first*SQUARE_SIZE;	
-		square.y+=NEXT_SQUARE[posCounter].second*SQUARE_SIZE;	
-		posCounter++;
-		if(posCounter==BOARD_LENGTH){
-			posCounter = 0;
-			square.x = ZERO_X_POS;
-			square.y = ZERO_Y_POS;
+	//Check if enough time has passed
+	if(SDL_GetTicks() - squareTimer >= 1000){
+		//Get dice roll
+		int roll = dice.roll();
+		//Print roll to console
+		std::cout << "Rolled " << roll << endl;
+		//Move "roll" amount of spaces forward
+		for(int i = 0; i < roll; ++i){
+			//Increment coordinates
+			square.x+=NEXT_SQUARE[posCounter].first*SQUARE_SIZE;	
+			square.y+=NEXT_SQUARE[posCounter].second*SQUARE_SIZE;	
+			//Incrememnt square counter
+			posCounter++;
+			//Check if back at beginning
+			if(posCounter==BOARD_LENGTH){
+				//Reset data
+				posCounter = 0;
+				square.x = ZERO_X_POS;
+				square.y = ZERO_Y_POS;
+			}
 		}
+		//Reset timer
 		squareTimer = SDL_GetTicks();
 	}
+	//Render square
 	SDL_SetRenderDrawColor(renderer,255,0,0,255);
 	SDL_RenderFillRect(renderer, &square);
 }
