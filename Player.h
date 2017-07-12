@@ -15,6 +15,8 @@ public:
 
 	void render();
 
+	vector<int> GetPositions();
+
 	// setters and getters
 	int getIHadTaken() const;
 	void setIHadTaken(int iHadTaken);

@@ -9,6 +9,7 @@
 #define RECOVERY_H_
 #include "pugixml.hpp"
 #include "Player.h"
+#include "Shared.h"
 
 #include <iostream>
 #include <sstream>

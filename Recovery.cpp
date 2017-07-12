@@ -41,7 +41,7 @@ vector< Player > Recovery::ReadFromXML()
 	{
 		// filling the Player object
 		person.setIPlayerPosition(player.attribute("Position").as_int());
-		person.setStrColor(player.child("Name").text().as_string());
+		person.setEColor(static_cast<Colors>(player.child("Name").text().as_int()) );
 		person.setISteps(player.child("Steps").text().as_int());
 		person.setITaken(player.child("Taken").text().as_int());
 		person.setIHadTaken(player.child("HadTaken").text().as_int());
@@ -65,14 +65,13 @@ void Recovery::WriteXML(vector< Player > players)
 		pugi::xml_node player = game.append_child("Player");
 		player.append_attribute("Position").set_value(players[i].getIPlayerPosition());
 
+
+		stringstream str;
+		str << players[i].getEColor();
 		// making the subnodes of player
 		pugi::xml_node name = player.append_child("Name");
-		name.append_child(pugi::node_pcdata).set_value(players[i].getStrColor().c_str());
-
-		// the rest of the values are integer type and we can't use them
-		// in the set_value method - so we are changing them to be string
-		// value with stringstream variable
-		stringstream str;
+		name.append_child(pugi::node_pcdata).set_value(str.str().c_str());
+		str.str("");
 
 		pugi::xml_node steps = player.append_child("Steps");
 		str << players[i].getISteps();

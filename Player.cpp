@@ -93,3 +93,13 @@ void Player::setVPawns(const vector<Pawn*>& vPawns)
 {
 	m_vPawns = vPawns;
 }
+
+vector<int> Player::GetPositions()
+{
+	vector <int> result;
+	for (unsigned int i = 0; i < result.size(); i++){
+		result[i] = m_vPawns[i]->getUiPosition();
+	}
+
+	return result;
+}

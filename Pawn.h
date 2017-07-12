@@ -47,7 +47,14 @@ public:
 	//Args:
 	//SDL_Renderer* renderer - renderer to draw the sprites with
 	void setRenderer(SDL_Renderer* renderer);
+	const string& getStrColor() const;
 
+	void setStrColor(const string& strColor);
+	unsigned int getUiPosition() const;
+
+	void setUiPosition(unsigned int uiPosition);
+	const Sprite*& getPlayerSprite() const;
+	void setPlayerSprite(const Sprite*& playerSprite);
 };
 
 #endif /* PAWN_H_ */

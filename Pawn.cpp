@@ -31,6 +31,36 @@ void Pawn::render()
 	mPlayerSprite->render(m_uiPosition, 0);
 }
 
+const string& Pawn::getStrColor() const
+{
+	return m_strColor;
+}
+
+void Pawn::setStrColor(const string& strColor)
+{
+	m_strColor = strColor;
+}
+
+unsigned int Pawn::getUiPosition() const
+{
+	return m_uiPosition;
+}
+
+void Pawn::setUiPosition(unsigned int uiPosition)
+{
+	m_uiPosition = uiPosition;
+}
+
+const Sprite*& Pawn::getPlayerSprite() const
+{
+	return mPlayerSprite;
+}
+
+void Pawn::setPlayerSprite(const Sprite*& playerSprite)
+{
+	mPlayerSprite = playerSprite;
+}
+
 void Pawn::setRenderer(SDL_Renderer* renderer)
 {
 	mPlayerSprite->setRenderer(renderer);
