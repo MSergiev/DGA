@@ -20,6 +20,8 @@ public:
 	Texture(SDL_Renderer* renderer = NULL);
 
 	//Texture loading method
+	//Args:
+	//string path - path to image file
 	void load(string path);
 
 	//Set class renderer

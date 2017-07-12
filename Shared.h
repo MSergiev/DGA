@@ -12,39 +12,22 @@ using std::pair;
 #define HEIGHT 800
 
 //Playing squares count
-#define LENGTH 56
+#define BOARD_LENGTH 46
 
 //Square dimensions
 #define SQUARE_SIZE 48
 
 //Player colors
 enum Colors{
-	RED=0, BLUE, YELLOW
+	NONE, RED, BLUE, YELLOW
 };
 
-//Player start positions
-const unsigned START_POS[3][2]{
-	{329, 40}, //YELLOW
-	{39, 472}, //RED
-	{425, 713} //BLUE
+//Player start positions (in game squares)
+const unsigned START_POS[]{
+	0, //YELLOW
+	14, //RED
+	28 //BLUE
 };
 
-//Board square layout
-const bool LAYOUT[15][10]{
-	{0,0,0,0,0,0,1,1,1,0},
-	{0,0,0,0,0,0,1,1,1,0},
-	{0,0,0,0,0,0,1,1,1,0},
-	{0,0,0,0,0,0,1,1,1,0},
-	{0,0,0,0,0,0,1,1,1,0},
-	{1,1,1,1,1,1,1,1,1,1},
-	{1,1,1,1,1,1,1,1,1,1},
-	{1,1,1,1,1,1,1,1,1,1},
-	{0,0,0,0,0,1,1,1,1,1},
-	{0,0,0,0,0,0,1,1,1,0},
-	{0,0,0,0,0,0,1,1,1,0},
-	{0,0,0,0,0,0,1,1,1,0},
-	{0,0,0,0,0,0,1,1,1,0},
-	{0,0,0,0,0,0,1,1,1,0}
-};
 
 #endif

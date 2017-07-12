@@ -10,8 +10,8 @@
 //Include local modules
 #include "Shared.h"
 #include "Board.h"
-#include "Player.h"
-#include "Recovery.h"
+//#include "Player.h"
+//#include "Recovery.h"
 #include "Sound.h"
 //#include "Recovery.h"
 
@@ -35,6 +35,12 @@ void eventHandler();
 //Resource freeing function
 void free();
 
+//Player to world pawn position converter
+//Args:
+//Colors color - player color
+//int position - player-relative pawn position
+int convert(Colors color, int position);
+
 //-----------------------------
 //----------VARIABLES----------
 //-----------------------------
@@ -46,6 +52,11 @@ SDL_Renderer* renderer;
 //Exit flag
 bool quit = 0;
 
+//Game state flags
+bool title = 0;
+bool loop = 1;
+bool win = 0;
+
 //SDL event container
 SDL_Event event;
 
@@ -53,13 +64,16 @@ SDL_Event event;
 Board board;
 
 //Player objects
-Player red, blue, yellow;
+//Player red, blue, yellow;
 
 //Players vector
-vector<Player*> playerVec;
+//vector<Player*> playerVec;
 
 //Debug coordinates
 int x, y;
+
+//Board square layout (top row leftmost square considered 0)
+Colors boardLayout[BOARD_LENGTH] = {NONE};
 
 //-----------------------------
 //------------MAIN-------------
@@ -70,9 +84,9 @@ int main(int argc, char* argv[]){
 	x=y=0;
 
 	//Push player objects
-	playerVec.push_back(&red);	
-	playerVec.push_back(&blue);	
-	playerVec.push_back(&yellow);	
+	//playerVec.push_back(&red);	
+	//playerVec.push_back(&blue);	
+	//playerVec.push_back(&yellow);	
 	
 	//Unused warning elimination
 	argc = 0; argv = 0;
@@ -80,27 +94,45 @@ int main(int argc, char* argv[]){
 	//Initialize SDL
 	if(!init()) return 1;
 
+	//Play BGM
+	Sound::music(rock);
+
+int pos = 20;
+	cerr << "R: " << pos << " = " << convert(RED, pos) << endl; 
+	cerr << "B: " << pos << " = "  << convert(BLUE, pos) << endl; 
+	cerr << "Y: " << pos << " = "  << convert(YELLOW, pos) << endl << endl;
+
 	//Game loop
 	while(!quit){
-		//Handle events
-		eventHandler();
-
-		//Clear screen
-		SDL_SetRenderDrawColor(renderer, 255,255,255,255);
-		SDL_RenderClear(renderer);
-
-		//Draw game board;
-		board.render();
-
-		//Draw player sprites
-		red.render(x,y);
-		//for(unsigned i = 0; i < playerVec.size(); ++i)
-			//playerVec[i]->render(i*100+100, i*100+100);
-
-		//Render image on screen
-		SDL_RenderPresent(renderer);
-
-		Sound::music(rock);
+		//On game title screen
+		while(title){
+		}
+		
+		//On game loop
+		while(loop){
+			//Handle events
+			eventHandler();
+	
+			//Clear screen
+			SDL_SetRenderDrawColor(renderer, 255,255,255,255);
+			SDL_RenderClear(renderer);
+	
+			//Draw game board;
+			board.render();
+	
+			//Draw player sprites
+			//red.render();
+			//for(unsigned i = 0; i < playerVec.size(); ++i)
+				//playerVec[i]->render(i*100+100, i*100+100);
+	
+			//Render image on screen
+			SDL_RenderPresent(renderer);
+	
+			}
+	
+		//On game win
+		while(win){
+		}
 	}
 
 	//Free resources
@@ -110,15 +142,15 @@ int main(int argc, char* argv[]){
 	// 	if you want to see how Recovery class works:
 		// Statistics is a class that I needed to make for help
 		// but i think it is going to be helpful
-		vector<Player> mP;
+		//vector<Player> mP;
 	 	// to use ReadFromXML method you need to make an object of Recovery class
-		Recovery r;
+		//Recovery r;
 		// ReadFromXML returns a vector<Player> value
-		mP = r.ReadFromXML();
+		//mP = r.ReadFromXML();
 		// print the value of the xml file:
-		r.Print(mP);
+		//r.Print(mP);
 		// writes the statistics in the same file
-		r.WriteXML(mP);
+		//r.WriteXML(mP);
 
 
 	//Successful exit
@@ -173,8 +205,8 @@ bool init(){
 						Sound::load();
 						//Initialize game objects
 						board.setRenderer(renderer);
-						for (unsigned i = 0; i < playerVec.size(); ++i)
-							playerVec[i]->setRenderer(renderer);
+						//for (unsigned i = 0; i < playerVec.size(); ++i)
+							//playerVec[i]->setRenderer(renderer);
 					}
 				}
 			}
@@ -188,8 +220,15 @@ bool init(){
 //Event handler
 void eventHandler(){
 	while(SDL_PollEvent(&event)!=0){
-		if(event.type == SDL_QUIT || event.key.keysym.sym == SDLK_ESCAPE)
+		//Application quit event
+		if(event.type == SDL_QUIT || event.key.keysym.sym == SDLK_ESCAPE){
 			quit = 1;
+			title = 0;
+			loop = 0;
+			win = 0;
+		}
+
+		//Keyboard controls
 		if(event.key.keysym.sym == SDLK_LEFT) x-=10;
 		if(event.key.keysym.sym == SDLK_RIGHT) x+=10;
 		if(event.key.keysym.sym == SDLK_UP) y-=10;
@@ -206,8 +245,13 @@ void free(){
 	SDL_DestroyRenderer(renderer);
 	//Release window
 	SDL_DestroyWindow(window);
-	//Quit functions
+	//SDL Quit functions
 	Mix_Quit();
 	IMG_Quit();
 	SDL_Quit();
+}
+
+//Player to world pawn position converter
+int convert(Colors color, int position){
+	return (START_POS[color-1]+position)%BOARD_LENGTH;
 }
