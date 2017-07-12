@@ -41,6 +41,9 @@ void free();
 //int position - player-relative pawn position
 int convert(Colors color, int position);
 
+//Traverse board
+void traverse();
+
 //-----------------------------
 //----------VARIABLES----------
 //-----------------------------
@@ -69,8 +72,11 @@ Board board;
 //Players vector
 //vector<Player*> playerVec;
 
-//Debug coordinates
+//Debug data
 int x, y;
+Uint32 squareTimer = SDL_GetTicks();
+int posCounter = 0;
+SDL_Rect square = { ZERO_X_POS, ZERO_Y_POS, SQUARE_SIZE, SQUARE_SIZE };
 
 //Board square layout (top row leftmost square considered 0)
 Colors boardLayout[BOARD_LENGTH] = {NONE};
@@ -119,7 +125,10 @@ int pos = 20;
 	
 			//Draw game board;
 			board.render();
-	
+			
+			//Traverse board
+			traverse();
+
 			//Draw player sprites
 			//red.render();
 			//for(unsigned i = 0; i < playerVec.size(); ++i)
@@ -254,4 +263,21 @@ void free(){
 //Player to world pawn position converter
 int convert(Colors color, int position){
 	return (START_POS[color-1]+position)%BOARD_LENGTH;
+}
+
+//Traverse board
+void traverse(){
+	if(SDL_GetTicks() - squareTimer >= 200){
+		square.x+=NEXT_SQUARE[posCounter].first*SQUARE_SIZE;	
+		square.y+=NEXT_SQUARE[posCounter].second*SQUARE_SIZE;	
+		posCounter++;
+		if(posCounter==BOARD_LENGTH){
+			posCounter = 0;
+			square.x = ZERO_X_POS;
+			square.y = ZERO_Y_POS;
+		}
+		squareTimer = SDL_GetTicks();
+	}
+	SDL_SetRenderDrawColor(renderer,255,0,0,255);
+	SDL_RenderFillRect(renderer, &square);
 }
