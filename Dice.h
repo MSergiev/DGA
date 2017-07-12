@@ -13,7 +13,7 @@
 #include <cstdlib>
 using std::rand;
 using std::srand;
-using std::time;
+using std::clock;
 
 class Dice {
 public:

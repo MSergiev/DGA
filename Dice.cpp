@@ -40,7 +40,7 @@ void Dice::Event(){
 }
 
 void Dice::init(){
-srand(time(0));
+srand(clock());
 	}
 
 

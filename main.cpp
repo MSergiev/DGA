@@ -24,28 +24,6 @@ using std::endl;
 using std::vector;
 
 //-----------------------------
-//---------PROTOTYPES----------
-//-----------------------------
-
-//SDL initializing function
-bool init();
-
-//Event handler
-void eventHandler();
-
-//Resource freeing function
-void free();
-
-//Player to world pawn position converter
-//Args:
-//Colors color - player color
-//int position - player-relative pawn position
-int convert(Colors color, int position);
-
-//Traverse board
-void traverse();
-
-//-----------------------------
 //----------VARIABLES----------
 //-----------------------------
 
@@ -76,14 +54,50 @@ Dice dice;
 //Players vector
 //vector<Player*> playerVec;
 
+//Board square layout (top row leftmost square considered 0)
+Colors boardLayout[BOARD_LENGTH] = {NONE};
+
 //Debug data
 int x, y;
 Uint32 squareTimer = SDL_GetTicks();
 int posCounter = 0;
 SDL_Rect square = { ZERO_X_POS, ZERO_Y_POS, SQUARE_SIZE, SQUARE_SIZE };
+struct Debug_Player{
+	Colors c;
+	int p;
+	int count;
+};
 
-//Board square layout (top row leftmost square considered 0)
-Colors boardLayout[BOARD_LENGTH] = {NONE};
+Debug_Player red = {RED, 0, 0};
+Debug_Player yellow = {BLUE, 0, 0};
+Debug_Player blue = {YELLOW, 0, 0};
+vector<Debug_Player*> playerVec;
+
+//-----------------------------
+//---------PROTOTYPES----------
+//-----------------------------
+
+//SDL initializing function
+bool init();
+
+//Event handler
+void eventHandler();
+
+//Resource freeing function
+void free();
+
+//Player to world pawn position converter
+//Args:
+//Debug_Player *p - pointer to player object
+int convert(Debug_Player *p);
+
+//Get screen coordinates from pawn position
+//Args:
+//Debug_Player *p - pointer to player object
+pair<int, int> getCoords(Debug_Player *p);
+
+//Traverse board
+void traverse();
 
 //-----------------------------
 //------------MAIN-------------
@@ -94,9 +108,9 @@ int main(int argc, char* argv[]){
 	x=y=0;
 
 	//Push player objects
-	//playerVec.push_back(&red);	
-	//playerVec.push_back(&blue);	
-	//playerVec.push_back(&yellow);	
+	playerVec.push_back(&red);	
+	playerVec.push_back(&blue);	
+	playerVec.push_back(&yellow);	
 	
 	//Unused warning elimination
 	argc = 0; argv = 0;
@@ -261,37 +275,62 @@ void free(){
 }
 
 //Player to world pawn position converter
-int convert(Colors color, int position){
-	return (START_POS[color-1]+position)%BOARD_LENGTH;
+int convert(Debug_Player *p){
+	return (START_POS[p->c-1]+p->p)%BOARD_LENGTH;
+}
+
+//Get screen coordinates from pawn position
+pair<int, int> getCoords(Debug_Player *p){
+	//Coordinate pair object
+	pair<int, int> coords = {ZERO_X_POS, ZERO_Y_POS};
+	//Get world position
+	int converted = convert(p);
+	//Calculate position
+	for(int i = 0; i < converted; ++i){
+		coords.first+=NEXT_SQUARE[i].first*SQUARE_SIZE;
+		coords.second+=NEXT_SQUARE[i].second*SQUARE_SIZE;
+	}	
+	//Return coordinate pair
+	return coords;
 }
 
 //Traverse board
 void traverse(){
 	//Check if enough time has passed
 	if(SDL_GetTicks() - squareTimer >= 1000){
-		//Get dice roll
-		int roll = dice.roll();
-		//Print roll to console
-		std::cout << "Rolled " << roll << endl;
-		//Move "roll" amount of spaces forward
-		for(int i = 0; i < roll; ++i){
-			//Increment coordinates
-			square.x+=NEXT_SQUARE[posCounter].first*SQUARE_SIZE;	
-			square.y+=NEXT_SQUARE[posCounter].second*SQUARE_SIZE;	
-			//Incrememnt square counter
-			posCounter++;
-			//Check if back at beginning
-			if(posCounter==BOARD_LENGTH){
-				//Reset data
-				posCounter = 0;
-				square.x = ZERO_X_POS;
-				square.y = ZERO_Y_POS;
-			}
+		//Traverse player vector
+		for(unsigned i = 0; i < playerVec.size(); ++i){
+			//Get dice roll
+			int roll = dice.roll();
+			//Print roll to console
+			std::cout << playerVec[i]->c << " rolled " << roll << endl;
+			//Move "roll" amount of spaces forward
+			playerVec[i]->p = (playerVec[i]->p+roll)%BOARD_LENGTH;
 		}
 		//Reset timer
 		squareTimer = SDL_GetTicks();
 	}
-	//Render square
-	SDL_SetRenderDrawColor(renderer,255,0,0,255);
-	SDL_RenderFillRect(renderer, &square);
+
+	//Traverse player vector
+	for(unsigned i = 0; i < playerVec.size(); ++i){
+		//Set player color
+		switch(playerVec[i]->c){
+			case RED:
+			SDL_SetRenderDrawColor(renderer,255,0,0,255);
+			break;
+			case BLUE:
+			SDL_SetRenderDrawColor(renderer,0,0,255,255);
+			break;
+			case YELLOW:
+			SDL_SetRenderDrawColor(renderer,255,255,0,255);
+			break;
+			case NONE:;
+		}
+		//Get screen coordinates
+		pair<int, int> coords = getCoords(playerVec[i]);
+		//Construct pawn square
+		SDL_Rect square = {coords.first, coords.second, SQUARE_SIZE, SQUARE_SIZE};	
+		//Render square
+		SDL_RenderFillRect(renderer, &square);
+	}
 }
