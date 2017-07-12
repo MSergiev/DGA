@@ -1,36 +1,31 @@
 #include "Player.h"
 
 Player::Player()
-		: m_iPlayerPosition(), m_strColor(), m_iSteps(), m_iTaken(), m_iHadTaken()
+		:  m_strColor(), m_iSteps(), m_iTaken(), m_iHadTaken()
 {
-	//Initialize frame dimensions
-//	SDL_Rect frame = { 0, 0, SPRITE_SIZE, SPRITE_SIZE };
-	//Create sprite object
-//	mPlayerSprite = new Sprite(frame, NUM_OF_FRAMES, ANIMATION_DELAY);
+	setIPlayerPosition(1);
 }
 
 Player::~Player()
 {
-	//Release resources
-	//mPlayerSprite->free();
-	//delete mPlayerSprite;
+	for (unsigned int i = 0; i < m_vPawns.size(); i++)
+	{
+		m_vPawns[i] = NULL;
+		delete m_vPawns[i];
+	}
 }
 
-void Player::render(int x, int y)
+void Player::render()
 {
-	//Render sprite
-//	mPlayerSprite->render(x, y);
-}
-
-void Player::setRenderer(SDL_Renderer* renderer)
-{
-//	mPlayerSprite->setRenderer(renderer);
-	//mPlayerSprite->load("./GFX/bomb.png");
+	for (unsigned int i = 0; i < m_vPawns.size(); i++)
+	{
+		m_vPawns[i]->render();
+	}
 }
 
 void Player::print()
 {
-	cout << "Player's position: " << getIPlayerPosition() << endl
+	cout 	<< "Player's position: " << getIPlayerPosition() << endl
 			<< "Color: " << getStrColor() << endl
 			<< "Steps: " << getISteps() << endl
 			<< "Taken: " << getITaken() << endl
