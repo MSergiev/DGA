@@ -6,6 +6,14 @@ Player::Player()
 	setIPlayerPosition(1);
 }
 
+void Player::SetRenderer(SDL_Renderer* renderer)
+{
+	for (unsigned int i = 0; i < m_vPawns.size(); i++)
+	{
+		m_vPawns[i]->setRenderer(renderer);
+	}
+}
+
 Player::~Player()
 {
 	for (unsigned int i = 0; i < m_vPawns.size(); i++)
@@ -15,7 +23,7 @@ Player::~Player()
 	}
 }
 
-void Player::render()
+void Player::Render()
 {
 	for (unsigned int i = 0; i < m_vPawns.size(); i++)
 	{
@@ -23,7 +31,7 @@ void Player::render()
 	}
 }
 
-void Player::print()
+void Player::Print()
 {
 	cout 	<< "Player's position: " << getIPlayerPosition() << endl
 			<< "Color: " << getEColor() << endl
@@ -31,6 +39,16 @@ void Player::print()
 			<< "Taken: " << getITaken() << endl
 			<< "Had taken: " << getIHadTaken() << endl
 	<< endl;
+}
+
+vector<int> Player::GetPositions()
+{
+	vector <int> result;
+	for (unsigned int i = 0; i < result.size(); i++){
+		result[i] = m_vPawns[i]->getUiPosition();
+	}
+
+	return result;
 }
 
 // setters and getters
@@ -92,14 +110,4 @@ const vector<Pawn*>& Player::getVPawns() const
 void Player::setVPawns(const vector<Pawn*>& vPawns)
 {
 	m_vPawns = vPawns;
-}
-
-vector<int> Player::GetPositions()
-{
-	vector <int> result;
-	for (unsigned int i = 0; i < result.size(); i++){
-		result[i] = m_vPawns[i]->getUiPosition();
-	}
-
-	return result;
 }

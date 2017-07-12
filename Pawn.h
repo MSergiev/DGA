@@ -15,6 +15,8 @@
 //Include sprite class
 #include "Sprite.h"
 
+#include "Shared.h"
+
 #include <iostream>
 using std::endl;
 using std::cout;
@@ -28,10 +30,11 @@ class Pawn
 {
 private:
 	unsigned int m_uiPosition;
-	string m_strColor;
+	Colors m_eColor;
 
 	//Sprite object pointer
 	Sprite* mPlayerSprite;
+
 public:
 	Pawn();
 	virtual ~Pawn();
@@ -47,14 +50,13 @@ public:
 	//Args:
 	//SDL_Renderer* renderer - renderer to draw the sprites with
 	void setRenderer(SDL_Renderer* renderer);
-	const string& getStrColor() const;
 
-	void setStrColor(const string& strColor);
+	// setters & getters
 	unsigned int getUiPosition() const;
-
 	void setUiPosition(unsigned int uiPosition);
-	const Sprite*& getPlayerSprite() const;
-	void setPlayerSprite(const Sprite*& playerSprite);
+
+	Colors getEColor() const;
+	void setEColor(Colors eColor);
 };
 
 #endif /* PAWN_H_ */

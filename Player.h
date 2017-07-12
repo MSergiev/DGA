@@ -4,18 +4,26 @@
 #define PLAYER_H
 
 #include "Pawn.h"
-#include "Shared.h"
 
 class Player{
+private:
+	vector< Pawn* > m_vPawns;
+
+	int m_iPlayerPosition;
+	Colors m_EColor;
+	int m_iSteps;
+	int m_iTaken;
+	int m_iHadTaken;
+
 public:
 	//Constructor
 	Player();
 
-	void print();
-
-	void render();
-
+	// methods
+	void Print();
+	void Render();
 	vector<int> GetPositions();
+	void SetRenderer(SDL_Renderer* renderer);
 
 	// setters and getters
 	int getIHadTaken() const;
@@ -38,16 +46,6 @@ public:
 
 	//Destructor
 	~Player();
-
-
-private:
-	vector< Pawn* > m_vPawns;
-
-	int m_iPlayerPosition;
-	Colors m_EColor;
-	int m_iSteps;
-	int m_iTaken;
-	int m_iHadTaken;
 };
 
 #endif

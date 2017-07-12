@@ -65,8 +65,11 @@ void Recovery::WriteXML(vector< Player > players)
 		pugi::xml_node player = game.append_child("Player");
 		player.append_attribute("Position").set_value(players[i].getIPlayerPosition());
 
-
+		// the rest of the values are integer type and we can't use them
+		// in the set_value method - so we are changing them to be string
+		// value with stringstream variable
 		stringstream str;
+
 		str << players[i].getEColor();
 		// making the subnodes of player
 		pugi::xml_node name = player.append_child("Name");
@@ -96,6 +99,6 @@ void Recovery::Print(vector< Player > players)
 {
 	for (unsigned int i = 0; i < players.size(); i++)
 	{
-		players[i].print();
+		players[i].Print();
 	}
 }
