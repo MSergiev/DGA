@@ -9,6 +9,7 @@
 #define DICE_H
 #include <ctime>
 #include "Sprite.h"
+#include "Texture.h"
 #include <cstdlib>
 using std::rand;
 using std::srand;
@@ -20,7 +21,7 @@ public:
 	virtual ~Dice();
 	inline int roll();
 	void Event();
-	bool init();
+	void init();
 };
 
 #endif /* DICE_H */
