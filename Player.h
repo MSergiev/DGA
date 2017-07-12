@@ -4,6 +4,7 @@
 #define PLAYER_H
 
 #include "Pawn.h"
+#include "Shared.h"
 
 class Player{
 public:
@@ -27,8 +28,11 @@ public:
 	int getITaken() const;
 	void setITaken(int iTaken);
 
-	const string& getStrColor() const;
-	void setStrColor(const string& strColor);
+	Colors getEColor() const;
+	void setEColor(Colors eColor);
+
+	const vector<Pawn*>& getVPawns() const;
+	void setVPawns(const vector<Pawn*>& vPawns);
 
 	//Destructor
 	~Player();
@@ -38,7 +42,7 @@ private:
 	vector< Pawn* > m_vPawns;
 
 	int m_iPlayerPosition;
-	string m_strColor;
+	Colors m_EColor;
 	int m_iSteps;
 	int m_iTaken;
 	int m_iHadTaken;

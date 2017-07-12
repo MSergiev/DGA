@@ -1,7 +1,7 @@
 #include "Player.h"
 
 Player::Player()
-		:  m_strColor(), m_iSteps(), m_iTaken(), m_iHadTaken()
+		:  m_EColor(), m_iSteps(), m_iTaken(), m_iHadTaken()
 {
 	setIPlayerPosition(1);
 }
@@ -26,7 +26,7 @@ void Player::render()
 void Player::print()
 {
 	cout 	<< "Player's position: " << getIPlayerPosition() << endl
-			<< "Color: " << getStrColor() << endl
+			<< "Color: " << getEColor() << endl
 			<< "Steps: " << getISteps() << endl
 			<< "Taken: " << getITaken() << endl
 			<< "Had taken: " << getIHadTaken() << endl
@@ -74,13 +74,22 @@ void Player::setITaken(int iTaken)
 	m_iTaken = iTaken;
 }
 
-const string& Player::getStrColor() const
+Colors Player::getEColor() const
 {
-	return m_strColor;
+	return m_EColor;
 }
 
-void Player::setStrColor(const string& strColor)
+void Player::setEColor(Colors eColor)
 {
-	m_strColor = strColor;
+	m_EColor = eColor;
 }
 
+const vector<Pawn*>& Player::getVPawns() const
+{
+	return m_vPawns;
+}
+
+void Player::setVPawns(const vector<Pawn*>& vPawns)
+{
+	m_vPawns = vPawns;
+}

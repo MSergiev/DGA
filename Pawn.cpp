@@ -26,6 +26,7 @@ Pawn::~Pawn()
 
 void Pawn::render()
 {
+
 	//Render sprite
 	mPlayerSprite->render(m_uiPosition, 0);
 }
