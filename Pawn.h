@@ -44,12 +44,14 @@ public:
 	//Args:
 	//int x - X screen coordinate
 	//int y - Y screen coordinate
-	void render();
+	void render(int x, int y);
 
 	//Set renderer
 	//Args:
 	//SDL_Renderer* renderer - renderer to draw the sprites with
 	void setRenderer(SDL_Renderer* renderer);
+
+	void movePawn();
 
 	// setters & getters
 	unsigned int getUiPosition() const;

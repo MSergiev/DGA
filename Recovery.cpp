@@ -29,7 +29,7 @@ vector< Player > Recovery::ReadFromXML()
 	}
 
 	// making helper object
-	Player person;
+	Player person(NONE);
 
 	// the vector which will be returned
 	vector<Player> result;

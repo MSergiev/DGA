@@ -14,20 +14,25 @@ Pawn::Pawn()
 	SDL_Rect frame = { 0, 0, SPRITE_SIZE, SPRITE_SIZE };
 	//Create sprite object
 	mPlayerSprite = new Sprite(frame, NUM_OF_FRAMES, ANIMATION_DELAY);
-	setUiPosition(1);
+	setUiPosition(0);
 }
 
 // methods
-void Pawn::render()
+void Pawn::render(int x, int y)
 {
 	//Render sprite
-	mPlayerSprite->render(12, 12);
+	mPlayerSprite->render(x, y);
 }
 
 void Pawn::setRenderer(SDL_Renderer* renderer)
 {
 	mPlayerSprite->setRenderer(renderer);
 	mPlayerSprite->load("./GFX/bomb.png");
+}
+
+
+void Pawn::movePawn()
+{
 }
 
 // destructor
@@ -49,6 +54,7 @@ Colors Pawn::getEColor() const
 {
 	return m_eColor;
 }
+
 
 void Pawn::setEColor(Colors eColor)
 {
