@@ -9,11 +9,29 @@ Dice::Dice() {
 }
 Dice::~Dice() {
 }
+Texture::setRenderer(SDL_Renderer* renderer){
+if(renderer!=NULL){
+		DiceTexture.setRenderer(renderer);
+		DiceTexture.load("./GFX/Dice/DiceSides.png");
+}
+}
+void cropAllDiceSides() {
+	SDL_Rect tempRect = { 0, 0, DICE_WIDTH, DICE_HEIGHT };
+	for (int i = 0; i < 6; i++) {
+		tempRect.x = 0;
+		for (int j = 0; j < 6; j++) {
+			sides.push_back(tempRect);
+			tempRect.x += DICE_WIDTH;
+		}
+		tempRect.y += DICE_HEIGHT;
+	}
+}
+void setAllSides() {
+}
 
 int Dice::roll() {
 return (rand()%6)+1;
  }
-
 
 void Dice::Event(){
 		//Event handler
@@ -31,7 +49,7 @@ void Dice::Event(){
 							switch( e.button.button == SDL_BUTTON_LEFT)
 							{
 							case SDL_MOUSEBUTTONDOWN:
-
+								Dice::roll();
 								break;
 
 					} //end  switch
@@ -45,21 +63,3 @@ void Dice::init(){
 srand(time(0));
 	}
 
-//void Board::setRenderer(SDL_Renderer* renderer){
-//	//Load texture
-//	if(renderer!=NULL){
-//		mBoardTexture.setRenderer(renderer);
-//		mBoardTexture.load("./GFX/board.png");
-//	}
-//}
-//
-//void Board::render(){
-//	//Draw board texture to screen
-//	mBoardTexture.render(0,0);
-//}
-//
-//void Board::free(){
-//	//Release texture data
-//	mBoardTexture.free();
-//	mBoardTexture = NULL;
-//}
