@@ -10,7 +10,7 @@
 //Include local modules
 #include "Shared.h"
 #include "Board.h"
-//#include "Player.h"
+#include "Player.h"
 #include "Sound.h"
 #include "Dice.h"
 //#include "Recovery.h"
@@ -21,6 +21,10 @@ using std::cerr;
 using std::endl;
 #include <vector>
 using std::vector;
+#include <deque>
+using std::deque;
+#include <algorithm>
+using std::random_shuffle;
 
 //-----------------------------
 //----------VARIABLES----------
@@ -54,23 +58,13 @@ Dice dice;
 //vector<Player*> playerVec;
 
 //Board square layout (top row leftmost square considered 0)
-Colors boardLayout[BOARD_LENGTH] = {NONE};
+Pawn* boardLayout[BOARD_LENGTH+10] = {NULL};
 
-//Debug data
-int x, y;
-Uint32 squareTimer = SDL_GetTicks();
-int posCounter = 0;
-SDL_Rect square = { ZERO_X_POS, ZERO_Y_POS, SQUARE_SIZE, SQUARE_SIZE };
-struct Debug_Player{
-	Colors c;
-	int p;
-	int count;
-};
+//Turn counter
+int turns = 0;
 
-Debug_Player red = {RED, 0, 0};
-Debug_Player yellow = {BLUE, 0, 0};
-Debug_Player blue = {YELLOW, 0, 0};
-vector<Debug_Player*> playerVec;
+//Ordered player container
+deque<Player*> turnOrder;
 
 //-----------------------------
 //---------PROTOTYPES----------
@@ -87,30 +81,30 @@ void free();
 
 //Player to world pawn position converter
 //Args:
-//Debug_Player *p - pointer to player object
-int convert(Debug_Player *p);
+//Pawn *p - pointer to pawn object
+int convert(Pawn *p);
 
 //Get screen coordinates from pawn position
 //Args:
-//Debug_Player *p - pointer to player object
-pair<int, int> getCoords(Debug_Player *p);
+//Pawn *p - pointer to pawn object
+pair<int, int> getCoords(Pawn *p);
 
-//Traverse board
-void traverse();
+//Player turn
+//Args:
+//Player *p - pointer to active player
+void turn(Player *p);
+
+//Determine turn order
+void determineTurnOrder();
+
+//Roll the dice
+int diceRoll();
 
 //-----------------------------
 //------------MAIN-------------
 //-----------------------------
 
 int main(int argc, char* argv[]){
-	//Initialize temporary coordinates
-	x=y=0;
-
-	//Push player objects
-	playerVec.push_back(&red);	
-	playerVec.push_back(&blue);	
-	playerVec.push_back(&yellow);	
-	
 	//Unused warning elimination
 	argc = 0; argv = 0;
 
@@ -138,8 +132,16 @@ int main(int argc, char* argv[]){
 			//Draw game board;
 			board.render();
 			
-			//Traverse board
-			traverse();
+			//Execute player turns
+			for(int i = 0; i < 3; ++i){
+				//Cycle players
+				turnOrder.push_back(turnOrder.front());
+				turn(turnOrder.front());
+				turnOrder.pop_front();
+			}
+
+			//Increment turn counter
+			turns++;
 
 			//Draw player sprites
 			//red.render();
@@ -226,13 +228,12 @@ bool init(){
 						cerr << "Renderer error: " << SDL_GetError() << endl;
 						success = 0;
 					} else {
-						Sound::load();
-						dice.setRenderer(renderer);
-						dice.init();
 						//Initialize game objects
+						Sound::load();
+						dice.init();
+						dice.setRenderer(renderer);
 						board.setRenderer(renderer);
-						//for (unsigned i = 0; i < playerVec.size(); ++i)
-							//playerVec[i]->setRenderer(renderer);
+						determineTurnOrder();
 					}
 				}
 			}
@@ -253,7 +254,6 @@ void eventHandler(){
 			loop = 0;
 			win = 0;
 		}
-		dice.Event(event);
 	}
 }
 
@@ -273,12 +273,12 @@ void free(){
 }
 
 //Player to world pawn position converter
-int convert(Debug_Player *p){
-	return (START_POS[p->c-1]+p->p)%BOARD_LENGTH;
+int convert(Pawn* p){
+	return (START_POS[p->getEColor()-1]+p->getUiPosition())%BOARD_LENGTH;
 }
 
 //Get screen coordinates from pawn position
-pair<int, int> getCoords(Debug_Player *p){
+pair<int, int> getCoords(Pawn *p){
 	//Coordinate pair object
 	pair<int, int> coords = {ZERO_X_POS, ZERO_Y_POS};
 	//Get world position
@@ -292,16 +292,73 @@ pair<int, int> getCoords(Debug_Player *p){
 	return coords;
 }
 
-//Traverse board
-void traverse(){
+//Player turn
+void turn(Player *p){
+	//Roll the dice
+	int roll = diceRoll();	
+	cout << p->getEColor() << " rolled " << roll << endl;
+
+	//If roll is a 6
+	if(roll==6){
+		//Give player another turn
+		turnOrder.push_front(p);
+		//Offer to add a new pawn
+	}
+	//If player has only one active pawn
+	if(p->getIActivePawns()==1){
+		//Traverse the board
+		for(int i = 0; i < BOARD_LENGTH; ++i){
+			//If pawn and player colors match
+			if(boardLayout[i]->getEColor() == p->getEColor()){
+				//If movement is within range
+				if(boardLayout[i]->getUiPosition()+roll<=BOARD_LENGTH+10){
+					//If final space is occupied
+					if(i > BOARD_LENGTH+5 && boardLayout[i+roll] != NULL) break;
+					//Move pawn forward
+					boardLayout[i]->setUiPosition(boardLayout[i]->getUiPosition()+roll);
+					//Add roll to player step count
+					p->setISteps(p->getISteps()+roll);
+					//If space is already occupied
+					if(boardLayout[i+roll]!=NULL){
+						//If occupant is a different player
+						if(boardLayout[i+roll]->getEColor()!=p->getEColor()){
+							//Return other pawn to start
+							boardLayout[i+roll]->setUiPosition(0);
+						
+							//Go through players to find occupying pawn owner
+							for(unsigned j = 1; j < turnOrder.size(); ++j){
+								if(boardLayout[i+roll]->getEColor()==turnOrder[j]->getEColor()){
+									//Add to other pawns' owners' lost counter
+									turnOrder[j]->setIHadTaken(turnOrder[j]->getIHadTaken()+1);
+								}
+							}	
+							
+							//Add to current players' taken counter
+							p->setITaken(p->getITaken()+1);
+						}
+					}
+					//Place pawn in new location
+					boardLayout[i+roll] = boardLayout[i];
+					boardLayout[i] = NULL;
+					//Exit loop
+					break;
+				}
+			}
+		}
+	//If player has more than one active pawn
+	} else {
+
+	}	
+	
+
 	//Check if enough time has passed
-	if(SDL_GetTicks() - squareTimer >= 1000){
+	/*if(SDL_GetTicks() - squareTimer >= 1000){
 		//Traverse player vector
 		for(unsigned i = 0; i < playerVec.size(); ++i){
 			//Get dice roll
 			int roll = dice.roll();
 			//Print roll to console
-			std::cout << playerVec[i]->c << " rolled " << roll << endl;
+			std::cout << playerVec[i]->getEColor() << " rolled " << roll << endl;
 			//Move "roll" amount of spaces forward
 			playerVec[i]->p = (playerVec[i]->p+roll)%BOARD_LENGTH;
 		}
@@ -330,5 +387,35 @@ void traverse(){
 		SDL_Rect square = {coords.first, coords.second, SQUARE_SIZE, SQUARE_SIZE};	
 		//Render square
 		SDL_RenderFillRect(renderer, &square);
+	}*/
+}
+
+int diceRoll(){
+	//Timer
+	Uint32 timer = SDL_GetTicks();
+	//Dice roll variable
+	int roll = 0;
+	//Wait for player click
+	while(!dice.Event(event) && !quit){
+		eventHandler();
+		if(SDL_GetTicks()-timer>50){
+			roll = dice.roll();
+			dice.render();
+			SDL_RenderPresent(renderer);
+			timer = SDL_GetTicks();
+		}
+	}
+	return roll;
+}
+
+void determineTurnOrder(){
+	//Temporary vector of colors to choose from
+	vector<Colors> order = {RED, BLUE, YELLOW};
+	//Shuffle vector
+	random_shuffle(order.begin(), order.end());
+	//Initialize player objects
+	for(int i = 0; i < 3; ++i){
+		turnOrder.push_back(new Player(order[i]));
+		turnOrder.back()->SetRenderer(renderer);
 	}
 }
