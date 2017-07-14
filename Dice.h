@@ -34,7 +34,7 @@ public:
 private:
 	int DiceResult;
 	Texture  DiceTexture;
-
+//asd
 };
 
 #endif /* DICE_H */
