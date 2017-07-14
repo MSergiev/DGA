@@ -5,6 +5,7 @@
 //Include SDL modules
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_mixer.h>
 
 //Include local modules
@@ -50,12 +51,6 @@ Board board;
 
 //Dice object
 Dice dice;
-
-//Player objects
-//Player red, blue, yellow;
-
-//Players vector
-//vector<Player*> playerVec;
 
 //Board square layout (top row leftmost square considered 0)
 Pawn* boardLayout[BOARD_LENGTH+10] = {NULL};
@@ -195,51 +190,56 @@ bool init(){
 	//Success flag
 	bool success = 1;
 
-	//Try to initialize SDL
+	//Try to initialize SDL_main
 	if(SDL_Init(SDL_INIT_VIDEO)<0){
 		cerr << "SDL Error: " << SDL_GetError() << endl;
 		success = 0;
 	} else {
-		//Try to initialize SDL image
-		if(!IMG_Init(IMG_INIT_PNG)){
-			cerr << "IMG Error: " << IMG_GetError() << endl;
+	//Try to initialize SDL_image
+	if(!IMG_Init(IMG_INIT_PNG)){
+		cerr << "IMG Error: " << IMG_GetError() << endl;
+		success = 0;
+	} else {
+	//Try to initialize SDL_mixer
+	if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048)<0){
+		cerr << "MIX Error: " << Mix_GetError() << endl;
+		success = 0;
+	} else {
+	//Try to initialize SDL_ttf
+	if(TTF_Init()==-1){
+		cerr << "TTF Error: " << TTF_GetError() << endl;
+		success = 0;
+	} else {
+	//Try to set linear filtering
+		if(!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1")){
+			cerr << "- Linear filtering not enabled!" << endl;
+		}
+		//Create window
+		window = SDL_CreateWindow("LUDO", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
+		//Window integrity check
+		if(window==NULL){
+			cerr << "Window error: " << SDL_GetError() << endl;
 			success = 0;
 		} else {
-			//Try to initialize SDL mixer
-			if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048)<0){
-				cerr << "MIX Error: " << Mix_GetError() << endl;
+			//Create renderer
+			renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
+			//Renderer integrity check
+			if(renderer==NULL){
+				cerr << "Renderer error: " << SDL_GetError() << endl;
 				success = 0;
 			} else {
-				//Try to set linear filtering
-				if(!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1")){
-					cerr << "- Linear filtering not enabled!" << endl;
-				}
-				//Create window
-				window = SDL_CreateWindow("LUDO", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
-				//Window integrity check
-				if(window==NULL){
-					cerr << "Window error: " << SDL_GetError() << endl;
-					success = 0;
-				} else {
-					//Create renderer
-					renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
-					//Renderer integrity check
-					if(renderer==NULL){
-						cerr << "Renderer error: " << SDL_GetError() << endl;
-						success = 0;
-					} else {
-						//Initialize game objects
-						Sound::load();
-						dice.init();
-						dice.setRenderer(renderer);
-						board.setRenderer(renderer);
-						determineTurnOrder();
-					}
-				}
+				//Initialize game objects
+				Sound::load();
+				dice.init();
+				dice.setRenderer(renderer);
+				board.setRenderer(renderer);
+				determineTurnOrder();
 			}
-		}
 	}
-
+	}
+	}
+	}
+	}
 	//Return success flag
 	return success;
 }
@@ -260,7 +260,13 @@ void eventHandler(){
 
 //Resource freeing function
 void free(){
-	//Release objects
+	//Release player data
+	for(unsigned i = 0; i<turnOrder.size(); ++i){
+		delete turnOrder.front();
+		turnOrder.pop_front();
+	}
+
+	//Release board data
 	board.free();
 	//Release renderer
 	SDL_DestroyRenderer(renderer);
