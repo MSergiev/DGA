@@ -14,6 +14,7 @@
 #include "Player.h"
 #include "Sound.h"
 #include "Dice.h"
+#include "Button.h"
 //#include "Recovery.h"
 
 //Misc library inclusion
@@ -46,8 +47,14 @@ bool win = 0;
 //SDL event container
 SDL_Event event;
 
+//Game font
+TTF_Font* font;
+
 //Game board
 Board board;
+
+//Button object
+Button button(600, 600, 100, 60);
 
 //Dice object
 Dice dice;
@@ -127,6 +134,9 @@ int main(int argc, char* argv[]){
 			//Draw game board;
 			board.render();
 			
+			//Draw button
+			button.render();
+
 			//Execute player turns
 			for(int i = 0; i < 3; ++i){
 				//Cycle players
@@ -228,12 +238,20 @@ bool init(){
 				cerr << "Renderer error: " << SDL_GetError() << endl;
 				success = 0;
 			} else {
-				//Initialize game objects
-				Sound::load();
-				dice.init();
-				dice.setRenderer(renderer);
-				board.setRenderer(renderer);
-				determineTurnOrder();
+				//Load game font
+				font = TTF_OpenFont(FONT_PATH, 15);
+				if(font==NULL){
+					cerr << "Font error: " << TTF_GetError() << endl;
+				} else {
+					//Initialize game objects
+					Sound::load();
+					dice.init();
+					dice.setRenderer(renderer);
+					board.setRenderer(renderer);
+					button.setRenderer(renderer);
+					button.setLabel("CLICK", font);
+					determineTurnOrder();
+				}
 			}
 	}
 	}
@@ -254,6 +272,7 @@ void eventHandler(){
 			loop = 0;
 			win = 0;
 		}
+		if(button.isClicked(event)) Sound::play(bruh);
 	}
 }
 
