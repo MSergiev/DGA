@@ -30,6 +30,7 @@ class Pawn
 private:
 	unsigned int m_uiPosition;
 	Colors m_eColor;
+	
 
 	//Sprite object pointer
 	Sprite* mPlayerSprite;
@@ -37,7 +38,6 @@ private:
 public:
 	Pawn();
 	virtual ~Pawn();
-
 
 	//Rendering method
 	//Args:
@@ -49,8 +49,6 @@ public:
 	//Args:
 	//SDL_Renderer* renderer - renderer to draw the sprites with
 	void setRenderer(SDL_Renderer* renderer);
-
-	void movePawn(int x, int y);
 
 	// setters & getters
 	unsigned int getUiPosition() const;

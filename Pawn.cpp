@@ -27,14 +27,9 @@ void Pawn::render(int x, int y)
 void Pawn::setRenderer(SDL_Renderer* renderer)
 {
 	mPlayerSprite->setRenderer(renderer);
-	mPlayerSprite->load("./GFX/bomb.png");
+	mPlayerSprite->load(PAWN_PATH);
 }
 
-
-void Pawn::movePawn(int x, int y)
-{
-
-}
 
 // destructor
 Pawn::~Pawn()

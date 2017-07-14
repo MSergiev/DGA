@@ -49,4 +49,17 @@ const pair<int, int> NEXT_SQUARE[]{
 	{-1,0}
 };
 
+//Font path
+#define FONT_PATH "./GFX/font.ttf"
+
+//Pawn sprite path
+#define PAWN_PATH "./GFX/bomb.png"
+
+//Dice texture path
+#define DICE_PATH "./GFX/dice.png"
+
+//Board texture path
+#define BOARD_PATH "./GFX/board.png"
+
+
 #endif
