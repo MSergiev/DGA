@@ -31,8 +31,9 @@ void Pawn::setRenderer(SDL_Renderer* renderer)
 }
 
 
-void Pawn::movePawn()
+void Pawn::movePawn(int x, int y)
 {
+
 }
 
 // destructor

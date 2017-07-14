@@ -8,13 +8,12 @@
 #ifndef PAWN_H_
 #define PAWN_H_
 
-#define SPRITE_SIZE 129
+#define SPRITE_SIZE 64
 #define ANIMATION_DELAY 25
 #define NUM_OF_FRAMES 20
 
 //Include sprite class
 #include "Sprite.h"
-
 #include "Shared.h"
 
 #include <iostream>
@@ -51,7 +50,7 @@ public:
 	//SDL_Renderer* renderer - renderer to draw the sprites with
 	void setRenderer(SDL_Renderer* renderer);
 
-	void movePawn();
+	void movePawn(int x, int y);
 
 	// setters & getters
 	unsigned int getUiPosition() const;
