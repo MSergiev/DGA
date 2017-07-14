@@ -11,7 +11,7 @@ private:
 	vector< Pawn* > m_vPawns;
 
 	// private members
-	int m_iPlayerPosition;
+	// TO DO: delete everything with positions
 	Colors m_EColor;
 	int m_iSteps;
 	int m_iTaken;
@@ -29,6 +29,7 @@ public:
 	void Render(int x, int y);
 	vector<int> GetPositions();
 	void SetRenderer(SDL_Renderer* renderer);
+
 	void movePawn(unsigned int numberOfPawn, int x, int y);
 
 	// setters and getters
