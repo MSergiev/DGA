@@ -14,7 +14,7 @@ Dice::~Dice() {
 void Dice::setRenderer(SDL_Renderer* renderer){
 if(renderer!=NULL){
 		DiceTexture.setRenderer(renderer);
-		DiceTexture.load("./GFX/Dice/Dice.png");
+		DiceTexture.load("Dice.png");
 }
 }
 
@@ -23,35 +23,24 @@ int Dice::roll() {
 return DiceResult;
  }
 
-//void Dice::Event(){
-//		//Event handler
-//				bool quit = false;
-//				SDL_Event e;
-//				//While application is running
-//				while (!quit) {
-//					//Handle events on queue
-//					while (SDL_PollEvent(&e) != 0) {
-//						//User requests quit
-//						if (e.type == SDL_QUIT) {
-//							quit = true;
-//						} //end if
-//						if (e.type == SDL_MOUSEBUTTONDOWN) {
-//							switch( e.button.button == SDL_BUTTON_LEFT)
-//							{
-//							case SDL_MOUSEBUTTONDOWN:
-//								Dice::roll();
-//								break;
-//
-//					} //end  switch
-//					}//end second if
-//				} // end  while
-//					//SDL_RenderPresent(gRenderer);
-//}// end of while
-//}//end of function
+void Dice::Event(SDL_Event& e){
+	if (e.type == SDL_MOUSEBUTTONDOWN) {
+		if( e.button.button == SDL_BUTTON_LEFT){
+			int x,y;
+				SDL_GetMouseState(&x,&y);
+				if(x>=(WIDTH-DICE_WIDTH)/2 &&
+					x<=(WIDTH+DICE_WIDTH)/2 &&
+					y>=(HEIGHT-DICE_HEIGHT)/2 &&
+					y<=(HEIGHT+DICE_HEIGHT)/2){
+					Dice::roll();
+				}
 
+} //end  switch
+}//end second if
+} // end  while
 void Dice::render() {
 	SDL_Rect DiceFace={(DiceResult-1)*DICE_WIDTH,0,DICE_WIDTH,DICE_HEIGHT};
-DiceTexture.render((WIDTH-DICE_WIDTH)/2,(WIDTH-DICE_WIDTH)/2,&DiceFace);
+	DiceTexture.render((WIDTH-DICE_WIDTH)/2,(HEIGHT-DICE_HEIGHT)/2,&DiceFace);
 }
 
 void Dice::init(){

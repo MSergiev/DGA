@@ -29,7 +29,7 @@ public:
 	void free();
 	void setRenderer(SDL_Renderer* renderer);
 	int roll();
-	void Event();
+	void Event(SDL_Event& e);
 	void init();
 private:
 	int DiceResult;
