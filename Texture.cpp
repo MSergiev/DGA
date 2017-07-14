@@ -35,6 +35,29 @@ void Texture::load(string path){
 	}
 }
 
+//Text loading method
+void Texture::textLoad(string s, TTF_Font* f, SDL_Color c){
+	//Load text into surface
+	SDL_Surface* loaded = TTF_RenderText_Solid(f, s.c_str(), c);
+	//Integrity check
+	if(loaded==NULL) {
+		cerr << "TTF error: " << TTF_GetError() << endl;
+	} else {
+		//Create texture from surface
+		mTexture = SDL_CreateTextureFromSurface(mRenderer, loaded);
+		//Integrity check
+		if(mTexture==NULL) {
+			cerr << "Texture error: " << SDL_GetError() << endl;
+		} else {
+			//Get text dimensions
+			mWidth = loaded->w;
+			mHeight = loaded->h;
+		}
+		//Release surface data
+		SDL_FreeSurface(loaded);
+	}
+}
+
 void Texture::setRenderer(SDL_Renderer* renderer){
 	this->mRenderer = renderer;
 }

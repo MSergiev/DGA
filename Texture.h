@@ -4,6 +4,7 @@
 //Include SDL modules
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 
 //Misc inclusions
 #include <iostream>
@@ -23,6 +24,13 @@ public:
 	//Args:
 	//string path - path to image file
 	void load(string path);
+
+	//Text loading method
+	//Args:
+	//string t - string to be drawn
+	//TTF_Font* f - pointer to font
+	//SDL_Color c - text drawing color
+	void textLoad(string t, TTF_Font* f, SDL_Color c);
 
 	//Set class renderer
 	//Args:
