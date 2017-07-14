@@ -5,6 +5,7 @@ Player::Player(Colors color)
 {
 	setEColor(color);
 	SetPawnsVector();
+	setIActivePawns(0);
 }
 
 
@@ -14,16 +15,6 @@ Player::~Player()
 	{
 		m_vPawns[i] = NULL;
 		delete m_vPawns[i];
-	}
-}
-
-void Player::movePawn(unsigned int numberOfPawn, int x, int y)
-{
-	for (unsigned int i = 0; i < m_vPawns.size(); i++)
-	{
-		if ((i+1) == numberOfPawn){
-			m_vPawns[i]->movePawn(x, y);
-		}
 	}
 }
 
@@ -91,6 +82,16 @@ int Player::getITaken() const
 void Player::setITaken(int iTaken)
 {
 	m_iTaken = iTaken;
+}
+
+int Player::getIActivePawns() const
+{
+	return m_iActivePawns;
+}
+
+void Player::setIActivePawns(int iActivePawns)
+{
+	m_iActivePawns = iActivePawns;
 }
 
 Colors Player::getEColor() const

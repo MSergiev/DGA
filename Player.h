@@ -16,6 +16,7 @@ private:
 	int m_iSteps;
 	int m_iTaken;
 	int m_iHadTaken;
+	int m_iActivePawns;
 
 	// private method
 	void SetPawnsVector();
@@ -30,8 +31,6 @@ public:
 	vector<int> GetPositions();
 	void SetRenderer(SDL_Renderer* renderer);
 
-	void movePawn(unsigned int numberOfPawn, int x, int y);
-
 	// setters and getters
 	int getIHadTaken() const;
 	void setIHadTaken(int iHadTaken);
@@ -45,11 +44,13 @@ public:
 	int getITaken() const;
 	void setITaken(int iTaken);
 
+	int getIActivePawns() const;
+	void setIActivePawns(int iActivePawns);
+
 	Colors getEColor() const;
 	void setEColor(Colors eColor);
 
 	const vector<Pawn*>& getVPawns() const;
-
 
 	//Destructor
 	~Player();
