@@ -14,7 +14,7 @@ Dice::~Dice() {
 void Dice::setRenderer(SDL_Renderer* renderer){
 if(renderer!=NULL){
 		DiceTexture.setRenderer(renderer);
-		DiceTexture.load("Dice.png");
+		DiceTexture.load("./GFX/Dice/Dice.png");
 }
 }
 

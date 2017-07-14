@@ -11,7 +11,6 @@
 #include "Shared.h"
 #include "Board.h"
 //#include "Player.h"
-//#include "Recovery.h"
 #include "Sound.h"
 #include "Dice.h"
 //#include "Recovery.h"
@@ -146,7 +145,10 @@ int main(int argc, char* argv[]){
 			//red.render();
 			//for(unsigned i = 0; i < playerVec.size(); ++i)
 				//playerVec[i]->render(i*100+100, i*100+100);
-	
+
+			//Render dice
+			dice.render();
+
 			//Render image on screen
 			SDL_RenderPresent(renderer);
 	
@@ -225,6 +227,7 @@ bool init(){
 						success = 0;
 					} else {
 						Sound::load();
+						dice.setRenderer(renderer);
 						dice.init();
 						//Initialize game objects
 						board.setRenderer(renderer);
@@ -250,12 +253,7 @@ void eventHandler(){
 			loop = 0;
 			win = 0;
 		}
-
-		//Keyboard controls
-		if(event.key.keysym.sym == SDLK_LEFT) x-=10;
-		if(event.key.keysym.sym == SDLK_RIGHT) x+=10;
-		if(event.key.keysym.sym == SDLK_UP) y-=10;
-		if(event.key.keysym.sym == SDLK_DOWN) y+=10;
+		dice.Event(event);
 	}
 }
 
