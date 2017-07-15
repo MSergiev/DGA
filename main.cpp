@@ -325,6 +325,12 @@ void free(){
 		delete turnOrder.front();
 		turnOrder.pop_front();
 	}
+	//Release highlighter button data
+	for(int i = 0; i < 5; i++)
+		highlightButtons[i].free();
+	
+	//Release button data
+		button.free();
 
 	//Release board data
 	board.free();
