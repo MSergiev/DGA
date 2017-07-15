@@ -10,10 +10,6 @@
 Pawn::Pawn()
 		: m_eColor()
 {
-	//Initialize frame dimensions
-	SDL_Rect frame = { 0, 0, SPRITE_SIZE, SPRITE_SIZE };
-	//Create sprite object
-	mPlayerSprite = new Sprite(frame, NUM_OF_FRAMES, ANIMATION_DELAY);
 	setUiPosition(0);
 }
 
@@ -35,7 +31,6 @@ void Pawn::setRenderer(SDL_Renderer* renderer)
 Pawn::~Pawn()
 {
 	//Release resources
-	mPlayerSprite->free();
 	delete mPlayerSprite;
 }
 
@@ -54,6 +49,10 @@ Colors Pawn::getEColor() const
 
 void Pawn::setEColor(Colors eColor)
 {
+	//Initialize frame dimensions
+	SDL_Rect frame = { 0, (eColor-1)*SPRITE_SIZE*6, SPRITE_SIZE, SPRITE_SIZE };
+	//Create sprite object
+	mPlayerSprite = new Sprite(frame, NUM_OF_FRAMES, ANIMATION_DELAY);
 	m_eColor = eColor;
 }
 

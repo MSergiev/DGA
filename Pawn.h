@@ -8,7 +8,7 @@
 #ifndef PAWN_H_
 #define PAWN_H_
 
-#define SPRITE_SIZE 64
+#define SPRITE_SIZE 65
 #define ANIMATION_DELAY 25
 #define NUM_OF_FRAMES 20
 
