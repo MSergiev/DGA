@@ -44,6 +44,9 @@ bool title = 0;
 bool loop = 1;
 bool win = 0;
 
+//Player pawn selection flag
+bool canSelect = 0;
+
 //SDL event container
 SDL_Event event;
 
@@ -61,19 +64,19 @@ Dice dice;
 
 //Active board layout (top row leftmost square considered 1)
 Pawn* boardLayout[BOARD_LENGTH+10] = {NULL};
-Uint8 pawnsOnSquare[BOARD_LENGTH+10] = {0};
+unsigned pawnsOnSquare[BOARD_LENGTH+10] = {0};
 
 //Board highlighter array
-Colors boardHighlghters[BOARD_LENGTH+10] = {NONE};
-
-//Highlight button objects
-Button highlightButtons[5];
+Button boardHighlghters[BOARD_LENGTH+10];
 
 //Turn counter
 int turns = 0;
 
 //Ordered player container
 deque<Player*> turnOrder;
+
+//Active highlighter vector
+vector<int> activeHighlighters;
 
 //-----------------------------
 //---------PROTOTYPES----------
@@ -111,12 +114,6 @@ pair<int, int> getPawnCoords(Colors c, int p);
 //Player *p - pointer to active player
 void turn(Player *p);
 
-//Collision detection
-//Args:
-//Player* p - pointer to current player
-//int to - board square to chek for collisions
-void collision(Player* p, int to);
-
 //Determine turn order
 void determineTurnOrder();
 
@@ -125,22 +122,27 @@ int diceRoll();
 
 //Move pawn
 //Args:
-//Player* p - pawn owner pointer
+//Player* pl - pawn owner pointer
+//Pawn* p - pawn pointer
 //int from - index on board array to move it from
 //int with - amount of spaces to move it with
-void movePawn(Player* p, int from, int with);
+void movePawn(Player* pl, Pawn* p, int from, int with);
 
 //Collision detection
 //Args:
-//Player* p - pawn owner pointer
-//int from - index on board array of moving pawn
+//Player* pl - pawn owner pointer
+//Pawn* p - pawn pointer
 //int to - index on board array to move to
-void collision(Player* p, int from, int to);
+void collision(Player* pl, Pawn* p, int to);
 
 //Pawn highlighter
 //Args:
-//vector<int> index - vector of board array indices to highlight
-bool highlight(vector<int>& index);
+//int index - square index to highlight
+//Colors c - color for base selection (not required)
+void highlight(int index, Colors c = NONE);
+
+//Highlighted squares event handler
+int getHighlightedChoice();
 
 //Delay
 //Args:
@@ -248,8 +250,8 @@ void render(){
 		//highlight(hl);
 		
 		//Render highlighters
-		for(int i = 0; i < 5; ++i)
-			highlightButtons[i].render();
+		for(unsigned i = 0; i < activeHighlighters.size(); ++i)
+			boardHighlghters[activeHighlighters[i]].render();
 		
 		//Draw player sprites
 		for(unsigned i = 0; i < turnOrder.size(); ++i){
@@ -347,8 +349,8 @@ bool init(){
 					board.setRenderer(renderer);
 					button.setRenderer(renderer);
 					button.setLabel("CLICK", font);
-					for(int i = 0; i < 5; ++i)
-						highlightButtons[i].setRenderer(renderer);
+					for(int i = 0; i < BOARD_LENGTH+10; ++i)
+						boardHighlghters[i].setRenderer(renderer);
 					determineTurnOrder();
 				}
 			}
@@ -429,59 +431,93 @@ pair<int, int> getCoords(Colors c, int p){
 void turn(Player *p){
 	//Roll the dice
 	p->setIDiceRoll(diceRoll());
-	p->setIDiceRoll(6);
+	//p->setIDiceRoll(6);
 	cout << "Player " << p->getEColor() << " rolled " << p->getIDiceRoll() << endl;
 	delay(500);
 
-	//If roll is a 6
-	if(p->getIDiceRoll()==6){
-		//Give player another turn
-		//turnOrder.push_front(p);
-		//Offer to add a new pawn
-		if(p->getIActivePawns()<5) activatePawn(p);
-
+	//If roll is a 6 get another turn
+	//if(p->getIDiceRoll()==6) turnOrder.push_front(p);
+	
+	//If player has no active pawns
+	if(p->getIActivePawns()==0){
+		//If roll is a 6
+	   	if(p->getIDiceRoll()==6){
+			//Add an active pawn
+			activatePawn(p);
+		}
 	}
-	/*
 	//If player has only one active pawn
-	if(p->getIActivePawns()==1){
+	else if(p->getIActivePawns()==1 && p->getIDiceRoll()!=6){
 		//Traverse the board
-		for(int i = 0; i < BOARD_LENGTH; ++i){
-			//If pawn and player colors match
-			if(boardLayout[i]->getEColor() == p->getEColor()){
+		for(unsigned i = 0; i < p->m_vPawns.size(); ++i){
+			//If pawn is on the board
+			if(p->m_vPawns[i]->getUiPosition()){
 				//Move pawn forward
-				movePawn(p, i, p->getIDiceRoll());
+				movePawn(p, p->m_vPawns[i], i, p->getIDiceRoll());
 				break;	
 			}
 		}
+	}
 	//If player has more than one active pawn
-	} else {
-
-	}*/	
+	else {
+		//If roll is a 6
+	   	if(p->getIDiceRoll()==6){
+			//Highlight base
+			highlight(0,p->getEColor());
+		}
+	
+		//Active pawn counter
+		int activeCount = 0;	
+		//Traverse the board
+		for(unsigned i = 0; i < p->m_vPawns.size(); ++i){
+			//Find active ones
+			if(p->m_vPawns[i]->getUiPosition()!=0){
+				//Highlight active pawn
+				highlight(p->m_vPawns[i]->getUiPosition(), p->getEColor());	
+				//Increase active counter
+				activeCount++;
+			}
+			//Check if more active pawns exist
+			if(activeCount==p->getIActivePawns()) break;
+		}
+		
+		//Get choice from highlights
+		int choice  = getHighlightedChoice();
+		//If base is selected, activate pawn
+		if(!choice) activatePawn(p);
+		//Else move selected pawn
+		else movePawn(p, boardLayout[choice], choice, p->getIDiceRoll());	
+	}	
 }
 
 //Pawn movement
-void movePawn(Player* p, int from, int with){
-	//If movement is within range
-	if((from+with)<(BOARD_LENGTH+10)){
+void movePawn(Player* pl, Pawn* p, int from, int with){
+	//If movement is within active range
+	if((from+with)<(BOARD_LENGTH)){
 		//Move pawn forward
-		boardLayout[from]->setUiPosition(boardLayout[from]->getUiPosition()+with);
-		//Increase board pawn counter
-		pawnsOnSquare[from+with]++;
+		p->setUiPosition((p->getUiPosition()+with)%BOARD_LENGTH);
 		//Add roll to player step count
-		p->setISteps(p->getISteps()+with);
+		pl->setISteps(pl->getISteps()+with);
 		//Check for collisions
-		collision(p, from+with);	
+		collision(pl, p, from+with);	
+		
 
 		//Place pawn in new location
 		boardLayout[from+with] = boardLayout[from];
-		boardLayout[from] = NULL;
+		//Decrease old position pawn counter
+		pawnsOnSquare[from]--;
+		//Increase board pawn counter
+		pawnsOnSquare[from+with]++;
+		//NULL if no more pawns on old position
+		cout << "Pawns left: " << pawnsOnSquare[from] << endl;
+		if(!pawnsOnSquare[from]) boardLayout[from] = NULL;
 	}
 }
 
 //Collision detection
-void collision(Player* p, int to){
+void collision(Player* pl, Pawn* p, int to){
 	//If space is already occupied
-	if(!pawnsOnSquare[to]){
+	if(pawnsOnSquare[to]!=0){
 		//If occupant is a different player
 		if(boardLayout[to]->getEColor()!=p->getEColor()){
 			//Return other pawn to start
@@ -495,10 +531,14 @@ void collision(Player* p, int to){
 					turnOrder[j]->setIActivePawns(turnOrder[j]->getIActivePawns()-1);
 					//Decrease board pawn counter
 					pawnsOnSquare[j]--;
+					break;
 				}
 			}	
 			//Add to current players' taken counter
-			p->setITaken(p->getITaken()+1);
+			pl->setITaken(pl->getITaken()+1);
+			//Play SFX
+			Sound::play(suprise);
+			cout << pl->getEColor() << " took pawn on " << to << endl;
 		}
 	}
 }
@@ -539,44 +579,70 @@ void activatePawn(Player* p){
 			//Increment player active counter
 			p->setIActivePawns(p->getIActivePawns()+1);
 			//Check for collisions
-			collision(p, START_POS[p->getEColor()-1]);
+			collision(p, p->m_vPawns[i], START_POS[p->getEColor()-1]);
 			break;
 		}
 	}
 }
 
 //Board square highlighter
-bool highlight(vector<int>& index){
-	//Highlighter color
-	SDL_Color color;
-	//Traverse index vector
-	for (unsigned i = 0; i < 5; i++) {	
-		//If highlighter does not exist
-		if(i>=index.size()){
-			//Resize and place offscreen
-			highlightButtons[i].setSize(0, 0);
-			highlightButtons[i].setLocation(-10,-10);
-		} else {
+void highlight(int index, Colors c){
+	//If pawn exists on square or base
+	if(pawnsOnSquare[index] || !index){
+		//Highlighter color
+		SDL_Color color;
 		//Set highlighter color
-			switch(boardHighlghters[index[i]]){
-				case RED:
-				color = {255,0,0,255};
-				break;
-				case BLUE:
-				color = {0,0,255,255};
-				break;
-				case YELLOW:
-				color = {255,255,0,255};
-				break;
-				case NONE:
-				color = {255,255,255,255};
+		switch(c){
+			case RED: color = {255,0,0,255}; break;
+			case BLUE: color = {0,0,255,255}; break;
+			case YELLOW: color = {255,255,0,255}; break;
+			case NONE: color = {255,255,255,255};
+		}
+		//Get current square screen coordinates
+		pair<int, int> coords;
+		if(!index){
+			coords = getCoords(c, START_POS[c-1]);
+			//Position base highlighter
+			switch(c){
+				case YELLOW: coords.first-=SQUARE_SIZE; break;
+				case RED: coords.second+=SQUARE_SIZE; break;
+				case BLUE: coords.first+=SQUARE_SIZE; break;
+				case NONE: break;
 			}
-			//Get current square screen coordinates
-			pair<int, int> coords = getCoords(boardHighlghters[index[i]], index[i]);
-			//Set highlighter params
-			highlightButtons[i].setSize(SQUARE_SIZE, SQUARE_SIZE);
-			highlightButtons[i].setLocation(coords.first, coords.second);
-			highlightButtons[i].setColor(color);
+		} else coords = getCoords(boardLayout[index]->getEColor(), index);
+		//Set highlighter params
+		boardHighlghters[index].setSize(SQUARE_SIZE, SQUARE_SIZE);
+		boardHighlghters[index].setLocation(coords.first, coords.second);
+		boardHighlghters[index].setColor(color);
+		//Add to active highlighter list
+		activeHighlighters.push_back(index);
+	}
+}
+
+//Highlighted squares event handler
+int getHighlightedChoice(){
+	//If active highlighters exist
+	if(activeHighlighters.size()){
+		//Wait for user choice
+		while(!quit){
+			//Traverse active highlighters
+			for(unsigned i = 0; i < activeHighlighters.size(); ++i){
+				//If clicked
+				if(boardHighlghters[activeHighlighters[i]].isClicked(event)){
+					//Save board index before clearing
+					int choice = activeHighlighters[i];
+					//Clear active highlighters
+					while(activeHighlighters.size()>0) activeHighlighters.pop_back();
+					//Return pressed index
+					return choice;
+				}
+			}
+			//Event handler
+			eventHandler();
+			//Render sprites
+			render();
+			//Draw image on screen
+			SDL_RenderPresent(renderer);
 		}
 	}
 	return 0;
