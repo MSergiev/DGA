@@ -59,8 +59,9 @@ Button button(600, 600, 100, 60);
 //Dice object
 Dice dice;
 
-//Board square layout (top row leftmost square considered 0)
+//Active board layout (top row leftmost square considered 1)
 Pawn* boardLayout[BOARD_LENGTH+10] = {NULL};
+Uint8 pawnsOnSquare[BOARD_LENGTH+10] = {0};
 
 //Board highlighter array
 Colors boardHighlghters[BOARD_LENGTH+10] = {NONE};
@@ -461,15 +462,15 @@ void turn(Player *p){
 //Pawn movement
 void movePawn(Player* p, int from, int with){
 	//If movement is within range
-	if(boardLayout[from]->getUiPosition()+with<=BOARD_LENGTH+10){
-	//If final space is occupied
-		if(from+with > BOARD_LENGTH+5 && boardLayout[from+with] != NULL) return;
-			//Move pawn forward
-			boardLayout[from]->setUiPosition(boardLayout[from]->getUiPosition()+with);
-			//Add roll to player step count
-			p->setISteps(p->getISteps()+with);
-			//Check for collisions
-			collision(p, from+with);	
+	if((from+with)<(BOARD_LENGTH+10)){
+		//Move pawn forward
+		boardLayout[from]->setUiPosition(boardLayout[from]->getUiPosition()+with);
+		//Increase board pawn counter
+		pawnsOnSquare[from+with]++;
+		//Add roll to player step count
+		p->setISteps(p->getISteps()+with);
+		//Check for collisions
+		collision(p, from+with);	
 
 		//Place pawn in new location
 		boardLayout[from+with] = boardLayout[from];
@@ -480,7 +481,7 @@ void movePawn(Player* p, int from, int with){
 //Collision detection
 void collision(Player* p, int to){
 	//If space is already occupied
-	if(boardLayout[to]!=NULL){
+	if(!pawnsOnSquare[to]){
 		//If occupant is a different player
 		if(boardLayout[to]->getEColor()!=p->getEColor()){
 			//Return other pawn to start
@@ -490,6 +491,10 @@ void collision(Player* p, int to){
 				if(boardLayout[to]->getEColor()==turnOrder[j]->getEColor()){
 					//Add to other pawns' owners' lost counter
 					turnOrder[j]->setIHadTaken(turnOrder[j]->getIHadTaken()+1);
+					//Decrease other players' active pawn counter
+					turnOrder[j]->setIActivePawns(turnOrder[j]->getIActivePawns()-1);
+					//Decrease board pawn counter
+					pawnsOnSquare[j]--;
 				}
 			}	
 			//Add to current players' taken counter
@@ -521,16 +526,17 @@ int diceRoll(){
 
 //Activate pawn
 void activatePawn(Player* p){
-	//Get player pawns
-	//Traverse pawns
+	//Traverse player pawns
 	for(unsigned i = 0; i < p->m_vPawns.size(); ++i){
+		cout << p->m_vPawns[i]->getUiPosition() << endl;
 		//If current pawn is inactive
 		if(p->m_vPawns[i]->getUiPosition()==0){
 			//Place pawn on start position
 			p->m_vPawns[i]->setUiPosition(START_POS[p->getEColor()-1]);
 			//Place pawn on game board
 			boardLayout[START_POS[p->getEColor()-1]] = p->m_vPawns[i];
-			cout << START_POS[p->getEColor()-1] << endl;
+			//Increase board pawn counter
+			pawnsOnSquare[START_POS[p->getEColor()-1]]++;
 			//Increment player active counter
 			p->setIActivePawns(p->getIActivePawns()+1);
 			//Check for collisions

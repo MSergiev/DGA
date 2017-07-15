@@ -14,8 +14,8 @@ Player::~Player()
 {
 	for (unsigned int i = 0; i < m_vPawns.size(); i++)
 	{
-		m_vPawns[i] = NULL;
 		delete m_vPawns[i];
+		m_vPawns[i] = NULL;
 	}
 }
 
@@ -118,9 +118,9 @@ void Player::setEColor(Colors eColor)
 
 void Player::SetPawnsVector()
 {
-	Pawn* pawn = new Pawn;
-	pawn->setEColor(getEColor());
 	for (unsigned int i = 0; i < 5; i++){
+		Pawn* pawn = new Pawn;
+		pawn->setEColor(getEColor());
 		m_vPawns.push_back(pawn);
 	}
 }
