@@ -17,6 +17,7 @@ private:
 	int m_iTaken;
 	int m_iHadTaken;
 	int m_iActivePawns;
+	int m_iDiceRoll;
 
 	// private method
 	void SetPawnsVector();
@@ -46,6 +47,9 @@ public:
 
 	int getIActivePawns() const;
 	void setIActivePawns(int iActivePawns);
+
+	int getIDiceRoll() const;
+	void setIDiceRoll(int iDiceRoll);
 
 	Colors getEColor() const;
 	void setEColor(Colors eColor);

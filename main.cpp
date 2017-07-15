@@ -132,6 +132,11 @@ void collision(Player* p, int from, int to);
 //vector<int> index - vector of board array indices to highlight
 bool highlight(vector<int>& index);
 
+//Delay
+//Args:
+//Uint32 ms - milliseconds to delay for
+void delay(Uint32 ms);
+
 //-----------------------------
 //------------MAIN-------------
 //-----------------------------
@@ -144,7 +149,7 @@ int main(int argc, char* argv[]){
 	if(!init()) return 1;
 
 	//Play BGM
-	Sound::music(rock);
+	//Sound::music(rock);
 
 	//Game loop
 	while(!quit){
@@ -362,11 +367,12 @@ pair<int, int> getCoords(int index){
 //Player turn
 void turn(Player *p){
 	//Roll the dice
-	int roll = diceRoll();	
-	cout << p->getEColor() << " rolled " << roll << endl;
+	p->setIDiceRoll(diceRoll());
+	cout << "Player " << p->getEColor() << " rolled " << p->getIDiceRoll() << endl;
+	delay(500);
 
 	//If roll is a 6
-	if(roll==6){
+	if(p->getIDiceRoll()==6){
 		//Give player another turn
 		turnOrder.push_front(p);
 		//Offer to add a new pawn
@@ -378,7 +384,7 @@ void turn(Player *p){
 			//If pawn and player colors match
 			if(boardLayout[i]->getEColor() == p->getEColor()){
 				//Move pawn forward
-				movePawn(p, i, roll);
+				movePawn(p, i, p->getIDiceRoll());
 				break;	
 			}
 		}
@@ -386,34 +392,6 @@ void turn(Player *p){
 	} else {
 
 	}	
-	
-
-	//Check if enough time has passed
-	/*if(SDL_GetTicks() - squareTimer >= 1000){
-		//Traverse player vector
-		for(unsigned i = 0; i < playerVec.size(); ++i){
-			//Get dice roll
-			int roll = dice.roll();
-			//Print roll to console
-			std::cout << playerVec[i]->getEColor() << " rolled " << roll << endl;
-			//Move "roll" amount of spaces forward
-			playerVec[i]->p = (playerVec[i]->p+roll)%BOARD_LENGTH;
-		}
-		//Reset timer
-		squareTimer = SDL_GetTicks();
-	}
-
-	//Traverse player vector
-	for(unsigned i = 0; i < playerVec.size(); ++i){
-		//Set player color
-		
-		//Get screen coordinates
-		pair<int, int> coords = getCoords(playerVec[i]);
-		//Construct pawn square
-		SDL_Rect square = {coords.first, coords.second, SQUARE_SIZE, SQUARE_SIZE};	
-		//Render square
-		SDL_RenderFillRect(renderer, &square);
-	}*/
 }
 
 //Pawn movement
@@ -454,17 +432,18 @@ int diceRoll(){
 	//Timer
 	Uint32 timer = SDL_GetTicks();
 	//Dice roll variable
-	int roll = 0;
+	int roll = dice.roll();
 	//Wait for player click
-	while(!dice.Event(event) && !quit){
+	do {
 		eventHandler();
-		if(SDL_GetTicks()-timer>50){
+		if(SDL_GetTicks()-timer>100){
 			roll = dice.roll();
 			dice.render();
 			SDL_RenderPresent(renderer);
 			timer = SDL_GetTicks();
 		}
-	}
+	} while(!dice.Event(event) && !quit);
+	Sound::play(ding);	
 	return roll;
 }
 
@@ -518,4 +497,11 @@ void determineTurnOrder(){
 		turnOrder.push_back(new Player(order[i]));
 		turnOrder.back()->SetRenderer(renderer);
 	}
+}
+
+//Delay
+void delay(Uint32 ms){
+	Uint32 timerDelay = SDL_GetTicks();
+	while(SDL_GetTicks()-timerDelay<ms && !quit)
+		eventHandler();
 }

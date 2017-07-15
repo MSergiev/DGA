@@ -6,6 +6,7 @@ Player::Player(Colors color)
 	setEColor(color);
 	SetPawnsVector();
 	setIActivePawns(0);
+	setIDiceRoll(1);
 }
 
 
@@ -92,6 +93,17 @@ int Player::getIActivePawns() const
 void Player::setIActivePawns(int iActivePawns)
 {
 	m_iActivePawns = iActivePawns;
+}
+
+int Player::getIDiceRoll() const
+{
+	return m_iDiceRoll;
+}
+
+void Player::setIDiceRoll(int iDiceRoll)
+{
+	if(iDiceRoll>=1 && iDiceRoll<=6)
+		m_iDiceRoll = iDiceRoll;
 }
 
 Colors Player::getEColor() const
