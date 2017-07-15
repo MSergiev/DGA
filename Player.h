@@ -7,8 +7,6 @@
 
 class Player{
 private:
-	// private vector member
-	vector< Pawn* > m_vPawns;
 
 	// private members
 	// TO DO: delete everything with positions
@@ -28,7 +26,7 @@ public:
 
 	// methods
 	void Print();
-	void Render(int x, int y);
+	void Render(vector<pair<int, int> > pos);
 	vector<int> GetPositions();
 	void SetRenderer(SDL_Renderer* renderer);
 
@@ -54,10 +52,11 @@ public:
 	Colors getEColor() const;
 	void setEColor(Colors eColor);
 
-	const vector<Pawn*>& getVPawns() const;
-
 	//Destructor
 	~Player();
+	
+	//Vector of player pawn pointers
+	vector< Pawn* > m_vPawns;
 };
 
 #endif

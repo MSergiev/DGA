@@ -27,11 +27,11 @@ void Player::SetRenderer(SDL_Renderer* renderer)
 	}
 }
 
-void Player::Render(int x, int y)
+void Player::Render(vector<pair<int, int> > pos)
 {
-	for (unsigned int i = 0; i < m_vPawns.size(); i++)
+	for (unsigned int i = 0; i < pos.size(); i++)
 	{
-		m_vPawns[i]->render(x, y);
+		m_vPawns[i]->render(pos[i].first, pos[i].second);
 	}
 }
 
@@ -114,11 +114,6 @@ Colors Player::getEColor() const
 void Player::setEColor(Colors eColor)
 {
 	m_EColor = eColor;
-}
-
-const vector<Pawn*>& Player::getVPawns() const
-{
-	return m_vPawns;
 }
 
 void Player::SetPawnsVector()

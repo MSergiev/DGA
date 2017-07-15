@@ -19,14 +19,22 @@ using std::pair;
 
 //Player colors
 enum Colors{
-	NONE, RED, BLUE, YELLOW
+	NONE=0, YELLOW, RED, BLUE
 };
 
-//Player start positions (in game squares)
+//Pawn start positions (in game squares)
 const unsigned START_POS[]{
-	0, //YELLOW
-	14, //RED
-	28 //BLUE
+	1, //YELLOW
+	15,//RED
+	29 //BLUE
+};
+
+
+//Pawn waiting positions (in screen pixels)
+const unsigned IDLE_POS[5][2]{
+	{279, 40}, //YELLOW
+	{39, 474}, //RED
+	{475, 713} //BLUE
 };
 
 //Top rom leftmost square coordinates

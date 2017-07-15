@@ -89,23 +89,32 @@ void free();
 
 //Player to world pawn position converter
 //Args:
-//Pawn *p - pointer to pawn object
-int convert(Pawn *p);
+//Colors c - pawn color
+//int p - pawn position
+int convert(Colors c, int p);
 
 //Get screen coordinates from pawn position
 //Args:
-//ind index - board array index
-pair<int, int> getCoords(int index);
+//Colors c - pawn color
+//int p - pawn position
+pair<int, int> getCoords(Colors c, int p);
 
 //Get screen coordinates from pawn position
 //Args:
-//Pawn *p - pointer to pawn object
-pair<int, int> getPawnCoords(Pawn *p);
+//Colors c - pawn color
+//int p - pawn position
+pair<int, int> getPawnCoords(Colors c, int p);
 
 //Player turn
 //Args:
 //Player *p - pointer to active player
 void turn(Player *p);
+
+//Collision detection
+//Args:
+//Player* p - pointer to current player
+//int to - board square to chek for collisions
+void collision(Player* p, int to);
 
 //Determine turn order
 void determineTurnOrder();
@@ -137,6 +146,14 @@ bool highlight(vector<int>& index);
 //Uint32 ms - milliseconds to delay for
 void delay(Uint32 ms);
 
+//Render all assets
+void render();
+
+//Activate pawn
+//Args:
+//Player p* - pointer to player
+void activatePawn(Player* p);
+
 //-----------------------------
 //------------MAIN-------------
 //-----------------------------
@@ -161,44 +178,23 @@ int main(int argc, char* argv[]){
 		while(loop){
 			//Handle events
 			eventHandler();
-	
-			//Clear screen
-			SDL_SetRenderDrawColor(renderer, 255,255,255,255);
-			SDL_RenderClear(renderer);
-	
-			//Draw game board;
-			board.render();
 			
-			//Draw button
-			button.render();
+			//Render objects
+			render();
 
-			//Render highlighters
-			for(int i = 0; i < 5; ++i)
-				highlightButtons[i].render();
-
+			//Cycle players
+			turnOrder.push_back(turnOrder.front());
 			//Execute player turns
-			for(int i = 0; i < 3; ++i){
-				//Cycle players
-				turnOrder.push_back(turnOrder.front());
-				turn(turnOrder.front());
-				turnOrder.pop_front();
-			}
+			turn(turnOrder.front());
+			//Remove current player from queue
+			turnOrder.pop_front();
 
 			//Increment turn counter
 			turns++;
 
-			//Draw player sprites
-			//red.render();
-			//for(unsigned i = 0; i < playerVec.size(); ++i)
-				//playerVec[i]->render(i*100+100, i*100+100);
-
-			//Render dice
-			dice.render();
-
-			//Render image on screen
+			//Draw on screen
 			SDL_RenderPresent(renderer);
-	
-			}
+		}
 	
 		//On game win
 		while(win){
@@ -233,6 +229,66 @@ int main(int argc, char* argv[]){
 //-----------------------------
 //----------FUNCTIONS----------
 //-----------------------------
+
+//Render all assets
+void render(){
+	//Clear screen
+		//SDL_SetRenderDrawColor(renderer, 255,255,255,255);
+		//SDL_RenderClear(renderer);
+
+		//Draw game board;
+		board.render();
+		
+		//Draw button
+		button.render();
+		//boardHighlghters[1] = BLUE;
+		//vector<int> hl = {1};
+		//highlight(hl);
+		
+		//Render highlighters
+		for(int i = 0; i < 5; ++i)
+			highlightButtons[i].render();
+		
+		//Draw player sprites
+		for(unsigned i = 0; i < turnOrder.size(); ++i){
+			//Get player pawn screen coordinates
+			vector<pair<int,int> > pos;
+			//Found pawns counter
+			Uint8 pawnCounter = 0;
+			//Traverse board to find all the players' pawns
+			for(int j = 0; j < BOARD_LENGTH; ++j){
+				//If space is occupied
+				if(boardLayout[j]!=NULL){
+				//If current pawn belongs to player
+					if(boardLayout[j]->getEColor()==turnOrder[i]->getEColor()){
+						//Get pawn screen coordinates
+						pos.push_back(getPawnCoords(turnOrder[i]->getEColor(), boardLayout[j]->getUiPosition()));
+						//Increment found counter
+						pawnCounter++;
+					}
+				}
+				//If all active pawns are found
+				if(pawnCounter==turnOrder[i]->getIActivePawns()) break;
+			}
+			
+			//Idle pawn coordinate holder
+			pair<int, int> idleCoords = getCoords(turnOrder[i]->getEColor(), START_POS[turnOrder[i]->getEColor()-1]);
+			//Draw idle pawns
+			for(int j = 0; j < 5-pawnCounter; ++j){
+				//Position pawns correctly
+				switch(turnOrder[i]->getEColor()){
+					case YELLOW: idleCoords.first-=SQUARE_SIZE; break;
+					case RED: idleCoords.second+=SQUARE_SIZE; break;
+					case BLUE: idleCoords.first+=SQUARE_SIZE; break;
+					case NONE: break;
+				}
+				pos.push_back(idleCoords);
+			}
+			//Render pawns
+			turnOrder[i]->Render(pos);
+		}
+}
+
 
 //SDL inititalizing function
 bool init(){
@@ -289,7 +345,7 @@ bool init(){
 					board.setRenderer(renderer);
 					button.setRenderer(renderer);
 					button.setLabel("CLICK", font);
-					for(int i = 0; i < 5; i++)
+					for(int i = 0; i < 5; ++i)
 						highlightButtons[i].setRenderer(renderer);
 					determineTurnOrder();
 				}
@@ -320,20 +376,9 @@ void eventHandler(){
 
 //Resource freeing function
 void free(){
-	//Release player data
-	for(unsigned i = 0; i<turnOrder.size(); ++i){
-		delete turnOrder.front();
-		turnOrder.pop_front();
-	}
-	//Release highlighter button data
-	for(int i = 0; i < 5; i++)
-		highlightButtons[i].free();
+	for(unsigned i = 0; i<turnOrder.size(); ++i)
+		delete turnOrder[i];
 	
-	//Release button data
-		button.free();
-
-	//Release board data
-	board.free();
 	//Release font
 	TTF_CloseFont(font);
 	//Release renderer
@@ -348,27 +393,32 @@ void free(){
 }
 
 //Player to world pawn position converter
-int convert(Pawn* p){
-	return (START_POS[p->getEColor()-1]+p->getUiPosition())%BOARD_LENGTH;
+int convert(Colors c, int p){
+	return (START_POS[c-1]+p)%BOARD_LENGTH;
 }
 
 //Get screen coordinates from pawn position
-pair<int, int> getPawnCoords(Pawn *p){
+pair<int, int> getPawnCoords(Colors c, int p){
 	//Get world position
-	int converted = convert(p);
+	int converted = convert(c, p);
 	//Return coordinate pair
-	return getCoords(converted);
+	return getCoords(c, converted);
 }
 
 //Get world coordinates from array index
-pair<int, int> getCoords(int index){
+pair<int, int> getCoords(Colors c, int p){
 	//Coordinate pair object
 	pair<int, int> coords = {ZERO_X_POS, ZERO_Y_POS};
-	//Calculate position
-	for(int i = 0; i < index; ++i){
-		coords.first+=NEXT_SQUARE[i].first*SQUARE_SIZE;
-		coords.second+=NEXT_SQUARE[i].second*SQUARE_SIZE;
-	}	
+	//If idle position
+	if(!p){
+		coords = {IDLE_POS[c-1][0], IDLE_POS[c-1][1]};
+	} else {
+		//Calculate position
+		for(int i = 0; i < p-1; ++i){
+			coords.first+=NEXT_SQUARE[i].first*SQUARE_SIZE;
+			coords.second+=NEXT_SQUARE[i].second*SQUARE_SIZE;
+		}	
+	}
 	//Return coordinate pair
 	return coords;
 }
@@ -377,15 +427,19 @@ pair<int, int> getCoords(int index){
 void turn(Player *p){
 	//Roll the dice
 	p->setIDiceRoll(diceRoll());
+	p->setIDiceRoll(6);
 	cout << "Player " << p->getEColor() << " rolled " << p->getIDiceRoll() << endl;
 	delay(500);
 
 	//If roll is a 6
 	if(p->getIDiceRoll()==6){
 		//Give player another turn
-		turnOrder.push_front(p);
+		//turnOrder.push_front(p);
 		//Offer to add a new pawn
+		if(p->getIActivePawns()<5) activatePawn(p);
+
 	}
+	/*
 	//If player has only one active pawn
 	if(p->getIActivePawns()==1){
 		//Traverse the board
@@ -400,7 +454,7 @@ void turn(Player *p){
 	//If player has more than one active pawn
 	} else {
 
-	}	
+	}*/	
 }
 
 //Pawn movement
@@ -413,52 +467,75 @@ void movePawn(Player* p, int from, int with){
 			boardLayout[from]->setUiPosition(boardLayout[from]->getUiPosition()+with);
 			//Add roll to player step count
 			p->setISteps(p->getISteps()+with);
-			//If space is already occupied
-			if(boardLayout[from+with]!=NULL){
-				//If occupant is a different player
-				if(boardLayout[from+with]->getEColor()!=p->getEColor()){
-					//Return other pawn to start
-					boardLayout[from+with]->setUiPosition(0);
-					//Go through players to find occupying pawn owner
-					for(unsigned j = 1; j < turnOrder.size(); ++j){
-						if(boardLayout[from+with]->getEColor()==turnOrder[j]->getEColor()){
-							//Add to other pawns' owners' lost counter
-							turnOrder[j]->setIHadTaken(turnOrder[j]->getIHadTaken()+1);
-						}
-					}	
-					//Add to current players' taken counter
-					p->setITaken(p->getITaken()+1);
-				}
-			}
+			//Check for collisions
+			collision(p, from+with);	
+
 		//Place pawn in new location
 		boardLayout[from+with] = boardLayout[from];
 		boardLayout[from] = NULL;
 	}
 }
 
+//Collision detection
+void collision(Player* p, int to){
+	//If space is already occupied
+	if(boardLayout[to]!=NULL){
+		//If occupant is a different player
+		if(boardLayout[to]->getEColor()!=p->getEColor()){
+			//Return other pawn to start
+			boardLayout[to]->setUiPosition(0);
+			//Go through players to find occupying pawn owner
+			for(unsigned j = 1; j < turnOrder.size(); ++j){
+				if(boardLayout[to]->getEColor()==turnOrder[j]->getEColor()){
+					//Add to other pawns' owners' lost counter
+					turnOrder[j]->setIHadTaken(turnOrder[j]->getIHadTaken()+1);
+				}
+			}	
+			//Add to current players' taken counter
+			p->setITaken(p->getITaken()+1);
+		}
+	}
+}
+
 //Dice roll
 int diceRoll(){
-	//Timer
-	Uint32 timer = SDL_GetTicks();
 	//Dice roll variable
 	int roll = dice.roll();
 	//Wait for player click
 	do {
 		//Handle events
 		eventHandler();
+		//Render objects
+		render();
 		//Animate dice
-		if(SDL_GetTicks()-timer>50){
-			roll = dice.roll();
-			dice.render();
-			SDL_RenderPresent(renderer);
-			//Reset timer
-			timer = SDL_GetTicks();
-		}
+		roll = dice.roll();
+		dice.render();
+		SDL_RenderPresent(renderer);
 	} while(!dice.Event(event) && !quit);
 	//Play SFX
 	Sound::play(ding);
 	//Return roll	
 	return roll;
+}
+
+//Activate pawn
+void activatePawn(Player* p){
+	//Get player pawns
+	//Traverse pawns
+	for(unsigned i = 0; i < p->m_vPawns.size(); ++i){
+		//If current pawn is inactive
+		if(p->m_vPawns[i]->getUiPosition()==0){
+			//Place pawn on start position
+			p->m_vPawns[i]->setUiPosition(START_POS[p->getEColor()-1]);
+			//Place pawn on game board
+			boardLayout[START_POS[p->getEColor()-1]-1] = p->m_vPawns[i];
+			//Increment player active counter
+			p->setIActivePawns(p->getIActivePawns()+1);
+			//Check for collisions
+			collision(p, START_POS[p->getEColor()-1]);
+			break;
+		}
+	}
 }
 
 //Board square highlighter
@@ -488,7 +565,7 @@ bool highlight(vector<int>& index){
 				color = {255,255,255,255};
 			}
 			//Get current square screen coordinates
-			pair<int, int> coords = getCoords(index[i]);
+			pair<int, int> coords = getCoords(boardHighlghters[index[i]], index[i]);
 			//Set highlighter params
 			highlightButtons[i].setSize(SQUARE_SIZE, SQUARE_SIZE);
 			highlightButtons[i].setLocation(coords.first, coords.second);
