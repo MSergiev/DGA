@@ -1,12 +1,9 @@
 #include "Button.h"
 
 //Textured button constructor
-Button::Button(int x, int y, int width, int height, 
-		SDL_Color color){
-	//Set button base parameters
-	this->mButtonBase = {x, y, width, height};
-	//Set button base color
-	this->mButtonColor = color;
+Button::Button(int x, int y, int w, int h){
+	//Set default button size
+	this->mButtonBase = {x,y,w,h};
 }
 
 //Renderer setter method
@@ -36,6 +33,24 @@ void Button::setTexture(string texturePath){
 	//Load button texture if possible
 	if(msTexturePath!=string()) mTexture.load(msTexturePath);
 }
+
+//Size setter
+void Button::setSize(int w, int h){
+	this->mButtonBase.w = w;
+	this->mButtonBase.h = h;
+}
+
+//Location setter
+void Button::setLocation(int x, int y){
+	this->mButtonBase.x = x;
+	this->mButtonBase.y = y;
+}
+
+//Color setter
+void Button::setColor(SDL_Color c){
+	this->mButtonColor = c;
+}
+
 //Button click check
 bool Button::isClicked(SDL_Event & e){
     if(e.type == SDL_MOUSEBUTTONDOWN){
