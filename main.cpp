@@ -167,6 +167,7 @@ int main(int argc, char* argv[]){
 
 	//Play BGM
 	//Sound::music(rock);
+	
 
 	//Game loop
 	while(!quit){
@@ -262,7 +263,7 @@ void render(){
 				//If current pawn belongs to player
 					if(boardLayout[j]->getEColor()==turnOrder[i]->getEColor()){
 						//Get pawn screen coordinates
-						pos.push_back(getPawnCoords(turnOrder[i]->getEColor(), boardLayout[j]->getUiPosition()));
+						pos.push_back(getCoords(turnOrder[i]->getEColor(), boardLayout[j]->getUiPosition()));
 						//Increment found counter
 						pawnCounter++;
 					}
@@ -394,7 +395,7 @@ void free(){
 
 //Player to world pawn position converter
 int convert(Colors c, int p){
-	return (START_POS[c-1]+p)%BOARD_LENGTH;
+	return (START_POS[c-1]+p-1)%BOARD_LENGTH;
 }
 
 //Get screen coordinates from pawn position
@@ -528,7 +529,8 @@ void activatePawn(Player* p){
 			//Place pawn on start position
 			p->m_vPawns[i]->setUiPosition(START_POS[p->getEColor()-1]);
 			//Place pawn on game board
-			boardLayout[START_POS[p->getEColor()-1]-1] = p->m_vPawns[i];
+			boardLayout[START_POS[p->getEColor()-1]] = p->m_vPawns[i];
+			cout << START_POS[p->getEColor()-1] << endl;
 			//Increment player active counter
 			p->setIActivePawns(p->getIActivePawns()+1);
 			//Check for collisions
@@ -547,7 +549,7 @@ bool highlight(vector<int>& index){
 		//If highlighter does not exist
 		if(i>=index.size()){
 			//Resize and place offscreen
-			highlightButtons[i].setSize(10, 10);
+			highlightButtons[i].setSize(0, 0);
 			highlightButtons[i].setLocation(-10,-10);
 		} else {
 		//Set highlighter color
