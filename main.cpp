@@ -328,6 +328,8 @@ void free(){
 
 	//Release board data
 	board.free();
+	//Release font
+	TTF_CloseFont(font);
 	//Release renderer
 	SDL_DestroyRenderer(renderer);
 	//Release window
@@ -335,6 +337,7 @@ void free(){
 	//SDL Quit functions
 	Mix_Quit();
 	IMG_Quit();
+	TTF_Quit();
 	SDL_Quit();
 }
 
@@ -435,15 +438,20 @@ int diceRoll(){
 	int roll = dice.roll();
 	//Wait for player click
 	do {
+		//Handle events
 		eventHandler();
-		if(SDL_GetTicks()-timer>100){
+		//Animate dice
+		if(SDL_GetTicks()-timer>50){
 			roll = dice.roll();
 			dice.render();
 			SDL_RenderPresent(renderer);
+			//Reset timer
 			timer = SDL_GetTicks();
 		}
 	} while(!dice.Event(event) && !quit);
-	Sound::play(ding);	
+	//Play SFX
+	Sound::play(ding);
+	//Return roll	
 	return roll;
 }
 
@@ -479,8 +487,6 @@ bool highlight(vector<int>& index){
 			highlightButtons[i].setSize(SQUARE_SIZE, SQUARE_SIZE);
 			highlightButtons[i].setLocation(coords.first, coords.second);
 			highlightButtons[i].setColor(color);
-
-			cout << coords.first << " " << coords.second << endl;
 		}
 	}
 	return 0;
