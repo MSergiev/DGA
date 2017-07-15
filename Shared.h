@@ -37,7 +37,7 @@ const unsigned IDLE_POS[5][2]{
 	{475, 713} //BLUE
 };
 
-//Top rom leftmost square coordinates
+//Top row leftmost square coordinates
 #define ZERO_X_POS 329
 #define ZERO_Y_POS 40
 

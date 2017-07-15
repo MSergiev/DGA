@@ -266,7 +266,7 @@ void render(){
 						//Get pawn screen coordinates
 						pos.push_back(getCoords(turnOrder[i]->getEColor(), boardLayout[j]->getUiPosition()));
 						//Increment found counter
-						pawnCounter++;
+						pawnCounter+=pawnsOnSquare[j];
 					}
 				}
 				//If all active pawns are found
@@ -528,7 +528,6 @@ int diceRoll(){
 void activatePawn(Player* p){
 	//Traverse player pawns
 	for(unsigned i = 0; i < p->m_vPawns.size(); ++i){
-		cout << p->m_vPawns[i]->getUiPosition() << endl;
 		//If current pawn is inactive
 		if(p->m_vPawns[i]->getUiPosition()==0){
 			//Place pawn on start position
