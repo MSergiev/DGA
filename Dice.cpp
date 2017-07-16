@@ -42,8 +42,8 @@ bool Dice::Event(SDL_Event& e){
 	return hasClicked;
 }
 
-void Dice::render() {
-	SDL_Rect DiceFace={(DiceResult-1)*DICE_WIDTH,0,DICE_WIDTH,DICE_HEIGHT};
+void Dice::render(Colors c){
+	SDL_Rect DiceFace={(DiceResult-1)*DICE_WIDTH,(c-1)*DICE_HEIGHT,DICE_WIDTH,DICE_HEIGHT};
 	DiceTexture.render((WIDTH-DICE_WIDTH)/2,(HEIGHT-DICE_HEIGHT)/2,&DiceFace);
 }
 

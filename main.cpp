@@ -106,7 +106,9 @@ void turn(Player *p);
 void determineTurnOrder();
 
 //Roll the dice
-int diceRoll();
+//Args:
+//Colors c - dice color
+int diceRoll(Colors c);
 
 //Move pawn
 //Args:
@@ -422,7 +424,7 @@ pair<int, int> getCoords(Colors c, int p){
 //Player turn
 void turn(Player *p){
 	//Roll the dice
-	p->setIDiceRoll(diceRoll());
+	p->setIDiceRoll(diceRoll(p->getEColor()));
 	p->setIDiceRoll(6);
 	cout << "Player " << p->getEColor() << " rolled " << p->getIDiceRoll() << endl;
 	delay(500);
@@ -536,7 +538,7 @@ void collision(Player* pl, Pawn* p, int to){
 }
 
 //Dice roll
-int diceRoll(){
+int diceRoll(Colors c){
 	//Dice roll variable
 	int roll = dice.roll();
 	//Wait for player click
@@ -547,7 +549,7 @@ int diceRoll(){
 		render();
 		//Animate dice
 		roll = dice.roll();
-		dice.render();
+		dice.render(c);
 		SDL_RenderPresent(renderer);
 	} while(!dice.Event(event) && !quit);
 	//Play SFX
