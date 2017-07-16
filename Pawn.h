@@ -28,7 +28,7 @@ using std::vector;
 class Pawn
 {
 private:
-	unsigned int m_uiPosition;
+	int m_iPosition;
 	Colors m_eColor;
 	
 
@@ -51,8 +51,8 @@ public:
 	void setRenderer(SDL_Renderer* renderer);
 
 	// setters & getters
-	unsigned int getUiPosition() const;
-	void setUiPosition(unsigned int uiPosition);
+	int getIPosition() const;
+	void setIPosition(int iPosition);
 
 	Colors getEColor() const;
 	void setEColor(Colors eColor);

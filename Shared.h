@@ -24,9 +24,9 @@ enum Colors{
 
 //Pawn start positions (in game squares)
 const unsigned START_POS[]{
-	1, //YELLOW
-	15,//RED
-	29 //BLUE
+	0, //YELLOW
+	14,//RED
+	28 //BLUE
 };
 
 
@@ -55,6 +55,13 @@ const pair<int, int> NEXT_SQUARE[]{
 	{1,0},{0,-1},{0,-1},{0,-1},{0,-1},
 	{-1,0},{0,-1},{0,-1},{0,-1},{0,-1},{0,-1},
 	{-1,0}
+};
+
+//Player-specific squares direction (x,y)
+const pair<int,int> FINAL_SQUARE[]{
+	{0,1}, //YELLOW
+	{1,0}, //RED
+	{0,-1} //BLUE
 };
 
 //Font path

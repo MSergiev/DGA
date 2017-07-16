@@ -48,7 +48,7 @@ vector<int> Player::GetPositions()
 {
 	vector <int> result;
 	for (unsigned int i = 0; i < m_vPawns.size(); i++){
-		result[i] = m_vPawns[i]->getUiPosition();
+		result[i] = m_vPawns[i]->getIPosition();
 	}
 
 	return result;

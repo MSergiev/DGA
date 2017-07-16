@@ -10,7 +10,7 @@
 Pawn::Pawn()
 		: m_eColor()
 {
-	setUiPosition(0);
+	setIPosition(-1);
 }
 
 // methods
@@ -36,9 +36,9 @@ Pawn::~Pawn()
 
 // setters & getters
 
-unsigned int Pawn::getUiPosition() const
+int Pawn::getIPosition() const
 {
-	return m_uiPosition;
+	return m_iPosition;
 }
 
 Colors Pawn::getEColor() const
@@ -56,7 +56,7 @@ void Pawn::setEColor(Colors eColor)
 	m_eColor = eColor;
 }
 
-void Pawn::setUiPosition(unsigned int uiPosition)
+void Pawn::setIPosition(int iPosition)
 {
-	m_uiPosition = uiPosition;
+	m_iPosition = iPosition;
 }
