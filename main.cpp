@@ -152,6 +152,10 @@ void activatePawn(Player* p);
 //-----------------------------
 
 int main(int argc, char* argv[]){
+#ifdef DEBUG
+	cout << "========= DEBUG MODE =========" << endl;
+#endif
+	
 	//Unused warning elimination
 	argc = 0; argv = 0;
 
@@ -170,6 +174,16 @@ int main(int argc, char* argv[]){
 		
 		//On game loop
 		while(loop){
+
+#ifdef DEBUG
+			cout << "Active: ";
+			for(unsigned i = 0; i < BOARD_LENGTH+10; ++i) cout << pawnsOnSquare[i];
+			cout << endl;
+			cout << "Pawns:  ";
+			for(unsigned i = 0; i < BOARD_LENGTH+10; ++i) cout << (!boardLayout[i]?NONE:boardLayout[i]->getEColor());
+			cout << endl;
+#endif
+				
 			//Handle events
 			eventHandler();
 			
@@ -195,6 +209,10 @@ int main(int argc, char* argv[]){
 		}
 	}
 
+#ifdef DEBUG
+	cout << "Game loop broken" << endl;
+#endif
+
 	//Free resources
 	free();
 
@@ -212,7 +230,9 @@ int main(int argc, char* argv[]){
 		// writes the statistics in the same file
 		//r.WriteXML(mP);
 
-
+#ifdef DEBUG
+	cout << "========= SUCCESSFUL EXIT =========" << endl;
+#endif
 	//Successful exit
 	return 0;
 }
@@ -226,6 +246,11 @@ int main(int argc, char* argv[]){
 
 //Render all assets
 void render(){
+
+#ifdef DEBUG
+	//cout << "Render called" << endl;
+#endif
+	
 	//Clear screen
 		//SDL_SetRenderDrawColor(renderer, 255,255,255,255);
 		//SDL_RenderClear(renderer);
@@ -280,6 +305,11 @@ void render(){
 
 //SDL inititalizing function
 bool init(){
+	
+#ifdef DEBUG
+	cout << "Init called" << endl;
+#endif
+	
 	//Success flag
 	bool success = 1;
 
@@ -343,12 +373,16 @@ bool init(){
 	}
 	}
 	}
+
 	//Return success flag
 	return success;
 }
 
 //Event handler
 void eventHandler(){
+#ifdef DEBUG
+	//cout << "EventHandler called" << endl;
+#endif
 	while(SDL_PollEvent(&event)!=0){
 		//Application quit event
 		if(event.type == SDL_QUIT || event.key.keysym.sym == SDLK_ESCAPE){
@@ -364,6 +398,9 @@ void eventHandler(){
 
 //Resource freeing function
 void free(){
+#ifdef DEBUG
+	cout << "Free called" << endl;
+#endif
 	for(unsigned i = 0; i<turnOrder.size(); ++i)
 		delete turnOrder[i];
 	
@@ -382,6 +419,9 @@ void free(){
 
 //Get world coordinates from array index
 pair<int, int> getCoords(Colors c, int p){
+#ifdef DEBUG
+	//cout << "GetCoords called" << endl;
+#endif
 	//Coordinate pair object
 	pair<int, int> coords = {ZERO_X_POS, ZERO_Y_POS};
 	//If idle position
@@ -423,10 +463,17 @@ pair<int, int> getCoords(Colors c, int p){
 
 //Player turn
 void turn(Player *p){
+#ifdef DEBUG
+	cout << "Turn called" << endl;
+#endif
 	//Roll the dice
 	p->setIDiceRoll(diceRoll(p->getEColor()));
 	p->setIDiceRoll(6);
+
+#ifdef DEBUG
 	cout << "Player " << p->getEColor() << " rolled " << p->getIDiceRoll() << endl;
+#endif
+
 	delay(500);
 
 	//If roll is a 6 get another turn
@@ -476,7 +523,7 @@ void turn(Player *p){
 		}
 		
 		//Get choice from highlights
-		int choice  = getHighlightedChoice();
+		int choice = getHighlightedChoice();
 		//If base is selected, activate pawn
 		if(choice<0) activatePawn(p);
 		//Else move selected pawn
@@ -486,8 +533,11 @@ void turn(Player *p){
 
 //Pawn movement
 void movePawn(Player* pl, Pawn* p, int from, int with){
+#ifdef DEBUG
+	cout << "MovePawn called" << endl;
+#endif
 	//If movement is within active range
-	if((from+with)<(BOARD_LENGTH)){
+	if(((from+with)-START_POS[p->getEColor()-1])<(BOARD_LENGTH+10)){
 		//Move pawn forward
 		p->setIPosition((p->getIPosition()+with)%BOARD_LENGTH);
 		//Add roll to player step count
@@ -510,6 +560,9 @@ void movePawn(Player* pl, Pawn* p, int from, int with){
 
 //Collision detection
 void collision(Player* pl, Pawn* p, int to){
+#ifdef DEBUG
+	cout << "Collision called" << endl;
+#endif
 	//If space is already occupied
 	if(pawnsOnSquare[to]!=0){
 		//If occupant is a different player
@@ -539,6 +592,9 @@ void collision(Player* pl, Pawn* p, int to){
 
 //Dice roll
 int diceRoll(Colors c){
+#ifdef DEBUG
+	cout << "DiceRoll called" << endl;
+#endif
 	//Dice roll variable
 	int roll = dice.roll();
 	//Wait for player click
@@ -560,6 +616,9 @@ int diceRoll(Colors c){
 
 //Activate pawn
 void activatePawn(Player* p){
+#ifdef DEBUG
+	cout << "ActivatePawn called" << endl;
+#endif
 	//Traverse player pawns
 	for(unsigned i = 0; i < p->m_vPawns.size(); ++i){
 		//If current pawn is inactive
@@ -581,6 +640,9 @@ void activatePawn(Player* p){
 
 //Board square highlighter
 void highlight(int index, Colors c){
+#ifdef DEBUG
+	cout << "Highlight called" << endl;
+#endif
 	//Highlighter color
 	SDL_Color color;
 	//Set highlighter color
@@ -613,6 +675,9 @@ void highlight(int index, Colors c){
 
 //Highlighted squares event handler
 int getHighlightedChoice(){
+#ifdef DEBUG
+	cout << "GetHighlightedChoice called" << endl;
+#endif
 	//If active highlighters exist
 	if(activeHighlighters.size()){
 		cout << "Active on ";
@@ -645,6 +710,9 @@ int getHighlightedChoice(){
 
 //Determine turn order
 void determineTurnOrder(){
+#ifdef DEBUG
+	cout << "DetermineTurnOrder called" << endl;
+#endif
 	//Temporary vector of colors to choose from
 	vector<Colors> order = {RED, BLUE, YELLOW};
 	//Shuffle vector
@@ -658,6 +726,9 @@ void determineTurnOrder(){
 
 //Delay
 void delay(Uint32 ms){
+#ifdef DEBUG
+	cout << "Delay called" << endl;
+#endif
 	Uint32 timerDelay = SDL_GetTicks();
 	while(SDL_GetTicks()-timerDelay<ms && !quit)
 		eventHandler();

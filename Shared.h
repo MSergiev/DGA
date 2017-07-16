@@ -76,5 +76,7 @@ const pair<int,int> FINAL_SQUARE[]{
 //Board texture path
 #define BOARD_PATH "./GFX/board.png"
 
+//Debug mode
+#define DEBUG
 
 #endif
