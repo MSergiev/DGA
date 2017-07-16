@@ -476,7 +476,7 @@ void turn(Player *p){
 		//Get choice from highlights
 		int choice  = getHighlightedChoice();
 		//If base is selected, activate pawn
-		if(!choice) activatePawn(p);
+		if(choice<0) activatePawn(p);
 		//Else move selected pawn
 		else movePawn(p, boardLayout[choice], choice, p->getIDiceRoll());	
 	}	
@@ -613,6 +613,9 @@ void highlight(int index, Colors c){
 int getHighlightedChoice(){
 	//If active highlighters exist
 	if(activeHighlighters.size()){
+		cout << "Active on ";
+		for(unsigned i = 0; i < activeHighlighters.size(); i++) cout << (activeHighlighters[i]-1) << " ";
+		cout << endl;
 		//Wait for user choice
 		while(!quit){
 			//Traverse active highlighters
