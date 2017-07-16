@@ -17,6 +17,12 @@ using std::pair;
 //Square dimensions
 #define SQUARE_SIZE 48
 
+//Number of players
+#define PLAYERS 3
+
+//Number of pawns
+#define PAWNS 5
+
 //Player colors
 enum Colors{
 	NONE=0, YELLOW, RED, BLUE

@@ -118,7 +118,7 @@ void Player::setEColor(Colors eColor)
 
 void Player::SetPawnsVector()
 {
-	for (unsigned int i = 0; i < 5; i++){
+	for (unsigned int i = 0; i < PAWNS; i++){
 		Pawn* pawn = new Pawn;
 		pawn->setEColor(getEColor());
 		m_vPawns.push_back(pawn);

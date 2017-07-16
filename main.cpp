@@ -718,9 +718,10 @@ void determineTurnOrder(){
 	//Shuffle vector
 	random_shuffle(order.begin(), order.end());
 	//Initialize player objects
-	for(int i = 0; i < 3; ++i){
+	for(int i = 0; i < PLAYERS; ++i){
 		turnOrder.push_back(new Player(order[i]));
 		turnOrder.back()->SetRenderer(renderer);
+		activatePawn(turnOrder.back());
 	}
 }
 
