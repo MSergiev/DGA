@@ -147,6 +147,12 @@ void render();
 //Player p* - pointer to player
 void activatePawn(Player* p);
 
+//Get position relative to pawn
+//Args:
+//Colors c - pawn color
+//int pos - absolute position (not required)
+inline int getRelative(Colors c, int pos = 0);
+
 //-----------------------------
 //------------MAIN-------------
 //-----------------------------
@@ -285,7 +291,7 @@ void render(){
 			}
 			
 			//Idle pawn coordinate holder
-			pair<int, int> idleCoords = getCoords(turnOrder[i]->getEColor(), START_POS[turnOrder[i]->getEColor()-1]);
+			pair<int, int> idleCoords = getCoords(turnOrder[i]->getEColor(), getRelative(turnOrder[i]->getEColor()));
 			//Draw idle pawns
 			for(int j = 0; j < 5-pawnCounter; ++j){
 				//Position pawns correctly
@@ -468,7 +474,7 @@ void turn(Player *p){
 #endif
 	//Roll the dice
 	p->setIDiceRoll(diceRoll(p->getEColor()));
-	p->setIDiceRoll(6);
+	//p->setIDiceRoll(6);
 
 #ifdef DEBUG
 	cout << "Player " << p->getEColor() << " rolled " << p->getIDiceRoll() << endl;
@@ -537,7 +543,7 @@ void movePawn(Player* pl, Pawn* p, int from, int with){
 	cout << "MovePawn called" << endl;
 #endif
 	//If movement is within active range
-	if(((from+with)-START_POS[p->getEColor()-1])<(BOARD_LENGTH+10)){
+	if(((from+with)-getRelative(p->getEColor()))<(BOARD_LENGTH+10)){
 		//Move pawn forward
 		p->setIPosition((p->getIPosition()+with)%BOARD_LENGTH);
 		//Add roll to player step count
@@ -555,6 +561,8 @@ void movePawn(Player* pl, Pawn* p, int from, int with){
 		//NULL if no more pawns on old position
 		cout << "Pawns left: " << pawnsOnSquare[from] << endl;
 		if(!pawnsOnSquare[from]) boardLayout[from] = NULL;
+		//Play SFX
+		Sound::play(hitmarker);
 	}
 }
 
@@ -578,13 +586,13 @@ void collision(Player* pl, Pawn* p, int to){
 					turnOrder[j]->setIActivePawns(turnOrder[j]->getIActivePawns()-1);
 					//Decrease board pawn counter
 					pawnsOnSquare[j]--;
+					//Play SFX
+					Sound::play(fuck);
 					break;
 				}
 			}	
 			//Add to current players' taken counter
 			pl->setITaken(pl->getITaken()+1);
-			//Play SFX
-			Sound::play(suprise);
 			cout << pl->getEColor() << " took pawn on " << to << endl;
 		}
 	}
@@ -624,15 +632,17 @@ void activatePawn(Player* p){
 		//If current pawn is inactive
 		if(p->m_vPawns[i]->getIPosition()==-1){
 			//Place pawn on start position
-			p->m_vPawns[i]->setIPosition(START_POS[p->getEColor()-1]);
+			p->m_vPawns[i]->setIPosition(getRelative(p->getEColor()));
 			//Place pawn on game board
-			boardLayout[START_POS[p->getEColor()-1]] = p->m_vPawns[i];
+			boardLayout[getRelative(p->getEColor())] = p->m_vPawns[i];
 			//Increase board pawn counter
-			pawnsOnSquare[START_POS[p->getEColor()-1]]++;
+			pawnsOnSquare[getRelative(p->getEColor())]++;
 			//Increment player active counter
 			p->setIActivePawns(p->getIActivePawns()+1);
 			//Check for collisions
-			collision(p, p->m_vPawns[i], START_POS[p->getEColor()-1]);
+			collision(p, p->m_vPawns[i], getRelative(p->getEColor()));
+			//Play SFX
+			Sound::play(suprise);
 			break;
 		}
 	}
@@ -655,7 +665,7 @@ void highlight(int index, Colors c){
 	//Get current square screen coordinates
 	pair<int, int> coords;
 	if(index==-1){
-		coords = getCoords(c, START_POS[c-1]);
+		coords = getCoords(c, getRelative(c));
 		//Position base highlighter
 		switch(c){
 			case YELLOW: coords.first-=SQUARE_SIZE; break;
@@ -693,6 +703,8 @@ int getHighlightedChoice(){
 					int choice = activeHighlighters[i];
 					//Clear active highlighters
 					while(activeHighlighters.size()>0) activeHighlighters.pop_back();
+					//Play SFX
+					Sound::play(camera);
 					//Return pressed index
 					return choice-1;
 				}
@@ -723,6 +735,11 @@ void determineTurnOrder(){
 		turnOrder.back()->SetRenderer(renderer);
 		activatePawn(turnOrder.back());
 	}
+}
+
+//Get relative position
+int getRelative(Colors c, int pos){
+	return START_POS[c-1]+pos;
 }
 
 //Delay
