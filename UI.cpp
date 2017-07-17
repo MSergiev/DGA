@@ -59,6 +59,11 @@ TTF_Font* UI::getFont() const {
 	return mFont;
 }
 
+//Render method
+void UI::render(){
+	mBackground.render(0,0);
+}
+
 //Destructor
 UI::~UI(){
 	//Free font if loaded locally
