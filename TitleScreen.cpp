@@ -28,9 +28,8 @@ int TitleScreen::eventHandler(SDL_Event& e) {
 }
 
 void TitleScreen::init() {
-	loadBackground("Dice.png");
-	UI::loadFont("font.ttf",12);
-	std::cout<<(UI::getFont()!=NULL)<<endl;
+	loadBackground(BOARD_PATH);
+	UI::loadFont(FONT_PATH,12);
 
 	StartButton.setRenderer(UI::getRenderer());
 	StartButton.setLabel("START",UI::getFont(),SDL_Color {255,255,255,255});
@@ -39,12 +38,12 @@ void TitleScreen::init() {
 	QuitButton.setRenderer(UI::getRenderer());
 	QuitButton.setLabel("QUIT",UI::getFont(),SDL_Color {255,255,255,255});
 
-	StartButton.setSize(100,30);
-	StartButton.setLocation((WIDTH-100)/2,HEIGHT+100);
-	ContinueButton.setSize(100,30);
-	ContinueButton.setLocation((WIDTH-100)/2,HEIGHT+150);
-	QuitButton.setSize(100,30);
-	QuitButton.setLocation((WIDTH-100)/2,HEIGHT+200);
+	StartButton.setSize(200,30);
+	StartButton.setLocation((WIDTH-200)/2,(HEIGHT+100)/2);
+	ContinueButton.setSize(200,30);
+	ContinueButton.setLocation((WIDTH-200)/2,(HEIGHT+200)/2);
+	QuitButton.setSize(200,30);
+	QuitButton.setLocation((WIDTH-200)/2,(HEIGHT+300)/2);
 }
 
 void TitleScreen::render() {
@@ -52,6 +51,4 @@ void TitleScreen::render() {
 	StartButton.render();
 	ContinueButton.render();
 	QuitButton.render();
-
-
 }

@@ -13,12 +13,12 @@
 
 #include <iostream>
 #include <sstream>
-#include <vector>
+#include <deque>
 
 using std::endl;
 using std::cout;
 using std::cerr;
-using std::vector;
+using std::deque;
 using std::stringstream;
 
 class Recovery
@@ -28,13 +28,13 @@ public:
 	virtual ~Recovery();
 
 	// returns map with all the data from the file
-	vector< Player > ReadFromXML();
+	deque< Player* > ReadFromXML();
 
 	// puts data in the same file and deletes the previous data
-	void WriteXML(vector <Player>);
+	void WriteXML(deque <Player*>);
 
 	// prints the data
-	void Print(vector <Player>);
+	void Print(deque <Player*>);
 };
 
 #endif /* RECOVERY_H_ */
