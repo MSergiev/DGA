@@ -474,7 +474,7 @@ void turn(Player *p){
 #endif
 	//Roll the dice
 	p->setIDiceRoll(diceRoll(p->getEColor()));
-	//p->setIDiceRoll(6);
+	p->setIDiceRoll(6);
 
 #ifdef DEBUG
 	cout << "Player " << p->getEColor() << " rolled " << p->getIDiceRoll() << endl;
