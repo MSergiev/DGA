@@ -15,6 +15,7 @@
 #include "Sound.h"
 #include "Dice.h"
 #include "Button.h"
+#include "TitleScreen.h"
 //#include "Recovery.h"
 
 //Misc library inclusion
@@ -61,6 +62,9 @@ Button button(600, 600, 100, 60);
 
 //Dice object
 Dice dice;
+
+//Title screen object
+TitleScreen titleScreen;
 
 //Active board layout (top row leftmost square considered 1)
 Pawn* boardLayout[BOARD_LENGTH+10] = {NULL};
@@ -139,8 +143,10 @@ int getHighlightedChoice();
 //Uint32 ms - milliseconds to delay for
 void delay(Uint32 ms);
 
-//Render all assets
-void render();
+//Render assets
+//Args:
+//bool renderDice - flag to render dice
+void render(bool renderDice = 0);
 
 //Activate pawn
 //Args:
@@ -176,7 +182,14 @@ int main(int argc, char* argv[]){
 	while(!quit){
 		//On game title screen
 		while(title){
+			eventHandler();
+			titleScreen.render();
+			SDL_RenderPresent(renderer);
 		}
+
+#ifdef DEBUG
+		cout << "Exited title screen" << endl;
+#endif
 		
 		//On game loop
 		while(loop){
@@ -251,7 +264,7 @@ int main(int argc, char* argv[]){
 //-----------------------------
 
 //Render all assets
-void render(){
+void render(bool renderDice){
 
 #ifdef DEBUG
 	//cout << "Render called" << endl;
@@ -306,6 +319,8 @@ void render(){
 			//Render pawns
 			turnOrder[i]->Render(pos);
 		}
+		//Render dice
+		if(renderDice) dice.render(turnOrder.front()->getEColor());
 }
 
 
@@ -364,6 +379,9 @@ bool init(){
 				} else {
 					//Initialize game objects
 					Sound::load();
+					titleScreen.setRenderer(renderer);
+					titleScreen.setFont(font);
+					titleScreen.init();
 					dice.init();
 					dice.setRenderer(renderer);
 					board.setRenderer(renderer);
@@ -396,6 +414,17 @@ void eventHandler(){
 			title = 0;
 			loop = 0;
 			win = 0;
+		}
+		//If on title screen
+		if(title){
+			//Get current button state
+			int titleState = titleScreen.eventHandler(event);
+			//If start button is clicked exit title screen
+			if(titleState & 0b100) title = 0;
+			//If continue button is clicked exit title screen
+			if(titleState & 0b010) title = 0;
+			//If quit button is clicked exit title screen
+			if(titleState & 0b100) quit = 1;
 		}
 		if(button.isClicked(event)) Sound::play(bruh);
 	}
@@ -470,11 +499,11 @@ pair<int, int> getCoords(Colors c, int p){
 //Player turn
 void turn(Player *p){
 #ifdef DEBUG
-	cout << "Turn called" << endl;
+	cout << "Turn called with " << p->getEColor() << endl;
 #endif
 	//Roll the dice
 	p->setIDiceRoll(diceRoll(p->getEColor()));
-	p->setIDiceRoll(6);
+	//p->setIDiceRoll(6);
 
 #ifdef DEBUG
 	cout << "Player " << p->getEColor() << " rolled " << p->getIDiceRoll() << endl;
@@ -499,6 +528,7 @@ void turn(Player *p){
 		for(unsigned i = 0; i < p->m_vPawns.size(); ++i){
 			//If pawn is on the board
 			if(p->m_vPawns[i]->getIPosition()!=-1){
+				cout << "Selected pawn: " << p->m_vPawns[i]->getIPosition() << endl;
 				//Move pawn forward
 				movePawn(p, p->m_vPawns[i], i-1, p->getIDiceRoll());
 				break;	
@@ -540,27 +570,33 @@ void turn(Player *p){
 //Pawn movement
 void movePawn(Player* pl, Pawn* p, int from, int with){
 #ifdef DEBUG
-	cout << "MovePawn called" << endl;
+	cout << "MovePawn called with " << pl->getEColor() << " " << p->getIPosition() << " " << from << " " << with << endl;
 #endif
 	//If movement is within active range
-	if(((from+with)-getRelative(p->getEColor()))<(BOARD_LENGTH+10)){
+	if((p->getIPosition()+with)<(BOARD_LENGTH+10)){
+		int relFrom = p->getIPosition();
+		int to = (p->getIPosition()+with)%BOARD_LENGTH;
+		cout << "Setting position at " << to << endl;
+		//Place pawn in new location
+		boardLayout[to] = boardLayout[p->getIPosition()];
+		//Decrease old position pawn counter
+		pawnsOnSquare[relFrom]--;
+		//Increase board pawn counter
+		pawnsOnSquare[to]++;
+		//NULL if no more pawns on old position
+		if(!pawnsOnSquare[relFrom]) boardLayout[relFrom] = NULL;
 		//Move pawn forward
-		p->setIPosition((p->getIPosition()+with)%BOARD_LENGTH);
+		p->setIPosition(to);
 		//Add roll to player step count
 		pl->setISteps(pl->getISteps()+with);
 		//Check for collisions
-		collision(pl, p, from+with);	
-		
+		collision(pl, p, to);	
 
-		//Place pawn in new location
-		boardLayout[from+with] = boardLayout[from];
-		//Decrease old position pawn counter
-		pawnsOnSquare[from]--;
-		//Increase board pawn counter
-		pawnsOnSquare[from+with]++;
-		//NULL if no more pawns on old position
-		cout << "Pawns left: " << pawnsOnSquare[from] << endl;
-		if(!pawnsOnSquare[from]) boardLayout[from] = NULL;
+#ifdef DEBUG		
+	cout << "Moved from " << p->getIPosition() << " with " << pawnsOnSquare[p->getIPosition()] << " pawns" << endl;
+	cout << "Moved to " << to << " with " << to << " pawns" << endl;
+#endif	
+
 		//Play SFX
 		Sound::play(hitmarker);
 	}
@@ -569,7 +605,7 @@ void movePawn(Player* pl, Pawn* p, int from, int with){
 //Collision detection
 void collision(Player* pl, Pawn* p, int to){
 #ifdef DEBUG
-	cout << "Collision called" << endl;
+	cout << "Collision called with " << pl->getEColor() << " " << p->getIPosition() << " " << to << endl;
 #endif
 	//If space is already occupied
 	if(pawnsOnSquare[to]!=0){
@@ -601,8 +637,10 @@ void collision(Player* pl, Pawn* p, int to){
 //Dice roll
 int diceRoll(Colors c){
 #ifdef DEBUG
-	cout << "DiceRoll called" << endl;
+	cout << "DiceRoll called with " << c << endl;
 #endif
+	//Timer
+	Uint32 timer = SDL_GetTicks();
 	//Dice roll variable
 	int roll = dice.roll();
 	//Wait for player click
@@ -610,10 +648,13 @@ int diceRoll(Colors c){
 		//Handle events
 		eventHandler();
 		//Render objects
-		render();
-		//Animate dice
-		roll = dice.roll();
-		dice.render(c);
+		render(1);
+		if((SDL_GetTicks()-timer)>50){
+			//Animate dice
+			roll = dice.roll();
+			dice.render(c);
+			timer = SDL_GetTicks();
+		}
 		SDL_RenderPresent(renderer);
 	} while(!dice.Event(event) && !quit);
 	//Play SFX
@@ -625,7 +666,7 @@ int diceRoll(Colors c){
 //Activate pawn
 void activatePawn(Player* p){
 #ifdef DEBUG
-	cout << "ActivatePawn called" << endl;
+	cout << "ActivatePawn called with " << p->getEColor() << endl;
 #endif
 	//Traverse player pawns
 	for(unsigned i = 0; i < p->m_vPawns.size(); ++i){
@@ -651,7 +692,7 @@ void activatePawn(Player* p){
 //Board square highlighter
 void highlight(int index, Colors c){
 #ifdef DEBUG
-	cout << "Highlight called" << endl;
+	cout << "Highlight called with " << index << " " << c << endl;
 #endif
 	//Highlighter color
 	SDL_Color color;
@@ -673,12 +714,16 @@ void highlight(int index, Colors c){
 			case BLUE: coords.first+=SQUARE_SIZE; break;
 			case NONE: break;
 		}
-	} else if(pawnsOnSquare[index])
-		coords = getCoords(boardLayout[index]->getEColor(), index);
+	} else coords = getCoords(boardLayout[index]->getEColor(), index);
 	//Set highlighter params
 	boardHighlghters[index+1].setSize(SQUARE_SIZE, SQUARE_SIZE);
 	boardHighlghters[index+1].setLocation(coords.first, coords.second);
 	boardHighlghters[index+1].setColor(color);
+
+#ifdef DEBUG
+	cout << "Adding highlighter at " << coords.first << " " << coords.second << endl;
+#endif
+	
 	//Add to active highlighter list
 	activeHighlighters.push_back(index+1);
 }
@@ -745,7 +790,7 @@ int getRelative(Colors c, int pos){
 //Delay
 void delay(Uint32 ms){
 #ifdef DEBUG
-	cout << "Delay called" << endl;
+	cout << "Delay called with " << ms << endl;
 #endif
 	Uint32 timerDelay = SDL_GetTicks();
 	while(SDL_GetTicks()-timerDelay<ms && !quit)
