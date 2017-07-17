@@ -33,6 +33,12 @@ public:
 	//SDL_Renderer* renderer - pointer to renderer to draw with
 	virtual void setRenderer(SDL_Renderer* renderer);
 
+	//Get class renderer
+	SDL_Renderer* getRenderer() const;
+
+	//Get class font
+	TTF_Font* getFont() const;
+
 	//Abstract event handler
 	//Args:
 	//SDL_Event& e - SDL event container

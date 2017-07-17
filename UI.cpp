@@ -49,6 +49,16 @@ void UI::setRenderer(SDL_Renderer * renderer){
 	if(msBackgroundPath!=string()) loadBackground(msBackgroundPath);
 }
 
+//Renderer getter
+SDL_Renderer* UI::getRenderer() const {
+	return mRenderer;
+}
+
+//Font getter
+TTF_Font* UI::getFont() const {
+	return mFont;
+}
+
 //Destructor
 UI::~UI(){
 	//Free font if loaded locally
