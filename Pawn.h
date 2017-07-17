@@ -8,13 +8,12 @@
 #ifndef PAWN_H_
 #define PAWN_H_
 
-#define SPRITE_SIZE 129
+#define SPRITE_SIZE 65
 #define ANIMATION_DELAY 25
 #define NUM_OF_FRAMES 20
 
 //Include sprite class
 #include "Sprite.h"
-
 #include "Shared.h"
 
 #include <iostream>
@@ -29,8 +28,9 @@ using std::vector;
 class Pawn
 {
 private:
-	unsigned int m_uiPosition;
+	int m_iPosition;
 	Colors m_eColor;
+	
 
 	//Sprite object pointer
 	Sprite* mPlayerSprite;
@@ -38,7 +38,6 @@ private:
 public:
 	Pawn();
 	virtual ~Pawn();
-
 
 	//Rendering method
 	//Args:
@@ -51,11 +50,9 @@ public:
 	//SDL_Renderer* renderer - renderer to draw the sprites with
 	void setRenderer(SDL_Renderer* renderer);
 
-	void movePawn();
-
 	// setters & getters
-	unsigned int getUiPosition() const;
-	void setUiPosition(unsigned int uiPosition);
+	int getIPosition() const;
+	void setIPosition(int iPosition);
 
 	Colors getEColor() const;
 	void setEColor(Colors eColor);

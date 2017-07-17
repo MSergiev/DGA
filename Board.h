@@ -5,6 +5,7 @@
 
 //Include texture class
 #include "Texture.h"
+#include "Shared.h"
 
 class Board{
 public:

@@ -6,7 +6,7 @@ void Board::setRenderer(SDL_Renderer* renderer){
 	//Load texture
 	if(renderer!=NULL){
 		mBoardTexture.setRenderer(renderer);
-		mBoardTexture.load("./GFX/board.png");
+		mBoardTexture.load(BOARD_PATH);
 	}
 }
 

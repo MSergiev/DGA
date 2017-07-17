@@ -7,15 +7,15 @@
 
 class Player{
 private:
-	// private vector member
-	vector< Pawn* > m_vPawns;
 
 	// private members
-	int m_iPlayerPosition;
+	// TO DO: delete everything with positions
 	Colors m_EColor;
 	int m_iSteps;
 	int m_iTaken;
 	int m_iHadTaken;
+	int m_iActivePawns;
+	int m_iDiceRoll;
 
 	// private method
 	void SetPawnsVector();
@@ -26,10 +26,9 @@ public:
 
 	// methods
 	void Print();
-	void Render(int x, int y);
+	void Render(vector<pair<int, int> > pos);
 	vector<int> GetPositions();
 	void SetRenderer(SDL_Renderer* renderer);
-	void movePawn(unsigned int numberOfPawn, int x, int y);
 
 	// setters and getters
 	int getIHadTaken() const;
@@ -44,14 +43,20 @@ public:
 	int getITaken() const;
 	void setITaken(int iTaken);
 
+	int getIActivePawns() const;
+	void setIActivePawns(int iActivePawns);
+
+	int getIDiceRoll() const;
+	void setIDiceRoll(int iDiceRoll);
+
 	Colors getEColor() const;
 	void setEColor(Colors eColor);
 
-	const vector<Pawn*>& getVPawns() const;
-
-
 	//Destructor
 	~Player();
+	
+	//Vector of player pawn pointers
+	vector< Pawn* > m_vPawns;
 };
 
 #endif

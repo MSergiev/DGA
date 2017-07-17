@@ -10,11 +10,7 @@
 Pawn::Pawn()
 		: m_eColor()
 {
-	//Initialize frame dimensions
-	SDL_Rect frame = { 0, 0, SPRITE_SIZE, SPRITE_SIZE };
-	//Create sprite object
-	mPlayerSprite = new Sprite(frame, NUM_OF_FRAMES, ANIMATION_DELAY);
-	setUiPosition(0);
+	setIPosition(-1);
 }
 
 // methods
@@ -27,27 +23,22 @@ void Pawn::render(int x, int y)
 void Pawn::setRenderer(SDL_Renderer* renderer)
 {
 	mPlayerSprite->setRenderer(renderer);
-	mPlayerSprite->load("./GFX/bomb.png");
+	mPlayerSprite->load(PAWN_PATH);
 }
 
-
-void Pawn::movePawn()
-{
-}
 
 // destructor
 Pawn::~Pawn()
 {
 	//Release resources
-	mPlayerSprite->free();
 	delete mPlayerSprite;
 }
 
 // setters & getters
 
-unsigned int Pawn::getUiPosition() const
+int Pawn::getIPosition() const
 {
-	return m_uiPosition;
+	return m_iPosition;
 }
 
 Colors Pawn::getEColor() const
@@ -58,10 +49,14 @@ Colors Pawn::getEColor() const
 
 void Pawn::setEColor(Colors eColor)
 {
+	//Initialize frame dimensions
+	SDL_Rect frame = { 0, (eColor-1)*SPRITE_SIZE*6, SPRITE_SIZE, SPRITE_SIZE };
+	//Create sprite object
+	mPlayerSprite = new Sprite(frame, NUM_OF_FRAMES, ANIMATION_DELAY);
 	m_eColor = eColor;
 }
 
-void Pawn::setUiPosition(unsigned int uiPosition)
+void Pawn::setIPosition(int iPosition)
 {
-	m_uiPosition = uiPosition;
+	m_iPosition = iPosition;
 }

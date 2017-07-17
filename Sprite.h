@@ -56,7 +56,9 @@ private:
 
 	//Number of animation frames
 	Uint32 miNumOfFrames;
-		
+
+	//Initial frame coordinates
+	Uint32 miInitX, miInitY;
 };
 
 #endif

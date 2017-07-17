@@ -9,6 +9,8 @@ Sprite::Sprite(SDL_Rect frameSize, Uint32 numOfFrames, Uint32 animationDelay){
 
 	//Initialize animation frame
 	mAnimationFrame = frameSize;
+	miInitX = frameSize.x;
+	miInitY = frameSize.y;
 }
 
 void Sprite::setAnimationDelay(Uint32 animationDelay){
@@ -39,8 +41,8 @@ void Sprite::render(int x, int y, SDL_Rect* clip, double a, SDL_Point* c, SDL_Re
 		//If we are on the last frame
 		} else {
 			//Go back to the first frame
-			mAnimationFrame.x = 0;
-			mAnimationFrame.y = 0;
+			mAnimationFrame.x = miInitX;
+			mAnimationFrame.y = miInitY;
 			//Reset current frame counter
 			miCurrentFrame = 0;
 		}

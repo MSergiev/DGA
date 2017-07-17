@@ -18,18 +18,18 @@ using std::srand;
 using std::time;
 
 //Dice constants
-#define DICE_WIDTH  160
-#define DICE_HEIGHT  160
+#define DICE_WIDTH  148
+#define DICE_HEIGHT  148
 
 class Dice {
 public:
 	Dice();
 	virtual ~Dice();
-	void render();
+	void render(Colors c);
 	void free();
 	void setRenderer(SDL_Renderer* renderer);
 	int roll();
-	void Event(SDL_Event& e);
+	bool Event(SDL_Event& e);
 	void init();
 private:
 	int DiceResult;
