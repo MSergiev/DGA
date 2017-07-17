@@ -47,8 +47,8 @@ public:
 	//(ex. for 3 buttons it could return 100 when button 2 is pressed)
 	virtual int eventHandler(SDL_Event& e)=0;
 	
-	//Abstract render method
-	virtual void render()=0;
+	//Render method
+	virtual void render();
 
 	//Destructor
 	virtual ~UI();
