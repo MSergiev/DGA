@@ -16,7 +16,7 @@
 #include "Dice.h"
 #include "Button.h"
 #include "TitleScreen.h"
-//#include "Recovery.h"
+#include "Recovery.h"
 
 //Misc library inclusion
 #include <iostream>
@@ -207,10 +207,10 @@ int main(int argc, char* argv[]){
 			//Render objects
 			render();
 			
-			//Cycle players
-			turnOrder.push_back(turnOrder.front());
 			//Execute player turns
 			turn(turnOrder.front());
+			//Cycle players
+			turnOrder.push_back(turnOrder.front());
 			//Remove current player from queue
 			turnOrder.pop_front();
 
@@ -385,9 +385,28 @@ bool init(){
 					board.setRenderer(renderer);
 					button.setRenderer(renderer);
 					button.setLabel("CLICK", font);
+
 					for(int i = 0; i < BOARD_LENGTH+6; ++i)
 						boardHighlghters[i].setRenderer(renderer);
-					determineTurnOrder();
+				
+					//Try to recover state from XML	
+					turnOrder = Recovery::ReadFromXML();
+					if(!turnOrder.size()){
+					   cout << "Recovery data not found" << endl;
+				   	   determineTurnOrder();
+					} else cout << "Recovery data found" << endl;
+					
+					//Set player data
+					for(unsigned i = 0; i < turnOrder.size(); ++i){
+						turnOrder[i]->SetRenderer(renderer);
+						for(unsigned j = 0; j < turnOrder[i]->m_vPawns.size(); ++j){
+							if(turnOrder[i]->m_vPawns[j]->getIPosition()>-1){
+								pawnsOnSquare[turnOrder[i]->m_vPawns[j]->getIPosition()]++;
+								boardLayout[turnOrder[i]->m_vPawns[j]->getIPosition()] = turnOrder[i]->m_vPawns[j];
+							}
+						}
+					}
+
 				}
 			}
 	}
@@ -412,6 +431,7 @@ void eventHandler(){
 			title = 0;
 			loop = 0;
 			win = 0;
+			std::exit(0);
 		}
 		//If on title screen
 		if(title){
@@ -461,7 +481,7 @@ pair<int, int> getCoords(Colors c, int p){
 	if(p<0){
 		coords = {IDLE_POS[c-1][0], IDLE_POS[c-1][1]};
 	}
-	//If on final squares	
+	//If on safe squares	
 	else if(p>=BOARD_LENGTH){
 		//Find entry point
 		int entry = (START_POS[c-1]-1)%BOARD_LENGTH;
@@ -489,20 +509,25 @@ void turn(Player *p){
 #ifdef DEBUG
 	cout << "Turn called with " << p->getEColor() << endl;
 #endif
-	//Roll the dice
-	p->setIDiceRoll(diceRoll(p->getEColor()));
-	switch(p->getEColor()){
-		case YELLOW: p->setIDiceRoll(6); break;
-		case RED: p->setIDiceRoll(4); break;
-		default: p->setIDiceRoll(2); break;
-	}
+	//If player has rolled before recovery
+	cout << Recovery::hasRolled << endl;
+	if(!Recovery::hasRolled){
+		//Roll the dice
+		p->setIDiceRoll(diceRoll(p->getEColor()));
+		switch(p->getEColor()){
+			case YELLOW: p->setIDiceRoll(6); break;
+			case RED: p->setIDiceRoll(4); break;
+			default: p->setIDiceRoll(2); break;
+		}
+		//Save recovery data
+		Recovery::WriteXML(turnOrder, 1);
 
 #ifdef DEBUG
 	cout << "Player " << p->getEColor() << " rolled " << p->getIDiceRoll() << endl;
 #endif
 
-	delay(500);
-
+		delay(500);
+	}
 	//If roll is a 6 get another turn
 	//if(p->getIDiceRoll()==6) turnOrder.push_front(p);
 	
@@ -556,13 +581,16 @@ void turn(Player *p){
 		if(choice<0) activatePawn(p);
 		//Else move selected pawn
 		else movePawn(boardLayout[choice], p->getIDiceRoll());	
-	}	
+	}
+	
+	//Save recovery data
+	Recovery::WriteXML(turnOrder);	
 }
 
 //Pawn movement
 void movePawn(Pawn* p, int with){
 #ifdef DEBUG
-	cout << "MovePawn called with " << p->getEColor() << " " << with << endl;
+	cout << "MovePawn called with " << p->getIPosition() << " " << with << endl;
 #endif
 	//If movement is within range
 	if((p->getIPosition()+with)<(BOARD_LENGTH+10)){
@@ -587,7 +615,7 @@ void movePawn(Pawn* p, int with){
 		//Add roll to player step count
 		turnOrder.front()->setISteps(turnOrder.front()->getISteps()+with);
 		//Check for collisions
-		collision(p, to);	
+	//	collision(p, to);	
 
 #ifdef DEBUG		
 	cout << "Moved from " << p->getIPosition() << " with " << pawnsOnSquare[p->getIPosition()] << " pawns" << endl;
@@ -614,7 +642,7 @@ void collision(Pawn* p, int to){
 			for(unsigned j = 1; j < turnOrder.size(); ++j){
 				if(boardLayout[to]->getEColor()==turnOrder[j]->getEColor()){
 					//Add to other pawns' owners' lost counter
-					turnOrder[j]->setIHadTaken(turnOrder[j]->getIHadTaken()+1);
+					turnOrder[j]->setILost(turnOrder[j]->getILost()+1);
 					//Decrease other players' active pawn counter
 					turnOrder[j]->setIActivePawns(turnOrder[j]->getIActivePawns()-1);
 					//Decrease board pawn counter
@@ -678,7 +706,7 @@ void activatePawn(Player* p){
 			//Increment player active counter
 			p->setIActivePawns(p->getIActivePawns()+1);
 			//Check for collisions
-			collision(p->m_vPawns[i], getRelative(p->getEColor()));
+	//		collision(p->m_vPawns[i], getRelative(p->getEColor()));
 			//Play SFX
 			Sound::play(suprise);
 			break;
@@ -774,7 +802,7 @@ void determineTurnOrder(){
 	//Initialize player objects
 	for(int i = 0; i < PLAYERS; ++i){
 		turnOrder.push_back(new Player(order[i]));
-		turnOrder.back()->SetRenderer(renderer);
+		//Add a starting pawn
 		activatePawn(turnOrder.back());
 	}
 }

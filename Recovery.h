@@ -28,13 +28,16 @@ public:
 	virtual ~Recovery();
 
 	// returns map with all the data from the file
-	deque< Player* > ReadFromXML();
+	static deque< Player* > ReadFromXML();
 
 	// puts data in the same file and deletes the previous data
-	void WriteXML(deque <Player*>);
+	static void WriteXML(deque <Player*>, bool rolled = 0);
 
 	// prints the data
-	void Print(deque <Player*>);
+	static void Print(deque <Player*>);
+
+	// flag if player rolled the dice this turn
+	static bool hasRolled;
 };
 
 #endif /* RECOVERY_H_ */

@@ -1,12 +1,12 @@
 #include "Player.h"
 
 Player::Player(Colors color)
-		: m_iSteps(), m_iTaken(), m_iHadTaken()
+		: m_iSteps(), m_iTaken(), m_iLost()
 {
-	setEColor(color);
 	SetPawnsVector();
 	setIActivePawns(0);
 	setIDiceRoll(1);
+	setEColor(color);
 }
 
 
@@ -40,7 +40,7 @@ void Player::Print()
 	cout 	<< "Color: " << getEColor() << endl
 			<< "Steps: " << getISteps() << endl
 			<< "Taken: " << getITaken() << endl
-			<< "Had taken: " << getIHadTaken() << endl
+			<< "Lost: " << getILost() << endl
 	<< endl;
 }
 
@@ -55,14 +55,14 @@ vector<int> Player::GetPositions()
 }
 
 // setters and getters
-int Player::getIHadTaken() const
+int Player::getILost() const
 {
-	return m_iHadTaken;
+	return m_iLost;
 }
 
-void Player::setIHadTaken(int iHadTaken)
+void Player::setILost(int iLost)
 {
-	m_iHadTaken = iHadTaken;
+	m_iLost = iLost;
 }
 
 int Player::getISteps() const
@@ -114,13 +114,17 @@ Colors Player::getEColor() const
 void Player::setEColor(Colors eColor)
 {
 	m_EColor = eColor;
+	for(unsigned i = 0; i < m_vPawns.size(); i++)
+	{
+		m_vPawns[i]->setEColor(m_EColor);
+	}
+
 }
 
 void Player::SetPawnsVector()
 {
 	for (unsigned int i = 0; i < PAWNS; i++){
 		Pawn* pawn = new Pawn;
-		pawn->setEColor(getEColor());
 		m_vPawns.push_back(pawn);
 	}
 }

@@ -13,7 +13,7 @@ private:
 	Colors m_EColor;
 	int m_iSteps;
 	int m_iTaken;
-	int m_iHadTaken;
+	int m_iLost;
 	int m_iActivePawns;
 	int m_iDiceRoll;
 
@@ -31,8 +31,8 @@ public:
 	void SetRenderer(SDL_Renderer* renderer);
 
 	// setters and getters
-	int getIHadTaken() const;
-	void setIHadTaken(int iHadTaken);
+	int getILost() const;
+	void setILost(int iLost);
 
 	int getIPlayerPosition() const;
 	void setIPlayerPosition(int iPlayerPosition);
