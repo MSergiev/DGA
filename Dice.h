@@ -26,7 +26,6 @@ public:
 	Dice();
 	virtual ~Dice();
 	void render(Colors c);
-	void free();
 	void setRenderer(SDL_Renderer* renderer);
 	int roll();
 	bool Event(SDL_Event& e);
@@ -34,7 +33,7 @@ public:
 private:
 	int DiceResult;
 	Texture  DiceTexture;
-//asd
+
 };
 
 #endif /* DICE_H */

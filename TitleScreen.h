@@ -18,6 +18,7 @@ public:
 	virtual int eventHandler(SDL_Event& e);
 	virtual void render();
 private:
+
 	Button StartButton;
 	Button ContinueButton;
 	Button QuitButton;
