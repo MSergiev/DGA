@@ -53,16 +53,6 @@ void Player::Print()
 	cout << endl;
 }
 
-vector<int> Player::GetPositions()
-{
-	vector <int> result;
-	for (unsigned int i = 0; i < m_vPawns.size(); i++){
-		result[i] = m_vPawns[i]->getIPosition();
-	}
-
-	return result;
-}
-
 // setters and getters
 int Player::getILost() const
 {
@@ -115,7 +105,7 @@ void Player::setIDiceRoll(int iDiceRoll)
 		m_iDiceRoll = iDiceRoll;
 }
 
-int Player::getFinishPosition() const
+int Player::getIFinishPosition() const
 {
 	return m_iDiceRoll;
 }

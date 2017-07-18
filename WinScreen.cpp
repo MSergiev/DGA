@@ -82,12 +82,12 @@ void WinScreen::loadData(deque<Player*> data)
 	stringstream str;
 	for (unsigned int i = 0; i < data.size(); i++)
 	{
-		str << setw(6) << (i + 1) <<
+		str << setw(6) << data[i]->getIFinishPosition() <<
 			ColorToString(data[i]->getEColor()) <<
 			data[i]->getISteps() <<
 			data[i]->getITaken() <<
 			data[i]->getILost() << endl;
 	}
 	SDL_Color textColor { 255, 255, 255, 0 };
-	text.textLoad(str.str(), mFont, textColor);
+	text.textLoad(str.str(), getFont(), textColor);
 }
