@@ -604,6 +604,8 @@ void movePawn(Pawn* p, int with){
 		   to = (p->getIPosition()+with)%BOARD_LENGTH;
 		//If on squares
 		else to = BOARD_LENGTH+with;
+		//Check for collisions
+		collision(p, to);
 		cout << "Setting position at " << to << endl;
 		//Place pawn in new location
 		boardLayout[to] = boardLayout[p->getIPosition()];
@@ -617,8 +619,7 @@ void movePawn(Pawn* p, int with){
 		p->setIPosition(to);
 		//Add roll to player step count
 		turnOrder.front()->setISteps(turnOrder.front()->getISteps()+with);
-		//Check for collisions
-	//	collision(p, to);	
+	
 
 #ifdef DEBUG		
 	cout << "Moved from " << p->getIPosition() << " with " << pawnsOnSquare[p->getIPosition()] << " pawns" << endl;
@@ -639,8 +640,8 @@ void collision(Pawn* p, int to){
 	if(pawnsOnSquare[to]!=0){
 		//If occupant is a different player
 		if(boardLayout[to]->getEColor()!=p->getEColor()){
-			//Return other pawn to start
-			boardLayout[to]->setIPosition(0);
+			//Return other pawn to base
+			boardLayout[to]->setIPosition(-1);
 			//Go through players to find occupying pawn owner
 			for(unsigned j = 1; j < turnOrder.size(); ++j){
 				if(boardLayout[to]->getEColor()==turnOrder[j]->getEColor()){
@@ -709,7 +710,7 @@ void activatePawn(Player* p){
 			//Increment player active counter
 			p->setIActivePawns(p->getIActivePawns()+1);
 			//Check for collisions
-	//		collision(p->m_vPawns[i], getRelative(p->getEColor()));
+			collision(p->m_vPawns[i], getRelative(p->getEColor()));
 			//Play SFX
 			Sound::play(suprise);
 			break;
