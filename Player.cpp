@@ -41,7 +41,15 @@ void Player::Print()
 			<< "Steps: " << getISteps() << endl
 			<< "Taken: " << getITaken() << endl
 			<< "Lost: " << getILost() << endl
+			<< "Active: " << getIActivePawns() << endl
+			<< "Roll: " << getIDiceRoll() << endl
+			<< "Pawn positions:"
 	<< endl;
+	for (unsigned i = 0; i < m_vPawns.size(); i++)
+	{
+		cout << m_vPawns[i]->getIPosition() << " ";
+	}
+	cout << endl;
 }
 
 vector<int> Player::GetPositions()

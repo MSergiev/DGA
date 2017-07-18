@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <Game Rolled="false">
 	<Player>
-		<Color>1</Color>
-		<Steps>10</Steps>
+		<Color>2</Color>
+		<Steps>4</Steps>
 		<Taken>0</Taken>
 		<Lost>0</Lost>
 		<Active>1</Active>
-		<LastDiceRoll>6</LastDiceRoll>
+		<LastDiceRoll>4</LastDiceRoll>
 		<Pawns>
-			<Pawn Pos="6" />
+			<Pawn Pos="18" />
 			<Pawn Pos="-1" />
 			<Pawn Pos="-1" />
 			<Pawn Pos="-1" />
@@ -16,14 +16,14 @@
 		</Pawns>
 	</Player>
 	<Player>
-		<Color>2</Color>
-		<Steps>8</Steps>
+		<Color>1</Color>
+		<Steps>6</Steps>
 		<Taken>0</Taken>
 		<Lost>0</Lost>
 		<Active>1</Active>
-		<LastDiceRoll>4</LastDiceRoll>
+		<LastDiceRoll>6</LastDiceRoll>
 		<Pawns>
-			<Pawn Pos="26" />
+			<Pawn Pos="6" />
 			<Pawn Pos="-1" />
 			<Pawn Pos="-1" />
 			<Pawn Pos="-1" />

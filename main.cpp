@@ -207,12 +207,8 @@ int main(int argc, char* argv[]){
 			//Render objects
 			render();
 			
-			//Execute player turns
+			//Execute player turn
 			turn(turnOrder.front());
-			//Cycle players
-			turnOrder.push_back(turnOrder.front());
-			//Remove current player from queue
-			turnOrder.pop_front();
 
 			//Increment turn counter
 			turns++;
@@ -406,6 +402,8 @@ bool init(){
 							}
 						}
 					}
+					cout << "Player data:" << endl;
+					Recovery::Print(turnOrder);
 
 				}
 			}
@@ -583,6 +581,11 @@ void turn(Player *p){
 		else movePawn(boardLayout[choice], p->getIDiceRoll());	
 	}
 	
+	//Cycle players
+	turnOrder.push_back(turnOrder.front());
+	//Remove current player from queue
+	turnOrder.pop_front();
+
 	//Save recovery data
 	Recovery::WriteXML(turnOrder);	
 }
@@ -764,7 +767,7 @@ int getHighlightedChoice(){
 		for(unsigned i = 0; i < activeHighlighters.size(); i++) cout << (activeHighlighters[i]-1) << " ";
 		cout << endl;
 		//Wait for user choice
-		while(!quit){
+		while(1){
 			//Traverse active highlighters
 			for(unsigned i = 0; i < activeHighlighters.size(); ++i){
 				//If clicked
@@ -805,6 +808,9 @@ void determineTurnOrder(){
 		//Add a starting pawn
 		activatePawn(turnOrder.back());
 	}
+#ifdef DEBUG
+	cout << "Player turns: " << turnOrder[0]->getEColor() << " " << turnOrder[1]->getEColor() << " " << turnOrder[2]->getEColor() << endl;
+#endif
 }
 
 //Get relative position

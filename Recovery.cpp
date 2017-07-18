@@ -32,7 +32,7 @@ deque< Player* > Recovery::ReadFromXML()
 	// checking if the file is loaded
 	if (!doc.load_file("Recovery.xml"))
 	{
-		cerr << "The XML file would not load." << endl;
+		cout << "XML file not found" << endl;
 	} else {
 
 	pugi::xml_node players = doc.first_child();
@@ -54,16 +54,14 @@ deque< Player* > Recovery::ReadFromXML()
 			// read pawn positions
 			int count = 0;
 			pugi::xml_node pawns = player.child("Pawns");
-			cout << pawns.first_child().text() << endl;
 			for(pugi::xml_node pawn = pawns.first_child(); pawn;
 				   	pawn = pawn.next_sibling())
 			{
-				cout << pawn.first_attribute().as_int() << " " << count << endl;
 				person->m_vPawns[count]->setIPosition(pawn.first_attribute().as_int());
 				count++;
 			}
 			
-			result.push_front(person);
+			result.push_back(person);
 	
 		}
 	}
