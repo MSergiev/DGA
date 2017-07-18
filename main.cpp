@@ -390,21 +390,24 @@ bool init(){
 					if(!turnOrder.size()){
 					   cout << "Recovery data not found" << endl;
 				   	   determineTurnOrder();
-					} else cout << "Recovery data found" << endl;
+					} else {
+						cout << "Recovery data found" << endl;
 					
-					//Set player data
-					for(unsigned i = 0; i < turnOrder.size(); ++i){
-						turnOrder[i]->SetRenderer(renderer);
-						for(unsigned j = 0; j < turnOrder[i]->m_vPawns.size(); ++j){
-							if(turnOrder[i]->m_vPawns[j]->getIPosition()>-1){
-								pawnsOnSquare[turnOrder[i]->m_vPawns[j]->getIPosition()]++;
-								boardLayout[turnOrder[i]->m_vPawns[j]->getIPosition()] = turnOrder[i]->m_vPawns[j];
+						//Set player data
+						for(unsigned i = 0; i < turnOrder.size(); ++i){
+							for(unsigned j = 0; j < turnOrder[i]->m_vPawns.size(); ++j){
+								if(turnOrder[i]->m_vPawns[j]->getIPosition()>-1){
+									pawnsOnSquare[turnOrder[i]->m_vPawns[j]->getIPosition()]++;
+									boardLayout[turnOrder[i]->m_vPawns[j]->getIPosition()] = turnOrder[i]->m_vPawns[j];
+								}
 							}
 						}
+						cout << "Player data:" << endl;
+						Recovery::Print(turnOrder);
 					}
-					cout << "Player data:" << endl;
-					Recovery::Print(turnOrder);
-
+					for(unsigned i = 0; i < turnOrder.size(); ++i){
+						turnOrder[i]->SetRenderer(renderer);
+					}
 				}
 			}
 	}
@@ -701,6 +704,8 @@ void activatePawn(Player* p){
 	for(unsigned i = 0; i < p->m_vPawns.size(); ++i){
 		//If current pawn is inactive
 		if(p->m_vPawns[i]->getIPosition()==-1){
+			//Check for collisions
+			collision(p->m_vPawns[i], getRelative(p->getEColor()));
 			//Place pawn on start position
 			p->m_vPawns[i]->setIPosition(getRelative(p->getEColor()));
 			//Place pawn on game board
@@ -709,8 +714,6 @@ void activatePawn(Player* p){
 			pawnsOnSquare[getRelative(p->getEColor())]++;
 			//Increment player active counter
 			p->setIActivePawns(p->getIActivePawns()+1);
-			//Check for collisions
-			collision(p->m_vPawns[i], getRelative(p->getEColor()));
 			//Play SFX
 			Sound::play(suprise);
 			break;
