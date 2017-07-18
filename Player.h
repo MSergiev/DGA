@@ -28,15 +28,11 @@ public:
 	// methods
 	void Print();
 	void Render(vector<pair<int, int> > pos);
-	vector<int> GetPositions();
 	void SetRenderer(SDL_Renderer* renderer);
 
 	// setters and getters
 	int getILost() const;
 	void setILost(int iLost);
-
-	int getIPlayerPosition() const;
-	void setIPlayerPosition(int iPlayerPosition);
 
 	int getISteps() const;
 	void setISteps(int iSteps);
@@ -50,7 +46,7 @@ public:
 	int getIDiceRoll() const;
 	void setIDiceRoll(int iDiceRoll);
 
-	int getFinishPosition() const;
+	int getIFinishPosition() const;
 	void setIFinishPosition(int iFinishPosition);
 	
 	Colors getEColor() const;
