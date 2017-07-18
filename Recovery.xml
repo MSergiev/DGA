@@ -1,20 +1,48 @@
-<Game>
-	<Player Position="1">
-		<Name>Yellow</Name>
-		<Steps>4365</Steps>
-		<Taken>9</Taken>
-		<HadTaken>5</HadTaken>
+<?xml version="1.0"?>
+<Game Rolled="false">
+	<Player>
+		<Color>2</Color>
+		<Steps>4</Steps>
+		<Taken>0</Taken>
+		<Lost>0</Lost>
+		<Active>1</Active>
+		<LastDiceRoll>4</LastDiceRoll>
+		<Pawns>
+			<Pawn Pos="18" />
+			<Pawn Pos="-1" />
+			<Pawn Pos="-1" />
+			<Pawn Pos="-1" />
+			<Pawn Pos="-1" />
+		</Pawns>
 	</Player>
-	<Player Position="2">
-		<Name>Blue</Name>
-		<Steps>1455</Steps>
-		<Taken>5</Taken>
-		<HadTaken>0</HadTaken>
+	<Player>
+		<Color>1</Color>
+		<Steps>6</Steps>
+		<Taken>0</Taken>
+		<Lost>0</Lost>
+		<Active>1</Active>
+		<LastDiceRoll>6</LastDiceRoll>
+		<Pawns>
+			<Pawn Pos="6" />
+			<Pawn Pos="-1" />
+			<Pawn Pos="-1" />
+			<Pawn Pos="-1" />
+			<Pawn Pos="-1" />
+		</Pawns>
 	</Player>
-	<Player Position="3">
-		<Name>Red</Name>
-		<Steps>5654</Steps>
-		<Taken>1</Taken>
-		<HadTaken>7</HadTaken>
+	<Player>
+		<Color>3</Color>
+		<Steps>4</Steps>
+		<Taken>0</Taken>
+		<Lost>0</Lost>
+		<Active>1</Active>
+		<LastDiceRoll>2</LastDiceRoll>
+		<Pawns>
+			<Pawn Pos="32" />
+			<Pawn Pos="-1" />
+			<Pawn Pos="-1" />
+			<Pawn Pos="-1" />
+			<Pawn Pos="-1" />
+		</Pawns>
 	</Player>
 </Game>

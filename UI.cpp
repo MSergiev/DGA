@@ -43,8 +43,6 @@ void UI::loadBackground(string backgroundPath){
 void UI::setRenderer(SDL_Renderer * renderer){
 	//Set class renderer
 	this->mRenderer = renderer;
-	//Load font if path is not empty
-	if(msFontPath!=string()) loadFont(msFontPath, miFontSize);
 	//Load background if path is not empty
 	if(msBackgroundPath!=string()) loadBackground(msBackgroundPath);
 }
