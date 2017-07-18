@@ -16,6 +16,7 @@ private:
 	int m_iLost;
 	int m_iActivePawns;
 	int m_iDiceRoll;
+	int m_iFinishPosition;
 
 	// private method
 	void SetPawnsVector();
@@ -49,6 +50,9 @@ public:
 	int getIDiceRoll() const;
 	void setIDiceRoll(int iDiceRoll);
 
+	int getFinishPosition() const;
+	void setIFinishPosition(int iFinishPosition);
+	
 	Colors getEColor() const;
 	void setEColor(Colors eColor);
 

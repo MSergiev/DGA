@@ -6,6 +6,7 @@ Player::Player(Colors color)
 	SetPawnsVector();
 	setIActivePawns(0);
 	setIDiceRoll(1);
+	setIFinishPosition(0);
 	setEColor(color);
 }
 
@@ -112,6 +113,16 @@ void Player::setIDiceRoll(int iDiceRoll)
 {
 	if(iDiceRoll>=1 && iDiceRoll<=6)
 		m_iDiceRoll = iDiceRoll;
+}
+
+int Player::getFinishPosition() const
+{
+	return m_iDiceRoll;
+}
+
+void Player::setIFinishPosition(int iFinishPosition)
+{
+	m_iFinishPosition = iFinishPosition;
 }
 
 Colors Player::getEColor() const
