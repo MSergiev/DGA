@@ -24,7 +24,7 @@ int Dice::roll() {
 	DiceResult=(rand()%6)+1;
 	return DiceResult;
 }
-//Flag to check if user has clicked inside the dice , and rolls the dice.
+//Flag to check if user has clicked inside the dice , and if so , rolls the dice.
 bool Dice::Event(SDL_Event& e){
 	bool hasClicked = 0;
 	if (e.type == SDL_MOUSEBUTTONDOWN) {

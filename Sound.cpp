@@ -6,7 +6,7 @@
  */
 
 #include "Sound.h"
-// massives that keep the soundeffects and  music
+// massives/arrays that keep the soundeffects and  music
 Mix_Chunk* Sound::Seffects[];
 Mix_Music* Sound::mus[];
 

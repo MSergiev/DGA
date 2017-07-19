@@ -31,7 +31,7 @@ public:
 	static void music(MUSIC music);
 	virtual ~Sound();
 private:
-	// static massives   that allows us to use them in diffrend classes
+	// static massives/arrays that can be accessed by static methods.
 	static Mix_Chunk* Seffects[29];
 	static Mix_Music* mus[3];
 };
