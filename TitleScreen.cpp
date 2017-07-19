@@ -7,15 +7,16 @@
 
 #include "TitleScreen.h"
 
+//empty constructor
 TitleScreen::TitleScreen() {
 	// TODO Auto-generated constructor stub
-
 }
-
+//empty destructor
 TitleScreen::~TitleScreen() {
 	// TODO Auto-generated destructor stub
 }
-
+//handles the event - > when a button is pressed to
+//return the state of the button
 int TitleScreen::eventHandler(SDL_Event& e) {
 	int ButtonState=0;
 	ButtonState|=StartButton.isClicked(e);
@@ -26,7 +27,7 @@ int TitleScreen::eventHandler(SDL_Event& e) {
 	return ButtonState;
 
 }
-
+//initializes the  buttons size and position
 void TitleScreen::init() {
 	loadBackground(BOARD_PATH);
 	UI::loadFont(FONT_PATH,12);
@@ -45,7 +46,7 @@ void TitleScreen::init() {
 	QuitButton.setSize(200,30);
 	QuitButton.setLocation((WIDTH-200)/2,(HEIGHT+300)/2);
 }
-
+// render function that draws the image on the screen
 void TitleScreen::render() {
 	UI::render();
 	StartButton.render();
