@@ -428,7 +428,7 @@ void eventHandler(){
 			title = 0;
 			loop = 0;
 			win = 0;
-			std::exit(0);
+			//std::exit(0);
 		}
 		//If on title screen
 		if(title){
@@ -478,27 +478,33 @@ pair<int, int> getCoords(Colors c, int p){
 	int entry = getRelative(c, BOARD_LENGTH-1);
 	//If in base
 	if(p<0)	coords = {IDLE_POS[c-1][0], IDLE_POS[c-1][1]};
-	//If on safe squares	
-	else if(p>=entry){
-		//Calculate position
-		for(int i = 0; i < entry; ++i){
-			//If on active board
-			coords.first+=NEXT_SQUARE[i].first*SQUARE_SIZE;
-			coords.second+=NEXT_SQUARE[i].second*SQUARE_SIZE;
-		}
-		for(int i = 0; i < p-BOARD_LENGTH; ++i){
-			coords.first+=FINAL_SQUARE[c-1].first*SQUARE_SIZE;
-			coords.second+=FINAL_SQUARE[c-1].second*SQUARE_SIZE;
-		}
-	}
 	//If on active squares	
-	else {
+	else if(p<=entry){
 		//Calculate position
 		for(int i = 0; i < p; ++i){
 			//If on active board
 			coords.first+=NEXT_SQUARE[i].first*SQUARE_SIZE;
 			coords.second+=NEXT_SQUARE[i].second*SQUARE_SIZE;
 		}
+	}
+	//If on safe squares	
+	else if(p<=entry+5){
+		//Calculate position
+		for(int i = 0; i < entry; ++i){
+			//If on active board
+			coords.first+=NEXT_SQUARE[i].first*SQUARE_SIZE;
+			coords.second+=NEXT_SQUARE[i].second*SQUARE_SIZE;
+		}
+		for(int i = 0; i < p-(BOARD_LENGTH-1); ++i){
+			coords.first+=SAFE_SQUARE[c-1].first*SQUARE_SIZE;
+			coords.second+=SAFE_SQUARE[c-1].second*SQUARE_SIZE;
+		}
+	}
+	//If on final squares
+   	else {
+		//Calculate position
+		coords.first=FINAL_SQUARE[c-1].first+(p-BOARD_LENGTH-5)*SQUARE_SIZE/2;
+		coords.second=FINAL_SQUARE[c-1].second;
 	}
 	//Return coordinate pair
 	return coords;
@@ -512,7 +518,7 @@ void turn(Player *p){
 	//If player has rolled before recovery
 	if(!Recovery::hasRolled){
 		//Roll the dice
-		p->setIDiceRoll(diceRoll(p->getEColor()));
+		//p->setIDiceRoll(diceRoll(p->getEColor()));
 		switch(p->getEColor()){
 			case YELLOW: p->setIDiceRoll(1); break;
 			case RED: p->setIDiceRoll(4); break;
@@ -598,14 +604,14 @@ void movePawn(Pawn* p, int with){
 	cout << "MovePawn called with " << p->getIPosition() << " " << with << endl;
 #endif
 	//If movement is within range
-	if((p->getIPosition()+with)<(BOARD_LENGTH+10)){
+	if(getRelative(p->getEColor(),p->getIPosition()+with)<(BOARD_LENGTH+10)){
 		//Calculate new player position
 		int to;
 		//If on active squares
-		if((p->getIPosition()+with)<BOARD_LENGTH)
+		if(getRelative(p->getEColor(),p->getIPosition()+with)<BOARD_LENGTH)
 		   to = (p->getIPosition()+with)%BOARD_LENGTH;
 		//If on safe squares
-		else to = BOARD_LENGTH+with;
+		else to = p->getIPosition()+with;
 		//Check for collisions
 		collision(p, to);
 		cout << "Setting position at " << to << endl;

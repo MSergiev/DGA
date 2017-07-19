@@ -63,11 +63,28 @@ const pair<int, int> NEXT_SQUARE[]{
 	{-1,0}
 };
 
-//Player-specific squares direction (x,y)
-const pair<int,int> FINAL_SQUARE[]{
+//Player-specific safe squares direction (x,y)
+const pair<int,int> SAFE_SQUARE[]{
 	{0,1}, //YELLOW
 	{1,0}, //RED
 	{0,-1} //BLUE
+};
+
+//Player-specific final square coordinates (pixels)
+const pair<int,int> FINAL_SQUARE[]{
+	{WIDTH/2-3*SQUARE_SIZE/2, HEIGHT/2-3*SQUARE_SIZE/2}, //YELLOW
+	{WIDTH/2-3*SQUARE_SIZE/2, HEIGHT/2}, //RED
+	{WIDTH/2-3*SQUARE_SIZE/2, HEIGHT/2+3*SQUARE_SIZE/2}, //BLUE
+};
+
+//Sprite sizes (pixels)
+const int SPRITE_SCALE[]{
+	0, //No sprite
+	48, //One sprite per square
+	24,	//Two sprites per square
+	24,	//Three sprites per square
+	24,	//Four sprites per square
+	12	//Five sprites per square
 };
 
 //Font path
