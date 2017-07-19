@@ -27,7 +27,7 @@ public:
 	Recovery();
 	virtual ~Recovery();
 
-	// returns map with all the data from the file
+	// returns deque with all the data from the file
 	static deque< Player* > ReadFromXML();
 
 	// puts data in the same file and deletes the previous data
