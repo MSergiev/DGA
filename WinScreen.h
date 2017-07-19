@@ -24,6 +24,8 @@ private:
 	Button m_bRestart;
 	Button m_BQuit;
 	Texture text;
+	//String array to hold each individual player data
+	string m_sPlayerData[PLAYERS][PLAYER_DATA];
 
 	// private color
 	string ColorToString(Colors color);

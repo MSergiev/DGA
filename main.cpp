@@ -46,6 +46,9 @@ bool title = 1;
 bool loop = 1;
 bool win = 1;
 
+//Force ignore recovery
+bool ignoreRecovery = 0;
+
 //SDL event container
 SDL_Event event;
 
@@ -80,6 +83,9 @@ int turns = 0;
 //Ordered player container
 deque<Player*> turnOrder;
 
+//Deque holding finished players
+deque<Player*> finished;
+
 //Active highlighter vector
 vector<int> activeHighlighters;
 
@@ -88,7 +94,10 @@ vector<int> activeHighlighters;
 //-----------------------------
 
 //SDL initializing function
-bool init();
+bool initSDL();
+
+//Game object initializing function
+void initGame();
 
 //Event handler
 void eventHandler();
@@ -171,7 +180,7 @@ int main(int argc, char* argv[]){
 	argc = 0; argv = 0;
 
 	//Initialize SDL
-	if(!init()) return 1;
+	if(!initSDL()) return 1;
 
 	//Play BGM
 	//Sound::music(rock);
@@ -189,7 +198,9 @@ int main(int argc, char* argv[]){
 #ifdef DEBUG
 		cout << "Exited title screen" << endl;
 #endif
-		
+		//Initialize game data
+		initGame();
+
 		//On game loop
 		while(loop){
 
@@ -307,12 +318,11 @@ void render(bool renderDice){
 		if(renderDice) dice.render(turnOrder.front()->getEColor());
 }
 
-
 //SDL inititalizing function
-bool init(){
+bool initSDL(){
 	
 #ifdef DEBUG
-	cout << "Init called" << endl;
+	cout << "InitSDL called" << endl;
 #endif
 	
 	//Success flag
@@ -361,46 +371,15 @@ bool init(){
 				if(font==NULL){
 					cerr << "Font error: " << TTF_GetError() << endl;
 				} else {
-					//Initialize game objects
+					//Initialize sound
 					Sound::load();
+					//Initialize UI
 					titleScreen.setRenderer(renderer);
 					titleScreen.setFont(font);
 					titleScreen.init();
 					winScreen.setRenderer(renderer);
 					winScreen.setFont(font);
 					winScreen.init();
-					dice.init();
-					dice.setRenderer(renderer);
-					board.setRenderer(renderer);
-					button.setRenderer(renderer);
-					button.setLabel("CLICK", font);
-
-					for(int i = 0; i < BOARD_LENGTH+6; ++i)
-						boardHighlghters[i].setRenderer(renderer);
-				
-					//Try to recover state from XML	
-					turnOrder = Recovery::ReadFromXML();
-					if(!turnOrder.size()){
-					   cout << "Recovery data not found" << endl;
-				   	   determineTurnOrder();
-					} else {
-						cout << "Recovery data found" << endl;
-					
-						//Set player data
-						for(unsigned i = 0; i < turnOrder.size(); ++i){
-							for(unsigned j = 0; j < turnOrder[i]->m_vPawns.size(); ++j){
-								if(turnOrder[i]->m_vPawns[j]->getIPosition()>-1){
-									pawnsOnSquare[turnOrder[i]->m_vPawns[j]->getIPosition()]++;
-									boardLayout[turnOrder[i]->m_vPawns[j]->getIPosition()] = turnOrder[i]->m_vPawns[j];
-								}
-							}
-						}
-						cout << "Player data:" << endl;
-						Recovery::Print(turnOrder);
-					}
-					for(unsigned i = 0; i < turnOrder.size(); ++i){
-						turnOrder[i]->SetRenderer(renderer);
-					}
 				}
 			}
 	}
@@ -411,6 +390,48 @@ bool init(){
 
 	//Return success flag
 	return success;
+}
+
+//Game inititalizing function
+void initGame(){
+	
+#ifdef DEBUG
+	cout << "InitGame called" << endl;
+#endif
+
+	//Initialize game objects
+	dice.init();
+	dice.setRenderer(renderer);
+	board.setRenderer(renderer);
+	button.setRenderer(renderer);
+	button.setLabel("CLICK", font);
+
+	for(int i = 0; i < BOARD_LENGTH+6; ++i)
+		boardHighlghters[i].setRenderer(renderer);
+
+	//Try to recover state from XML	
+	turnOrder = Recovery::ReadFromXML();
+	if(!turnOrder.size() || ignoreRecovery){
+	   cout << "Starting new game" << endl;
+   	   determineTurnOrder();
+	} else {
+		cout << "Recovering state" << endl;
+	
+	//Set player data
+		for(unsigned i = 0; i < turnOrder.size(); ++i){
+			for(unsigned j = 0; j < turnOrder[i]->m_vPawns.size(); ++j){
+				if(turnOrder[i]->m_vPawns[j]->getIPosition()>-1){
+					pawnsOnSquare[turnOrder[i]->m_vPawns[j]->getIPosition()]++;
+					boardLayout[turnOrder[i]->m_vPawns[j]->getIPosition()] = turnOrder[i]->m_vPawns[j];
+				}
+			}
+		}
+		cout << "Player data:" << endl;
+		Recovery::Print(turnOrder);
+	}
+	for(unsigned i = 0; i < turnOrder.size(); ++i){
+		turnOrder[i]->SetRenderer(renderer);
+	}
 }
 
 //Event handler
@@ -432,21 +453,21 @@ void eventHandler(){
 		if(title){
 			//Get current button state
 			int titleState = titleScreen.eventHandler(event);
-			//If start button is clicked exit title screen
-			if(titleState & 0b100){ title = 0; loop = 1; }
-			//If continue button is clicked exit title screen
-			if(titleState & 0b010){ title = 0; loop = 1; }
-			//If quit button is clicked quit application
-			if(titleState & 0b001){ title = 0; loop = 0; win = 0; quit = 1; }
+			//If start button is clicked
+			if(titleState & TITLE_START){ title = 0; loop = 1; ignoreRecovery = 1; }
+			//If continue button is clicked
+			else if(titleState & TITLE_CONTINUE){ title = 0; loop = 1; }
+			//If quit button is clicked
+			else if(titleState & TITLE_QUIT){ title = 0; loop = 0; win = 0; quit = 1; }
 		}
 		//If on win screen
 	   	else if(win){
 			//Get current button state
 			int winState = winScreen.eventHandler(event);
-			//If restart button is clicked exit win screen
-			if(winState & 0b01){ win = 0; title = 0; loop = 1; }
-			//If exit button is clicked quit application
-			if(winState & 0b10){ win = 0; title = 0; }
+			//If restart button is clicked
+			if(winState & WIN_RESTART){ win = 0; title = 0; loop = 1; ignoreRecovery = 1; }
+			//If exit button is clicked
+			else if(winState & WIN_QUIT){ win = 0; title = 0; loop = 0; quit = 1; }
 		}
 		if(button.isClicked(event)) Sound::play(bruh);
 	}
@@ -812,6 +833,11 @@ void determineTurnOrder(){
 #ifdef DEBUG
 	cout << "DetermineTurnOrder called" << endl;
 #endif
+	//Clear old data if existing
+	for(unsigned i = 0; i < turnOrder.size(); ++i){
+		delete turnOrder.front();
+		turnOrder.pop_front();
+	}
 	//Temporary vector of colors to choose from
 	vector<Colors> order = {RED, BLUE, YELLOW};
 	//Shuffle vector
@@ -819,6 +845,8 @@ void determineTurnOrder(){
 	//Initialize player objects
 	for(int i = 0; i < PLAYERS; ++i){
 		turnOrder.push_back(new Player(order[i]));
+		//Set player class renderer
+		turnOrder.back()->SetRenderer(renderer);
 		//Add a starting pawn
 		activatePawn(turnOrder.back());
 	}

@@ -23,6 +23,24 @@ using std::pair;
 //Number of pawns
 #define PAWNS 5
 
+//UI button size
+#define BUTTON_WIDTH 100
+#define BUTTON_HEIGHT 50
+
+//Win screen data spacing
+#define WIN_OFFSET 80
+
+//Player data amount
+#define PLAYER_DATA 5
+
+//Drawing colors
+#define C_WHITE {255,255,255,255}
+#define C_BLACK {0,0,0,255}
+#define C_RED {255,0,0,255}
+#define C_BLUE {0,255,0,255}
+#define C_GREEN {0,0,255,255}
+#define C_YELLOW {255,255,0,255}
+
 //Player colors
 enum Colors{
 	NONE=0, YELLOW, RED, BLUE
@@ -87,6 +105,9 @@ const int SPRITE_SCALE[]{
 	12	//Five sprites per square
 };
 
+//Font size
+#define FONT_SIZE 12
+
 //Font path
 #define FONT_PATH "./GFX/font.ttf"
 
@@ -98,6 +119,28 @@ const int SPRITE_SCALE[]{
 
 //Board texture path
 #define BOARD_PATH "./GFX/board.png"
+
+//Win screen background path
+#define WIN_PATH "./GFX/table.png"
+
+//Title screen background path
+#define TITLE_PATH "./GFX/title.png"
+
+//UI button vertical offset
+#define VERT_OFFSET 150
+
+//UI constants
+#define TITLE_START 0b100
+#define TITLE_CONTINUE 0b010
+#define TITLE_QUIT 0b001
+#define WIN_RESTART 0b01
+#define WIN_QUIT 0b10
+
+//Rulebook images path
+#define RULES_1_PATH "./GFX/Rules of LUDO/1.png"
+#define RULES_2_PATH "./GFX/Rules of LUDO/2.png"
+#define RULES_3_PATH "./GFX/Rules of LUDO/3.png"
+#define RULES_4_PATH "./GFX/Rules of LUDO/4.png"
 
 //Debug mode
 #define DEBUG
