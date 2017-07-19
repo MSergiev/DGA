@@ -48,7 +48,7 @@ void TitleScreen::init() {
 }
 // render function that draws the image on the screen
 void TitleScreen::render() {
-	UI::render();
+	UI::render(); //calls the render method from the base class
 	StartButton.render();
 	ContinueButton.render();
 	QuitButton.render();
