@@ -16,6 +16,7 @@
 #include "Dice.h"
 #include "Button.h"
 #include "TitleScreen.h"
+#include "WinScreen.h"
 #include "Recovery.h"
 
 //Misc library inclusion
@@ -43,7 +44,7 @@ bool quit = 0;
 //Game state flags
 bool title = 0;
 bool loop = 1;
-bool win = 0;
+bool win = 1;
 
 //Player pawn selection flag
 bool canSelect = 0;
@@ -65,6 +66,9 @@ Dice dice;
 
 //Title screen object
 TitleScreen titleScreen;
+
+//Win screen object
+WinScreen winScreen;
 
 //Active board layout (top row leftmost square considered 1)
 Pawn* boardLayout[BOARD_LENGTH+10] = {NULL};
@@ -208,7 +212,9 @@ int main(int argc, char* argv[]){
 			render();
 			
 			//Execute player turn
-			turn(turnOrder.front());
+			for(unsigned i = 0; i < turnOrder.size(); i++)
+				if(turnOrder[i]->getEColor()==YELLOW){ turn(turnOrder[i]); break; }
+			//turn(turnOrder.front());
 
 			//Increment turn counter
 			turns++;
@@ -219,6 +225,10 @@ int main(int argc, char* argv[]){
 	
 		//On game win
 		while(win){
+			eventHandler();
+			winScreen.loadData(turnOrder);
+			winScreen.render();
+			SDL_RenderPresent(renderer);
 		}
 	}
 
@@ -229,29 +239,12 @@ int main(int argc, char* argv[]){
 	//Free resources
 	free();
 
-
-	// 	if you want to see how Recovery class works:
-		// Statistics is a class that I needed to make for help
-		// but i think it is going to be helpful
-		//vector<Player> mP;
-	 	// to use ReadFromXML method you need to make an object of Recovery class
-		//Recovery r;
-		// ReadFromXML returns a vector<Player> value
-		//mP = r.ReadFromXML();
-		// print the value of the xml file:
-		//r.Print(mP);
-		// writes the statistics in the same file
-		//r.WriteXML(mP);
-
 #ifdef DEBUG
 	cout << "========= SUCCESSFUL EXIT =========" << endl;
 #endif
 	//Successful exit
 	return 0;
 }
-
-
-
 
 //-----------------------------
 //----------FUNCTIONS----------
@@ -376,6 +369,9 @@ bool init(){
 					titleScreen.setRenderer(renderer);
 					titleScreen.setFont(font);
 					titleScreen.init();
+					winScreen.setRenderer(renderer);
+					winScreen.setFont(font);
+					winScreen.init();
 					dice.init();
 					dice.setRenderer(renderer);
 					board.setRenderer(renderer);
@@ -478,19 +474,22 @@ pair<int, int> getCoords(Colors c, int p){
 #endif
 	//Coordinate pair object
 	pair<int, int> coords = {ZERO_X_POS, ZERO_Y_POS};
-	//If idle position
-	if(p<0){
-		coords = {IDLE_POS[c-1][0], IDLE_POS[c-1][1]};
-	}
+	//Find safe zone entry point
+	int entry = getRelative(c, BOARD_LENGTH-1);
+	//If in base
+	if(p<0)	coords = {IDLE_POS[c-1][0], IDLE_POS[c-1][1]};
 	//If on safe squares	
-	else if(p>=BOARD_LENGTH){
-		//Find entry point
-		int entry = (START_POS[c-1]-1)%BOARD_LENGTH;
+	else if(p>=entry){
 		//Calculate position
 		for(int i = 0; i < entry; ++i){
+			//If on active board
+			coords.first+=NEXT_SQUARE[i].first*SQUARE_SIZE;
+			coords.second+=NEXT_SQUARE[i].second*SQUARE_SIZE;
+		}
+		for(int i = 0; i < p-BOARD_LENGTH; ++i){
 			coords.first+=FINAL_SQUARE[c-1].first*SQUARE_SIZE;
 			coords.second+=FINAL_SQUARE[c-1].second*SQUARE_SIZE;
-		}	
+		}
 	}
 	//If on active squares	
 	else {
@@ -511,26 +510,26 @@ void turn(Player *p){
 	cout << "Turn called with " << p->getEColor() << endl;
 #endif
 	//If player has rolled before recovery
-	cout << Recovery::hasRolled << endl;
 	if(!Recovery::hasRolled){
 		//Roll the dice
 		p->setIDiceRoll(diceRoll(p->getEColor()));
 		switch(p->getEColor()){
-			case YELLOW: p->setIDiceRoll(6); break;
+			case YELLOW: p->setIDiceRoll(1); break;
 			case RED: p->setIDiceRoll(4); break;
 			default: p->setIDiceRoll(2); break;
 		}
 		//Save recovery data
-		Recovery::WriteXML(turnOrder, 1);
+	//	Recovery::WriteXML(turnOrder, 1);
 
 #ifdef DEBUG
 	cout << "Player " << p->getEColor() << " rolled " << p->getIDiceRoll() << endl;
 #endif
 
-		delay(500);
+		delay(100);
 	}
 	//If roll is a 6 get another turn
-	//if(p->getIDiceRoll()==6) turnOrder.push_front(p);
+	//if(p->getIDiceRoll()==6)
+	 turnOrder.push_front(p);
 	
 	//If player has no active pawns
 	if(p->getIActivePawns()==0){
@@ -590,7 +589,7 @@ void turn(Player *p){
 	turnOrder.pop_front();
 
 	//Save recovery data
-	Recovery::WriteXML(turnOrder);	
+//	Recovery::WriteXML(turnOrder);	
 }
 
 //Pawn movement
@@ -605,7 +604,7 @@ void movePawn(Pawn* p, int with){
 		//If on active squares
 		if((p->getIPosition()+with)<BOARD_LENGTH)
 		   to = (p->getIPosition()+with)%BOARD_LENGTH;
-		//If on squares
+		//If on safe squares
 		else to = BOARD_LENGTH+with;
 		//Check for collisions
 		collision(p, to);
@@ -622,11 +621,10 @@ void movePawn(Pawn* p, int with){
 		p->setIPosition(to);
 		//Add roll to player step count
 		turnOrder.front()->setISteps(turnOrder.front()->getISteps()+with);
-	
 
 #ifdef DEBUG		
 	cout << "Moved from " << p->getIPosition() << " with " << pawnsOnSquare[p->getIPosition()] << " pawns" << endl;
-	cout << "Moved to " << to << " with " << to << " pawns" << endl;
+	cout << "Moved to " << to << " with " << pawnsOnSquare[to] << " pawns" << endl;
 #endif	
 
 		//Play SFX
@@ -646,16 +644,16 @@ void collision(Pawn* p, int to){
 			//Return other pawn to base
 			boardLayout[to]->setIPosition(-1);
 			//Go through players to find occupying pawn owner
-			for(unsigned j = 1; j < turnOrder.size(); ++j){
-				if(boardLayout[to]->getEColor()==turnOrder[j]->getEColor()){
+			for(unsigned i = 1; i < turnOrder.size(); ++i){
+				if(boardLayout[to]->getEColor()==turnOrder[i]->getEColor()){
 					//Add to other pawns' owners' lost counter
-					turnOrder[j]->setILost(turnOrder[j]->getILost()+1);
+					turnOrder[i]->setILost(turnOrder[i]->getILost()+1);
 					//Decrease other players' active pawn counter
-					turnOrder[j]->setIActivePawns(turnOrder[j]->getIActivePawns()-1);
+					turnOrder[i]->setIActivePawns(turnOrder[i]->getIActivePawns()-1);
 					//Decrease board pawn counter
-					pawnsOnSquare[j]--;
+					pawnsOnSquare[to]--;
 					//Play SFX
-					Sound::play(fuck);
+					Sound::play(suprise);
 					break;
 				}
 			}	

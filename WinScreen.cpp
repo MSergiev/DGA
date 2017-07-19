@@ -33,7 +33,7 @@ void WinScreen::init()
 	m_bRestart.setSize(100, 100);
 	m_BQuit.setSize(100, 100);
 
-	UI::loadBackground("./GFX/Untitled.png");
+	UI::loadBackground("./GFX/table.png");
 }
 
 void WinScreen::render()
@@ -89,5 +89,6 @@ void WinScreen::loadData(deque<Player*> data)
 			data[i]->getILost() << endl;
 	}
 	SDL_Color textColor { 255, 255, 255, 0 };
+	text.setRenderer(UI::getRenderer());
 	text.textLoad(str.str(), getFont(), textColor);
 }
