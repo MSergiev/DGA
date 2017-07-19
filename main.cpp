@@ -42,12 +42,9 @@ SDL_Renderer* renderer;
 bool quit = 0;
 
 //Game state flags
-bool title = 0;
+bool title = 1;
 bool loop = 1;
 bool win = 1;
-
-//Player pawn selection flag
-bool canSelect = 0;
 
 //SDL event container
 SDL_Event event;
@@ -212,9 +209,9 @@ int main(int argc, char* argv[]){
 			render();
 			
 			//Execute player turn
-			for(unsigned i = 0; i < turnOrder.size(); i++)
-				if(turnOrder[i]->getEColor()==YELLOW){ turn(turnOrder[i]); break; }
-			//turn(turnOrder.front());
+			//for(unsigned i = 0; i < turnOrder.size(); i++)
+			//	if(turnOrder[i]->getEColor()==YELLOW){ turn(turnOrder[i]); break; }
+			turn(turnOrder.front());
 
 			//Increment turn counter
 			turns++;
@@ -428,18 +425,28 @@ void eventHandler(){
 			title = 0;
 			loop = 0;
 			win = 0;
-			//std::exit(0);
+			free();
+			std::exit(0);
 		}
 		//If on title screen
 		if(title){
 			//Get current button state
 			int titleState = titleScreen.eventHandler(event);
 			//If start button is clicked exit title screen
-			if(titleState & 0b100) title = 0;
+			if(titleState & 0b100){ title = 0; loop = 1; }
 			//If continue button is clicked exit title screen
-			if(titleState & 0b010) title = 0;
-			//If quit button is clicked exit title screen
-			if(titleState & 0b100) quit = 1;
+			if(titleState & 0b010){ title = 0; loop = 1; }
+			//If quit button is clicked quit application
+			if(titleState & 0b001){ title = 0; loop = 0; win = 0; quit = 1; }
+		}
+		//If on win screen
+	   	else if(win){
+			//Get current button state
+			int winState = winScreen.eventHandler(event);
+			//If restart button is clicked exit win screen
+			if(winState & 0b01){ win = 0; title = 0; loop = 1; }
+			//If exit button is clicked quit application
+			if(winState & 0b10){ win = 0; title = 0; }
 		}
 		if(button.isClicked(event)) Sound::play(bruh);
 	}
@@ -518,14 +525,14 @@ void turn(Player *p){
 	//If player has rolled before recovery
 	if(!Recovery::hasRolled){
 		//Roll the dice
-		//p->setIDiceRoll(diceRoll(p->getEColor()));
-		switch(p->getEColor()){
+		p->setIDiceRoll(diceRoll(p->getEColor()));
+		/*switch(p->getEColor()){
 			case YELLOW: p->setIDiceRoll(1); break;
 			case RED: p->setIDiceRoll(4); break;
 			default: p->setIDiceRoll(2); break;
-		}
+		}*/
 		//Save recovery data
-	//	Recovery::WriteXML(turnOrder, 1);
+		Recovery::WriteXML(turnOrder, 1);
 
 #ifdef DEBUG
 	cout << "Player " << p->getEColor() << " rolled " << p->getIDiceRoll() << endl;
@@ -534,8 +541,7 @@ void turn(Player *p){
 		delay(100);
 	}
 	//If roll is a 6 get another turn
-	//if(p->getIDiceRoll()==6)
-	 turnOrder.push_front(p);
+	if(p->getIDiceRoll()==6) turnOrder.push_front(p);
 	
 	//If player has no active pawns
 	if(p->getIActivePawns()==0){
@@ -595,7 +601,7 @@ void turn(Player *p){
 	turnOrder.pop_front();
 
 	//Save recovery data
-//	Recovery::WriteXML(turnOrder);	
+	Recovery::WriteXML(turnOrder);	
 }
 
 //Pawn movement
