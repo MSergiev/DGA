@@ -6,14 +6,15 @@
  */
 
 #include "Sound.h"
-
+// massives that keep the soundeffects and  music
 Mix_Chunk* Sound::Seffects[];
 Mix_Music* Sound::mus[];
 
+//empty constructor
 Sound::Sound()
 {
 }
-
+// load's the sound effects
 bool Sound::load(){
 	bool success = true;
 	if(SDL_Init(SDL_INIT_AUDIO)<0){
@@ -53,48 +54,48 @@ bool Sound::load(){
 	Seffects[26] = Mix_LoadWAV("SFX/sparta.wav");
 	Seffects[27] = Mix_LoadWAV("SFX/sudden.wav");
 	Seffects[28] = Mix_LoadWAV("SFX/suprise.wav");
-	
+	//gives error if  the the sounds effects are NOT loaded correctly.
 	for(int i = 0; i < 28; ++i){
 		if(Seffects[i]==NULL){
 			cerr << "Seffects error: " << Mix_GetError() << endl;
 			success = false;
 		}
 	}
-
 	mus[0] = Mix_LoadMUS("BGM/rock.wav");
 	mus[1] = Mix_LoadMUS("BGM/ambient.wav");
 	mus[2] = Mix_LoadMUS("BGM/electric.wav");
-
+	//gives error if  the the music is NOT loaded correctly.
 	for(int i = 0; i < 3; ++i){
 			if(mus[i]==NULL){
-				cerr << "BGM error: " << Mix_GetError() << endl;
+				cerr << "music error: " << Mix_GetError() << endl;
 				success = false;
 			}
 		}
 	
 	return success;
 }
-
+//pauses the music
 void Sound::pause() {
 	Mix_PauseMusic();
 }
-
+//checks if the music is playing
 bool Sound::playing() {
 	return Mix_PlayingMusic();
 }
-
+// frees/clear's the  used memory that the sounds used
 void Sound::free(){
 	for (int i = 0; i < 28; i++) {
 		Mix_FreeChunk(Seffects[i]);
 		Seffects[i] = NULL;
 	}
+	// frees/clear's the  used memory that the music used
 	for (int i = 0; i < 3; i++) {
 		Mix_FreeMusic(mus[i]);
 		mus[i] = NULL;
 	}
 	Mix_Quit();
 }
-
+// Mothod that plays  the sound effects
 void Sound::play(SEFFECTS sound)
 {
 	switch(sound){
@@ -187,6 +188,7 @@ void Sound::play(SEFFECTS sound)
 			break;
 		}
 	}
+// method that plays the music
 void Sound::music(MUSIC music){
 	if(Mix_PlayingMusic()){
 		Mix_ResumeMusic();
@@ -205,7 +207,7 @@ void Sound::music(MUSIC music){
 	}
 	}
 }
-
+// empty destructor
 Sound::~Sound() {
 	// TODO Auto-generated destructor stub
 }
