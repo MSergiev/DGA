@@ -50,6 +50,7 @@ deque< Player* > Recovery::ReadFromXML()
 			person->setITaken(player.child("Taken").text().as_int());
 			person->setILost(player.child("Lost").text().as_int());
 			person->setIActivePawns(player.child("Active").text().as_int());
+			person->setIFinishPosition(player.child("Finished").text().as_int());
 			person->setIDiceRoll(player.child("LastDiceRoll").text().as_int());
 			// read pawn positions
 			int count = 0;
@@ -113,6 +114,12 @@ void Recovery::WriteXML(deque< Player*> players, bool rolled)
 		str << players[i]->getIActivePawns();
 		active.append_child(pugi::node_pcdata).set_value(str.str().c_str());
 		str.str("");
+
+		pugi::xml_node finished = player.append_child("Finished");
+		str << players[i]->getIFinishPosition();
+		finished.append_child(pugi::node_pcdata).set_value(str.str().c_str());
+		str.str("");
+
 		pugi::xml_node diceRoll = player.append_child("LastDiceRoll");
 		str << players[i]->getIDiceRoll();
 		diceRoll.append_child(pugi::node_pcdata).set_value(str.str().c_str());

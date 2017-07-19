@@ -16,6 +16,7 @@ private:
 	int m_iLost;
 	int m_iActivePawns;
 	int m_iDiceRoll;
+	int m_iFinishPosition;
 
 	// private method
 	void SetPawnsVector();
@@ -27,15 +28,11 @@ public:
 	// methods
 	void Print();
 	void Render(vector<pair<int, int> > pos);
-	vector<int> GetPositions();
 	void SetRenderer(SDL_Renderer* renderer);
 
 	// setters and getters
 	int getILost() const;
 	void setILost(int iLost);
-
-	int getIPlayerPosition() const;
-	void setIPlayerPosition(int iPlayerPosition);
 
 	int getISteps() const;
 	void setISteps(int iSteps);
@@ -49,6 +46,9 @@ public:
 	int getIDiceRoll() const;
 	void setIDiceRoll(int iDiceRoll);
 
+	int getIFinishPosition() const;
+	void setIFinishPosition(int iFinishPosition);
+	
 	Colors getEColor() const;
 	void setEColor(Colors eColor);
 

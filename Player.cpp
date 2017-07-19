@@ -6,6 +6,7 @@ Player::Player(Colors color)
 	SetPawnsVector();
 	setIActivePawns(0);
 	setIDiceRoll(1);
+	setIFinishPosition(0);
 	setEColor(color);
 }
 
@@ -50,16 +51,6 @@ void Player::Print()
 		cout << m_vPawns[i]->getIPosition() << " ";
 	}
 	cout << endl;
-}
-
-vector<int> Player::GetPositions()
-{
-	vector <int> result;
-	for (unsigned int i = 0; i < m_vPawns.size(); i++){
-		result[i] = m_vPawns[i]->getIPosition();
-	}
-
-	return result;
 }
 
 // setters and getters
@@ -112,6 +103,16 @@ void Player::setIDiceRoll(int iDiceRoll)
 {
 	if(iDiceRoll>=1 && iDiceRoll<=6)
 		m_iDiceRoll = iDiceRoll;
+}
+
+int Player::getIFinishPosition() const
+{
+	return m_iDiceRoll;
+}
+
+void Player::setIFinishPosition(int iFinishPosition)
+{
+	m_iFinishPosition = iFinishPosition;
 }
 
 Colors Player::getEColor() const
