@@ -55,7 +55,7 @@ const unsigned START_POS[]{
 
 
 //Pawn waiting positions (in screen pixels)
-const unsigned IDLE_POS[5][2]{
+const pair<int,int> IDLE_POS[5]{
 	{279, 40}, //YELLOW
 	{39, 474}, //RED
 	{475, 713} //BLUE
@@ -66,7 +66,7 @@ const unsigned IDLE_POS[5][2]{
 #define ZERO_Y_POS 40
 
 //Next square location in (x,y)
-const pair<int, int> NEXT_SQUARE[]{
+const pair<int,int> NEXT_SQUARE[]{
 	{0,1},{0,1},{0,1},{0,1},{0,1},
 	{-1,0},{0,1},
 	{-1,0},{-1,0},{-1,0},{-1,0},{-1,0},

@@ -42,7 +42,7 @@ SDL_Renderer* renderer;
 bool quit = 0;
 
 //Game state flags
-bool title = 1;
+bool title = 0;
 bool loop = 1;
 bool win = 1;
 
@@ -153,7 +153,7 @@ void delay(Uint32 ms);
 
 //Render assets
 //Args:
-//bool renderDice - flag to render dice
+//bool renderDice - flag to render dice (not required)
 void render(bool renderDice = 0);
 
 //Activate pawn
@@ -161,7 +161,13 @@ void render(bool renderDice = 0);
 //Player p* - pointer to player
 void activatePawn(Player* p);
 
-//Get position relative to pawn
+//Get absolute from relative pawn position
+//Args:
+//Colors c - pawn color
+//int pos - relative position (not required)
+inline int getAbsolute(Colors c, int pos = 0);
+
+//Get relative from absolute board position
 //Args:
 //Colors c - pawn color
 //int pos - absolute position (not required)
@@ -220,8 +226,8 @@ int main(int argc, char* argv[]){
 			render();
 			
 			//Execute player turn
-			//for(unsigned i = 0; i < turnOrder.size(); i++)
-			//	if(turnOrder[i]->getEColor()==YELLOW){ turn(turnOrder[i]); break; }
+		//	for(unsigned i = 0; i < turnOrder.size(); i++)
+		//		if(turnOrder[i]->getEColor()==YELLOW){ turn(turnOrder[i]); break; }
 			turn(turnOrder.front());
 
 			//Increment turn counter
@@ -288,7 +294,7 @@ void render(bool renderDice){
 			//Traverse current player pawns
 			for(unsigned j = 0; j < turnOrder[i]->m_vPawns.size(); ++j){
 				//If current pawn is active
-				if(turnOrder[i]->m_vPawns[j]->getIPosition()!=-1){
+				if(turnOrder[i]->m_vPawns[j]->getIPosition()>=0){
 					//Get pawn screen coordinates
 					pos.push_back(getCoords(turnOrder[i]->getEColor(), turnOrder[i]->m_vPawns[j]->getIPosition()));
 					//Increment counter
@@ -299,9 +305,9 @@ void render(bool renderDice){
 			}
 			
 			//Idle pawn coordinate holder
-			pair<int, int> idleCoords = getCoords(turnOrder[i]->getEColor(), getRelative(turnOrder[i]->getEColor()));
+			pair<int, int> idleCoords = getCoords(turnOrder[i]->getEColor(),-1);
 			//Draw idle pawns
-			for(int j = 0; j < 5-pawnCounter; ++j){
+			for(int j = 0; j < PAWNS-pawnCounter; ++j){
 				//Position pawns correctly
 				switch(turnOrder[i]->getEColor()){
 					case YELLOW: idleCoords.first-=SQUARE_SIZE; break;
@@ -314,7 +320,6 @@ void render(bool renderDice){
 			//Render pawns
 			turnOrder[i]->Render(pos);
 		}
-		//Render dice
 		if(renderDice) dice.render(turnOrder.front()->getEColor());
 }
 
@@ -498,42 +503,45 @@ void free(){
 //Get world coordinates from array index
 pair<int, int> getCoords(Colors c, int p){
 #ifdef DEBUG
-	//cout << "GetCoords called" << endl;
+	//cout << "GetCoords called with " << c << " " << p <<endl;
 #endif
 	//Coordinate pair object
 	pair<int, int> coords = {ZERO_X_POS, ZERO_Y_POS};
-	//Find safe zone entry point
-	int entry = getRelative(c, BOARD_LENGTH-1);
+	
 	//If in base
-	if(p<0)	coords = {IDLE_POS[c-1][0], IDLE_POS[c-1][1]};
-	//If on active squares	
-	else if(p<=entry){
-		//Calculate position
+	if(p<0){
+		coords.first = IDLE_POS[c-1].first;
+		coords.second = IDLE_POS[c-1].second;
+	}
+	//If on active squares
+   	else if(p<BOARD_LENGTH){
 		for(int i = 0; i < p; ++i){
-			//If on active board
 			coords.first+=NEXT_SQUARE[i].first*SQUARE_SIZE;
 			coords.second+=NEXT_SQUARE[i].second*SQUARE_SIZE;
 		}
 	}
-	//If on safe squares	
-	else if(p<=entry+5){
-		//Calculate position
+	//If on safe squares
+	else if(p<BOARD_LENGTH+5){
+		//Find safe zone entry point
+		int entry = getAbsolute(c, BOARD_LENGTH-1);
 		for(int i = 0; i < entry; ++i){
-			//If on active board
-			coords.first+=NEXT_SQUARE[i].first*SQUARE_SIZE;
-			coords.second+=NEXT_SQUARE[i].second*SQUARE_SIZE;
+			coords.first+=NEXT_SQUARE[i].first;
+			coords.second+=NEXT_SQUARE[i].second;
 		}
-		for(int i = 0; i < p-(BOARD_LENGTH-1); ++i){
-			coords.first+=SAFE_SQUARE[c-1].first*SQUARE_SIZE;
-			coords.second+=SAFE_SQUARE[c-1].second*SQUARE_SIZE;
+		for(int i = 0; i < p-entry; ++i){
+			coords.first+=SAFE_SQUARE[i].first;
+			coords.second+=SAFE_SQUARE[i].second;
 		}
 	}
 	//If on final squares
    	else {
-		//Calculate position
-		coords.first=FINAL_SQUARE[c-1].first+(p-BOARD_LENGTH-5)*SQUARE_SIZE/2;
-		coords.second=FINAL_SQUARE[c-1].second;
+		coords.first = FINAL_SQUARE[c-1].first;
+		coords.second = FINAL_SQUARE[c-1].second;
+		for(int i = 0; i < p-(BOARD_LENGTH+5); ++i){
+			coords.first+=SPRITE_SCALE[2];
+		}
 	}
+	
 	//Return coordinate pair
 	return coords;
 }
@@ -553,7 +561,7 @@ void turn(Player *p){
 			default: p->setIDiceRoll(2); break;
 		}*/
 		//Save recovery data
-		Recovery::WriteXML(turnOrder, 1);
+	//	Recovery::WriteXML(turnOrder, 1);
 
 #ifdef DEBUG
 	cout << "Player " << p->getEColor() << " rolled " << p->getIDiceRoll() << endl;
@@ -622,7 +630,7 @@ void turn(Player *p){
 	turnOrder.pop_front();
 
 	//Save recovery data
-	Recovery::WriteXML(turnOrder);	
+//	Recovery::WriteXML(turnOrder);	
 }
 
 //Pawn movement
@@ -630,31 +638,49 @@ void movePawn(Pawn* p, int with){
 #ifdef DEBUG
 	cout << "MovePawn called with " << p->getIPosition() << " " << with << endl;
 #endif
+
+	int to = p->getIPosition()+with;
+	//If on active squares
+	if(getRelative(p->getEColor(), p->getIPosition()+with)<BOARD_LENGTH) collision(p,to);
+	//If on final squares
+   	else if(getRelative(p->getEColor(), p->getIPosition()+with)>BOARD_LENGTH+5){
+		//Traverse current player pawns
+		for(unsigned i = 0; i < turnOrder.front()->m_vPawns.size(); ++i){
+			//If final space is occupied
+			if(turnOrder.front()->m_vPawns[i]->getIPosition()==to)
+				//Cancel movement
+				return;
+		}
+	}
+
+	cout << "Setting position at " << to << endl;
+	//Place pawn in new location
+	boardLayout[to] = boardLayout[p->getIPosition()];
+	//Decrease old position pawn counter
+	pawnsOnSquare[p->getIPosition()]--;
+	//Increase board pawn counter
+	pawnsOnSquare[to]++;
+	//NULL if no more pawns on old position
+	if(!pawnsOnSquare[p->getIPosition()]) boardLayout[p->getIPosition()] = NULL;
+	//Move pawn forward
+	p->setIPosition(to);
+	//Add roll to player step count
+	turnOrder.front()->setISteps(turnOrder.front()->getISteps()+with);
+
+	/*
 	//If movement is within range
-	if(getRelative(p->getEColor(),p->getIPosition()+with)<(BOARD_LENGTH+10)){
+	if(getAbsolute(p->getEColor(),p->getIPosition()+with)<(BOARD_LENGTH+10)){
 		//Calculate new player position
 		int to;
 		//If on active squares
-		if(getRelative(p->getEColor(),p->getIPosition()+with)<BOARD_LENGTH)
+		if(getAbsolute(p->getEColor(),p->getIPosition()+with)<BOARD_LENGTH)
 		   to = (p->getIPosition()+with)%BOARD_LENGTH;
 		//If on safe squares
 		else to = p->getIPosition()+with;
 		//Check for collisions
 		collision(p, to);
-		cout << "Setting position at " << to << endl;
-		//Place pawn in new location
-		boardLayout[to] = boardLayout[p->getIPosition()];
-		//Decrease old position pawn counter
-		pawnsOnSquare[p->getIPosition()]--;
-		//Increase board pawn counter
-		pawnsOnSquare[to]++;
-		//NULL if no more pawns on old position
-		if(!pawnsOnSquare[p->getIPosition()]) boardLayout[p->getIPosition()] = NULL;
-		//Move pawn forward
-		p->setIPosition(to);
-		//Add roll to player step count
-		turnOrder.front()->setISteps(turnOrder.front()->getISteps()+with);
 
+*/
 #ifdef DEBUG		
 	cout << "Moved from " << p->getIPosition() << " with " << pawnsOnSquare[p->getIPosition()] << " pawns" << endl;
 	cout << "Moved to " << to << " with " << pawnsOnSquare[to] << " pawns" << endl;
@@ -662,7 +688,7 @@ void movePawn(Pawn* p, int with){
 
 		//Play SFX
 		Sound::play(hitmarker);
-	}
+	//}
 }
 
 //Collision detection
@@ -736,13 +762,13 @@ void activatePawn(Player* p){
 		//If current pawn is inactive
 		if(p->m_vPawns[i]->getIPosition()==-1){
 			//Check for collisions
-			collision(p->m_vPawns[i], getRelative(p->getEColor()));
+			collision(p->m_vPawns[i], getAbsolute(p->getEColor()));
 			//Place pawn on start position
-			p->m_vPawns[i]->setIPosition(getRelative(p->getEColor()));
+			p->m_vPawns[i]->setIPosition(getAbsolute(p->getEColor()));
 			//Place pawn on game board
-			boardLayout[getRelative(p->getEColor())] = p->m_vPawns[i];
+			boardLayout[getAbsolute(p->getEColor())] = p->m_vPawns[i];
 			//Increase board pawn counter
-			pawnsOnSquare[getRelative(p->getEColor())]++;
+			pawnsOnSquare[getAbsolute(p->getEColor())]++;
 			//Increment player active counter
 			p->setIActivePawns(p->getIActivePawns()+1);
 			//Play SFX
@@ -761,15 +787,15 @@ void highlight(int index, Colors c){
 	SDL_Color color;
 	//Set highlighter color
 	switch(c){
-		case RED: color = {255,0,0,255}; break;
-		case BLUE: color = {0,0,255,255}; break;
-		case YELLOW: color = {255,255,0,255}; break;
-		case NONE: color = {255,255,255,255};
+		case RED: color = C_RED; break;
+		case BLUE: color = C_BLUE; break;
+		case YELLOW: color = C_YELLOW; break;
+		default: color = C_WHITE;
 	}
 	//Get current square screen coordinates
 	pair<int, int> coords;
 	if(index==-1){
-		coords = getCoords(c, getRelative(c));
+		coords = getCoords(c, getAbsolute(c));
 		//Position base highlighter
 		switch(c){
 			case YELLOW: coords.first-=SQUARE_SIZE; break;
@@ -855,9 +881,24 @@ void determineTurnOrder(){
 #endif
 }
 
+//Get absolute position
+int getAbsolute(Colors c, int pos){
+	//If in base
+	if(pos<0) return -1;
+	//If on safe squares
+	if(pos>BOARD_LENGTH) return pos;
+	//If on active squares
+	return (START_POS[c-1]+pos)%BOARD_LENGTH;
+}
+
 //Get relative position
 int getRelative(Colors c, int pos){
-	return START_POS[c-1]+pos;
+	//If in base
+	if(pos<0) return -1;
+	//If on safe squares
+	if(pos>BOARD_LENGTH) return pos;
+	//If on active squares
+	return (START_POS[c-1]-pos)%BOARD_LENGTH;
 }
 
 //Delay

@@ -33,9 +33,9 @@ deque< Player* > Recovery::ReadFromXML()
 	// checking if the file is loaded
 	if (!doc.load_file("Recovery.xml"))
 	{
-		// and show error if it's not
-		cout << "XML file not found" << endl;
-	} else {
+		// return empty deque
+		return result;
+	}
 
 	// make a variable with contains the data in which player you are in
 	pugi::xml_node players = doc.first_child();
@@ -76,7 +76,6 @@ deque< Player* > Recovery::ReadFromXML()
 			result.push_back(person);
 	
 		}
-	}
 	return result;
 }
 
