@@ -32,9 +32,10 @@ private:
 	Colors m_eColor;
 	
 	//Sprite object pointer
-	Sprite mPlayerSprite;
+	Sprite* mPlayerSprite;
 
 public:
+	// the constructor takes as an argument the color
 	Pawn(Colors c);
 	virtual ~Pawn();
 

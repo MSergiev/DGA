@@ -1,16 +1,24 @@
 /*
  * Pawn.cpp
  *
- *  Created on: 10.07.2017 ã.
+ *  Created on: 10.07.2017 Ã£.
  *      Author: IVY
  */
 
 #include "Pawn.h"
 
 Pawn::Pawn(Colors c)
-		:mPlayerSprite(SDL_Rect {0,0,SPRITE_SIZE, SPRITE_SIZE}, PAWN_FRAMES, 20)
 {
+	// make a SDL_Rect to set the dimensions of the pawn
+	SDL_Rect rect = { 0, 0, SPRITE_SIZE, SPRITE_SIZE };
+	// init the constructor of the sprite
+	mPlayerSprite = new Sprite(rect, PAWN_FRAMES, 20);
+	// set the right color
 	setEColor(c);
+
+	// load the image of the pawn
+	mPlayerSprite->load(PAWN_PATH);
+	// set the position in the base
 	setIXPosition(-1);
 	setIYPosition(-1);
 	mPlayerSprite.load(PAWN_PATH);
@@ -20,14 +28,14 @@ Pawn::Pawn(Colors c)
 void Pawn::render(int x, int y)
 {
 	//Render sprite
-	mPlayerSprite.render(x, y);
+	mPlayerSprite->render(x, y);
 }
 
 // destructor
 Pawn::~Pawn()
 {
 	//Release resources
-	//delete mPlayerSprite;
+	mPlayerSprite->free();
 }
 
 // setters & getters
@@ -46,14 +54,14 @@ Colors Pawn::getEColor() const
 	return m_eColor;
 }
 
-
 void Pawn::setEColor(Colors eColor)
 {
 	//Initialize frame dimensions
-	SDL_Rect frame = { 0, (eColor-1)*SPRITE_SIZE*6, SPRITE_SIZE, SPRITE_SIZE };
-	//Create sprite object
-	mPlayerSprite.setAnimationFrame(frame);
-	//mPlayerSprite = new Sprite(frame, NUM_OF_FRAMES, ANIMATION_DELAY);
+	SDL_Rect frame = { 0, (eColor - 1) * SPRITE_SIZE * 6, SPRITE_SIZE,
+			SPRITE_SIZE };
+	// set it in the animation frame
+	mPlayerSprite->setAnimationFrame(frame);
+	// change the color
 	m_eColor = eColor;
 }
 
