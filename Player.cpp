@@ -35,7 +35,7 @@ void Player::Render(vector<pair<int, int> > pos)
 		// pass the data of the positions of every pawn
 		// pos[i].first - x on the board
 		// pos[i].second - y on the board
-		m_vPawns[i]->render(pos[i].first, pos[i].second);
+		m_vPawns[i]->render(pos[i].first, pos[i].second-15);
 	}
 }
 

@@ -24,14 +24,11 @@ WinScreen::~WinScreen()
 
 void WinScreen::init()
 {
-	SDL_Color button;
-	//UI::loadFont(FONT_PATH, FONT_SIZE);
+	m_bRestart.setTexture(RESTART_PATH);
+	m_BQuit.setTexture(QUIT_PATH);
 
-//	m_bRestart.setRenderer(UI::getRenderer());
-//	m_BQuit.setRenderer(UI::getRenderer());
-
-	m_bRestart.setLabel("RESTART", UI::getFont(), button);
-	m_BQuit.setLabel("QUIT", UI::getFont(), button);
+	m_bRestart.setSFX(BUTTON_SFX);
+	m_BQuit.setSFX(BUTTON_SFX);
 
 	m_bRestart.setLocation((WIDTH-BUTTON_WIDTH)/2, HEIGHT-VERT_OFFSET-2*BUTTON_HEIGHT);
 	m_BQuit.setLocation((WIDTH-BUTTON_WIDTH)/2, HEIGHT-VERT_OFFSET);

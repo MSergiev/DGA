@@ -16,6 +16,7 @@
 #include "TitleScreen.h"
 #include "WinScreen.h"
 #include "Info.h"
+#include "Controls.h"
 #include "Recovery.h"
 
 //Misc library inclusion
@@ -40,8 +41,9 @@ private:
     bool mbTitle = 1;
     bool mbLoop = 0;
     bool mbWin = 0;
-	bool mbRoll = 0;
 	bool mbRules = 0;
+	bool mbRoll = 0;
+	bool mbHighlight = 0;
 
 	//Dice animation timer
 	Uint32 miDiceTimer = 0;
@@ -70,6 +72,9 @@ private:
 	//Rules screen
 	Info mInfoScreen;
 
+	//UI controls object
+	Controls mControls;
+
     //Active board layout (top row leftmost square considered 1)
     Pawn* mBoardLayout[BOARD_LENGTH+10] = {NULL};
     unsigned mPawnsOnSquare[BOARD_LENGTH+10] = {0};
@@ -96,11 +101,6 @@ public:
     
     //Game loop
     void loop();
-    
-    //Game renderer setter
-    //Args:
-    //SDL_Renderer* renderer - renderer
-    void setRenderer(SDL_Renderer* renderer);
     
     //SDL event container setter
     //Args:

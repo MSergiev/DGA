@@ -32,17 +32,21 @@ void TitleScreen::init() {
 	loadBackground(TITLE_PATH);
 	UI::loadFont(FONT_PATH,FONT_SIZE);
 
-	StartButton.setLabel("START",UI::getFont(),SDL_Color C_WHITE);
-	ContinueButton.setLabel("CONTINUE",UI::getFont(),SDL_Color C_WHITE);
-	QuitButton.setLabel("QUIT",UI::getFont(),SDL_Color C_WHITE);
+	StartButton.setTexture(START_PATH);
+	ContinueButton.setTexture(CONTINUE_PATH);
+	QuitButton.setTexture(QUIT_PATH);
 
 	StartButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 	ContinueButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 	QuitButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+
+	StartButton.setSFX(BUTTON_SFX);
+	ContinueButton.setSFX(BUTTON_SFX);
+	QuitButton.setSFX(BUTTON_SFX);
 	
 	StartButton.setLocation((WIDTH-BUTTON_WIDTH)/2,HEIGHT-VERT_OFFSET-BUTTON_HEIGHT*5);
 	ContinueButton.setLocation((WIDTH-BUTTON_WIDTH)/2,HEIGHT-VERT_OFFSET-BUTTON_HEIGHT*3);
-	QuitButton.setLocation((WIDTH-BUTTON_WIDTH)/2,HEIGHT-VERT_OFFSET-BUTTON_HEIGHT);
+	QuitButton.setLocation((WIDTH-BUTTON_WIDTH)/2,HEIGHT-VERT_OFFSET);
 }
 // render function that draws the image on the screen
 void TitleScreen::render() {

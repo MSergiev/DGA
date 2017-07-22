@@ -4,6 +4,7 @@
 #define BUTTON_H
 
 #include "Texture.h"
+#include "Sound.h"
 
 class Button {
 public:
@@ -43,6 +44,11 @@ public:
 	//Args:
 	//SDL_Color c - button color
 	void setColor(SDL_Color c);
+
+	//Click sound effect setter
+	//Args:
+	//SEFFECTS sfx - sound effect
+	void setSFX(SEFFECTS sfx);
 
 	//Clicked check
 	//Args:
@@ -89,6 +95,12 @@ private:
 
 	//Label color
 	SDL_Color mFontColor;
+
+	//Click SFX
+	SEFFECTS meSFX;
+
+	//SFX set flag
+	bool mbHasSFX;
 };
 
 #endif

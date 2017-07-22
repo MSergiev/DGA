@@ -40,7 +40,10 @@ void Info::init() {
 	
 	pageNext.setSize(RULES_WIDTH, RULES_HEIGHT);
 	pageBack.setSize(RULES_WIDTH,RULES_HEIGHT);
-	
+
+	pageNext.setSFX(BUTTON_SFX);
+	pageBack.setSFX(BUTTON_SFX);
+
 	pageNext.setLocation((WIDTH-RULES_WIDTH),(HEIGHT-RULES_HEIGHT)/2);
 	pageBack.setLocation(0,(HEIGHT-RULES_HEIGHT)/2);
 	

@@ -27,8 +27,8 @@ using std::pair;
 #define PAWN_FRAMES 20
 
 //UI button size
-#define BUTTON_WIDTH 100
-#define BUTTON_HEIGHT 50
+#define BUTTON_WIDTH 200
+#define BUTTON_HEIGHT 54
 
 //Win screen data spacing
 #define WIN_OFFSET 80
@@ -134,7 +134,7 @@ const int SPRITE_SCALE[]{
 #define TITLE_PATH "./GFX/title.png"
 
 //UI button vertical offset
-#define VERT_OFFSET 150
+#define VERT_OFFSET 100
 
 //Player dice positions (in pixels)
 const pair<int,int> DICE_POS[]{
@@ -149,12 +149,32 @@ const pair<int,int> DICE_POS[]{
 #define TITLE_QUIT 0b001
 #define WIN_RESTART 0b01
 #define WIN_QUIT 0b10
+#define CONTROLS_RULES 0b10
+#define CONTROLS_QUIT 0b01
 
 //Rulebook images path
 #define RULES_1_PATH "./GFX/Rules of LUDO/1.png"
 #define RULES_2_PATH "./GFX/Rules of LUDO/2.png"
 #define RULES_3_PATH "./GFX/Rules of LUDO/3.png"
 #define RULES_4_PATH "./GFX/Rules of LUDO/4.png"
+
+//UI elements location
+#define START_PATH "./GFX/button_start.png"
+#define RESTART_PATH "./GFX/button_restart.png"
+#define CONTINUE_PATH "./GFX/button_continue.png"
+#define QUIT_PATH "./GFX/button_quit.png"
+#define SOUND_ON_PATH "./GFX/button_sound_on.png"
+#define SOUND_OFF_PATH "./GFX/button_sound_off.png"
+#define RULES_PATH "./GFX/button_rules.png"
+
+//Square highlighter path
+#define HIGHLIGHTER_PATH "./GFX/highlight.png"
+
+//BGM
+#define BGM rock
+
+//Button click SFX
+#define BUTTON_SFX camera
 
 //Debug mode
 #define DEBUG

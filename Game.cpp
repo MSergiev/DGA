@@ -48,15 +48,6 @@ void Game::loop(){
 	}
 }
 
-//Renderer setter
-void Game::setRenderer(SDL_Renderer* renderer){
-#ifdef DEBUG
-	cout << "setRenderer called" << (renderer==NULL) << endl;
-#endif
-	//Set texture class renderer
-//	Texture::setRenderer(renderer);
-}
-
 //Event container setter
 void Game::setEvent(SDL_Event& event){
     this->mEvent = event;
@@ -84,12 +75,16 @@ void Game::init(){
 	//Load game board texture
 	mBoard.load(BOARD_PATH);
 
+	//Initialize highlighters
+	for(int i = 0; i < BOARD_LENGTH+6; ++i)
+		mBoardHighlghters[i].setTexture(HIGHLIGHTER_PATH);
+
     //Initialize UI
-    mTitleScreen.setFont(mFont);
     mTitleScreen.init();
     mWinScreen.setFont(mFont);
     mWinScreen.init();
 	mInfoScreen.init();
+	mControls.init();
 
 	//Try to recover state from XML	
 	mTurnOrder = Recovery::ReadFromXML();
@@ -117,7 +112,7 @@ void Game::init(){
 void Game::eventHandler(){
     //If on title screen
     if(mbTitle){
-        //Get current button state
+        //Get current button states
         int titleState = mTitleScreen.eventHandler(mEvent);
         //If start button is clicked
         if(titleState & TITLE_START){ mbTitle = 0; mbLoop = 1; mbRoll = 1; mbIgnoreRecovery = 1; }
@@ -128,7 +123,7 @@ void Game::eventHandler(){
     }
     //If on win screen
     else if(mbWin){
-        //Get current button state
+        //Get current button states
         int winState = mWinScreen.eventHandler(mEvent);
         //If restart button is clicked
         if(winState & WIN_RESTART){ mbWin = 0; mbTitle = 0; mbLoop = 1; mbIgnoreRecovery = 1; }
@@ -138,6 +133,15 @@ void Game::eventHandler(){
 	//If on rules screen
 	else if(mbRules){
 		if(mInfoScreen.eventHandler(mEvent)) mbRules = 0;
+	}
+	//If on game screen
+	else {
+		//Get current button states
+		int controlsState = mControls.eventHandler(mEvent);
+		//If rules button is clicked
+		if(controlsState & CONTROLS_RULES) mbRules = 1;
+		//If quit button is clicked
+		//if(controlsState & CONTROLS_QUIT) quit = 1;
 	}
 }
 
@@ -190,8 +194,13 @@ void Game::render(){
         //Render pawns
         mTurnOrder[i]->Render(pos);
     }
+
+	//Render dice
 	for(unsigned i = 0; i < mDice.size(); ++i)
 		mDice[i]->render();
+
+	//Render controls
+	mControls.render();
 }
 
 //Player turn
@@ -205,15 +214,10 @@ void Game::turn(Player * p){
 	if(!Recovery::hasRolled && mbRoll){
 		//Roll the dice
 		diceRoll();
-		/*switch(p->getEColor()){
-			case YELLOW: p->setIDiceRoll(1); break;
-			case RED: p->setIDiceRoll(4); break;
-			default: p->setIDiceRoll(2); break;
-		}*/
 	} else {
 
 #ifdef DEBUG
-	cout << "Player " << p->getEColor() << " rolled " << p->getIDiceRoll() << " with " << p->getIActivePawns() << " active pawns" << endl;
+	cout << "Player " << p->getEColor() << " rolled " << p->getIDiceRoll() << endl;
 #endif
 	//Save recovery data
 	//Recovery::WriteXML(turnOrder, 1);
@@ -221,8 +225,14 @@ void Game::turn(Player * p){
 	//Set player roll
 	p->setIDiceRoll(miCurrentRoll);
 	
+	switch(p->getEColor()){
+			case YELLOW: p->setIDiceRoll(6); break;
+			case RED: p->setIDiceRoll(4); break;
+			default: p->setIDiceRoll(2); break;
+	}
+
 	//If roll is a 6 get another turn
-	if(p->getIDiceRoll()==6) mTurnOrder.push_front(p);
+	//if(p->getIDiceRoll()==6) mTurnOrder.push_front(p);
 	
 	//If player has no active pawns
 	if(p->getIActivePawns()==0){
@@ -247,45 +257,52 @@ void Game::turn(Player * p){
 	}
 	//If player has more than one active pawn
 	else {
-		//If roll is a 6
-	   	if(p->getIDiceRoll()==6){
-			//Highlight base
-			highlight(-1,p->getEColor());
-		}
-	
-		//Active pawn counter
-		int activeCount = 0;	
-		//Traverse the board
-		for(unsigned i = 0; i < p->m_vPawns.size(); ++i){
-			//Find active ones
-			if(p->m_vPawns[i]->getIPosition()!=-1){
-				//Highlight active pawn
-				highlight(p->m_vPawns[i]->getIPosition(), p->getEColor());	
-				//Increase active counter
-				activeCount++;
+		//If highglighters have not been set this turn	
+		if(!mbHighlight){
+			//If roll is a 6
+			if(p->getIDiceRoll()==6 && p->getIActivePawns()!=PAWNS){
+				//Highlight base
+				highlight(-1,p->getEColor());
 			}
-			//Check if more active pawns exist
-			if(activeCount==p->getIActivePawns()) break;
+			//Active pawn counter
+			int activeCount = 0;	
+			//Traverse the board
+			for(unsigned i = 0; i < p->m_vPawns.size(); ++i){
+				//Find active ones
+				if(p->m_vPawns[i]->getIPosition()!=-1){
+					//Highlight active pawn
+					highlight(p->m_vPawns[i]->getIPosition(), p->getEColor());	
+					//Increase active counter
+					activeCount++;
+				}
+				//Check if more active pawns exist
+				if(activeCount==p->getIActivePawns()) break;
+			}
+			//Raise highlighter flag
+			mbHighlight = 1;
 		}
-		
+
 		//Get choice from highlights
 		int choice = getHighlightedChoice();
-		//If base is selected, activate pawn
-		if(choice<0) activatePawn(p);
-		//Else move selected pawn
-		else movePawn(mBoardLayout[choice], p->getIDiceRoll());	
+		//If base is selected
+		if(choice==-1) activatePawn(p);
+		//If field is selected
+		else if(choice>=0) movePawn(mBoardLayout[choice], p->getIDiceRoll());	
 	}
-	
-	//Cycle players
-	mTurnOrder.push_back(mTurnOrder.front());
-	//Remove current player from queue
-	mTurnOrder.pop_front();
 
-	//Save recovery data
-//	Recovery::WriteXML(turnOrder);	
+	//If no highlighters are active
+	if(!mbHighlight){	
+		//Cycle players
+		mTurnOrder.push_back(mTurnOrder.front());
+		//Remove current player from queue
+		mTurnOrder.pop_front();
+
+		//Save recovery data
+	//	Recovery::WriteXML(turnOrder);	
 	
-	//Raise roll flag for next turn
-	mbRoll = 1;
+		//Raise roll flag for next turn
+		mbRoll = 1;
+	}
 	}
 }
 
@@ -417,15 +434,6 @@ void Game::highlight(int index, Colors c){
 #ifdef DEBUG
 	cout << "Highlight called with " << index << " " << c << endl;
 #endif
-	//Highlighter color
-	SDL_Color color;
-	//Set highlighter color
-	switch(c){
-		case RED: color = C_RED; break;
-		case BLUE: color = C_BLUE; break;
-		case YELLOW: color = C_YELLOW; break;
-		default: color = C_WHITE;
-	}
 	//Get current square screen coordinates
 	pair<int, int> coords;
 	if(index==-1){
@@ -440,8 +448,7 @@ void Game::highlight(int index, Colors c){
 	} else coords = getCoords(mBoardLayout[index]->getEColor(), index);
 	//Set highlighter params
 	mBoardHighlghters[index+1].setSize(SQUARE_SIZE, SQUARE_SIZE);
-	mBoardHighlghters[index+1].setLocation(coords.first, coords.second);
-	mBoardHighlghters[index+1].setColor(color);
+	mBoardHighlghters[index+1].setLocation(coords.first-10, coords.second-10);
 
 #ifdef DEBUG
 	cout << "Adding highlighter at " << coords.first << " " << coords.second << endl;
@@ -461,31 +468,25 @@ int Game::getHighlightedChoice(){
 		cout << "Active on ";
 		for(unsigned i = 0; i < mActiveHighlighters.size(); i++) cout << (mActiveHighlighters[i]-1) << " ";
 		cout << endl;
-		//Wait for user choice
-		while(1){
-			//Traverse active highlighters
-			for(unsigned i = 0; i < mActiveHighlighters.size(); ++i){
-				//If clicked
-				if(mBoardHighlghters[mActiveHighlighters[i]].isClicked(mEvent)){
-					//Save board index before clearing
-					int choice = mActiveHighlighters[i];
-					//Clear active highlighters
-					while(mActiveHighlighters.size()>0) mActiveHighlighters.pop_back();
-					//Play SFX
-					Sound::play(camera);
-					//Return pressed index
-					return choice-1;
-				}
+		//Traverse active highlighters
+		for(unsigned i = 0; i < mActiveHighlighters.size(); ++i){
+			//If clicked
+			if(mBoardHighlghters[mActiveHighlighters[i]].isClicked(mEvent)){
+				//Save board index before clearing
+				int choice = mActiveHighlighters[i];
+				//Clear active highlighters
+				while(mActiveHighlighters.size()>0) mActiveHighlighters.pop_back();
+				//Play SFX
+				Sound::play(camera);
+				//Lower highlighter flag
+				mbHighlight = 0;
+				//Return selected index
+				return choice-1;
 			}
-			//Event handler
-			eventHandler();
-			//Render sprites
-			render();
-			//Draw image on screen
-			//SDL_RenderPresent(mRenderer);
 		}
 	}
-	return 0;
+	//Return invalid value if nothing is selected
+	return -2;
 }
 
 //Timed delay

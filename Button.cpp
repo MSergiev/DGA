@@ -41,14 +41,23 @@ void Button::setColor(SDL_Color c){
 	this->mButtonColor = c;
 }
 
+//SFX setter
+void Button::setSFX(SEFFECTS sfx){
+	this->meSFX = sfx;
+	mbHasSFX = 1;
+}
+
 //Button click check
 bool Button::isClicked(SDL_Event & e){
     if(e.type == SDL_MOUSEBUTTONDOWN){
 		if(e.button.button == SDL_BUTTON_LEFT){
 			int x,y;
 			SDL_GetMouseState(&x, &y);
-			return (x>=mButtonBase.x && x<=mButtonBase.x+mButtonBase.w &&
+			bool state = (x>=mButtonBase.x && x<=mButtonBase.x+mButtonBase.w &&
 					y>=mButtonBase.y && y<=mButtonBase.y+mButtonBase.h);
+			//Play SFX on click
+			if(state && mbHasSFX) Sound::play(meSFX);
+			return state;
 		}
 	}
 	return 0;
