@@ -1,0 +1,8 @@
+<map id="Controls::eventHandler" name="Controls::eventHandler">
+<area shape="rect" id="node2" href="$class_button.html#a636b3ea9e562ce3522ea9e1cdb449672" title="Button::isClicked" alt="" coords="209,5,331,32"/>
+<area shape="rect" id="node4" href="$class_sound.html#a65b0f66e9123caed2809da366ac4d377" title="Sound::pause" alt="" coords="219,56,321,83"/>
+<area shape="rect" id="node5" href="$class_button.html#a2a379b86a8ad82883ae26cbb7f601cbb" title="Button::setTexture" alt="" coords="205,107,335,133"/>
+<area shape="rect" id="node7" href="$class_sound.html#a8d80cc88450b882c5ae3421e5c6122ab" title="Sound::music" alt="" coords="219,157,321,184"/>
+<area shape="rect" id="node3" href="$class_sound.html#a83e49d6061b559052aba4dc8f3394af1" title="Sound::play" alt="" coords="386,5,477,32"/>
+<area shape="rect" id="node6" href="$class_texture.html#a6363df95fd8348aa7c7bd10bab97dd43" title="Texture::load" alt="" coords="383,107,480,133"/>
+</map>

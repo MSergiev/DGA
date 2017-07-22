@@ -1,0 +1,7 @@
+<map id="Pawn::Pawn" name="Pawn::Pawn">
+<area shape="rect" id="node2" href="$class_pawn.html#a08e638f05312bfdbd15203c3c3b57a04" title="Pawn::setEColor" alt="" coords="158,5,277,32"/>
+<area shape="rect" id="node4" href="$class_pawn.html#a8a8162e42531e2d1b6adc1024a6d86aa" title="Pawn::setIXPosition" alt="" coords="149,56,286,83"/>
+<area shape="rect" id="node5" href="$class_pawn.html#ada5cc0cfda198632d0e90b73a1689af5" title="Pawn::setIYPosition" alt="" coords="148,107,287,133"/>
+<area shape="rect" id="node6" href="$class_texture.html#a6363df95fd8348aa7c7bd10bab97dd43" title="Texture::load" alt="" coords="169,157,266,184"/>
+<area shape="rect" id="node3" href="$class_sprite.html#adda63532ea6259f829452c668fdecba5" title="Sprite::setAnimationFrame" alt="" coords="335,5,512,32"/>
+</map>

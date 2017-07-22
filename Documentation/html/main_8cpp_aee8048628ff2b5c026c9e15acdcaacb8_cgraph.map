@@ -1,0 +1,18 @@
+<map id="init" name="init">
+<area shape="rect" id="node2" href="$class_texture.html#aef4103393e241e1a418b4366e6d76a02" title="Texture::setRenderer" alt="" coords="92,58,235,85"/>
+<area shape="rect" id="node3" href="$class_sound.html#a36874c1d2532d19b51a1b0ad9a47b8bd" title="Sound::load" alt="" coords="118,109,209,136"/>
+<area shape="rect" id="node4" href="$class_game.html#aefaa87850e81a718f44493a72d6a4588" title="Game::setEvent" alt="" coords="106,160,221,186"/>
+<area shape="rect" id="node5" href="$class_game.html#a6f3a33940524b6ba9d83f627ccb14bbf" title="Game object initializing function. " alt="" coords="122,210,205,237"/>
+<area shape="rect" id="node6" href="$class_texture.html#a6363df95fd8348aa7c7bd10bab97dd43" title="Texture::load" alt="" coords="625,109,723,136"/>
+<area shape="rect" id="node7" href="$class_title_screen.html#a48a5634207165ef0d33ef3c90aa15db8" title="TitleScreen::init" alt="" coords="283,134,395,161"/>
+<area shape="rect" id="node14" href="$class_u_i.html#a5089c13e453888a2455dfe3d94821ee6" title="UI::setFont" alt="" coords="295,337,382,364"/>
+<area shape="rect" id="node15" href="$class_win_screen.html#a89726940a71a00edf9df0d02a769076f" title="WinScreen::init" alt="" coords="283,185,394,212"/>
+<area shape="rect" id="node16" href="$class_info.html#ae3b89f966611fd4e6e5b882a605d4f0f" title="Info::init" alt="" coords="305,286,372,313"/>
+<area shape="rect" id="node17" href="$class_controls.html#ac67381fdeb079095e9b28314e6b38a4b" title="UI initializing method. " alt="" coords="291,236,386,262"/>
+<area shape="rect" id="node8" href="$class_u_i.html#a7a27eeeaca7f8589a5a6b08e736e4868" title="UI::loadBackground" alt="" coords="443,84,577,110"/>
+<area shape="rect" id="node9" href="$class_u_i.html#aff27d0ca7644ae3d88929a07c0419ef5" title="UI::loadFont" alt="" coords="464,33,556,60"/>
+<area shape="rect" id="node10" href="$class_button.html#a2a379b86a8ad82883ae26cbb7f601cbb" title="Button::setTexture" alt="" coords="445,134,575,161"/>
+<area shape="rect" id="node11" href="$class_button.html#a2830f27083aea9b757f71a9d8c0cf7f5" title="Button::setSize" alt="" coords="454,185,566,212"/>
+<area shape="rect" id="node12" href="$class_button.html#accf4057df0b04b3ae6fe3ae2062aeac3" title="Button::setSFX" alt="" coords="455,236,565,262"/>
+<area shape="rect" id="node13" href="$class_button.html#a04619537f943e2aca59a4ea3c60eaad0" title="Button::setLocation" alt="" coords="443,286,577,313"/>
+</map>

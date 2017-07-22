@@ -1,0 +1,5 @@
+<map id="Pawn::render" name="Pawn::render">
+<area shape="rect" id="node2" href="$class_sprite.html#a462c7f6fc029516e0e5c89cda6ded9a8" title="Sprite::render" alt="" coords="152,31,252,57"/>
+<area shape="rect" id="node3" href="$class_texture.html#a2c2b502138a1a1786c4bf74016620885" title="Get image dimensions. " alt="" coords="300,5,425,32"/>
+<area shape="rect" id="node4" href="$class_texture.html#a2b08b7738b271118b3a4f715d6ebb3d5" title="Texture::render" alt="" coords="308,56,417,83"/>
+</map>

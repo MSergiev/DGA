@@ -1,0 +1,6 @@
+<map id="Controls::render" name="Controls::render">
+<area shape="rect" id="node2" href="$class_button.html#add4daea65a908027aa5a1593305b9656" title="Button::render" alt="" coords="168,56,272,83"/>
+<area shape="rect" id="node3" href="$class_texture.html#a2b08b7738b271118b3a4f715d6ebb3d5" title="Texture::render" alt="" coords="329,5,439,32"/>
+<area shape="rect" id="node4" href="$class_texture.html#a2c2b502138a1a1786c4bf74016620885" title="Get image dimensions. " alt="" coords="321,56,447,83"/>
+<area shape="rect" id="node5" href="$class_texture.html#a23c3c1315267a5521d824982bb8d208c" title="Texture::getHeight" alt="" coords="320,107,448,133"/>
+</map>

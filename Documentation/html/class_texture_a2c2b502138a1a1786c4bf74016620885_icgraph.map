@@ -1,0 +1,11 @@
+<map id="Texture::getWidth" name="Texture::getWidth">
+<area shape="rect" id="node2" href="$class_button.html#add4daea65a908027aa5a1593305b9656" title="Button::render" alt="" coords="179,69,283,96"/>
+<area shape="rect" id="node9" href="$class_sprite.html#a462c7f6fc029516e0e5c89cda6ded9a8" title="Sprite::render" alt="" coords="181,132,281,159"/>
+<area shape="rect" id="node3" href="$class_controls.html#a4a0443c1da74f4ccc56c3eb0809aee14" title="Render method. " alt="" coords="331,5,445,32"/>
+<area shape="rect" id="node7" href="$class_title_screen.html#a790bebb26543d8a9ce45093020e5dcee" title="Render method. " alt="" coords="493,56,624,83"/>
+<area shape="rect" id="node8" href="$class_win_screen.html#aa9cbc37bc26fce5bfb01883c617eb08a" title="Render method. " alt="" coords="493,107,624,133"/>
+<area shape="rect" id="node4" href="$class_game.html#a15ddd769261d923827a3cdf41499c843" title="Render assets. " alt="" coords="508,5,609,32"/>
+<area shape="rect" id="node5" href="$class_game.html#a7ad92b77b596d7882a7ae76eb18b5e6c" title="Game loop. " alt="" coords="672,56,761,83"/>
+<area shape="rect" id="node6" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="809,56,860,83"/>
+<area shape="rect" id="node10" href="$class_pawn.html#a545d97b72905fc3262191b84d0616538" title="Pawn::render" alt="" coords="339,157,437,184"/>
+</map>

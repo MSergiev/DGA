@@ -1,0 +1,5 @@
+<map id="UI::render" name="UI::render">
+<area shape="rect" id="node2" href="$class_title_screen.html#a790bebb26543d8a9ce45093020e5dcee" title="Render method. " alt="" coords="132,5,263,32"/>
+<area shape="rect" id="node3" href="$class_game.html#a7ad92b77b596d7882a7ae76eb18b5e6c" title="Game loop. " alt="" coords="311,5,400,32"/>
+<area shape="rect" id="node4" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="448,5,499,32"/>
+</map>

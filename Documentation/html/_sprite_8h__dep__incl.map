@@ -1,0 +1,14 @@
+<map id="Sprite.h" name="Sprite.h">
+<area shape="rect" id="node2" href="$_pawn_8h.html" title="Pawn.h" alt="" coords="231,80,296,107"/>
+<area shape="rect" id="node13" href="$_sprite_8cpp.html" title="Sprite.cpp" alt="" coords="320,80,401,107"/>
+<area shape="rect" id="node3" href="$_player_8h.html" title="Player.h" alt="" coords="179,155,249,181"/>
+<area shape="rect" id="node12" href="$_pawn_8cpp.html" title="Pawn.cpp" alt="" coords="273,155,352,181"/>
+<area shape="rect" id="node4" href="$_game_8h.html" title="Game.h" alt="" coords="140,304,208,331"/>
+<area shape="rect" id="node7" href="$_win_screen_8h.html" title="WinScreen.h" alt="" coords="39,229,136,256"/>
+<area shape="rect" id="node9" href="$_recovery_8h.html" title="Recovery.h" alt="" coords="212,229,299,256"/>
+<area shape="rect" id="node11" href="$_player_8cpp.html" title="Player.cpp" alt="" coords="323,229,407,256"/>
+<area shape="rect" id="node5" href="$_game_8cpp.html" title="Game.cpp" alt="" coords="82,379,165,405"/>
+<area shape="rect" id="node6" href="$main_8cpp.html" title="main.cpp" alt="" coords="189,379,263,405"/>
+<area shape="rect" id="node8" href="$_win_screen_8cpp.html" title="WinScreen.cpp" alt="" coords="5,304,116,331"/>
+<area shape="rect" id="node10" href="$_recovery_8cpp.html" title="Recovery.cpp" alt="" coords="232,304,332,331"/>
+</map>

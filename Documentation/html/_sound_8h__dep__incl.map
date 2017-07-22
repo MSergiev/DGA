@@ -1,0 +1,18 @@
+<map id="Sound.h" name="Sound.h">
+<area shape="rect" id="node2" href="$_button_8h.html" title="Button.h" alt="" coords="355,80,426,107"/>
+<area shape="rect" id="node7" href="$_game_8h.html" title="Game.h" alt="" coords="397,304,465,331"/>
+<area shape="rect" id="node17" href="$_sound_8cpp.html" title="Sound.cpp" alt="" coords="626,80,710,107"/>
+<area shape="rect" id="node3" href="$_button_8cpp.html" title="Button.cpp" alt="" coords="308,155,393,181"/>
+<area shape="rect" id="node4" href="$_u_i_8h.html" title="UI.h" alt="" coords="239,155,284,181"/>
+<area shape="rect" id="node5" href="$_controls_8h.html" title="Controls.h" alt="" coords="469,229,550,256"/>
+<area shape="rect" id="node10" href="$_title_screen_8h.html" title="TitleScreen.h" alt="" coords="12,229,111,256"/>
+<area shape="rect" id="node12" href="$_win_screen_8h.html" title="WinScreen.h" alt="" coords="218,229,315,256"/>
+<area shape="rect" id="node14" href="$_info_8h.html" title="Info.h" alt="" coords="340,229,393,256"/>
+<area shape="rect" id="node16" href="$_u_i_8cpp.html" title="UI.cpp" alt="" coords="135,229,193,256"/>
+<area shape="rect" id="node6" href="$_controls_8cpp.html" title="Controls.cpp" alt="" coords="489,304,583,331"/>
+<area shape="rect" id="node8" href="$_game_8cpp.html" title="Game.cpp" alt="" coords="339,379,421,405"/>
+<area shape="rect" id="node9" href="$main_8cpp.html" title="main.cpp" alt="" coords="445,379,520,405"/>
+<area shape="rect" id="node11" href="$_title_screen_8cpp.html" title="TitleScreen.cpp" alt="" coords="5,304,117,331"/>
+<area shape="rect" id="node13" href="$_win_screen_8cpp.html" title="WinScreen.cpp" alt="" coords="170,304,281,331"/>
+<area shape="rect" id="node15" href="$_info_8cpp.html" title="Info.cpp" alt="" coords="305,304,372,331"/>
+</map>

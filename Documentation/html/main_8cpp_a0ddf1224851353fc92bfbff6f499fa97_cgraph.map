@@ -1,0 +1,51 @@
+<map id="main" name="main">
+<area shape="rect" id="node2" href="$main_8cpp.html#aee8048628ff2b5c026c9e15acdcaacb8" title="init" alt="" coords="133,208,171,235"/>
+<area shape="rect" id="node17" href="$main_8cpp.html#a093e27653d363c5a8cacd9a8d61b3c80" title="eventHandler" alt="" coords="104,411,200,437"/>
+<area shape="rect" id="node24" href="$class_game.html#a7ad92b77b596d7882a7ae76eb18b5e6c" title="Game loop. " alt="" coords="107,791,197,817"/>
+<area shape="rect" id="node49" href="$main_8cpp.html#aafde19f7d36ca163a143579c1b125b6d" title="free" alt="" coords="131,917,173,944"/>
+<area shape="rect" id="node3" href="$class_texture.html#aef4103393e241e1a418b4366e6d76a02" title="Texture::setRenderer" alt="" coords="249,107,392,133"/>
+<area shape="rect" id="node4" href="$class_sound.html#a36874c1d2532d19b51a1b0ad9a47b8bd" title="Sound::load" alt="" coords="275,157,366,184"/>
+<area shape="rect" id="node5" href="$class_game.html#aefaa87850e81a718f44493a72d6a4588" title="Game::setEvent" alt="" coords="263,284,378,311"/>
+<area shape="rect" id="node6" href="$class_game.html#a6f3a33940524b6ba9d83f627ccb14bbf" title="Game object initializing function. " alt="" coords="279,208,362,235"/>
+<area shape="rect" id="node7" href="$class_texture.html#a6363df95fd8348aa7c7bd10bab97dd43" title="Texture::load" alt="" coords="875,157,973,184"/>
+<area shape="rect" id="node8" href="$class_title_screen.html#a48a5634207165ef0d33ef3c90aa15db8" title="TitleScreen::init" alt="" coords="467,107,579,133"/>
+<area shape="rect" id="node13" href="$class_u_i.html#a5089c13e453888a2455dfe3d94821ee6" title="UI::setFont" alt="" coords="479,5,566,32"/>
+<area shape="rect" id="node14" href="$class_win_screen.html#a89726940a71a00edf9df0d02a769076f" title="WinScreen::init" alt="" coords="467,157,578,184"/>
+<area shape="rect" id="node15" href="$class_info.html#ae3b89f966611fd4e6e5b882a605d4f0f" title="Info::init" alt="" coords="489,309,556,336"/>
+<area shape="rect" id="node16" href="$class_controls.html#ac67381fdeb079095e9b28314e6b38a4b" title="UI initializing method. " alt="" coords="475,259,570,285"/>
+<area shape="rect" id="node9" href="$class_u_i.html#a7a27eeeaca7f8589a5a6b08e736e4868" title="UI::loadBackground" alt="" coords="669,157,804,184"/>
+<area shape="rect" id="node10" href="$class_u_i.html#aff27d0ca7644ae3d88929a07c0419ef5" title="UI::loadFont" alt="" coords="691,107,783,133"/>
+<area shape="rect" id="node11" href="$class_button.html#a2830f27083aea9b757f71a9d8c0cf7f5" title="Button::setSize" alt="" coords="681,259,793,285"/>
+<area shape="rect" id="node12" href="$class_button.html#a04619537f943e2aca59a4ea3c60eaad0" title="Button::setLocation" alt="" coords="669,208,804,235"/>
+<area shape="rect" id="node18" href="$class_game.html#ae7b37f14614960680b9648cd60cb541e" title="Event handler. " alt="" coords="453,411,592,437"/>
+<area shape="rect" id="node19" href="$class_title_screen.html#a544726a69e942079d1475d60376e32b8" title="TitleScreen::eventHandler" alt="" coords="652,411,821,437"/>
+<area shape="rect" id="node20" href="$class_game.html#ab684b380c7d3f3577e2fb80006415297" title="Game data initializing function. " alt="" coords="678,461,795,488"/>
+<area shape="rect" id="node21" href="$class_win_screen.html#ab4740b911bc214273d65ad6f789ab0d2" title="WinScreen::eventHandler" alt="" coords="653,512,821,539"/>
+<area shape="rect" id="node22" href="$class_info.html#a050d0e21185feef40167ddc4067f38fd" title="Info::eventHandler" alt="" coords="675,563,799,589"/>
+<area shape="rect" id="node23" href="$class_controls.html#a74caa6dbdc7ee35dd9b713c1840d1401" title="Controls::eventHandler" alt="" coords="661,360,813,387"/>
+<area shape="rect" id="node25" href="$class_info.html#a3957f175ea898b7cd6aded9d5d928de3" title="Render method. " alt="" coords="277,791,364,817"/>
+<area shape="rect" id="node27" href="$class_title_screen.html#a790bebb26543d8a9ce45093020e5dcee" title="Render method. " alt="" coords="457,1272,588,1299"/>
+<area shape="rect" id="node30" href="$class_game.html#a15ddd769261d923827a3cdf41499c843" title="Render assets. " alt="" coords="270,740,371,767"/>
+<area shape="rect" id="node45" href="$class_win_screen.html#a3f4b622227c4f7a30b2a3c832bf3fe02" title="WinScreen::loadData" alt="" coords="248,892,393,919"/>
+<area shape="rect" id="node46" href="$class_win_screen.html#aa9cbc37bc26fce5bfb01883c617eb08a" title="Render method. " alt="" coords="457,1323,588,1349"/>
+<area shape="rect" id="node26" href="$class_texture.html#a2b08b7738b271118b3a4f715d6ebb3d5" title="Texture::render" alt="" coords="869,1221,979,1248"/>
+<area shape="rect" id="node28" href="$class_u_i.html#af43a4a8200a17b8329ee89c41c72fb16" title="Render method. " alt="" coords="697,1272,776,1299"/>
+<area shape="rect" id="node29" href="$class_button.html#add4daea65a908027aa5a1593305b9656" title="Button::render" alt="" coords="685,1221,789,1248"/>
+<area shape="rect" id="node31" href="$class_controls.html#a4a0443c1da74f4ccc56c3eb0809aee14" title="Render method. " alt="" coords="465,1221,580,1248"/>
+<area shape="rect" id="node32" href="$class_player.html#a79b04f1e3752f31650da639b9e61cbcf" title="Player::getEColor" alt="" coords="461,715,585,741"/>
+<area shape="rect" id="node33" href="$class_player.html#aae2cf0efdf56a0bcb830b5155ce6cd5a" title="Player::getIDiceRoll" alt="" coords="455,765,591,792"/>
+<area shape="rect" id="node34" href="$class_player.html#a3d73ba6d3b864629f5ce87af51260a74" title="Player::setIDiceRoll" alt="" coords="455,816,591,843"/>
+<area shape="rect" id="node35" href="$class_player.html#a1fc6b9afae99b5f8eed399026cd576a9" title="Player::getIActivePawns" alt="" coords="441,867,604,893"/>
+<area shape="rect" id="node36" href="$class_sound.html#a83e49d6061b559052aba4dc8f3394af1" title="Sound::play" alt="" coords="477,917,568,944"/>
+<area shape="rect" id="node37" href="$class_pawn.html#aaf1b0b73baaf231703a64b37586da35f" title="Pawn::getEColor" alt="" coords="463,968,582,995"/>
+<area shape="rect" id="node38" href="$class_pawn.html#a789e7460564805473b97e298e7d23dfb" title="setters &amp; getters " alt="" coords="454,1019,591,1045"/>
+<area shape="rect" id="node39" href="$class_pawn.html#aaadc8eb99387c7c7c9e7292e3f054bd2" title="Pawn::getIYPosition" alt="" coords="453,1069,592,1096"/>
+<area shape="rect" id="node40" href="$class_pawn.html#a8a8162e42531e2d1b6adc1024a6d86aa" title="Pawn::setIXPosition" alt="" coords="454,461,591,488"/>
+<area shape="rect" id="node41" href="$class_pawn.html#ada5cc0cfda198632d0e90b73a1689af5" title="Pawn::setIYPosition" alt="" coords="453,512,592,539"/>
+<area shape="rect" id="node42" href="$class_player.html#a47c78c33949f6a24a3df85a29f261c8a" title="Player::setILost" alt="" coords="466,563,579,589"/>
+<area shape="rect" id="node43" href="$class_player.html#aec15a621c53faf436de3e8d686917747" title="setters and getters " alt="" coords="466,613,579,640"/>
+<area shape="rect" id="node44" href="$class_player.html#a0c8edc7f355f5546770c76321b9bd3a0" title="Player::setIActivePawns" alt="" coords="441,664,604,691"/>
+<area shape="rect" id="node47" href="$class_texture.html#ab57ecc7ec9ab52c8ce05ebe4f760270b" title="Texture::textLoad" alt="" coords="675,1373,798,1400"/>
+<area shape="rect" id="node48" href="$class_u_i.html#abb4cb9c0c4be941549501d7d0d086557" title="Get class font. " alt="" coords="693,1424,780,1451"/>
+<area shape="rect" id="node50" href="$class_sound.html#ae901623570c37953349adfa458793714" title="Sound::free" alt="" coords="277,993,365,1020"/>
+</map>

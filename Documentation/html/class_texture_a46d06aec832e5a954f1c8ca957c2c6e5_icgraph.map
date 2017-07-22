@@ -1,0 +1,7 @@
+<map id="Texture::free" name="Texture::free">
+<area shape="rect" id="node2" href="$class_button.html#ab31b0993b959cf9863eb2cf22a7ae18b" title="Resource releasing method. " alt="" coords="165,5,255,32"/>
+<area shape="rect" id="node4" href="$class_dice.html#a48e90392d2ff1e6736c88f22e8a87751" title="Dice::~Dice" alt="" coords="165,56,255,83"/>
+<area shape="rect" id="node5" href="$class_sprite.html#a8accab430f9d90ae5117b57d67e32b84" title="Destructor. " alt="" coords="157,107,263,133"/>
+<area shape="rect" id="node6" href="$class_texture.html#a09c4bcb7462f64c1d20fa69dba3cee8a" title="Destructor. " alt="" coords="148,157,272,184"/>
+<area shape="rect" id="node3" href="$class_button.html#a2a001eb9c3cc8ae54768a850dd345002" title="Destructor. " alt="" coords="320,5,435,32"/>
+</map>

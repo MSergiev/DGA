@@ -1,0 +1,9 @@
+<map id="Button::setSFX" name="Button::setSFX">
+<area shape="rect" id="node2" href="$class_controls.html#ac67381fdeb079095e9b28314e6b38a4b" title="UI initializing method. " alt="" coords="173,5,267,32"/>
+<area shape="rect" id="node6" href="$class_info.html#ae3b89f966611fd4e6e5b882a605d4f0f" title="Info::init" alt="" coords="187,56,253,83"/>
+<area shape="rect" id="node7" href="$class_title_screen.html#a48a5634207165ef0d33ef3c90aa15db8" title="TitleScreen::init" alt="" coords="164,107,276,133"/>
+<area shape="rect" id="node8" href="$class_win_screen.html#a89726940a71a00edf9df0d02a769076f" title="WinScreen::init" alt="" coords="165,157,275,184"/>
+<area shape="rect" id="node3" href="$class_game.html#a6f3a33940524b6ba9d83f627ccb14bbf" title="Game object initializing function. " alt="" coords="324,81,407,108"/>
+<area shape="rect" id="node4" href="$main_8cpp.html#aee8048628ff2b5c026c9e15acdcaacb8" title="init" alt="" coords="455,81,493,108"/>
+<area shape="rect" id="node5" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="541,81,592,108"/>
+</map>
