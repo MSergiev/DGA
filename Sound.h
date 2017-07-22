@@ -22,6 +22,9 @@ enum MUSIC{rock,electric,ambient};
 
 class Sound {
 public:
+	// flag to mute sound
+	static bool mute;
+	
 	Sound();
 	static bool load();
 	static void pause();
