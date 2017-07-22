@@ -8,6 +8,8 @@
 #ifndef INFO_H_
 #define INFO_H_
 
+#define PAGES_NUM 2
+
 #include "UI.h"
 
 class Info: public UI {
@@ -19,8 +21,7 @@ public:
 	virtual void render();
 private:
 int PageCounter=0;
-const int NumberOfPages;
-Texture pages[];
+Texture pages[PAGES_NUM];
 Button pageNext;
 Button pageBack;
 };

@@ -9,13 +9,13 @@
 
 //Include local modules
 #include "Shared.h"
-#include "Board.h"
 #include "Player.h"
 #include "Sound.h"
 #include "Dice.h"
 #include "Button.h"
 #include "TitleScreen.h"
 #include "WinScreen.h"
+#include "Info.h"
 #include "Recovery.h"
 
 //Misc library inclusion
@@ -30,7 +30,67 @@ using std::deque;
 using std::random_shuffle;
 
 class Game {
+
+private:
+	
+    //SDL event container
+    SDL_Event mEvent;
+    
+    //Game state flags
+    bool mbTitle = 1;
+    bool mbLoop = 0;
+    bool mbWin = 0;
+	bool mbRoll = 0;
+	bool mbRules = 0;
+
+	//Dice animation timer
+	Uint32 miDiceTimer = 0;
+
+	//Current dice roll
+	int miCurrentRoll = 1;
+
+    //Force ignore recovery
+    bool mbIgnoreRecovery = 0;
+
+    //Game font
+    TTF_Font* mFont;
+
+    //Game board
+    Texture mBoard;
+    
+    //Dice objects vector
+    vector<Dice*> mDice;
+
+    //Title screen object
+    TitleScreen mTitleScreen;
+
+    //Win screen object
+    WinScreen mWinScreen;
+
+	//Rules screen
+	Info mInfoScreen;
+
+    //Active board layout (top row leftmost square considered 1)
+    Pawn* mBoardLayout[BOARD_LENGTH+10] = {NULL};
+    unsigned mPawnsOnSquare[BOARD_LENGTH+10] = {0};
+
+    //Board highlighter array
+    Button mBoardHighlghters[BOARD_LENGTH+6];
+
+    //Active highlighter vector
+    vector<int> mActiveHighlighters;
+
+    //Turn counter
+    int miTurns = 0;
+
+    //Ordered player container
+    deque<Player*> mTurnOrder;
+
+    //Deque holding finished players
+    deque<Player*> mFinished;
+
 public:
+
     //Constructor
 	Game();
     
@@ -54,64 +114,13 @@ public:
     void eventHandler();
 
     //Render assets
-    //Args:
-    //bool renderDice - flag to render dice (not required)
-    void render(bool renderDice = 0);
+    void render();
 
     //Destuctor
     ~Game();
-
+    
 private:
-	
-    //SDL renderer
-    SDL_Renderer* mRenderer;
-    
-    //SDL event container
-    SDL_Event mEvent;
-    
-    //Game state flags
-    bool mbTitle = 0;
-    bool mbLoop = 1;
-    bool mbWin = 1;
 
-    //Force ignore recovery
-    bool mbIgnoreRecovery = 0;
-
-    //Game font
-    TTF_Font* mFont;
-
-    //Game board
-    Board mBoard;
-    
-    //Dice object
-    Dice mDice;
-
-    //Title screen object
-    TitleScreen mTitleScreen;
-
-    //Win screen object
-    WinScreen mWinScreen;
-
-    //Active board layout (top row leftmost square considered 1)
-    Pawn* mBoardLayout[BOARD_LENGTH+10] = {NULL};
-    unsigned mPawnsOnSquare[BOARD_LENGTH+10] = {0};
-
-    //Board highlighter array
-    Button mBoardHighlghters[BOARD_LENGTH+6];
-
-    //Turn counter
-    int miTurns = 0;
-
-    //Ordered player container
-    deque<Player*> mTurnOrder;
-
-    //Deque holding finished players
-    deque<Player*> mFinished;
-
-    //Active highlighter vector
-    vector<int> mActiveHighlighters;
-    
-    
     //Player turn
     //Args:
     //Player *p - pointer to active player
@@ -121,9 +130,7 @@ private:
     void determineTurnOrder();
 
     //Roll the dice
-    //Args:
-    //Colors c - dice color
-    int diceRoll(Colors c);
+    void diceRoll();
 
     //Move pawn
     //Args:

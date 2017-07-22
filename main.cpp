@@ -2,6 +2,7 @@
 //-----------INCLUDES----------
 //-----------------------------
 
+
 //Include SDL modules
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -11,9 +12,11 @@
 //Include local modules
 #include "Game.h"
 
+
 //-----------------------------
 //----------VARIABLES----------
 //-----------------------------
+
 
 //SDL attributes
 SDL_Window* window;
@@ -28,9 +31,11 @@ SDL_Event event;
 //Game object
 Game game;
 
+
 //-----------------------------
 //---------PROTOTYPES----------
 //-----------------------------
+
 
 //SDL initializing function
 bool init();
@@ -41,9 +46,11 @@ void eventHandler();
 //Resource releasing function
 void free();
 
+
 //-----------------------------
 //------------MAIN-------------
 //-----------------------------
+
 
 int main(int argc, char* argv[]){
 #ifdef DEBUG
@@ -78,7 +85,6 @@ int main(int argc, char* argv[]){
 
 	//Free resources
 	free();
-
 #ifdef DEBUG
 	cout << "========= SUCCESSFUL EXIT =========" << endl;
 #endif
@@ -86,10 +92,10 @@ int main(int argc, char* argv[]){
 	return 0;
 }
 
+
 //-----------------------------
 //----------FUNCTIONS----------
 //-----------------------------
-
 
 
 //SDL inititalizing function
@@ -140,10 +146,11 @@ bool init(){
 				cerr << "Renderer error: " << SDL_GetError() << endl;
 				success = 0;
 			} else {
+				Texture::setRenderer(renderer);
                 //Initialize sound
                 Sound::load();
                 //Initialize game
-                game.setRenderer(renderer);
+                //game.setRenderer(renderer);
                 game.setEvent(event);
                 game.init();
 			}
@@ -167,6 +174,7 @@ void eventHandler(){
 		if(event.type == SDL_QUIT || event.key.keysym.sym == SDLK_ESCAPE){
 			quit = 1;
 		}
+		game.setEvent(event);
 		game.eventHandler();
 	}
 }

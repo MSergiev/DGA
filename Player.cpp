@@ -27,16 +27,6 @@ Player::~Player()
 	}
 }
 
-void Player::SetRenderer(SDL_Renderer* renderer)
-{
-	for (unsigned int i = 0; i < m_vPawns.size(); i++)
-	{
-		// we pass the renderer to all the pawns
-		// so each can renderer correctly
-		m_vPawns[i]->setRenderer(renderer);
-	}
-}
-
 void Player::Render(vector<pair<int, int> > pos)
 {
 	for (unsigned int i = 0; i < pos.size(); i++)
@@ -154,7 +144,7 @@ void Player::SetPawnsVector()
 {
 	for (unsigned int i = 0; i < PAWNS; i++){
 		//make a dynamic allocated pawn
-		Pawn* pawn = new Pawn;
+		Pawn* pawn = new Pawn(m_EColor);
 
 		// give it to the vector
 		m_vPawns.push_back(pawn);

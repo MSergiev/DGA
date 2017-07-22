@@ -31,12 +31,11 @@ private:
 	int m_iPosition;
 	Colors m_eColor;
 	
-
 	//Sprite object pointer
-	Sprite* mPlayerSprite;
+	Sprite mPlayerSprite;
 
 public:
-	Pawn();
+	Pawn(Colors c);
 	virtual ~Pawn();
 
 	//Rendering method
@@ -44,11 +43,6 @@ public:
 	//int x - X screen coordinate
 	//int y - Y screen coordinate
 	void render(int x, int y);
-
-	//Set renderer
-	//Args:
-	//SDL_Renderer* renderer - renderer to draw the sprites with
-	void setRenderer(SDL_Renderer* renderer);
 
 	// setters & getters
 	int getIPosition() const;

@@ -1,8 +1,8 @@
 #include "Texture.h"
 
-Texture::Texture(SDL_Renderer * renderer){
-	//Set renderer
-	setRenderer(renderer);
+SDL_Renderer* Texture::mRenderer = NULL;
+
+Texture::Texture(){
 	//Initialize data
 	initData();
 }
@@ -59,7 +59,7 @@ void Texture::textLoad(string s, TTF_Font* f, SDL_Color c){
 }
 
 void Texture::setRenderer(SDL_Renderer* renderer){
-	this->mRenderer = renderer;
+	Texture::mRenderer = renderer;
 }
 
 void Texture::setColor(Uint8 r, Uint8 g, Uint8 b){
@@ -97,7 +97,6 @@ int Texture::getHeight() const {
 void Texture::free(){
 	//Release texture data
 	SDL_DestroyTexture(mTexture);
-	initData();
 }
 
 void Texture::initData(){

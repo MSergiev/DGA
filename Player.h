@@ -51,10 +51,6 @@ public:
 	// the positions of all pawns of the player
 	void Render(vector<pair<int, int> > pos);
 
-	// sets the right SDL_Renderer so all the classes
-	// in the project can work with just one renderer
-	void SetRenderer(SDL_Renderer* renderer);
-
 	// setters and getters
 	int getILost() const;
 	void setILost(int iLost);

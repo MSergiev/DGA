@@ -32,10 +32,6 @@ void TitleScreen::init() {
 	loadBackground(TITLE_PATH);
 	UI::loadFont(FONT_PATH,FONT_SIZE);
 
-	StartButton.setRenderer(UI::getRenderer());
-	ContinueButton.setRenderer(UI::getRenderer());
-	QuitButton.setRenderer(UI::getRenderer());
-	
 	StartButton.setLabel("START",UI::getFont(),SDL_Color C_WHITE);
 	ContinueButton.setLabel("CONTINUE",UI::getFont(),SDL_Color C_WHITE);
 	QuitButton.setLabel("QUIT",UI::getFont(),SDL_Color C_WHITE);

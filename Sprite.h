@@ -27,6 +27,11 @@ public:
 	//Uint32 numOfFrames - number of animation frames
 	void setNumOfFrames(Uint32 numOfFrames);
 
+	//Set animation frame
+	//Args:
+	//SDL_Rect animationFrame - frame rectangle
+	void setAnimationFrame(SDL_Rect animationFrame);
+
 	//(I) Rendering method
 	//Args:
 	//int x - X screen coordinate

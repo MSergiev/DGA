@@ -15,11 +15,6 @@ public:
 	//int h = button heighte (not required)
 	Button(int x = 0, int y = 0, int w = 10, int h = 10);
 
-	//Assign button renderer
-	//Args:
-	//SDL_Renderer* renderer - pointer to renderer
-	void setRenderer(SDL_Renderer* renderer);
-
 	//Assign label font
 	//Args:
 	//string label - text for the button label
@@ -70,8 +65,6 @@ public:
 	~Button();
 
 private:
-	//SDL renderer
-	SDL_Renderer* mRenderer;
 
 	//Font pointer
 	TTF_Font* mFont;

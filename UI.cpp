@@ -34,22 +34,9 @@ void UI::loadBackground(string backgroundPath){
 	if(backgroundPath!=string()){
 	   	this->msBackgroundPath = backgroundPath;
 		//Load image into texture
-		mBackground.setRenderer(mRenderer);
+	//	mBackground.setRenderer(mRenderer);
 		mBackground.load(msBackgroundPath);
 	}
-}
-
-//Renderer setter
-void UI::setRenderer(SDL_Renderer * renderer){
-	//Set class renderer
-	this->mRenderer = renderer;
-	//Load background if path is not empty
-	if(msBackgroundPath!=string()) loadBackground(msBackgroundPath);
-}
-
-//Renderer getter
-SDL_Renderer* UI::getRenderer() const {
-	return mRenderer;
 }
 
 //Font getter

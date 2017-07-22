@@ -6,16 +6,6 @@ Button::Button(int x, int y, int w, int h){
 	this->mButtonBase = {x,y,w,h};
 }
 
-//Renderer setter method
-void Button::setRenderer(SDL_Renderer* renderer){
-	//Set class renderer
-	this->mRenderer = renderer;
-	//Set label texture renderer
-	mLabel.setRenderer(renderer);
-	//Set button texture renderer
-	mTexture.setRenderer(renderer);
-}
-
 //Font setter method
 void Button::setLabel(string label, TTF_Font* font, SDL_Color fontColor){
 	//Set class data
@@ -80,8 +70,8 @@ bool Button::isReleased(SDL_Event & e){
 //Render button
 void Button::render(){
 	//Render base
-	SDL_SetRenderDrawColor(mRenderer, mButtonColor.r, mButtonColor.g, mButtonColor.b, mButtonColor.a);
-	SDL_RenderFillRect(mRenderer, &mButtonBase);
+	//SDL_SetRenderDrawColor(mRenderer, mButtonColor.r, mButtonColor.g, mButtonColor.b, mButtonColor.a);
+	//SDL_RenderFillRect(mRenderer, &mButtonBase);
 	//Render texture
 	mTexture.render(mButtonBase.x, mButtonBase.y);
 	//Render label
@@ -94,8 +84,6 @@ void Button::free(){
 	mLabel.free();
 	//Release button texture
 	mTexture.free();
-	//Zero renderer
-	mRenderer = NULL;
 }
 
 //Destructor

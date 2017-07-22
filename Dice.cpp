@@ -7,45 +7,41 @@
 #include "Dice.h"
 //empty constructor
 Dice::Dice() {
+	DiceTexture.load(DICE_PATH);
 }
 //frees the  memory that the DiceTexture used
 Dice::~Dice() {
 	DiceTexture.free();
 }
-// method that draws the   dice texture on the screen
-void Dice::setRenderer(SDL_Renderer* renderer){
-if(renderer!=NULL){
-		DiceTexture.setRenderer(renderer);
-		DiceTexture.load(DICE_PATH);
-}
+//method that sets dice position on screen
+void Dice::setPosition(int x, int y){
+	this->posX=x;
+	this->posY=y;
 }
 //method that returns a random generated  number from 1 to 6
 int Dice::roll() {
 	DiceResult=(rand()%6)+1;
 	return DiceResult;
 }
-//Flag to check if user has clicked inside the dice , and if so , rolls the dice.
+//Flag to check if user has clicked inside the dice
 bool Dice::Event(SDL_Event& e){
-	bool hasClicked = 0;
 	if (e.type == SDL_MOUSEBUTTONDOWN) {
 		if( e.button.button == SDL_BUTTON_LEFT){
 			int x,y;
 			SDL_GetMouseState(&x,&y);
-			if(x>=(WIDTH-DICE_WIDTH)/2 &&
-				x<=(WIDTH+DICE_WIDTH)/2 &&
-				y>=(HEIGHT-DICE_HEIGHT)/2 &&
-				y<=(HEIGHT+DICE_HEIGHT)/2){
+			if(x>=posX && x<=posX+DICE_WIDTH &&
+				y>=posY && y<=posY+DICE_HEIGHT){
 					Dice::roll();
-					hasClicked = 1;
+					return 1;
 			}
 		}
 	}
-	return hasClicked;
+	return 0;
 }
 // sets  the image and the SIZE on the screen
-void Dice::render(Colors c){
-	SDL_Rect DiceFace={(DiceResult-1)*DICE_WIDTH,(c-1)*DICE_HEIGHT,DICE_WIDTH,DICE_HEIGHT};
-	DiceTexture.render((WIDTH-DICE_WIDTH)/2,(HEIGHT-DICE_HEIGHT)/2,&DiceFace);
+void Dice::render(){
+	SDL_Rect DiceFace={(DiceResult-1)*DICE_WIDTH,0,DICE_WIDTH,DICE_HEIGHT};
+	DiceTexture.render(posX, posY, &DiceFace);
 }
 //method that sets the seed for the  random generator  from the current time
 void Dice::init(){

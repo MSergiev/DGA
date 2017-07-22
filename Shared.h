@@ -23,12 +23,19 @@ using std::pair;
 //Number of pawns
 #define PAWNS 5
 
+//Pawn sprite animation frames
+#define PAWN_FRAMES 20
+
 //UI button size
 #define BUTTON_WIDTH 100
 #define BUTTON_HEIGHT 50
 
 //Win screen data spacing
 #define WIN_OFFSET 80
+
+//Rule screen button params
+#define RULES_WIDTH 50
+#define RULES_HEIGHT 100
 
 //Player data amount
 #define PLAYER_DATA 5
@@ -121,13 +128,20 @@ const int SPRITE_SCALE[]{
 #define BOARD_PATH "./GFX/board.png"
 
 //Win screen background path
-#define WIN_PATH "./GFX/table.png"
+#define WIN_PATH "./GFX/win.png"
 
 //Title screen background path
 #define TITLE_PATH "./GFX/title.png"
 
 //UI button vertical offset
 #define VERT_OFFSET 150
+
+//Player dice positions (in pixels)
+const pair<int,int> DICE_POS[]{
+	{107,155}, //YELLOW
+	{156,541}, //RED
+	{542,493} //BLUE
+};
 
 //UI constants
 #define TITLE_START 0b100

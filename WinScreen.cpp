@@ -27,8 +27,8 @@ void WinScreen::init()
 	SDL_Color button;
 	//UI::loadFont(FONT_PATH, FONT_SIZE);
 
-	m_bRestart.setRenderer(UI::getRenderer());
-	m_BQuit.setRenderer(UI::getRenderer());
+//	m_bRestart.setRenderer(UI::getRenderer());
+//	m_BQuit.setRenderer(UI::getRenderer());
 
 	m_bRestart.setLabel("RESTART", UI::getFont(), button);
 	m_BQuit.setLabel("QUIT", UI::getFont(), button);
@@ -50,8 +50,6 @@ void WinScreen::render()
 
 	//Text render color
 	SDL_Color textColor C_WHITE;
-	
-	text.setRenderer(UI::getRenderer());
 	
 	for(int i = 0; i < PLAYERS; i++)
 	{

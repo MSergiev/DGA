@@ -7,25 +7,26 @@
 
 #include "Info.h"
 
-Info::Info():NumberOfPages(2) {
-
-
+Info::Info() {
 }
 
 Info::~Info() {
 	// TODO Auto-generated destructor stub
 }
+
 //handles the event - > when a button is pressed to
 //return the state of the button
 int Info::eventHandler(SDL_Event& e) {
-	int ButtonState=0;
-	ButtonState=ButtonState | pageNext.isClicked(e);
-	ButtonState=ButtonState | pageBack.isClicked(e);
+	if(pageNext.isClicked(e)) PageCounter++;
+	else if(pageBack.isClicked(e)) PageCounter--;
+
+	//if before first page
 	if(PageCounter<0){
 		PageCounter=0;
-				return 1;
+		return 1;
 	}
-	else if(NumberOfPages>PageCounter){
+	//if over last page
+	else if(PageCounter>=PAGES_NUM){
 		PageCounter=0;
 		return 1;
 	}
@@ -33,24 +34,23 @@ int Info::eventHandler(SDL_Event& e) {
 }
 //initializes the  buttons size and position
 void Info::init() {
-
+	//load page textures
 	pages[0].load(RULES_1_PATH);
-	pages[0].setRenderer(UI::getRenderer());
 	pages[1].load(RULES_2_PATH);
-	pages[1].setRenderer(UI::getRenderer());
-
-
-	pageNext.setRenderer(UI::getRenderer());
-	pageBack.setRenderer(UI::getRenderer());
-	pageNext.setSize(50,100);
-	pageNext.setLocation((WIDTH-50),(HEIGHT-100)/2);
-	pageBack.setSize(50,100);
-	pageBack.setLocation((0),(HEIGHT-100)/2);
+	
+	pageNext.setSize(RULES_WIDTH, RULES_HEIGHT);
+	pageBack.setSize(RULES_WIDTH,RULES_HEIGHT);
+	
+	pageNext.setLocation((WIDTH-RULES_WIDTH),(HEIGHT-RULES_HEIGHT)/2);
+	pageBack.setLocation(0,(HEIGHT-RULES_HEIGHT)/2);
+	
+//	UI::loadBackground(RULES_1_PATH);
 }
 // render function that draws the image on the screen
 //overwrite
 void Info::render() {
 	pages[PageCounter].render(0,0);
+	
 	//UI::render(); //calls the virtual render method from the base class UI
 	//pageNext.render();
 	//pageBack.render();
