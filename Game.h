@@ -1,13 +1,13 @@
 #ifndef GAME_H
 #define GAME_H
 
-//Include SDL modules
+///Include SDL modules
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_mixer.h>
 
-//Include local modules
+///Include local modules
 #include "Shared.h"
 #include "Player.h"
 #include "Sound.h"
@@ -19,7 +19,7 @@
 #include "Controls.h"
 #include "Recovery.h"
 
-//Misc library inclusion
+///Misc library inclusion
 #include <iostream>
 using std::cerr;
 using std::endl;
@@ -34,10 +34,10 @@ class Game {
 
 private:
 	
-    //SDL event container
+    ///SDL event container
     SDL_Event mEvent;
     
-    //Game state flags
+    ///Game state flags
     bool mbTitle = 1;
     bool mbLoop = 0;
     bool mbWin = 0;
@@ -45,178 +45,178 @@ private:
 	bool mbRoll = 0;
 	bool mbHighlight = 0;
 
-	//Dice animation timer
+	///Dice animation timer
 	Uint32 miDiceTimer = 0;
 
-	//Current dice roll
+	///Current dice roll
 	int miCurrentRoll[PLAYERS];
 
-    //Force ignore recovery
+    ///Force ignore recovery
     bool mbIgnoreRecovery = 0;
 
-    //Game font
+    ///Game font
     TTF_Font* mFont;
 
-    //Game board
+    ///Game board
     Texture mBoard;
     
-    //Dice objects vector
+    ///Dice objects vector
     vector<Dice*> mDice;
 
-    //Title screen object
+    ///Title screen object
     TitleScreen mTitleScreen;
 
-    //Win screen object
+    ///Win screen object
     WinScreen mWinScreen;
 
-	//Rules screen
+	///Rules screen
 	Info mInfoScreen;
 
-	//UI controls object
+	///UI controls object
 	Controls mControls;
 
-    //Active board layout (top row leftmost square considered 0)
+    ///Active board layout (top row leftmost square considered 0)
 	vector<Pawn*> mBoardVector[BOARD_HEIGHT][BOARD_WIDTH];
 
-    //Board highlighter array
+    ///Board highlighter array
     Button mBoardHighlghters[BOARD_HEIGHT][BOARD_WIDTH];
 
-    //Active highlighter index vector
+    ///Active highlighter index vector
     vector<pair<int,int> > mActiveHighlighters;
 
-    //Turn counter
+    ///Turn counter
     int miTurns = 0;
 
-    //Ordered player container
+    ///Ordered player container
     deque<Player*> mTurnOrder;
 
-    //Deque holding finished players
+    ///Deque holding finished players
     deque<Player*> mFinished;
 
 public:
 
-    //Constructor
+    ///Constructor
 	Game();
     
-    //Game loop
+    ///Game loop
     void loop();
     
-    //SDL event container setter
-    //Args:
-    //SDL_Event& event - reference to event container
+    ///SDL event container setter
+    ///Args:
+    ///SDL_Event& event - reference to event container
     void setEvent(SDL_Event& event);
 	
-    //Game object initializing function
+    ///Game object initializing function
     void init();
    
-   	//Game data initializing function
+   	///Game data initializing function
     void initGame();
 
-    //Event handler
+    ///Event handler
     void eventHandler();
 
-    //Render assets
+    ///Render assets
     void render();
 
-    //Destuctor
+    ///Destuctor
     ~Game();
     
 private:
 
-    //Player turn
-    //Args:
-    //Player *p - pointer to active player
+    ///Player turn
+    ///Args:
+    ///Player *p - pointer to active player
     void turn(Player *p);
 
-    //Determine turn order
+    ///Determine turn order
     void determineTurnOrder();
 
-    //Roll the dice
+    ///Roll the dice
     void diceRoll();
 
-    //Move pawn
-    //Args:
-    //Pawn* p - pawn pointer
-    //int from - index on board array to move it from
-    //int with - amount of spaces to move it with
+    ///Move pawn
+    ///Args:
+    ///Pawn* p - pawn pointer
+    ///int from - index on board array to move it from
+    ///int with - amount of spaces to move it with
     void movePawn(Pawn* p, int with);
 
-    //Collision detection
-    //Args:
-    //Pawn* p - pawn pointer
-    //int pX - destination X index
-	//int pY - destination Y index
+    ///Collision detection
+    ///Args:
+    ///Pawn* p - pawn pointer
+    ///int pX - destination X index
+	///int pY - destination Y index
     void collision(Pawn* p, int pX, int pY);
 
-    //Board square highlighter
-    //Args:
-    //int pX - X coordinate index
-	//int pY - Y coordinate index
+    ///Board square highlighter
+    ///Args:
+    ///int pX - X coordinate index
+	///int pY - Y coordinate index
     void highlight(int pX, int pY);
 
-    //Highlighted squares event handler
+    ///Highlighted squares event handler
     pair<int,int> getHighlightedChoice();
 
-    //Delay
-    //Args:
-    //Uint32 ms - milliseconds to delay for
+    ///Delay
+    ///Args:
+    ///Uint32 ms - milliseconds to delay for
     void delay(Uint32 ms);
     
-    //Activate pawn
-    //Args:
-    //Player p* - pointer to player
+    ///Activate pawn
+    ///Args:
+    ///Player p* - pointer to player
     void activatePawn(Player* p);
 
-    //Get absolute from relative pawn position
-    //Args:
-    //Colors c - pawn color
-    //int pos - relative position (not required)
+    ///Get absolute from relative pawn position
+    ///Args:
+    ///Colors c - pawn color
+    ///int pos - relative position (not required)
     int getAbsolute(Colors c, int pos = 0);
 
-    //Get relative from absolute board position
-    //Args:
-    //Colors c - pawn color
-    //int pos - absolute position (not required)
+    ///Get relative from absolute board position
+    ///Args:
+    ///Colors c - pawn color
+    ///int pos - absolute position (not required)
     int getRelative(Colors c, int pos = 0);
     
-    //Get screen coordinates from board position
-    //Args:
-    //int pX - X index
-	//int pY - Y index
+    ///Get screen coordinates from board position
+    ///Args:
+    ///int pX - X index
+	///int pY - Y index
     pair<int, int> getCoords(int pX, int pY);
 
-	//Determine if board square is active
-	//Args:
-	//int pX - X index
-	//int pY - Y index
+	///Determine if board square is active
+	///Args:
+	///int pX - X index
+	///int pY - Y index
 	bool isActive(int pX, int pY);
 
-	//Determine if board square is safe
-	//Args:
-	//int pX - X index
-	//int pY - Y index
-	//Colors c - player color
+	///Determine if board square is safe
+	///Args:
+	///int pX - X index
+	///int pY - Y index
+	///Colors c - player color
 	bool isSafe(int pX, int pY, Colors c);
 	
-	//Determine if board square is active
-	//Args:
-	//int pX - X index
-	//int pY - Y index
-	//Colors c - player color
+	///Determine if board square is active
+	///Args:
+	///int pX - X index
+	///int pY - Y index
+	///Colors c - player color
 	bool isFinal(int pX, int pY, Colors c);
 	
-	//Determine if board square is base
-	//Args:
-	//int pX - X index
-	//int pY - Y index
-	//Colors c - player color
+	///Determine if board square is base
+	///Args:
+	///int pX - X index
+	///int pY - Y index
+	///Colors c - player color
 	bool isBase(int pX, int pY, Colors c);	
 
-	//Determine if board square is entry
-	//Args:
-	//int pX - X index
-	//int pY - Y index
-	//Colors c - player color
+	///Determine if board square is entry
+	///Args:
+	///int pX - X index
+	///int pY - Y index
+	///Colors c - player color
 	bool isEntry(int pX, int pY, Colors c);
 };
 

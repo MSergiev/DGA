@@ -1,7 +1,7 @@
 /*
  * Pawn.h
  *
- *  Created on: 10.07.2017 ?.
+ *  Created on: 10.07.2017 ã.
  *      Author: IVY
  */
 
@@ -12,7 +12,7 @@
 #define ANIMATION_DELAY 25
 #define NUM_OF_FRAMES 20
 
-//Include sprite class
+///Include sprite class
 #include "Sprite.h"
 #include "Shared.h"
 
@@ -31,20 +31,20 @@ private:
 	int m_iXPosition, m_iYPosition;
 	Colors m_eColor;
 	
-	//Sprite object pointer
+	///Sprite object pointer
 	Sprite mPlayerSprite;
 
 public:
 	Pawn(Colors c);
 	virtual ~Pawn();
 
-	//Rendering method
-	//Args:
-	//int x - X screen coordinate
-	//int y - Y screen coordinate
+	///Rendering method
+	///Args:
+	///int x - X screen coordinate
+	///int y - Y screen coordinate
 	void render(int x, int y);
 
-	// setters & getters
+	/// setters & getters
 	int getIXPosition() const;
 	void setIXPosition(int iXPosition);
 

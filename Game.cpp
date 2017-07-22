@@ -37,7 +37,7 @@ void Game::loop(){
 		
 		//Execute player turn
 		for(unsigned i = 0; i < mTurnOrder.size(); i++)
-			if(mTurnOrder[i]->getEColor()==YELLOW){ turn(mTurnOrder[i]); break; }
+			if(mTurnOrder[i]->getEColor()==RED){ turn(mTurnOrder[i]); break; }
 //		turn(mTurnOrder.front());
 
 		//Increment turn counter

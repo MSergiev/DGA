@@ -7,29 +7,29 @@ class Controls: public UI {
 
 public:
 
-	//Constructor
+	///Constructor
 	Controls();
 
-	//UI initializing method
+	///UI initializing method
 	void init();
 
-	//Event handler
-	//Args:
-	//SDL_Event& e - reference to SDL event container
+	///Event handler
+	///Args:
+	///SDL_Event& e - reference to SDL event container
 	virtual int eventHandler(SDL_Event& e);
 
-	//Render method
+	///Render method
 	virtual void render();
 
-	//Destructor
+	///Destructor
 	virtual ~Controls();
 
 private:
 	
-	//Sound state
+	///Sound state
 	bool mbSoundState = 1;
 
-	//Button objects
+	///Button objects
 	Button mSoundButton;
 	Button mRulesButton;
 	Button mQuitButton;

@@ -27,16 +27,16 @@ public:
 	Recovery();
 	virtual ~Recovery();
 
-	// returns deque with all the data from the file
+	/// returns deque with all the data from the file
 	static deque< Player* > ReadFromXML();
 
-	// puts data in the same file and deletes the previous data
+	/// puts data in the same file and deletes the previous data
 	static void WriteXML(deque <Player*>, bool rolled = 0);
 
-	// prints the data
+	/// prints the data
 	static void Print(deque <Player*>);
 
-	// flag if player rolled the dice this turn
+	/// flag if player rolled the dice this turn
 	static bool hasRolled;
 };
 

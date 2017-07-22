@@ -17,7 +17,7 @@ using std::rand;
 using std::srand;
 using std::time;
 
-//Dice constants
+///Dice constants
 #define DICE_WIDTH  148
 #define DICE_HEIGHT  148
 
