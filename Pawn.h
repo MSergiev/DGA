@@ -28,7 +28,7 @@ using std::vector;
 class Pawn
 {
 private:
-	int m_iPosition;
+	int m_iXPosition, m_iYPosition;
 	Colors m_eColor;
 	
 	//Sprite object pointer
@@ -45,8 +45,11 @@ public:
 	void render(int x, int y);
 
 	// setters & getters
-	int getIPosition() const;
-	void setIPosition(int iPosition);
+	int getIXPosition() const;
+	void setIXPosition(int iXPosition);
+
+	int getIYPosition() const;
+	void setIYPosition(int iYPosition);
 
 	Colors getEColor() const;
 	void setEColor(Colors eColor);

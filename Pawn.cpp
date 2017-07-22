@@ -11,7 +11,8 @@ Pawn::Pawn(Colors c)
 		:mPlayerSprite(SDL_Rect {0,0,SPRITE_SIZE, SPRITE_SIZE}, PAWN_FRAMES, 20)
 {
 	setEColor(c);
-	setIPosition(-1);
+	setIXPosition(-1);
+	setIYPosition(-1);
 	mPlayerSprite.load(PAWN_PATH);
 }
 
@@ -31,11 +32,15 @@ Pawn::~Pawn()
 
 // setters & getters
 
-int Pawn::getIPosition() const
+int Pawn::getIXPosition() const
 {
-	return m_iPosition;
+	return m_iXPosition;
 }
 
+int Pawn::getIYPosition() const
+{
+	return m_iYPosition;
+}
 Colors Pawn::getEColor() const
 {
 	return m_eColor;
@@ -52,7 +57,11 @@ void Pawn::setEColor(Colors eColor)
 	m_eColor = eColor;
 }
 
-void Pawn::setIPosition(int iPosition)
+void Pawn::setIXPosition(int iXPosition)
 {
-	m_iPosition = iPosition;
+	m_iXPosition = iXPosition;
+}
+void Pawn::setIYPosition(int iYPosition)
+{
+	m_iYPosition = iYPosition;
 }

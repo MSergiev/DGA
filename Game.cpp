@@ -21,11 +21,13 @@ void Game::loop(){
 	else if(mbLoop){
 
 #ifdef DEBUG
-		cout << "Active: ";
-		for(unsigned i = 0; i < BOARD_LENGTH+10; ++i) cout << mPawnsOnSquare[i];
-		cout << endl;
-		cout << "Pawns:  ";
-		for(unsigned i = 0; i < BOARD_LENGTH+10; ++i) cout << (!mBoardLayout[i]?NONE:mBoardLayout[i]->getEColor());
+		cout << "Active: " << endl;
+		for(unsigned i = 0; i < BOARD_HEIGHT; ++i){
+			for(unsigned j = 0; j < BOARD_WIDTH; ++j){
+				cout << mBoardVector[j][i].size();
+			}
+			cout << endl;
+		}
 		cout << endl;
 #endif
 					
@@ -33,9 +35,9 @@ void Game::loop(){
 		render();
 		
 		//Execute player turn
-	//	for(unsigned i = 0; i < turnOrder.size(); i++)
-	//		if(turnOrder[i]->getEColor()==YELLOW){ turn(turnOrder[i]); break; }
-		turn(mTurnOrder.front());
+		for(unsigned i = 0; i < mTurnOrder.size(); i++)
+			if(mTurnOrder[i]->getEColor()==YELLOW){ turn(mTurnOrder[i]); break; }
+//		turn(mTurnOrder.front());
 
 		//Increment turn counter
 		miTurns++;
@@ -53,11 +55,11 @@ void Game::setEvent(SDL_Event& event){
     this->mEvent = event;
 }
 
-//Game inititalizing method
+//Game object inititalizing method
 void Game::init(){
     
 #ifdef DEBUG
-	cout << "InitGame called" << endl;
+	cout << "init called" << endl;
 #endif
     //Load game font
     mFont = TTF_OpenFont(FONT_PATH, 15);
@@ -76,8 +78,9 @@ void Game::init(){
 	mBoard.load(BOARD_PATH);
 
 	//Initialize highlighters
-	for(int i = 0; i < BOARD_LENGTH+6; ++i)
-		mBoardHighlghters[i].setTexture(HIGHLIGHTER_PATH);
+	for(int i = 0; i < BOARD_HEIGHT; ++i)
+		for(int j = 0; j < BOARD_WIDTH; ++j)
+		mBoardHighlghters[i][j].setTexture(HIGHLIGHTER_PATH);
 
     //Initialize UI
     mTitleScreen.init();
@@ -85,7 +88,18 @@ void Game::init(){
     mWinScreen.init();
 	mInfoScreen.init();
 	mControls.init();
+}
 
+//Game data inititalizing method
+void Game::initGame(){
+    
+#ifdef DEBUG
+	cout << "initGame called" << endl;
+#endif
+    //Initialize final vectors with pawn placeholders
+	for(int i = 0; i < PLAYERS; ++i)
+		for(int j = 0; j < PLAYERS; ++j)
+			mBoardVector[FINAL_SQUARES[i].first][FINAL_SQUARES[i].second].push_back(new Pawn(NONE));			
 	//Try to recover state from XML	
 	mTurnOrder = Recovery::ReadFromXML();
 	if(!mTurnOrder.size() || mbIgnoreRecovery){
@@ -97,10 +111,7 @@ void Game::init(){
 	//Set player data
 		for(unsigned i = 0; i < mTurnOrder.size(); ++i){
 			for(unsigned j = 0; j < mTurnOrder[i]->m_vPawns.size(); ++j){
-				if(mTurnOrder[i]->m_vPawns[j]->getIPosition()>-1){
-					mPawnsOnSquare[mTurnOrder[i]->m_vPawns[j]->getIPosition()]++;
-					mBoardLayout[mTurnOrder[i]->m_vPawns[j]->getIPosition()] = mTurnOrder[i]->m_vPawns[j];
-				}
+				mBoardVector[mTurnOrder[i]->m_vPawns[j]->getIXPosition()][mTurnOrder[i]->m_vPawns[j]->getIYPosition()].push_back(mTurnOrder[i]->m_vPawns[j]);
 			}
 		}
 		cout << "Player data:" << endl;
@@ -115,20 +126,20 @@ void Game::eventHandler(){
         //Get current button states
         int titleState = mTitleScreen.eventHandler(mEvent);
         //If start button is clicked
-        if(titleState & TITLE_START){ mbTitle = 0; mbLoop = 1; mbRoll = 1; mbIgnoreRecovery = 1; }
+        if(titleState & TITLE_START){ mbTitle = 0; mbLoop = 1; mbRoll = 1; mbIgnoreRecovery = 1; initGame(); }
         //If continue button is clicked
-        else if(titleState & TITLE_CONTINUE){ mbTitle = 0; mbLoop = 1; mbRoll = 1; }
+        else if(titleState & TITLE_CONTINUE){ mbTitle = 0; mbLoop = 1; mbRoll = 1; initGame(); }
         //If quit button is clicked
-        else if(titleState & TITLE_QUIT){ mbTitle = 0; mbLoop = 0; mbWin = 0; }
+        else if(titleState & TITLE_QUIT){ quit = 1;}
     }
     //If on win screen
     else if(mbWin){
         //Get current button states
         int winState = mWinScreen.eventHandler(mEvent);
         //If restart button is clicked
-        if(winState & WIN_RESTART){ mbWin = 0; mbTitle = 0; mbLoop = 1; mbIgnoreRecovery = 1; }
+        if(winState & WIN_RESTART){ mbWin = 0; mbTitle = 0; mbLoop = 1; mbIgnoreRecovery = 1; initGame(); }
         //If exit button is clicked
-        else if(winState & WIN_QUIT){ mbWin = 0; mbTitle = 0; mbLoop = 0; }
+        else if(winState & WIN_QUIT){ quit = 1; }
     }
 	//If on rules screen
 	else if(mbRules){
@@ -157,40 +168,17 @@ void Game::render(){
     
     //Render highlighters
     for(unsigned i = 0; i < mActiveHighlighters.size(); ++i)
-        mBoardHighlghters[mActiveHighlighters[i]].render();
+        mBoardHighlghters[mActiveHighlighters[i].second][mActiveHighlighters[i].first].render();
     
-    //Draw player sprites
+    //Render player sprites
     for(unsigned i = 0; i < mTurnOrder.size(); ++i){
         //Get player pawn screen coordinates
         vector<pair<int,int> > pos;
-        //Found pawns counter
-        int pawnCounter = 0;
         //Traverse current player pawns
         for(unsigned j = 0; j < mTurnOrder[i]->m_vPawns.size(); ++j){
-            //If current pawn is active
-            if(mTurnOrder[i]->m_vPawns[j]->getIPosition()>=0){
                 //Get pawn screen coordinates
-                pos.push_back(getCoords(mTurnOrder[i]->getEColor(), mTurnOrder[i]->m_vPawns[j]->getIPosition()));
-                //Increment counter
-                pawnCounter++;
+                pos.push_back(getCoords(mTurnOrder[i]->m_vPawns[j]->getIXPosition(), mTurnOrder[i]->m_vPawns[j]->getIYPosition()));
             }
-            //If all active pawns are found
-            if(pawnCounter==mTurnOrder[i]->getIActivePawns()) break;
-        }
-        
-        //Idle pawn coordinate holder
-        pair<int, int> idleCoords = getCoords(mTurnOrder[i]->getEColor(),-1);
-        //Draw idle pawns
-        for(int j = 0; j < PAWNS-pawnCounter; ++j){
-            //Position pawns correctly
-            switch(mTurnOrder[i]->getEColor()){
-                case YELLOW: idleCoords.first-=SQUARE_SIZE; break;
-                case RED: idleCoords.second+=SQUARE_SIZE; break;
-                case BLUE: idleCoords.first+=SQUARE_SIZE; break;
-                case NONE: break;
-            }
-            pos.push_back(idleCoords);
-        }
         //Render pawns
         mTurnOrder[i]->Render(pos);
     }
@@ -207,7 +195,7 @@ void Game::render(){
 void Game::turn(Player * p){
     
 #ifdef DEBUG
-	cout << "Turn called with " << p->getEColor() << endl;
+	//cout << "Turn called with " << p->getEColor() << endl;
 #endif
     
 	//If player has rolled before recovery
@@ -223,7 +211,7 @@ void Game::turn(Player * p){
 	//Recovery::WriteXML(turnOrder, 1);
 	
 	//Set player roll
-	p->setIDiceRoll(miCurrentRoll);
+	p->setIDiceRoll(miCurrentRoll[mTurnOrder.front()->getEColor()-1]);
 	
 	switch(p->getEColor()){
 			case YELLOW: p->setIDiceRoll(6); break;
@@ -247,8 +235,8 @@ void Game::turn(Player * p){
 		//Traverse the pawns
 		for(unsigned i = 0; i < p->m_vPawns.size(); ++i){
 			//If pawn is on the board
-			if(p->m_vPawns[i]->getIPosition()!=-1){
-				cout << "Selected pawn: " << p->m_vPawns[i]->getIPosition() << endl;
+			if(MOVEABLE_SQUARES[p->m_vPawns[i]->getIYPosition()][p->m_vPawns[i]->getIXPosition()]){
+				cout << "Selected pawn: " << p->m_vPawns[i]->getEColor() << endl;
 				//Move pawn forward
 				movePawn(p->m_vPawns[i], p->getIDiceRoll());
 				break;	
@@ -259,19 +247,25 @@ void Game::turn(Player * p){
 	else {
 		//If highglighters have not been set this turn	
 		if(!mbHighlight){
-			//If roll is a 6
+			//If roll is a 6 and player has inactive pawns
 			if(p->getIDiceRoll()==6 && p->getIActivePawns()!=PAWNS){
-				//Highlight base
-				highlight(-1,p->getEColor());
+				//Find inactive pawn
+				for(unsigned i = 0; i < p->m_vPawns.size(); ++i){
+					if(isBase(p->m_vPawns[i]->getIXPosition(), p->m_vPawns[i]->getIYPosition(), p->getEColor())){
+						//Highlight inactive pawn
+						highlight(p->m_vPawns[i]->getIXPosition(), p->m_vPawns[i]->getIYPosition());
+						break;
+					}
+				}
 			}
 			//Active pawn counter
 			int activeCount = 0;	
 			//Traverse the board
 			for(unsigned i = 0; i < p->m_vPawns.size(); ++i){
 				//Find active ones
-				if(p->m_vPawns[i]->getIPosition()!=-1){
+				if(MOVEABLE_SQUARES[p->m_vPawns[i]->getIYPosition()][p->m_vPawns[i]->getIXPosition()]){
 					//Highlight active pawn
-					highlight(p->m_vPawns[i]->getIPosition(), p->getEColor());	
+					highlight(p->m_vPawns[i]->getIXPosition(), p->m_vPawns[i]->getIYPosition());	
 					//Increase active counter
 					activeCount++;
 				}
@@ -283,11 +277,13 @@ void Game::turn(Player * p){
 		}
 
 		//Get choice from highlights
-		int choice = getHighlightedChoice();
+		pair<int,int> choice = getHighlightedChoice();
+		//If invalid choice
+		if(choice.first<0 || choice.second<0) return;
 		//If base is selected
-		if(choice==-1) activatePawn(p);
+		else if(isBase(choice.first, choice.second, p->getEColor())) activatePawn(p);
 		//If field is selected
-		else if(choice>=0) movePawn(mBoardLayout[choice], p->getIDiceRoll());	
+		else movePawn(mBoardVector[choice.first][choice.second].front(), p->getIDiceRoll());	
 	}
 
 	//If no highlighters are active
@@ -302,6 +298,10 @@ void Game::turn(Player * p){
 	
 		//Raise roll flag for next turn
 		mbRoll = 1;
+
+#ifdef DEBUG
+		cout << endl << endl;
+#endif
 	}
 	}
 }
@@ -335,12 +335,12 @@ void Game::determineTurnOrder(){
 void Game::diceRoll(){
 
 #ifdef DEBUG
-	cout << "DiceRoll called" << endl;
+//	cout << "DiceRoll called" << endl;
 #endif
 
 	if((SDL_GetTicks()-miDiceTimer)>100){
 		//Save current roll
-		miCurrentRoll = mDice[mTurnOrder.front()->getEColor()-1]->roll();
+		miCurrentRoll[mTurnOrder.front()->getEColor()-1] = mDice[mTurnOrder.front()->getEColor()-1]->roll();
 		//Reset timer
 		miDiceTimer = SDL_GetTicks();
 		//Play SFX
@@ -351,7 +351,8 @@ void Game::diceRoll(){
 		//Clear roll flag
 		mbRoll = 0;
 		//Play SFX
-		Sound::play(ON_DICE);
+		if(miCurrentRoll[mTurnOrder.front()->getEColor()-1]==6) Sound::play(ON_SIX);
+		else Sound::play(ON_DICE);
 		delay(500);
 	}
 }
@@ -359,40 +360,91 @@ void Game::diceRoll(){
 //Pawn movement
 void Game::movePawn(Pawn * p, int with){
 #ifdef DEBUG
-	cout << "MovePawn called with " << p->getIPosition() << " " << with << endl;
+	cout << "MovePawn called with " << p->getEColor() << " " << with << endl;
 #endif
 
-	int to = p->getIPosition()+with;
+	//Use safe zone directions flag
+	bool useSafe = 0;
+	//Is on final square flag
+	bool finished = 0;
+
+	//New pawn position container
+	pair<int,int> newPos = {p->getIXPosition(), p->getIYPosition()};
+	//Remaining moves
+	int remainder = 0;
+	//Calculate new position
+	for(int i = 0; i < with; ++i){
+
+		//If final square is reached
+		if(isFinal(newPos.first, newPos.second, p->getEColor())){
+			cout << "Final square" << endl;
+			//Get remaining moves
+			remainder = with-i;
+			finished = 1;
+			break;
+		}
+		//If entry point is reached
+		if(isEntry(newPos.first, newPos.second, p->getEColor())){
+			cout << "Safe zone entry" << endl;
+			useSafe = 1;
+		}
+
+		//Temporary coordinate holder
+		pair<int,int> tmp = newPos;
+		cout << "Next: " << NEXT_SQUARE[newPos.second][newPos.first].first << " "  << NEXT_SQUARE[newPos.second][newPos.first].second << endl; 
+		//If on safe squares
+		if(useSafe){
+			tmp.first+=NEXT_SAFE[p->getEColor()-1].first;
+			tmp.second+=NEXT_SAFE[p->getEColor()-1].second;
+		}
+		//If on active squares
+	   	else {
+			tmp.first+=NEXT_SQUARE[newPos.second][newPos.first].first;
+			tmp.second+=NEXT_SQUARE[newPos.second][newPos.first].second;
+		}
+		//Assign new coordinates
+		newPos.first = tmp.first;
+		newPos.second = tmp.second;	
+	}
+	
 	//If on active squares
-	if(getRelative(p->getEColor(), p->getIPosition()+with)<BOARD_LENGTH) collision(p,to);
+	if(!useSafe && !finished) collision(p,newPos.first, newPos.second);
 	//If on final squares
-   	else if(getRelative(p->getEColor(), p->getIPosition()+with)>BOARD_LENGTH+5){
-		//Traverse current player pawns
-		for(unsigned i = 0; i < mTurnOrder.front()->m_vPawns.size(); ++i){
-			//If final space is occupied
-			if(mTurnOrder.front()->m_vPawns[i]->getIPosition()==to)
-				//Cancel movement
-				return;
+   	else if(finished){
+		//If final space is occupied
+		if(mBoardVector[FINAL_SQUARES[p->getEColor()-1].first][FINAL_SQUARES[p->getEColor()-1].second][remainder]->getEColor()!=NONE)
+			return;
+		//If final space is unoccupied
+		else{
+			//Delete pawn placeholder
+			delete mBoardVector[FINAL_SQUARES[p->getEColor()-1].first][FINAL_SQUARES[p->getEColor()-1].second][remainder];
+			//Place pawn in final vector
+			mBoardVector[FINAL_SQUARES[p->getEColor()-1].second][FINAL_SQUARES[p->getEColor()-1].first][remainder] = p;
+			//Decrease player active counter
+			mTurnOrder.front()->setIActivePawns(mTurnOrder.front()->getIActivePawns()-1);
+
+#ifdef DEBUG
+			cout << "Pawn finished" << endl;
+#endif
+			return;
 		}
 	}
-
-	cout << "Setting position at " << to << endl;
+#ifdef DEBUG
+	cout << "Setting position at (" << newPos.first << ", " << newPos.second << ")" << endl;
+#endif
+	
 	//Place pawn in new location
-	mBoardLayout[to] = mBoardLayout[p->getIPosition()];
-	//Decrease old position pawn counter
-	mPawnsOnSquare[p->getIPosition()]--;
-	//Increase board pawn counter
-	mPawnsOnSquare[to]++;
-	//NULL if no more pawns on old position
-	if(!mPawnsOnSquare[p->getIPosition()]) mBoardLayout[p->getIPosition()] = NULL;
+	mBoardVector[newPos.first][newPos.second].push_back(p);
+	//Remove pawn from old location
+	mBoardVector[p->getIXPosition()][p->getIYPosition()].pop_back();
 	//Move pawn forward
-	p->setIPosition(to);
+	p->setIXPosition(newPos.first);
+	p->setIYPosition(newPos.second);
 	//Add roll to player step count
-	mTurnOrder.front()->setISteps(mTurnOrder.front()->getISteps()+with);
+	mTurnOrder.front()->setISteps(mTurnOrder.front()->getISteps()+(with-remainder));
 
 #ifdef DEBUG		
-	cout << "Moved from " << p->getIPosition() << " with " << mPawnsOnSquare[p->getIPosition()] << " pawns" << endl;
-	cout << "Moved to " << to << " with " << mPawnsOnSquare[to] << " pawns" << endl;
+	cout << "Moved to (" << newPos.first << ", " << newPos.second << ")" << endl;
 #endif	
 
 		//Play SFX
@@ -400,95 +452,94 @@ void Game::movePawn(Pawn * p, int with){
 }
 
 //Collision detection
-void Game::collision(Pawn * p, int to){
+void Game::collision(Pawn * p, int pX, int pY){
 #ifdef DEBUG
-	cout << "Collision called with " << p->getEColor() << " " << to << endl;
+	cout << "Collision called with " << p->getEColor() << " " << pX << " " << pY << endl;
 #endif
 	//If space is already occupied
-	if(mPawnsOnSquare[to]!=0){
+	if(mBoardVector[pY][pX].size()){
 		//If occupant is a different player
-		if(mBoardLayout[to]->getEColor()!=p->getEColor()){
-			//Return other pawn to base
-			mBoardLayout[to]->setIPosition(-1);
+		if(mBoardVector[pY][pX].back()->getEColor()!=p->getEColor()){
+			//Other player pointer
+			Player* owner;
 			//Go through players to find occupying pawn owner
 			for(unsigned i = 1; i < mTurnOrder.size(); ++i){
-				if(mBoardLayout[to]->getEColor()==mTurnOrder[i]->getEColor()){
-					//Add to other pawns' owners' lost counter
-					mTurnOrder[i]->setILost(mTurnOrder[i]->getILost()+1);
-					//Decrease other players' active pawn counter
-					mTurnOrder[i]->setIActivePawns(mTurnOrder[i]->getIActivePawns()-1);
-					//Decrease board pawn counter
-					mPawnsOnSquare[to]--;
-					//Play SFX
-					Sound::play(ON_COLLISION);
+				if(mBoardVector[pY][pX].front()->getEColor()==mTurnOrder[i]->getEColor()){
+					owner = mTurnOrder[i];
 					break;
 				}
-			}	
-			//Add to current players' taken counter
-			mTurnOrder.front()->setITaken(mTurnOrder.front()->getITaken()+1);
-			cout << mTurnOrder.front()->getEColor() << " took pawn on " << to << endl;
+			}
+			//Return other pawns to base
+			while(mBoardVector[pY][pX].size()){
+				mBoardVector[pY][pX].back()->setIXPosition(-1);
+				mBoardVector[pY][pX].back()->setIYPosition(-1);
+				//Remove pawn from active board
+				mBoardVector[pY][pX].pop_back();
+				//Add to other pawns' owners' lost counter
+				owner->setILost(owner->getILost()+1);
+				//Decrease other players' active pawn counter
+				owner->setIActivePawns(owner->getIActivePawns()-1);
+				//Add to current players' taken counter
+				mTurnOrder.front()->setITaken(mTurnOrder.front()->getITaken()+1);
+			}
+#ifdef DEBUG
+			cout << mTurnOrder.front()->getEColor() << " took pawn on (" << pX << ", " << pY << ")" << endl;
+#endif			
+			//Play SFX
+			Sound::play(ON_COLLISION);
 		}
 	}
 }
 
 //Board square highlighter
-void Game::highlight(int index, Colors c){
+void Game::highlight(int pX, int pY){
 #ifdef DEBUG
-	cout << "Highlight called with " << index << " " << c << endl;
+	cout << "Highlight called with (" << pX << ", " << pY << ")" << endl;
 #endif
-	//Get current square screen coordinates
-	pair<int, int> coords;
-	if(index==-1){
-		coords = getCoords(c, getAbsolute(c));
-		//Position base highlighter
-		switch(c){
-			case YELLOW: coords.first-=SQUARE_SIZE; break;
-			case RED: coords.second+=SQUARE_SIZE; break;
-			case BLUE: coords.first+=SQUARE_SIZE; break;
-			case NONE: break;
-		}
-	} else coords = getCoords(mBoardLayout[index]->getEColor(), index);
+	pair<int, int> coords = getCoords(pX, pY);
+	
 	//Set highlighter params
-	mBoardHighlghters[index+1].setSize(SQUARE_SIZE, SQUARE_SIZE);
-	mBoardHighlghters[index+1].setLocation(coords.first-10, coords.second-10);
+	mBoardHighlghters[pY][pX].setSize(SQUARE_SIZE, SQUARE_SIZE);
+	mBoardHighlghters[pY][pX].setLocation(coords.first-10, coords.second-10);
 
 #ifdef DEBUG
-	cout << "Adding highlighter at " << coords.first << " " << coords.second << endl;
+	cout << "Adding highlighter at " << pX << " " << pY << endl;
 #endif
 	
 	//Add to active highlighter list
-	mActiveHighlighters.push_back(index+1);
+	mActiveHighlighters.push_back(pair<int,int> {pX, pY});
 }
 
 //Highlighted squares event handler
-int Game::getHighlightedChoice(){
+pair<int,int> Game::getHighlightedChoice(){
 #ifdef DEBUG
 	cout << "GetHighlightedChoice called" << endl;
 #endif
+	//Selected coordinate container
+	pair<int,int> choice = {-1,-1};
+
 	//If active highlighters exist
 	if(mActiveHighlighters.size()){
-		cout << "Active on ";
-		for(unsigned i = 0; i < mActiveHighlighters.size(); i++) cout << (mActiveHighlighters[i]-1) << " ";
-		cout << endl;
 		//Traverse active highlighters
 		for(unsigned i = 0; i < mActiveHighlighters.size(); ++i){
 			//If clicked
-			if(mBoardHighlghters[mActiveHighlighters[i]].isClicked(mEvent)){
+			if(mBoardHighlghters[mActiveHighlighters[i].second][mActiveHighlighters[i].first].isClicked(mEvent)){
 				//Save board index before clearing
-				int choice = mActiveHighlighters[i];
+				choice = mActiveHighlighters[i];
 				//Clear active highlighters
 				while(mActiveHighlighters.size()>0) mActiveHighlighters.pop_back();
 				//Play SFX
 				Sound::play(camera);
 				//Lower highlighter flag
 				mbHighlight = 0;
+				cout << "Selected: " << choice.first << " " << choice.second << endl;
 				//Return selected index
-				return choice-1;
+				return choice;
 			}
 		}
 	}
 	//Return invalid value if nothing is selected
-	return -2;
+	return choice;
 }
 
 //Timed delay
@@ -511,15 +562,14 @@ void Game::activatePawn(Player * p){
 	//Traverse player pawns
 	for(unsigned i = 0; i < p->m_vPawns.size(); ++i){
 		//If current pawn is inactive
-		if(p->m_vPawns[i]->getIPosition()==-1){
+		if(isBase(p->m_vPawns[i]->getIXPosition(), p->m_vPawns[i]->getIYPosition(),p->getEColor())){
 			//Check for collisions
-			collision(p->m_vPawns[i], getAbsolute(p->getEColor()));
-			//Place pawn on start position
-			p->m_vPawns[i]->setIPosition(getAbsolute(p->getEColor()));
+			collision(p->m_vPawns[i], p->m_vPawns[i]->getIXPosition(), p->m_vPawns[i]->getIYPosition());
+			//Place pawn location on start position
+			p->m_vPawns[i]->setIXPosition(START_SQUARES[p->getEColor()-1].first);
+			p->m_vPawns[i]->setIYPosition(START_SQUARES[p->getEColor()-1].second);
 			//Place pawn on game board
-			mBoardLayout[getAbsolute(p->getEColor())] = p->m_vPawns[i];
-			//Increase board pawn counter
-			mPawnsOnSquare[getAbsolute(p->getEColor())]++;
+			mBoardVector[START_SQUARES[p->getEColor()-1].first][START_SQUARES[p->getEColor()-1].second].push_back(p->m_vPawns[i]);
 			//Increment player active counter
 			p->setIActivePawns(p->getIActivePawns()+1);
 			//Play SFX
@@ -530,50 +580,14 @@ void Game::activatePawn(Player * p){
 }
 
 //Get world coordinates from array index
-pair<int, int> Game::getCoords(Colors c, int p){
+pair<int, int> Game::getCoords(int pX, int pY){
     
 #ifdef DEBUG
 	//cout << "GetCoords called with " << c << " " << p <<endl;
 #endif
-	//Coordinate pair object
-	pair<int, int> coords = {ZERO_X_POS, ZERO_Y_POS};
-	
-	//If in base
-	if(p<0){
-		coords.first = IDLE_POS[c-1].first;
-		coords.second = IDLE_POS[c-1].second;
-	}
-	//If on active squares
-   	else if(p<BOARD_LENGTH){
-		for(int i = 0; i < p; ++i){
-			coords.first+=NEXT_SQUARE[i].first*SQUARE_SIZE;
-			coords.second+=NEXT_SQUARE[i].second*SQUARE_SIZE;
-		}
-	}
-	//If on safe squares
-	else if(p<BOARD_LENGTH+5){
-		//Find safe zone entry point
-		int entry = getAbsolute(c, BOARD_LENGTH-1);
-		for(int i = 0; i < entry; ++i){
-			coords.first+=NEXT_SQUARE[i].first;
-			coords.second+=NEXT_SQUARE[i].second;
-		}
-		for(int i = 0; i < p-entry; ++i){
-			coords.first+=SAFE_SQUARE[i].first;
-			coords.second+=SAFE_SQUARE[i].second;
-		}
-	}
-	//If on final squares
-   	else {
-		coords.first = FINAL_SQUARE[c-1].first;
-		coords.second = FINAL_SQUARE[c-1].second;
-		for(int i = 0; i < p-(BOARD_LENGTH+5); ++i){
-			coords.first+=SPRITE_SCALE[2];
-		}
-	}
 	
 	//Return coordinate pair
-	return coords;
+	return pair<int,int> {pX*SQUARE_SIZE+X_OFF, pY*SQUARE_SIZE+Y_OFF};	
 }
 
 //Get absolute position
@@ -596,11 +610,47 @@ int Game::getRelative(Colors c, int pos){
 	return (START_POS[c-1]-pos)%BOARD_LENGTH;
 }
 
+//Determine if board square is active
+bool Game::isActive(int pX, int pY){
+	for(int i = 0; i < BOARD_LENGTH; ++i)
+		if(pX==ACTIVE_SQUARES[i].first && pY==ACTIVE_SQUARES[i].second)
+			return 1;
+	return 0;
+}
+
+//Determine if board square is safe
+bool Game::isSafe(int pX, int pY, Colors c){
+	for(int i = 0; i < PAWNS; ++i)
+		if(pX==SAFE_SQUARES[c-1][i].first && pY==SAFE_SQUARES[c-1][i].second)
+			return 1;
+	return 0;
+}
+
+//Determine if board square is final
+bool Game::isFinal(int pX, int pY, Colors c){
+	return (pX==FINAL_SQUARES[c-1].first && pY==FINAL_SQUARES[c-1].second);
+}
+
+//Determine if board square is base
+bool Game::isBase(int pX, int pY, Colors c){
+	for(int i = 0; i < PAWNS; ++i)
+		if(pX==BASE_SQUARES[c-1][i].first && pY==BASE_SQUARES[c-1][i].second)
+			return 1;
+	return 0;
+}
+
+//Determine if board square is entry
+bool Game::isEntry(int pX, int pY, Colors c){
+	return (pX==ENTRY_SQUARES[c-1].first && pY==ENTRY_SQUARES[c-1].second);
+}
+
 //Destructor
 Game::~Game(){
+	//Release player data
     for(unsigned i = 0; i < mTurnOrder.size(); ++i)
 		delete mTurnOrder[i];
-
+	
+	//Release dice data
 	for(unsigned i = 0; i < mDice.size(); ++i)
 		delete mDice[i];
 
