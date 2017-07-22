@@ -1,7 +1,7 @@
 /*
  * Pawn.h
  *
- *  Created on: 10.07.2017 ã.
+ *  Created on: 10.07.2017 ?.
  *      Author: IVY
  */
 
@@ -32,10 +32,9 @@ private:
 	Colors m_eColor;
 	
 	//Sprite object pointer
-	Sprite* mPlayerSprite;
+	Sprite mPlayerSprite;
 
 public:
-	// the constructor takes as an argument the color
 	Pawn(Colors c);
 	virtual ~Pawn();
 
