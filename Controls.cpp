@@ -32,8 +32,14 @@ int Controls::eventHandler(SDL_Event & e){
     if(mSoundButton.isClicked(e)){
 	   	mbSoundState=!mbSoundState;
 		Sound::mute = mbSoundState;
-		if(mbSoundState) Sound::pause();
-		else Sound::music(BGM);
+		if(mbSoundState){
+		   	Sound::pause();
+			mSoundButton.setTexture(SOUND_OFF_PATH);
+		}
+		else{
+		   	Sound::music(BGM);
+			mSoundButton.setTexture(SOUND_ON_PATH);
+		}
 	}
 
 	//Button state holder

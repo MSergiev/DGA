@@ -3,8 +3,6 @@
 Player::Player(Colors color)
 		: m_iSteps(), m_iTaken(), m_iLost()
 {
-	// sets the pawns vector with empty values
-	SetPawnsVector();
 	// set the active pawns to zero
 	setIActivePawns(0);
 	// put the dice with correct default value
@@ -13,6 +11,8 @@ Player::Player(Colors color)
 	setIFinishPosition(0);
 	// it set the color of the pawns and the player
 	setEColor(color);
+	// sets the pawns vector with empty values
+	SetPawnsVector();
 }
 
 
@@ -54,7 +54,7 @@ void Player::Print()
 	for (unsigned i = 0; i < m_vPawns.size(); i++)
 	{
 		// print in the console the position
-		cout << m_vPawns[i]->getIPosition() << " ";
+		cout << "(" << m_vPawns[i]->getIXPosition() << ", " << m_vPawns[i]->getIYPosition() << ") ";
 	}
 	cout << endl;
 }
@@ -148,5 +148,9 @@ void Player::SetPawnsVector()
 
 		// give it to the vector
 		m_vPawns.push_back(pawn);
+
+		// set position into base
+		m_vPawns.back()->setIXPosition(BASE_SQUARES[m_EColor-1][i].first);
+		m_vPawns.back()->setIYPosition(BASE_SQUARES[m_EColor-1][i].second);
 	}
 }

@@ -49,7 +49,7 @@ private:
 	Uint32 miDiceTimer = 0;
 
 	//Current dice roll
-	int miCurrentRoll = 1;
+	int miCurrentRoll[PLAYERS];
 
     //Force ignore recovery
     bool mbIgnoreRecovery = 0;
@@ -75,15 +75,14 @@ private:
 	//UI controls object
 	Controls mControls;
 
-    //Active board layout (top row leftmost square considered 1)
-    Pawn* mBoardLayout[BOARD_LENGTH+10] = {NULL};
-    unsigned mPawnsOnSquare[BOARD_LENGTH+10] = {0};
+    //Active board layout (top row leftmost square considered 0)
+	vector<Pawn*> mBoardVector[BOARD_HEIGHT][BOARD_WIDTH];
 
     //Board highlighter array
-    Button mBoardHighlghters[BOARD_LENGTH+6];
+    Button mBoardHighlghters[BOARD_HEIGHT][BOARD_WIDTH];
 
-    //Active highlighter vector
-    vector<int> mActiveHighlighters;
+    //Active highlighter index vector
+    vector<pair<int,int> > mActiveHighlighters;
 
     //Turn counter
     int miTurns = 0;
@@ -109,6 +108,9 @@ public:
 	
     //Game object initializing function
     void init();
+   
+   	//Game data initializing function
+    void initGame();
 
     //Event handler
     void eventHandler();
@@ -142,17 +144,18 @@ private:
     //Collision detection
     //Args:
     //Pawn* p - pawn pointer
-    //int to - index on board array to move to
-    void collision(Pawn* p, int to);
+    //int pX - destination X index
+	//int pY - destination Y index
+    void collision(Pawn* p, int pX, int pY);
 
-    //Pawn highlighter
+    //Board square highlighter
     //Args:
-    //int index - square index to highlight
-    //Colors c - color for base selection (not required)
-    void highlight(int index, Colors c = NONE);
+    //int pX - X coordinate index
+	//int pY - Y coordinate index
+    void highlight(int pX, int pY);
 
     //Highlighted squares event handler
-    int getHighlightedChoice();
+    pair<int,int> getHighlightedChoice();
 
     //Delay
     //Args:
@@ -176,12 +179,45 @@ private:
     //int pos - absolute position (not required)
     int getRelative(Colors c, int pos = 0);
     
-    //Get screen coordinates from pawn position
+    //Get screen coordinates from board position
     //Args:
-    //Colors c - pawn color
-    //int p - pawn position
-    pair<int, int> getCoords(Colors c, int p);
+    //int pX - X index
+	//int pY - Y index
+    pair<int, int> getCoords(int pX, int pY);
 
+	//Determine if board square is active
+	//Args:
+	//int pX - X index
+	//int pY - Y index
+	bool isActive(int pX, int pY);
+
+	//Determine if board square is safe
+	//Args:
+	//int pX - X index
+	//int pY - Y index
+	//Colors c - player color
+	bool isSafe(int pX, int pY, Colors c);
+	
+	//Determine if board square is active
+	//Args:
+	//int pX - X index
+	//int pY - Y index
+	//Colors c - player color
+	bool isFinal(int pX, int pY, Colors c);
+	
+	//Determine if board square is base
+	//Args:
+	//int pX - X index
+	//int pY - Y index
+	//Colors c - player color
+	bool isBase(int pX, int pY, Colors c);	
+
+	//Determine if board square is entry
+	//Args:
+	//int pX - X index
+	//int pY - Y index
+	//Colors c - player color
+	bool isEntry(int pX, int pY, Colors c);
 };
 
 #endif

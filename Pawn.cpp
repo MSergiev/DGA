@@ -1,7 +1,7 @@
 /*
  * Pawn.cpp
  *
- *  Created on: 10.07.2017 ã.
+ *  Created on: 10.07.2017 Ã£.
  *      Author: IVY
  */
 
@@ -15,10 +15,13 @@ Pawn::Pawn(Colors c)
 	mPlayerSprite = new Sprite(rect, PAWN_FRAMES, 20);
 	// set the right color
 	setEColor(c);
-	// set the position in the base
-	setIPosition(-1);
+
 	// load the image of the pawn
 	mPlayerSprite->load(PAWN_PATH);
+	// set the position in the base
+	setIXPosition(-1);
+	setIYPosition(-1);
+	mPlayerSprite.load(PAWN_PATH);
 }
 
 // methods
@@ -37,11 +40,15 @@ Pawn::~Pawn()
 
 // setters & getters
 
-int Pawn::getIPosition() const
+int Pawn::getIXPosition() const
 {
-	return m_iPosition;
+	return m_iXPosition;
 }
 
+int Pawn::getIYPosition() const
+{
+	return m_iYPosition;
+}
 Colors Pawn::getEColor() const
 {
 	return m_eColor;
@@ -58,7 +65,11 @@ void Pawn::setEColor(Colors eColor)
 	m_eColor = eColor;
 }
 
-void Pawn::setIPosition(int iPosition)
+void Pawn::setIXPosition(int iXPosition)
 {
-	m_iPosition = iPosition;
+	m_iXPosition = iXPosition;
+}
+void Pawn::setIYPosition(int iYPosition)
+{
+	m_iYPosition = iYPosition;
 }
