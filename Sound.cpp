@@ -49,24 +49,18 @@ bool Sound::load(){
 	Seffects[20] = Mix_LoadWAV("SFX/mario.wav");
 	Seffects[21] = Mix_LoadWAV("SFX/more.wav");
 	Seffects[22] = Mix_LoadWAV("SFX/punch.wav");
-	Seffects[23] = Mix_LoadWAV("SFX/s21.wav");
-	Seffects[24] = Mix_LoadWAV("SFX/scratch.wav");
-	Seffects[25] = Mix_LoadWAV("SFX/smokeweed.wav");
-	Seffects[26] = Mix_LoadWAV("SFX/sparta.wav");
-	Seffects[27] = Mix_LoadWAV("SFX/sudden.wav");
-	Seffects[28] = Mix_LoadWAV("SFX/suprise.wav");
+
 	//gives error if  the the sounds effects are NOT loaded correctly.
-	for(int i = 0; i < 28; ++i){
+	for(int i = 0; i < 22; ++i){
 		if(Seffects[i]==NULL){
 			cerr << "Seffects error: " << Mix_GetError() << endl;
 			success = false;
 		}
 	}
 	mus[0] = Mix_LoadMUS("BGM/rock.wav");
-	mus[1] = Mix_LoadMUS("BGM/ambient.wav");
-	mus[2] = Mix_LoadMUS("BGM/electric.wav");
+
 	//gives error if  the the music is NOT loaded correctly.
-	for(int i = 0; i < 3; ++i){
+	for(int i = 0; i < 1; ++i){
 			if(mus[i]==NULL){
 				cerr << "music error: " << Mix_GetError() << endl;
 				success = false;
@@ -85,12 +79,12 @@ bool Sound::playing() {
 }
 // frees/clear's the  used memory that the sounds used
 void Sound::free(){
-	for (int i = 0; i < 28; i++) {
+	for (int i = 0; i < 22; i++) {
 		Mix_FreeChunk(Seffects[i]);
 		Seffects[i] = NULL;
 	}
 	// frees/clear's the  used memory that the music used
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 1; i++) {
 		Mix_FreeMusic(mus[i]);
 		mus[i] = NULL;
 	}
@@ -101,92 +95,74 @@ void Sound::play(SEFFECTS sound)
 {
 	if(!mute){
 		switch(sound){
-			case bruh:
+			case accend:
 				Mix_PlayChannel(-1, Seffects[0], 0);
 				break;
-			case camera:
+			case accend2:
 					Mix_PlayChannel(-1, Seffects[1], 0);
 				break;
-			case censor:
+			case boink:
 				Mix_PlayChannel(-1, Seffects[2], 0);
 				break;
-			case ding:
+			case boink2:
 				Mix_PlayChannel(-1, Seffects[3], 0);
 				break;
-			case drumroll:
+			case camera:
 				Mix_PlayChannel(-1, Seffects[4], 0);
 					break;
-			case fatality:
+			case censor:
 				Mix_PlayChannel(-1, Seffects[5], 0);
 				break;
-			case finishhim:
+			case click:
 				Mix_PlayChannel(-1, Seffects[6], 0);
 				break;
-			case flashback:
+			case DiceRoll:
 				Mix_PlayChannel(-1, Seffects[7], 0);
 				break;
-			case fuck:
+			case ding:
 				Mix_PlayChannel(-1, Seffects[8], 0);
 				break;
-			case fuckedup:
+			case drumroll:
 				Mix_PlayChannel(-1, Seffects[9], 0);
 				break;
-			case fucku:
+			case explosion:
 				Mix_PlayChannel(-1, Seffects[10], 0);
 				break;
-			case gotcha:
+			case fuseBomb:
 				Mix_PlayChannel(-1, Seffects[11], 0);
 				break;
-			case headshot:
+			case jump:
 				Mix_PlayChannel(-1, Seffects[12], 0);
 				break;
-			case helpme:
+			case pop:
 				Mix_PlayChannel(-1, Seffects[13], 0);
 				break;
-			case here:
+			case punch:
 				Mix_PlayChannel(-1, Seffects[14], 0);
 					break;
-			case hitmarker:
+			case SciFi:
 				Mix_PlayChannel(-1, Seffects[15], 0);
 				break;
-			case idgaf:
+			case scratch:
 				Mix_PlayChannel(-1, Seffects[16], 0);
 				break;
-			case inception:
+			case taken:
 				Mix_PlayChannel(-1, Seffects[17], 0);
 				break;
-			case jeff:
+			case typing:
 				Mix_PlayChannel(-1, Seffects[18], 0);
 				break;
-			case mario:
+			case whisle:
 				Mix_PlayChannel(-1, Seffects[19], 0);
 				break;
-			case more:
+			case whisleSlide:
 				Mix_PlayChannel(-1, Seffects[20], 0);
 					break;
-			case punch:
+			case whislewind:
 				Mix_PlayChannel(-1, Seffects[21], 0);
 				break;
-			case s21:
-				Mix_PlayChannel(-1, Seffects[22], 0);
-				break;
-			case scratch:
-				Mix_PlayChannel(-1, Seffects[23], 0);
-				break;
-			case smokeweed:
-				Mix_PlayChannel(-1, Seffects[24], 0);
-				break;
-			case sparta:
-				Mix_PlayChannel(-1, Seffects[25], 0);
-				break;
-			case sudden:
-				Mix_PlayChannel(-1, Seffects[26], 0);
-				break;
-			case suprise:
-				Mix_PlayChannel(-1, Seffects[27], 0);
-					break;
 			case whoosh:
-				Mix_PlayChannel(-1, Seffects[28], 0);
+				Mix_PlayChannel(-1, Seffects[22], 0);
 				break;
 			}
 		}
@@ -199,15 +175,10 @@ void Sound::music(MUSIC music){
 			Mix_ResumeMusic();
 		}else {
 		switch(music){
-			case rock:
+			case menuS:
 				Mix_PlayMusic(mus[0], -1);
 				break;
-			case ambient:
-				Mix_PlayMusic(mus[1], -1);
-				break;
-			case electric:
-				Mix_PlayMusic(mus[2], -1);
-				break;
+
 	
 		}
 		}

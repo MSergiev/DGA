@@ -13,12 +13,12 @@
 using std::cerr;
 using std::endl;
 //  sorted sound effects
-enum SEFFECTS {bruh,camera,censor,ding,drumroll,fatality,finishhim,
-flashback,fuck,fuckedup,fucku,gotcha,headshot,helpme,here,hitmarker,
-idgaf,inception,jeff,mario,more,punch,s21,scratch,smokeweed,sparta,
-sudden,suprise,whoosh};
+enum SEFFECTS {accend,accend2,boink,boink2,camera,censor,click,DiceRoll
+,ding,drumroll,explosion,fuseBomb,jump,pop,SciFi,punch,scratch,taken,
+typing,whisle,whisleSlide,whislewind,whoosh
+};
 //  sorted music  effects
-enum MUSIC{rock,electric,ambient};
+enum MUSIC{menuS};
 
 class Sound {
 public:
@@ -35,8 +35,8 @@ public:
 	virtual ~Sound();
 private:
 	// static massives/arrays that can be accessed by static methods.
-	static Mix_Chunk* Seffects[29];
-	static Mix_Music* mus[3];
+	static Mix_Chunk* Seffects[23];
+	static Mix_Music* mus[1];
 };
 
 #endif /* SOUND_H_ */
