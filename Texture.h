@@ -16,9 +16,7 @@ class Texture{
 public:
 
 	//Constructor
-	//Args:
-	//SDL_Renderer* renderer - renderer to draw the texture with
-	Texture(SDL_Renderer* renderer = NULL);
+	Texture();
 
 	//Texture loading method
 	//Args:
@@ -35,7 +33,7 @@ public:
 	//Set class renderer
 	//Args:
 	//SDL_Renderer* renderer - pointer to renderer
-	void setRenderer(SDL_Renderer* renderer);
+	static void setRenderer(SDL_Renderer* renderer);
 
 	//Set color modulation
 	//Args:
@@ -78,7 +76,7 @@ public:
 private:
 
 	//SDL renderer pointer
-	SDL_Renderer* mRenderer;
+	static SDL_Renderer* mRenderer;
 
 	//SDL tecture pointer
 	SDL_Texture* mTexture;

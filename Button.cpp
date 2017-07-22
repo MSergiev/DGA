@@ -6,16 +6,6 @@ Button::Button(int x, int y, int w, int h){
 	this->mButtonBase = {x,y,w,h};
 }
 
-//Renderer setter method
-void Button::setRenderer(SDL_Renderer* renderer){
-	//Set class renderer
-	this->mRenderer = renderer;
-	//Set label texture renderer
-	mLabel.setRenderer(renderer);
-	//Set button texture renderer
-	mTexture.setRenderer(renderer);
-}
-
 //Font setter method
 void Button::setLabel(string label, TTF_Font* font, SDL_Color fontColor){
 	//Set class data
@@ -51,14 +41,23 @@ void Button::setColor(SDL_Color c){
 	this->mButtonColor = c;
 }
 
+//SFX setter
+void Button::setSFX(SEFFECTS sfx){
+	this->meSFX = sfx;
+	mbHasSFX = 1;
+}
+
 //Button click check
 bool Button::isClicked(SDL_Event & e){
     if(e.type == SDL_MOUSEBUTTONDOWN){
 		if(e.button.button == SDL_BUTTON_LEFT){
 			int x,y;
 			SDL_GetMouseState(&x, &y);
-			return (x>=mButtonBase.x && x<=mButtonBase.x+mButtonBase.w &&
+			bool state = (x>=mButtonBase.x && x<=mButtonBase.x+mButtonBase.w &&
 					y>=mButtonBase.y && y<=mButtonBase.y+mButtonBase.h);
+			//Play SFX on click
+			if(state && mbHasSFX) Sound::play(meSFX);
+			return state;
 		}
 	}
 	return 0;
@@ -80,8 +79,8 @@ bool Button::isReleased(SDL_Event & e){
 //Render button
 void Button::render(){
 	//Render base
-	SDL_SetRenderDrawColor(mRenderer, mButtonColor.r, mButtonColor.g, mButtonColor.b, mButtonColor.a);
-	SDL_RenderFillRect(mRenderer, &mButtonBase);
+	//SDL_SetRenderDrawColor(mRenderer, mButtonColor.r, mButtonColor.g, mButtonColor.b, mButtonColor.a);
+	//SDL_RenderFillRect(mRenderer, &mButtonBase);
 	//Render texture
 	mTexture.render(mButtonBase.x, mButtonBase.y);
 	//Render label
@@ -94,8 +93,6 @@ void Button::free(){
 	mLabel.free();
 	//Release button texture
 	mTexture.free();
-	//Zero renderer
-	mRenderer = NULL;
 }
 
 //Destructor

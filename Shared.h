@@ -23,6 +23,31 @@ using std::pair;
 //Number of pawns
 #define PAWNS 5
 
+//Pawn sprite animation frames
+#define PAWN_FRAMES 20
+
+//UI button size
+#define BUTTON_WIDTH 200
+#define BUTTON_HEIGHT 54
+
+//Win screen data spacing
+#define WIN_OFFSET 80
+
+//Rule screen button params
+#define RULES_WIDTH 50
+#define RULES_HEIGHT 100
+
+//Player data amount
+#define PLAYER_DATA 5
+
+//Drawing colors
+#define C_WHITE {255,255,255,255}
+#define C_BLACK {0,0,0,255}
+#define C_RED {255,0,0,255}
+#define C_BLUE {0,255,0,255}
+#define C_GREEN {0,0,255,255}
+#define C_YELLOW {255,255,0,255}
+
 //Player colors
 enum Colors{
 	NONE=0, YELLOW, RED, BLUE
@@ -37,7 +62,7 @@ const unsigned START_POS[]{
 
 
 //Pawn waiting positions (in screen pixels)
-const unsigned IDLE_POS[5][2]{
+const pair<int,int> IDLE_POS[5]{
 	{279, 40}, //YELLOW
 	{39, 474}, //RED
 	{475, 713} //BLUE
@@ -48,7 +73,7 @@ const unsigned IDLE_POS[5][2]{
 #define ZERO_Y_POS 40
 
 //Next square location in (x,y)
-const pair<int, int> NEXT_SQUARE[]{
+const pair<int,int> NEXT_SQUARE[]{
 	{0,1},{0,1},{0,1},{0,1},{0,1},
 	{-1,0},{0,1},
 	{-1,0},{-1,0},{-1,0},{-1,0},{-1,0},
@@ -63,12 +88,32 @@ const pair<int, int> NEXT_SQUARE[]{
 	{-1,0}
 };
 
-//Player-specific squares direction (x,y)
-const pair<int,int> FINAL_SQUARE[]{
+//Player-specific safe squares direction (x,y)
+const pair<int,int> SAFE_SQUARE[]{
 	{0,1}, //YELLOW
 	{1,0}, //RED
 	{0,-1} //BLUE
 };
+
+//Player-specific final square coordinates (pixels)
+const pair<int,int> FINAL_SQUARE[]{
+	{WIDTH/2-3*SQUARE_SIZE/2, HEIGHT/2-3*SQUARE_SIZE/2}, //YELLOW
+	{WIDTH/2-3*SQUARE_SIZE/2, HEIGHT/2}, //RED
+	{WIDTH/2-3*SQUARE_SIZE/2, HEIGHT/2+3*SQUARE_SIZE/2}, //BLUE
+};
+
+//Sprite sizes (pixels)
+const int SPRITE_SCALE[]{
+	0, //No sprite
+	48, //One sprite per square
+	24,	//Two sprites per square
+	24,	//Three sprites per square
+	24,	//Four sprites per square
+	12	//Five sprites per square
+};
+
+//Font size
+#define FONT_SIZE 12
 
 //Font path
 #define FONT_PATH "./GFX/font.ttf"
@@ -81,6 +126,55 @@ const pair<int,int> FINAL_SQUARE[]{
 
 //Board texture path
 #define BOARD_PATH "./GFX/board.png"
+
+//Win screen background path
+#define WIN_PATH "./GFX/win.png"
+
+//Title screen background path
+#define TITLE_PATH "./GFX/title.png"
+
+//UI button vertical offset
+#define VERT_OFFSET 100
+
+//Player dice positions (in pixels)
+const pair<int,int> DICE_POS[]{
+	{107,155}, //YELLOW
+	{156,541}, //RED
+	{542,493} //BLUE
+};
+
+//UI constants
+#define TITLE_START 0b100
+#define TITLE_CONTINUE 0b010
+#define TITLE_QUIT 0b001
+#define WIN_RESTART 0b01
+#define WIN_QUIT 0b10
+#define CONTROLS_RULES 0b10
+#define CONTROLS_QUIT 0b01
+
+//Rulebook images path
+#define RULES_1_PATH "./GFX/Rules of LUDO/1.png"
+#define RULES_2_PATH "./GFX/Rules of LUDO/2.png"
+#define RULES_3_PATH "./GFX/Rules of LUDO/3.png"
+#define RULES_4_PATH "./GFX/Rules of LUDO/4.png"
+
+//UI elements location
+#define START_PATH "./GFX/button_start.png"
+#define RESTART_PATH "./GFX/button_restart.png"
+#define CONTINUE_PATH "./GFX/button_continue.png"
+#define QUIT_PATH "./GFX/button_quit.png"
+#define SOUND_ON_PATH "./GFX/button_sound_on.png"
+#define SOUND_OFF_PATH "./GFX/button_sound_off.png"
+#define RULES_PATH "./GFX/button_rules.png"
+
+//Square highlighter path
+#define HIGHLIGHTER_PATH "./GFX/highlight.png"
+
+//BGM
+#define BGM rock
+
+//Button click SFX
+#define BUTTON_SFX camera
 
 //Debug mode
 #define DEBUG

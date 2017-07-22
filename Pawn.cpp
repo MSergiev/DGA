@@ -7,31 +7,26 @@
 
 #include "Pawn.h"
 
-Pawn::Pawn()
-		: m_eColor()
+Pawn::Pawn(Colors c)
+		:mPlayerSprite(SDL_Rect {0,0,SPRITE_SIZE, SPRITE_SIZE}, PAWN_FRAMES, 20)
 {
+	setEColor(c);
 	setIPosition(-1);
+	mPlayerSprite.load(PAWN_PATH);
 }
 
 // methods
 void Pawn::render(int x, int y)
 {
 	//Render sprite
-	mPlayerSprite->render(x, y);
+	mPlayerSprite.render(x, y);
 }
-
-void Pawn::setRenderer(SDL_Renderer* renderer)
-{
-	mPlayerSprite->setRenderer(renderer);
-	mPlayerSprite->load(PAWN_PATH);
-}
-
 
 // destructor
 Pawn::~Pawn()
 {
 	//Release resources
-	delete mPlayerSprite;
+	//delete mPlayerSprite;
 }
 
 // setters & getters
@@ -52,7 +47,8 @@ void Pawn::setEColor(Colors eColor)
 	//Initialize frame dimensions
 	SDL_Rect frame = { 0, (eColor-1)*SPRITE_SIZE*6, SPRITE_SIZE, SPRITE_SIZE };
 	//Create sprite object
-	mPlayerSprite = new Sprite(frame, NUM_OF_FRAMES, ANIMATION_DELAY);
+	mPlayerSprite.setAnimationFrame(frame);
+	//mPlayerSprite = new Sprite(frame, NUM_OF_FRAMES, ANIMATION_DELAY);
 	m_eColor = eColor;
 }
 

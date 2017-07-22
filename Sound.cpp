@@ -9,6 +9,7 @@
 // massives/arrays that keep the soundeffects and  music
 Mix_Chunk* Sound::Seffects[];
 Mix_Music* Sound::mus[];
+bool Sound::mute = 0;
 
 //empty constructor
 Sound::Sound()
@@ -98,113 +99,118 @@ void Sound::free(){
 // Mothod that plays  the sound effects
 void Sound::play(SEFFECTS sound)
 {
-	switch(sound){
-		case bruh:
-			Mix_PlayChannel(-1, Seffects[0], 0);
-			break;
-		case camera:
-			Mix_PlayChannel(-1, Seffects[1], 0);
-			break;
-		case censor:
-			Mix_PlayChannel(-1, Seffects[2], 0);
-			break;
-		case ding:
-			Mix_PlayChannel(-1, Seffects[3], 0);
-			break;
-		case drumroll:
-			Mix_PlayChannel(-1, Seffects[4], 0);
-			break;
-		case fatality:
-			Mix_PlayChannel(-1, Seffects[5], 0);
-			break;
-		case finishhim:
-			Mix_PlayChannel(-1, Seffects[6], 0);
-			break;
-		case flashback:
-			Mix_PlayChannel(-1, Seffects[7], 0);
-			break;
-		case fuck:
-			Mix_PlayChannel(-1, Seffects[8], 0);
-			break;
-		case fuckedup:
-			Mix_PlayChannel(-1, Seffects[9], 0);
-			break;
-		case fucku:
-			Mix_PlayChannel(-1, Seffects[10], 0);
-			break;
-		case gotcha:
-			Mix_PlayChannel(-1, Seffects[11], 0);
-			break;
-		case headshot:
-			Mix_PlayChannel(-1, Seffects[12], 0);
-			break;
-		case helpme:
-			Mix_PlayChannel(-1, Seffects[13], 0);
-			break;
-		case here:
-			Mix_PlayChannel(-1, Seffects[14], 0);
-			break;
-		case hitmarker:
-			Mix_PlayChannel(-1, Seffects[15], 0);
-			break;
-		case idgaf:
-			Mix_PlayChannel(-1, Seffects[16], 0);
-			break;
-		case inception:
-			Mix_PlayChannel(-1, Seffects[17], 0);
-			break;
-		case jeff:
-			Mix_PlayChannel(-1, Seffects[18], 0);
-			break;
-		case mario:
-			Mix_PlayChannel(-1, Seffects[19], 0);
-			break;
-		case more:
-			Mix_PlayChannel(-1, Seffects[20], 0);
-			break;
-		case punch:
-			Mix_PlayChannel(-1, Seffects[21], 0);
-			break;
-		case s21:
-			Mix_PlayChannel(-1, Seffects[22], 0);
-			break;
-		case scratch:
-			Mix_PlayChannel(-1, Seffects[23], 0);
-			break;
-		case smokeweed:
-			Mix_PlayChannel(-1, Seffects[24], 0);
-			break;
-		case sparta:
-			Mix_PlayChannel(-1, Seffects[25], 0);
-			break;
-		case sudden:
-			Mix_PlayChannel(-1, Seffects[26], 0);
-			break;
-		case suprise:
-			Mix_PlayChannel(-1, Seffects[27], 0);
-			break;
-		case whoosh:
-			Mix_PlayChannel(-1, Seffects[28], 0);
-			break;
+	if(!mute){
+		switch(sound){
+			case bruh:
+				Mix_PlayChannel(-1, Seffects[0], 0);
+				break;
+			case camera:
+					Mix_PlayChannel(-1, Seffects[1], 0);
+				break;
+			case censor:
+				Mix_PlayChannel(-1, Seffects[2], 0);
+				break;
+			case ding:
+				Mix_PlayChannel(-1, Seffects[3], 0);
+				break;
+			case drumroll:
+				Mix_PlayChannel(-1, Seffects[4], 0);
+					break;
+			case fatality:
+				Mix_PlayChannel(-1, Seffects[5], 0);
+				break;
+			case finishhim:
+				Mix_PlayChannel(-1, Seffects[6], 0);
+				break;
+			case flashback:
+				Mix_PlayChannel(-1, Seffects[7], 0);
+				break;
+			case fuck:
+				Mix_PlayChannel(-1, Seffects[8], 0);
+				break;
+			case fuckedup:
+				Mix_PlayChannel(-1, Seffects[9], 0);
+				break;
+			case fucku:
+				Mix_PlayChannel(-1, Seffects[10], 0);
+				break;
+			case gotcha:
+				Mix_PlayChannel(-1, Seffects[11], 0);
+				break;
+			case headshot:
+				Mix_PlayChannel(-1, Seffects[12], 0);
+				break;
+			case helpme:
+				Mix_PlayChannel(-1, Seffects[13], 0);
+				break;
+			case here:
+				Mix_PlayChannel(-1, Seffects[14], 0);
+					break;
+			case hitmarker:
+				Mix_PlayChannel(-1, Seffects[15], 0);
+				break;
+			case idgaf:
+				Mix_PlayChannel(-1, Seffects[16], 0);
+				break;
+			case inception:
+				Mix_PlayChannel(-1, Seffects[17], 0);
+				break;
+			case jeff:
+				Mix_PlayChannel(-1, Seffects[18], 0);
+				break;
+			case mario:
+				Mix_PlayChannel(-1, Seffects[19], 0);
+				break;
+			case more:
+				Mix_PlayChannel(-1, Seffects[20], 0);
+					break;
+			case punch:
+				Mix_PlayChannel(-1, Seffects[21], 0);
+				break;
+			case s21:
+				Mix_PlayChannel(-1, Seffects[22], 0);
+				break;
+			case scratch:
+				Mix_PlayChannel(-1, Seffects[23], 0);
+				break;
+			case smokeweed:
+				Mix_PlayChannel(-1, Seffects[24], 0);
+				break;
+			case sparta:
+				Mix_PlayChannel(-1, Seffects[25], 0);
+				break;
+			case sudden:
+				Mix_PlayChannel(-1, Seffects[26], 0);
+				break;
+			case suprise:
+				Mix_PlayChannel(-1, Seffects[27], 0);
+					break;
+			case whoosh:
+				Mix_PlayChannel(-1, Seffects[28], 0);
+				break;
+			}
 		}
 	}
 // method that plays the music
 void Sound::music(MUSIC music){
-	if(Mix_PlayingMusic()){
-		Mix_ResumeMusic();
-	}else {
-	switch(music){
-		case rock:
-			Mix_PlayMusic(mus[0], -1);
-			break;
-		case ambient:
-			Mix_PlayMusic(mus[1], -1);
-			break;
-		case electric:
-			Mix_PlayMusic(mus[2], -1);
-			break;
-
-	}
+	if(!mute){
+		//resume music if paused
+		if(Mix_PlayingMusic()){
+			Mix_ResumeMusic();
+		}else {
+		switch(music){
+			case rock:
+				Mix_PlayMusic(mus[0], -1);
+				break;
+			case ambient:
+				Mix_PlayMusic(mus[1], -1);
+				break;
+			case electric:
+				Mix_PlayMusic(mus[2], -1);
+				break;
+	
+		}
+		}
 	}
 }
 // empty destructor

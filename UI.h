@@ -28,20 +28,12 @@ public:
 	//string backgroundPath - path to background image
 	void loadBackground(string backgroundPath);
 
-	//Set class renderer
-	//Args:
-	//SDL_Renderer* renderer - pointer to renderer to draw with
-	virtual void setRenderer(SDL_Renderer* renderer);
-
-	//Get class renderer
-	SDL_Renderer* getRenderer() const;
-
 	//Get class font
 	TTF_Font* getFont() const;
 
 	//Abstract event handler
 	//Args:
-	//SDL_Event& e - SDL event container
+	//SDL_Event& e - reference to SDL event container
 	//Returns:
 	//int with button states
 	//(ex. for 3 buttons it could return 100 when button 2 is pressed)
@@ -55,9 +47,6 @@ public:
 
 private:
 	
-	//SDL renderer
-	SDL_Renderer* mRenderer;
-
 	//Font object pointer
 	TTF_Font* mFont;
 

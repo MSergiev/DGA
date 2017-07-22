@@ -21,6 +21,15 @@ void Sprite::setNumOfFrames(Uint32 numOfFrames){
 	this->miNumOfFrames = numOfFrames;
 }
 
+void Sprite::setAnimationFrame(SDL_Rect animationFrame){
+	this->mAnimationFrame.x = animationFrame.x;
+	this->mAnimationFrame.y = animationFrame.y;
+	this->mAnimationFrame.w = animationFrame.w;
+	this->mAnimationFrame.h = animationFrame.h;
+	this->miInitX = animationFrame.x;
+	this->miInitY = animationFrame.y;
+}
+
 void Sprite::render(int x, int y, SDL_Rect* clip, double a, SDL_Point* c, SDL_RendererFlip f){
 	//If enough time has passed
 	if(SDL_GetTicks()-miAnimationTimer > miAnimationDelay){

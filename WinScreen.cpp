@@ -9,6 +9,12 @@
 
 WinScreen::WinScreen()
 {
+	for(int i = 0; i < PLAYERS; i++)
+	{
+		for (int j = 0; j < PLAYER_DATA; j++) {
+			m_sPlayerData[i][j] = "";
+		}
+	}
 }
 
 WinScreen::~WinScreen()
@@ -18,30 +24,38 @@ WinScreen::~WinScreen()
 
 void WinScreen::init()
 {
-	SDL_Color button { 255, 255, 255, 0 };
-	UI::loadFont(FONT_PATH, 12);
+	m_bRestart.setTexture(RESTART_PATH);
+	m_BQuit.setTexture(QUIT_PATH);
 
-	m_bRestart.setRenderer(UI::getRenderer());
-	m_BQuit.setRenderer(UI::getRenderer());
+	m_bRestart.setSFX(BUTTON_SFX);
+	m_BQuit.setSFX(BUTTON_SFX);
 
-	m_bRestart.setLabel("RESTART", UI::getFont(), button);
-	m_BQuit.setLabel("QUIT", UI::getFont(), button);
+	m_bRestart.setLocation((WIDTH-BUTTON_WIDTH)/2, HEIGHT-VERT_OFFSET-2*BUTTON_HEIGHT);
+	m_BQuit.setLocation((WIDTH-BUTTON_WIDTH)/2, HEIGHT-VERT_OFFSET);
 
-	m_bRestart.setLocation(400, 300);
-	m_BQuit.setLocation(400, 500);
+	m_bRestart.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+	m_BQuit.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 
-	m_bRestart.setSize(100, 100);
-	m_BQuit.setSize(100, 100);
-
-	UI::loadBackground("./GFX/Untitled.png");
+	UI::loadBackground(WIN_PATH);
 }
 
 void WinScreen::render()
 {
-	UI::render();
+//	UI::render();
 	m_bRestart.render();
 	m_BQuit.render();
-	text.render(100,100);
+
+	//Text render color
+	SDL_Color textColor C_WHITE;
+	
+	for(int i = 0; i < PLAYERS; i++)
+	{
+		for(int j = 0; j < PLAYER_DATA; j++)
+		{
+			text.textLoad(m_sPlayerData[i][j], getFont(), textColor);
+			text.render(100+j*WIN_OFFSET,100+i*WIN_OFFSET);
+		}
+	}
 }
 
 int WinScreen::eventHandler(SDL_Event& e)
@@ -82,12 +96,20 @@ void WinScreen::loadData(deque<Player*> data)
 	stringstream str;
 	for (unsigned int i = 0; i < data.size(); i++)
 	{
-		str << setw(6) << data[i]->getIFinishPosition() <<
-			ColorToString(data[i]->getEColor()) <<
-			data[i]->getISteps() <<
-			data[i]->getITaken() <<
-			data[i]->getILost() << endl;
+		str << data[i]->getIFinishPosition();
+		m_sPlayerData[i][0] = str.str();
+		str.str("");
+		str	<< ColorToString(data[i]->getEColor());
+		m_sPlayerData[i][1] = str.str();
+		str.str("");
+		str	<< data[i]->getISteps();
+		m_sPlayerData[i][2] = str.str();
+		str.str("");
+		str	<< data[i]->getITaken();
+		m_sPlayerData[i][3] = str.str();
+		str.str("");
+		str	<< data[i]->getILost();
+		m_sPlayerData[i][4] = str.str();
+		str.str("");
 	}
-	SDL_Color textColor { 255, 255, 255, 0 };
-	text.textLoad(str.str(), getFont(), textColor);
 }

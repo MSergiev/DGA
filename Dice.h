@@ -25,15 +25,15 @@ class Dice {
 public:
 	Dice();
 	virtual ~Dice();
-	void render(Colors c);
-	void setRenderer(SDL_Renderer* renderer);
+	void render();
+	void setPosition(int x, int y);
 	int roll();
 	bool Event(SDL_Event& e);
 	void init();
 private:
+	int posX, posY;
 	int DiceResult;
 	Texture  DiceTexture;
-
 };
 
 #endif /* DICE_H */

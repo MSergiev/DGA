@@ -3,10 +3,15 @@
 Player::Player(Colors color)
 		: m_iSteps(), m_iTaken(), m_iLost()
 {
+	// sets the pawns vector with empty values
 	SetPawnsVector();
+	// set the active pawns to zero
 	setIActivePawns(0);
+	// put the dice with correct default value
 	setIDiceRoll(1);
+	// at the begging of the game no one is finished
 	setIFinishPosition(0);
+	// it set the color of the pawns and the player
 	setEColor(color);
 }
 
@@ -15,16 +20,10 @@ Player::~Player()
 {
 	for (unsigned int i = 0; i < m_vPawns.size(); i++)
 	{
+		// delete all the pawns in the vector
+		// the vector is made with dynamically allocated memory
 		delete m_vPawns[i];
 		m_vPawns[i] = NULL;
-	}
-}
-
-void Player::SetRenderer(SDL_Renderer* renderer)
-{
-	for (unsigned int i = 0; i < m_vPawns.size(); i++)
-	{
-		m_vPawns[i]->setRenderer(renderer);
 	}
 }
 
@@ -32,7 +31,11 @@ void Player::Render(vector<pair<int, int> > pos)
 {
 	for (unsigned int i = 0; i < pos.size(); i++)
 	{
-		m_vPawns[i]->render(pos[i].first, pos[i].second);
+		// the actual render method -
+		// pass the data of the positions of every pawn
+		// pos[i].first - x on the board
+		// pos[i].second - y on the board
+		m_vPawns[i]->render(pos[i].first, pos[i].second-15);
 	}
 }
 
@@ -46,8 +49,11 @@ void Player::Print()
 			<< "Roll: " << getIDiceRoll() << endl
 			<< "Pawn positions:"
 	<< endl;
+
+	// for every pawn
 	for (unsigned i = 0; i < m_vPawns.size(); i++)
 	{
+		// print in the console the position
 		cout << m_vPawns[i]->getIPosition() << " ";
 	}
 	cout << endl;
@@ -122,9 +128,13 @@ Colors Player::getEColor() const
 
 void Player::setEColor(Colors eColor)
 {
+	// set the color of the player
 	m_EColor = eColor;
+
+	// for each pawn
 	for(unsigned i = 0; i < m_vPawns.size(); i++)
 	{
+		// pass the color
 		m_vPawns[i]->setEColor(m_EColor);
 	}
 
@@ -133,7 +143,10 @@ void Player::setEColor(Colors eColor)
 void Player::SetPawnsVector()
 {
 	for (unsigned int i = 0; i < PAWNS; i++){
-		Pawn* pawn = new Pawn;
+		//make a dynamic allocated pawn
+		Pawn* pawn = new Pawn(m_EColor);
+
+		// give it to the vector
 		m_vPawns.push_back(pawn);
 	}
 }

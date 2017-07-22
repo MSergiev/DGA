@@ -4,6 +4,7 @@
 #define BUTTON_H
 
 #include "Texture.h"
+#include "Sound.h"
 
 class Button {
 public:
@@ -14,11 +15,6 @@ public:
 	//int w = button widthe (not required)
 	//int h = button heighte (not required)
 	Button(int x = 0, int y = 0, int w = 10, int h = 10);
-
-	//Assign button renderer
-	//Args:
-	//SDL_Renderer* renderer - pointer to renderer
-	void setRenderer(SDL_Renderer* renderer);
 
 	//Assign label font
 	//Args:
@@ -49,6 +45,11 @@ public:
 	//SDL_Color c - button color
 	void setColor(SDL_Color c);
 
+	//Click sound effect setter
+	//Args:
+	//SEFFECTS sfx - sound effect
+	void setSFX(SEFFECTS sfx);
+
 	//Clicked check
 	//Args:
 	//SDL_Event& e - reference to SDL_Event instance
@@ -70,8 +71,6 @@ public:
 	~Button();
 
 private:
-	//SDL renderer
-	SDL_Renderer* mRenderer;
 
 	//Font pointer
 	TTF_Font* mFont;
@@ -96,6 +95,12 @@ private:
 
 	//Label color
 	SDL_Color mFontColor;
+
+	//Click SFX
+	SEFFECTS meSFX;
+
+	//SFX set flag
+	bool mbHasSFX;
 };
 
 #endif

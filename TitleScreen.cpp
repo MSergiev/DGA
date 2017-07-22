@@ -29,22 +29,24 @@ int TitleScreen::eventHandler(SDL_Event& e) {
 }
 //initializes the  buttons size and position
 void TitleScreen::init() {
-	loadBackground(BOARD_PATH);
-	UI::loadFont(FONT_PATH,12);
+	loadBackground(TITLE_PATH);
+	UI::loadFont(FONT_PATH,FONT_SIZE);
 
-	StartButton.setRenderer(UI::getRenderer());
-	StartButton.setLabel("START",UI::getFont(),SDL_Color {255,255,255,255});
-	ContinueButton.setRenderer(UI::getRenderer());
-	ContinueButton.setLabel("CONTINUE",UI::getFont(),SDL_Color {255,255,255,255});
-	QuitButton.setRenderer(UI::getRenderer());
-	QuitButton.setLabel("QUIT",UI::getFont(),SDL_Color {255,255,255,255});
+	StartButton.setTexture(START_PATH);
+	ContinueButton.setTexture(CONTINUE_PATH);
+	QuitButton.setTexture(QUIT_PATH);
 
-	StartButton.setSize(200,30);
-	StartButton.setLocation((WIDTH-200)/2,(HEIGHT+100)/2);
-	ContinueButton.setSize(200,30);
-	ContinueButton.setLocation((WIDTH-200)/2,(HEIGHT+200)/2);
-	QuitButton.setSize(200,30);
-	QuitButton.setLocation((WIDTH-200)/2,(HEIGHT+300)/2);
+	StartButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+	ContinueButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+	QuitButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+
+	StartButton.setSFX(BUTTON_SFX);
+	ContinueButton.setSFX(BUTTON_SFX);
+	QuitButton.setSFX(BUTTON_SFX);
+	
+	StartButton.setLocation((WIDTH-BUTTON_WIDTH)/2,HEIGHT-VERT_OFFSET-BUTTON_HEIGHT*5);
+	ContinueButton.setLocation((WIDTH-BUTTON_WIDTH)/2,HEIGHT-VERT_OFFSET-BUTTON_HEIGHT*3);
+	QuitButton.setLocation((WIDTH-BUTTON_WIDTH)/2,HEIGHT-VERT_OFFSET);
 }
 // render function that draws the image on the screen
 void TitleScreen::render() {
