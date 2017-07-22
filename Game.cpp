@@ -21,7 +21,7 @@ void Game::loop(){
 	else if(mbLoop){
 
 #ifdef DEBUG
-		cout << "Active: " << endl;
+/*		cout << "Active: " << endl;
 		for(unsigned i = 0; i < BOARD_HEIGHT; ++i){
 			for(unsigned j = 0; j < BOARD_WIDTH; ++j){
 				cout << mBoardVector[j][i].size();
@@ -29,6 +29,7 @@ void Game::loop(){
 			cout << endl;
 		}
 		cout << endl;
+		*/
 #endif
 					
 		//Render objects
@@ -98,7 +99,7 @@ void Game::initGame(){
 #endif
     //Initialize final vectors with pawn placeholders
 	for(int i = 0; i < PLAYERS; ++i)
-		for(int j = 0; j < PLAYERS; ++j)
+		for(int j = 0; j < PAWNS; ++j)
 			mBoardVector[FINAL_SQUARES[i].first][FINAL_SQUARES[i].second].push_back(new Pawn(NONE));			
 	//Try to recover state from XML	
 	mTurnOrder = Recovery::ReadFromXML();
@@ -384,14 +385,13 @@ void Game::movePawn(Pawn * p, int with){
 			break;
 		}
 		//If entry point is reached
-		if(isEntry(newPos.first, newPos.second, p->getEColor())){
+		else if(isEntry(newPos.first, newPos.second, p->getEColor())){
 			cout << "Safe zone entry" << endl;
 			useSafe = 1;
 		}
 
 		//Temporary coordinate holder
 		pair<int,int> tmp = newPos;
-		cout << "Next: " << NEXT_SQUARE[newPos.second][newPos.first].first << " "  << NEXT_SQUARE[newPos.second][newPos.first].second << endl; 
 		//If on safe squares
 		if(useSafe){
 			tmp.first+=NEXT_SAFE[p->getEColor()-1].first;
@@ -406,11 +406,11 @@ void Game::movePawn(Pawn * p, int with){
 		newPos.first = tmp.first;
 		newPos.second = tmp.second;	
 	}
-	
 	//If on active squares
 	if(!useSafe && !finished) collision(p,newPos.first, newPos.second);
 	//If on final squares
    	else if(finished){
+		cout << mBoardVector[7][6].size() << endl;
 		//If final space is occupied
 		if(mBoardVector[FINAL_SQUARES[p->getEColor()-1].first][FINAL_SQUARES[p->getEColor()-1].second][remainder]->getEColor()!=NONE)
 			return;
@@ -426,7 +426,6 @@ void Game::movePawn(Pawn * p, int with){
 #ifdef DEBUG
 			cout << "Pawn finished" << endl;
 #endif
-			return;
 		}
 	}
 #ifdef DEBUG
@@ -434,10 +433,10 @@ void Game::movePawn(Pawn * p, int with){
 #endif
 	
 	//Place pawn in new location
-	mBoardVector[newPos.first][newPos.second].push_back(p);
+	if(!finished) mBoardVector[newPos.first][newPos.second].push_back(p);
 	//Remove pawn from old location
 	mBoardVector[p->getIXPosition()][p->getIYPosition()].pop_back();
-	//Move pawn forward
+	//Set pawn position
 	p->setIXPosition(newPos.first);
 	p->setIYPosition(newPos.second);
 	//Add roll to player step count
@@ -645,7 +644,16 @@ bool Game::isEntry(int pX, int pY, Colors c){
 }
 
 //Destructor
-Game::~Game(){
+Game::~Game()
+{
+	//Release unused pawn placeholders
+	for(int i = 0; i < PLAYERS; ++i)
+		for(int j = 0; j < PAWNS; ++j)
+			if(!mBoardVector[FINAL_SQUARES[i].first][FINAL_SQUARES[i].second].back()->getEColor()){
+				delete mBoardVector[FINAL_SQUARES[i].first][FINAL_SQUARES[i].second].back();
+				mBoardVector[FINAL_SQUARES[i].first][FINAL_SQUARES[i].second].pop_back();
+			}
+
 	//Release player data
     for(unsigned i = 0; i < mTurnOrder.size(); ++i)
 		delete mTurnOrder[i];
