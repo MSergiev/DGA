@@ -141,7 +141,7 @@ void Game::eventHandler(){
 		//If rules button is clicked
 		if(controlsState & CONTROLS_RULES) mbRules = 1;
 		//If quit button is clicked
-		//if(controlsState & CONTROLS_QUIT) quit = 1;
+		if(controlsState & CONTROLS_QUIT) quit = 1;
 	}
 }
 
@@ -343,14 +343,16 @@ void Game::diceRoll(){
 		miCurrentRoll = mDice[mTurnOrder.front()->getEColor()-1]->roll();
 		//Reset timer
 		miDiceTimer = SDL_GetTicks();
+		//Play SFX
+		Sound::play(ON_ROLL);
 	}
 	//If player clicked the dice
 	if(mDice[mTurnOrder.front()->getEColor()-1]->Event(mEvent)){
 		//Clear roll flag
 		mbRoll = 0;
 		//Play SFX
-		Sound::play(ding);
-		delay(100);
+		Sound::play(ON_DICE);
+		delay(500);
 	}
 }
 
@@ -394,7 +396,7 @@ void Game::movePawn(Pawn * p, int with){
 #endif	
 
 		//Play SFX
-		Sound::play(hitmarker);
+		Sound::play(ON_MOVE);
 }
 
 //Collision detection
@@ -418,7 +420,7 @@ void Game::collision(Pawn * p, int to){
 					//Decrease board pawn counter
 					mPawnsOnSquare[to]--;
 					//Play SFX
-					Sound::play(suprise);
+					Sound::play(ON_COLLISION);
 					break;
 				}
 			}	
@@ -495,8 +497,10 @@ void Game::delay(Uint32 ms){
 	cout << "Delay called with " << ms << endl;
 #endif
 	Uint32 timerDelay = SDL_GetTicks();
-	while(SDL_GetTicks()-timerDelay<ms)
+	while(SDL_GetTicks()-timerDelay<ms){
 		eventHandler();
+		render();
+	}
 }
 
 //Activate pawn
@@ -519,7 +523,7 @@ void Game::activatePawn(Player * p){
 			//Increment player active counter
 			p->setIActivePawns(p->getIActivePawns()+1);
 			//Play SFX
-			Sound::play(suprise);
+			Sound::play(ON_ACTIVATION);
 			break;
 		}
 	}

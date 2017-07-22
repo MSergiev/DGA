@@ -26,41 +26,42 @@ bool Sound::load(){
 		cerr << "Audio error: " << Mix_GetError() << endl;
 		success = false;
 	}
-	Seffects[0] = Mix_LoadWAV("SFX/bruh.wav");
-	Seffects[1] = Mix_LoadWAV("SFX/camera.wav");
-	Seffects[2] = Mix_LoadWAV("SFX/censor.wav");
-	Seffects[3] = Mix_LoadWAV("SFX/ding.wav");
-	Seffects[4] = Mix_LoadWAV("SFX/drumroll.wav");
-	Seffects[5] = Mix_LoadWAV("SFX/fatality.wav");
-	Seffects[6] = Mix_LoadWAV("SFX/finishhim.wav");
-	Seffects[7] = Mix_LoadWAV("SFX/flashback.wav");
-	Seffects[8] = Mix_LoadWAV("SFX/fuck.wav");
-	Seffects[9] = Mix_LoadWAV("SFX/fuckedup.wav");
-	Seffects[10] = Mix_LoadWAV("SFX/fucku.wav");
-	Seffects[11] = Mix_LoadWAV("SFX/gotcha.wav");
-	Seffects[12] = Mix_LoadWAV("SFX/whoosh.wav");
-	Seffects[13] = Mix_LoadWAV("SFX/headshot.wav");
-	Seffects[14] = Mix_LoadWAV("SFX/helpme.wav");
-	Seffects[15] = Mix_LoadWAV("SFX/here.wav");
-	Seffects[16] = Mix_LoadWAV("SFX/hitmarker.wav");
-	Seffects[17] = Mix_LoadWAV("SFX/idgaf.wav");
-	Seffects[18] = Mix_LoadWAV("SFX/inception.wav");
-	Seffects[19] = Mix_LoadWAV("SFX/jeff.wav");
-	Seffects[20] = Mix_LoadWAV("SFX/mario.wav");
-	Seffects[21] = Mix_LoadWAV("SFX/more.wav");
-	Seffects[22] = Mix_LoadWAV("SFX/punch.wav");
+	Seffects[0] = Mix_LoadWAV("./SFX/accend.wav");
+	Seffects[1] = Mix_LoadWAV("./SFX/accend2.wav");
+	Seffects[2] = Mix_LoadWAV("./SFX/boink.wav");
+	Seffects[3] = Mix_LoadWAV("./SFX/boink2.wav");
+	Seffects[4] = Mix_LoadWAV("./SFX/camera.wav");
+	Seffects[5] = Mix_LoadWAV("./SFX/censor.wav");
+	Seffects[6] = Mix_LoadWAV("./SFX/click.wav");
+	Seffects[7] = Mix_LoadWAV("./SFX/DiceRoll.wav");
+	Seffects[8] = Mix_LoadWAV("./SFX/ding.wav");
+	Seffects[9] = Mix_LoadWAV("./SFX/drumroll.wav");
+	Seffects[10] = Mix_LoadWAV("./SFX/explosion.wav");
+	Seffects[11] = Mix_LoadWAV("./SFX/fuseBomb.wav");
+	Seffects[12] = Mix_LoadWAV("./SFX/jump.wav");
+	Seffects[13] = Mix_LoadWAV("./SFX/pop.wav");
+	Seffects[14] = Mix_LoadWAV("./SFX/SciFi.wav");
+	Seffects[15] = Mix_LoadWAV("./SFX/punch.wav");
+	Seffects[16] = Mix_LoadWAV("./SFX/scratch.wav");
+	Seffects[17] = Mix_LoadWAV("./SFX/taken.wav");
+	Seffects[18] = Mix_LoadWAV("./SFX/typing.wav");
+	Seffects[19] = Mix_LoadWAV("./SFX/whisle.wav");
+	Seffects[20] = Mix_LoadWAV("./SFX/whisleSlide.wav");
+	Seffects[21] = Mix_LoadWAV("./SFX/whislewind.wav");
+	Seffects[22] = Mix_LoadWAV("./SFX/whoosh.wav");
+	Seffects[23] = Mix_LoadWAV("./SFX/orchHit.wav");
 
 	//gives error if  the the sounds effects are NOT loaded correctly.
-	for(int i = 0; i < 22; ++i){
+	for(int i = 0; i < SFX_NUM; ++i){
 		if(Seffects[i]==NULL){
 			cerr << "Seffects error: " << Mix_GetError() << endl;
 			success = false;
 		}
 	}
-	mus[0] = Mix_LoadMUS("BGM/rock.wav");
+	mus[0] = Mix_LoadMUS("./BGM/menuS.mp3");
 
 	//gives error if  the the music is NOT loaded correctly.
-	for(int i = 0; i < 1; ++i){
+	for(int i = 0; i < BGM_NUM; ++i){
 			if(mus[i]==NULL){
 				cerr << "music error: " << Mix_GetError() << endl;
 				success = false;
@@ -79,16 +80,15 @@ bool Sound::playing() {
 }
 // frees/clear's the  used memory that the sounds used
 void Sound::free(){
-	for (int i = 0; i < 22; i++) {
+	for (int i = 0; i < SFX_NUM; i++) {
 		Mix_FreeChunk(Seffects[i]);
 		Seffects[i] = NULL;
 	}
 	// frees/clear's the  used memory that the music used
-	for (int i = 0; i < 1; i++) {
+	for (int i = 0; i < BGM_NUM; i++) {
 		Mix_FreeMusic(mus[i]);
 		mus[i] = NULL;
 	}
-	Mix_Quit();
 }
 // Mothod that plays  the sound effects
 void Sound::play(SEFFECTS sound)
@@ -164,6 +164,9 @@ void Sound::play(SEFFECTS sound)
 			case whoosh:
 				Mix_PlayChannel(-1, Seffects[22], 0);
 				break;
+			case orchHit:
+				Mix_PlayChannel(-1, Seffects[23], 0);
+				break;
 			}
 		}
 	}
@@ -186,6 +189,5 @@ void Sound::music(MUSIC music){
 }
 // empty destructor
 Sound::~Sound() {
-	// TODO Auto-generated destructor stub
 }
 

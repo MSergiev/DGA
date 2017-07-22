@@ -7,6 +7,9 @@
 using std::string;
 using std::pair;
 
+//Quit flag
+extern bool quit;
+
 //Screen constants
 #define WIDTH 800
 #define HEIGHT 800
@@ -171,10 +174,15 @@ const pair<int,int> DICE_POS[]{
 #define HIGHLIGHTER_PATH "./GFX/highlight.png"
 
 //BGM
-#define BGM rock
+#define BGM menuS
 
-//Button click SFX
-#define BUTTON_SFX camera
+//SFX
+#define BUTTON_SFX click
+#define ON_MOVE typing
+#define ON_COLLISION explosion
+#define ON_ACTIVATION jump
+#define ON_ROLL DiceRoll
+#define ON_DICE orchHit
 
 //Debug mode
 #define DEBUG

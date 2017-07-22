@@ -22,7 +22,7 @@
 SDL_Window* window;
 SDL_Renderer* renderer;
 
-//Exit flag
+//Exit flag (from Shared.h)
 bool quit = 0;
 
 //SDL event container
@@ -186,6 +186,8 @@ void free(){
 	cout << "Free called" << endl;
 #endif
 
+	//Release sound
+	Sound::free();
 	//Release renderer
 	SDL_DestroyRenderer(renderer);
 	//Release window

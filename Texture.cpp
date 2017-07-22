@@ -8,6 +8,10 @@ Texture::Texture(){
 }
 
 void Texture::load(string path){
+	//Free old texture
+	SDL_DestroyTexture(mTexture);
+	mTexture = NULL;
+	
 	//Create blank texture
 	SDL_Texture* board;
 	
