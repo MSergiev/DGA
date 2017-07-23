@@ -40,6 +40,9 @@ bool Dice::Event(SDL_Event& e){
 			}
 		}
 	}
+	//if space is pressed
+	if(e.key.keysym.sym == SDLK_SPACE)
+		return 1;
 	return 0;
 }
 // sets  the image and the SIZE on the screen
@@ -51,4 +54,3 @@ void Dice::render(){
 void Dice::init(){
 srand(time(0));
 	}
-
