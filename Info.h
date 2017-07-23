@@ -18,6 +18,8 @@ public:
 	virtual ~Info();
 	void init();
 	virtual int eventHandler(SDL_Event& e);
+	virtual void fadeIn();
+	virtual void fadeOut();
 	virtual void render();
 private:
 int PageCounter;

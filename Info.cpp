@@ -36,6 +36,15 @@ int Info::eventHandler(SDL_Event& e) {
 	}
 	return ButtonState;
 }
+//overridden fade effects
+void Info::fadeIn(){
+	pageNext.fadeIn(FADE_FACTOR);
+	pageBack.fadeIn(FADE_FACTOR);
+}
+void Info::fadeOut(){
+	pageNext.fadeOut(FADE_FACTOR);
+	pageBack.fadeOut(FADE_FACTOR);
+}
 //initializes the  buttons size and position
 void Info::init() {
 	//load page textures

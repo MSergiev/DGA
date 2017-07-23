@@ -277,6 +277,9 @@ const pair<int,int> DICE_POS[]{
 #define ON_SIX orchHit
 #define ON_DICE ding
 
+//UI fade speed
+#define FADE_FACTOR 10
+
 ///Debug mode
 #define DEBUG
 

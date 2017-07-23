@@ -46,7 +46,10 @@ private:
 	
     ///SDL event container
     SDL_Event mEvent;
-	
+
+	//Transition flags
+	bool mbTransition, mbTransitionState;
+
 	///Camera coordinates
 	int miCameraX;
 	int miCameraY;

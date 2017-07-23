@@ -77,6 +77,16 @@ void WinScreen::render()
 	}
 }
 
+// overridden animations
+void WinScreen::fadeIn(){
+	m_bRestart.fadeIn(FADE_FACTOR);
+	m_BQuit.fadeIn(FADE_FACTOR);
+}
+void WinScreen::fadeOut(){
+	m_bRestart.fadeOut(FADE_FACTOR);
+	m_BQuit.fadeOut(FADE_FACTOR);
+}
+
 int WinScreen::eventHandler(SDL_Event& e)
 {
 	// make a variable which will be returned

@@ -21,6 +21,12 @@ public:
 	///Render method
 	virtual void render();
 
+	///Button fade in
+	virtual void fadeIn();
+
+	///Button fade out
+	virtual void fadeOut();
+
 	///Destructor
 	virtual ~Controls();
 
