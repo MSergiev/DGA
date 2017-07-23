@@ -29,6 +29,8 @@ class Pawn
 {
 private:
 	int m_iXPosition, m_iYPosition;
+	//Flag if pawn is on the final field
+	bool m_bFinished;
 	Colors m_eColor;
 	
 	///Sprite object pointer
@@ -50,6 +52,9 @@ public:
 
 	int getIYPosition() const;
 	void setIYPosition(int iYPosition);
+
+	bool getBFinished() const;
+	void setBFinished(bool bFinished);
 
 	Colors getEColor() const;
 	void setEColor(Colors eColor);

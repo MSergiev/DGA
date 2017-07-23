@@ -20,7 +20,7 @@ public:
 	virtual int eventHandler(SDL_Event& e);
 	virtual void render();
 private:
-int PageCounter=0;
+int PageCounter;
 Texture pages[PAGES_NUM];
 Button pageNext;
 Button pageBack;

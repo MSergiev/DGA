@@ -19,11 +19,14 @@ TitleScreen::~TitleScreen() {
 //return the state of the button
 int TitleScreen::eventHandler(SDL_Event& e) {
 	int ButtonState=0;
-	ButtonState|=StartButton.isClicked(e);
-	ButtonState<<=1;
-	ButtonState|=ContinueButton.isClicked(e);
-	ButtonState<<=1;
-	ButtonState|=QuitButton.isClicked(e);
+	//if enough time has passed
+	if(UI::debounce()){
+		ButtonState|=StartButton.isClicked(e);
+		ButtonState<<=1;
+		ButtonState|=ContinueButton.isClicked(e);
+		ButtonState<<=1;
+		ButtonState|=QuitButton.isClicked(e);
+	}
 	return ButtonState;
 
 }

@@ -38,10 +38,7 @@ private:
     SDL_Event mEvent;
     
     ///Game state flags
-    bool mbTitle = 1;
-    bool mbLoop = 0;
-    bool mbWin = 0;
-	bool mbRules = 0;
+	bool mbRunning = 0;
 	bool mbRoll = 0;
 	bool mbHighlight = 0;
 
@@ -72,6 +69,9 @@ private:
 	///Rules screen
 	Info mInfoScreen;
 
+	///Active UI pointer
+	UI* mActiveUI;
+
 	///UI controls object
 	Controls mControls;
 
@@ -83,9 +83,6 @@ private:
 
     ///Active highlighter index vector
     vector<pair<int,int> > mActiveHighlighters;
-
-    ///Turn counter
-    int miTurns = 0;
 
     ///Ordered player container
     deque<Player*> mTurnOrder;
@@ -123,7 +120,16 @@ public:
     
 private:
 
-    ///Player turn
+	///Render background
+	void renderBackground();
+
+	///Render sprite layer
+	void renderSprite();
+
+	///Render UI
+	void renderUI();
+    
+	///Player turn
     ///Args:
     ///Player *p - pointer to active player
     void turn(Player *p);
@@ -218,6 +224,11 @@ private:
 	///int pY - Y index
 	///Colors c - player color
 	bool isEntry(int pX, int pY, Colors c);
+
+	///Determine if player has finished
+	///Args:
+	///Player* p - pointer to player
+	bool hasFinished(Player* p);
 };
 
 #endif

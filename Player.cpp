@@ -6,8 +6,8 @@ Player::Player(Colors color)
 	// set the active pawns to zero
 	setIActivePawns(0);
 	// put the dice with correct default value
-	setIDiceRoll(1);
-	// at the begging of the game no one is finished
+	setIDiceRoll(1);	
+    // at the begging of the game no one is finished
 	setIFinishPosition(0);
 	// it set the color of the pawns and the player
 	setEColor(color);
@@ -111,6 +111,11 @@ void Player::setIDiceRoll(int iDiceRoll)
 		m_iDiceRoll = iDiceRoll;
 }
 
+Colors Player::getEColor() const
+{
+	return m_EColor;
+}
+
 int Player::getIFinishPosition() const
 {
 	return m_iDiceRoll;
@@ -119,11 +124,6 @@ int Player::getIFinishPosition() const
 void Player::setIFinishPosition(int iFinishPosition)
 {
 	m_iFinishPosition = iFinishPosition;
-}
-
-Colors Player::getEColor() const
-{
-	return m_EColor;
 }
 
 void Player::setEColor(Colors eColor)

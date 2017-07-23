@@ -7,6 +7,18 @@ UI::UI(){
 	this->msFontPath = string();
 	this->msBackgroundPath = string();
 	this->unload = 1;
+	this->eventTimer = SDL_GetTicks();
+}
+
+//Debouncer
+bool UI::debounce(){
+	//If time has passed
+	if((SDL_GetTicks()-eventTimer)>100){
+		//Update timer
+		eventTimer = SDL_GetTicks();
+		return 1;
+	}
+	return 0;
 }
 
 //Font loader

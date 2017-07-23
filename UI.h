@@ -28,6 +28,9 @@ public:
 	///string backgroundPath - path to background image
 	void loadBackground(string backgroundPath);
 
+	///Event debouncer
+	bool debounce();
+
 	///Get class font
 	TTF_Font* getFont() const;
 
@@ -36,7 +39,6 @@ public:
 	///SDL_Event& e - reference to SDL event container
 	///Returns:
 	///int with button states
-	///(ex. for 3 buttons it could return 100 when button 2 is pressed)
 	virtual int eventHandler(SDL_Event& e)=0;
 	
 	///Render method
@@ -64,6 +66,9 @@ private:
 
 	///Flag not to unload font if set externally
 	bool unload;
+
+	///Event debounce timer
+	Uint32 eventTimer;
 };
 
 #endif

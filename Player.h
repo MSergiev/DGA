@@ -30,7 +30,7 @@ private:
 
 	/// at what position the player finished the game
 	int m_iFinishPosition;
-
+    
 	/// private method which helps to fill
 	/// the vector of the pawns with the necessary info
 	void SetPawnsVector();
@@ -66,10 +66,10 @@ public:
 
 	int getIDiceRoll() const;
 	void setIDiceRoll(int iDiceRoll);
-
+    
 	int getIFinishPosition() const;
 	void setIFinishPosition(int iFinishPosition);
-	
+    
 	Colors getEColor() const;
 	void setEColor(Colors eColor);
 

@@ -38,7 +38,11 @@ extern bool quit;
 #define BUTTON_HEIGHT 54
 
 ///Win screen data spacing
-#define WIN_OFFSET 80
+#define WIN_X_OFF 135
+#define WIN_Y_OFF 325
+#define WIN_X_DATA 130
+#define WIN_Y_DATA 50
+#define WIN_SHADOW_OFF 4
 
 ///Rule screen button params
 #define RULES_WIDTH 50
@@ -197,7 +201,7 @@ const int SPRITE_SCALE[]{
 };
 
 ///Font size
-#define FONT_SIZE 12
+#define FONT_SIZE 20
 
 ///Font path
 #define FONT_PATH "./GFX/font.ttf"

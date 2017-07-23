@@ -56,7 +56,7 @@ deque< Player* > Recovery::ReadFromXML()
 			person->setITaken(player.child("Taken").text().as_int());
 			person->setILost(player.child("Lost").text().as_int());
 			person->setIActivePawns(player.child("Active").text().as_int());
-			person->setIFinishPosition(player.child("Finished").text().as_int());
+            person->setIFinishPosition(player.child("Finished").text().as_int());
 			person->setIDiceRoll(player.child("LastDiceRoll").text().as_int());
 
 			// read pawn positions
@@ -67,6 +67,8 @@ deque< Player* > Recovery::ReadFromXML()
 			for(pugi::xml_node pawn = pawns.first_child(); pawn;
 				   	pawn = pawn.next_sibling())
 			{
+				// set pawn finish flag
+				person->m_vPawns[count]->setBFinished(pawn.attribute("Finished").as_int());
 				// put the data in the vector in the correct order
 				person->m_vPawns[count]->setIXPosition(pawn.attribute("PosX").as_int());
 				person->m_vPawns[count]->setIYPosition(pawn.attribute("PosY").as_int());
@@ -132,7 +134,7 @@ void Recovery::WriteXML(deque< Player*> players, bool rolled)
 		str << players[i]->getIFinishPosition();
 		finished.append_child(pugi::node_pcdata).set_value(str.str().c_str());
 		str.str("");
-
+        
 		pugi::xml_node diceRoll = player.append_child("LastDiceRoll");
 		str << players[i]->getIDiceRoll();
 		diceRoll.append_child(pugi::node_pcdata).set_value(str.str().c_str());
@@ -145,6 +147,8 @@ void Recovery::WriteXML(deque< Player*> players, bool rolled)
 		{
 			// make a node pawn
 			pugi::xml_node pawn = pawns.append_child("Pawn");
+			// write finish flag
+			pawn.append_attribute("Finished") = players[i]->m_vPawns[j]->getBFinished();
 			// add attribute and give it value of the position of the pawn
 			pawn.append_attribute("PosX") = players[i]->m_vPawns[j]->getIXPosition();
 			pawn.append_attribute("PosY") = players[i]->m_vPawns[j]->getIYPosition();

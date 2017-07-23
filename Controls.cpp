@@ -28,28 +28,32 @@ void Controls::init(){
 
 //Event handler
 int Controls::eventHandler(SDL_Event & e){
-	//Get sound button state
-    if(mSoundButton.isClicked(e)){
-	   	mbSoundState=!mbSoundState;
-		Sound::mute = mbSoundState;
-		if(mbSoundState){
-		   	Sound::pause();
-			mSoundButton.setTexture(SOUND_OFF_PATH);
-		}
-		else{
-		   	Sound::music(BGM);
-			mSoundButton.setTexture(SOUND_ON_PATH);
-		}
-	}
-
 	//Button state holder
 	int buttonState = 0;
-	//Get rules button state
-	buttonState|=mRulesButton.isClicked(e);
-	//Shift state holder bits to the left
-	buttonState<<=1;
-	//Get quit button state
-	buttonState|=mQuitButton.isClicked(e);
+	
+	//Debounce events
+	if(UI::debounce()){
+		//Get sound button state
+		 if(mSoundButton.isClicked(e)){
+		   	mbSoundState=!mbSoundState;
+			Sound::mute = mbSoundState;
+			if(mbSoundState){
+			   	Sound::pause();
+				mSoundButton.setTexture(SOUND_OFF_PATH);
+			}
+			else{
+			   	Sound::music(BGM);
+				mSoundButton.setTexture(SOUND_ON_PATH);
+			}
+		}
+
+		//Get rules button state
+		buttonState|=mRulesButton.isClicked(e);
+		//Shift state holder bits to the left
+		buttonState<<=1;
+		//Get quit button state
+		buttonState|=mQuitButton.isClicked(e);
+	}
 	//Return button states
 	return buttonState;
 }

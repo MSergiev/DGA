@@ -13,6 +13,7 @@ Pawn::Pawn(Colors c)
 	setEColor(c);
 	setIXPosition(-1);
 	setIYPosition(-1);
+	setBFinished(0);
 	mPlayerSprite.load(PAWN_PATH);
 }
 
@@ -41,6 +42,12 @@ int Pawn::getIYPosition() const
 {
 	return m_iYPosition;
 }
+
+bool Pawn::getBFinished() const
+{
+	return m_bFinished;
+}
+
 Colors Pawn::getEColor() const
 {
 	return m_eColor;
@@ -64,4 +71,8 @@ void Pawn::setIXPosition(int iXPosition)
 void Pawn::setIYPosition(int iYPosition)
 {
 	m_iYPosition = iYPosition;
+}
+void Pawn::setBFinished(bool bFinished)
+{
+	m_bFinished = bFinished;
 }

@@ -8,18 +8,6 @@ void Game::loop(){
     //Handle events
 	eventHandler();
 	
-	if(mbRules){
-		mInfoScreen.render();
-	}
-
-	//On game title screen
-	if(mbTitle){
-		mTitleScreen.render();
-	}
-
-	//On gameplay loop
-	else if(mbLoop){
-
 #ifdef DEBUG
 /*		cout << "Active: " << endl;
 		for(unsigned i = 0; i < BOARD_HEIGHT; ++i){
@@ -35,26 +23,29 @@ void Game::loop(){
 		//Render objects
 		render();
 		
-		//Execute player turn
-		for(unsigned i = 0; i < mTurnOrder.size(); i++)
-			if(mTurnOrder[i]->getEColor()==RED){ turn(mTurnOrder[i]); break; }
-//		turn(mTurnOrder.front());
-
-		//Increment turn counter
-		miTurns++;
-	}
-
-	//On game win
-	else if(mbWin){
-		mWinScreen.loadData(mTurnOrder);
-		mWinScreen.render();
-	}
+		//If game is running
+		if(mbRunning){		
+			//Execute player turn
+			for(unsigned i = 0; i < mTurnOrder.size(); i++)
+				if(mTurnOrder[i]->getEColor()==RED){ turn(mTurnOrder[i]); break; }
+//			turn(mTurnOrder.front());
+		}
 }
+
+
+
+
+
 
 //Event container setter
 void Game::setEvent(SDL_Event& event){
     this->mEvent = event;
 }
+
+
+
+
+
 
 //Game object inititalizing method
 void Game::init(){
@@ -63,17 +54,9 @@ void Game::init(){
 	cout << "init called" << endl;
 #endif
     //Load game font
-    mFont = TTF_OpenFont(FONT_PATH, 15);
+    mFont = TTF_OpenFont(FONT_PATH, FONT_SIZE);
     if(mFont==NULL) cerr << "Font error: " << TTF_GetError() << endl;
-    
-	//Initialize dice objects
-	for(int i = 0; i < PLAYERS; ++i){
-		mDice.push_back(new Dice);
-		mDice.back()->setPosition(DICE_POS[i].first, DICE_POS[i].second);
-	}
-	
-	//Refresh RNG seed
-	mDice.back()->init();
+
 
 	//Load game board texture
 	mBoard.load(BOARD_PATH);
@@ -89,6 +72,7 @@ void Game::init(){
     mWinScreen.init();
 	mInfoScreen.init();
 	mControls.init();
+	mActiveUI = &mTitleScreen;
 }
 
 //Game data inititalizing method
@@ -112,50 +96,77 @@ void Game::initGame(){
 	//Set player data
 		for(unsigned i = 0; i < mTurnOrder.size(); ++i){
 			for(unsigned j = 0; j < mTurnOrder[i]->m_vPawns.size(); ++j){
+				//Place pawns on board
 				mBoardVector[mTurnOrder[i]->m_vPawns[j]->getIXPosition()][mTurnOrder[i]->m_vPawns[j]->getIYPosition()].push_back(mTurnOrder[i]->m_vPawns[j]);
 			}
+			//Initialize player dice
+			mDice.push_back(new Dice);
+			mDice.back()->setPosition(DICE_POS[mTurnOrder.front()->getEColor()-1].first, DICE_POS[mTurnOrder.front()->getEColor()-1].second);
 		}
 		cout << "Player data:" << endl;
-		Recovery::Print(mTurnOrder);
+		Recovery::Print(mTurnOrder);    
+
 	}
+
+	//Refresh RNG seed
+	mDice.back()->init();
 }
 
+
+
+
+
+
 //Event handler
-void Game::eventHandler(){
-    //If on title screen
-    if(mbTitle){
-        //Get current button states
-        int titleState = mTitleScreen.eventHandler(mEvent);
+void Game::eventHandler(){	
+	//If on rules screen
+	if(Info* ptr = dynamic_cast<Info*>(mActiveUI)){
+		if(mActiveUI->eventHandler(mEvent)) mActiveUI=&mControls;
+	}
+	//If on title screen
+    else if(TitleScreen* ptr = dynamic_cast<TitleScreen*>(mActiveUI)){
+		//Get current button states
+        int titleState = mActiveUI->eventHandler(mEvent);
         //If start button is clicked
-        if(titleState & TITLE_START){ mbTitle = 0; mbLoop = 1; mbRoll = 1; mbIgnoreRecovery = 1; initGame(); }
+        if(titleState & TITLE_START){ mActiveUI=&mControls; mbRoll = 1; mbIgnoreRecovery = 1; initGame(); }
         //If continue button is clicked
-        else if(titleState & TITLE_CONTINUE){ mbTitle = 0; mbLoop = 1; mbRoll = 1; initGame(); }
+        else if(titleState & TITLE_CONTINUE){ mActiveUI=&mControls; initGame(); }
         //If quit button is clicked
         else if(titleState & TITLE_QUIT){ quit = 1;}
-    }
-    //If on win screen
-    else if(mbWin){
-        //Get current button states
-        int winState = mWinScreen.eventHandler(mEvent);
+	}
+	//If on win screen
+	else if(WinScreen* ptr = dynamic_cast<WinScreen*>(mActiveUI)){
+		//Get current button states
+        int winState = mActiveUI->eventHandler(mEvent);
         //If restart button is clicked
-        if(winState & WIN_RESTART){ mbWin = 0; mbTitle = 0; mbLoop = 1; mbIgnoreRecovery = 1; initGame(); }
+        if(winState & WIN_RESTART){ mActiveUI=&mControls; mbIgnoreRecovery = 1; initGame(); }
         //If exit button is clicked
         else if(winState & WIN_QUIT){ quit = 1; }
-    }
-	//If on rules screen
-	else if(mbRules){
-		if(mInfoScreen.eventHandler(mEvent)) mbRules = 0;
 	}
 	//If on game screen
-	else {
+	else if(Controls* ptr = dynamic_cast<Controls*>(mActiveUI)){
 		//Get current button states
 		int controlsState = mControls.eventHandler(mEvent);
 		//If rules button is clicked
-		if(controlsState & CONTROLS_RULES) mbRules = 1;
+		if(controlsState & CONTROLS_RULES) mActiveUI=&mInfoScreen;
 		//If quit button is clicked
 		if(controlsState & CONTROLS_QUIT) quit = 1;
+
+		//If dice is rolling
+		if(mbRoll) 
+			//If player clicked the dice
+			if(mDice[mTurnOrder.front()->getEColor()-1]->Event(mEvent)){
+			//Clear roll flag
+			mbRoll = 0;
+			//Play SFX
+			if(miCurrentRoll[mTurnOrder.front()->getEColor()-1]==6) Sound::play(ON_SIX);
+			else Sound::play(ON_DICE);
+			delay(500);
+		}
 	}
 }
+
+
 
 //Render all assets
 void Game::render(){
@@ -164,14 +175,29 @@ void Game::render(){
 	//cout << "Render called" << endl;
 #endif
 
+	//Render background
+	renderBackground();
+	
+	//Render sprites 
+	renderSprite();
+
+    //Render UI
+	renderUI();
+}
+
+//Render background
+void Game::renderBackground(){
     //Draw game board;
     mBoard.render(0,0);
+}
+
+//Render sprite layer
+void Game::renderSprite(){
+	//Render highlighters
+	for(unsigned i = 0; i < mActiveHighlighters.size(); ++i)
+		mBoardHighlghters[mActiveHighlighters[i].second][mActiveHighlighters[i].first].render();
     
-    //Render highlighters
-    for(unsigned i = 0; i < mActiveHighlighters.size(); ++i)
-        mBoardHighlghters[mActiveHighlighters[i].second][mActiveHighlighters[i].first].render();
-    
-    //Render player sprites
+	//Render player sprites
     for(unsigned i = 0; i < mTurnOrder.size(); ++i){
         //Get player pawn screen coordinates
         vector<pair<int,int> > pos;
@@ -182,128 +208,148 @@ void Game::render(){
             }
         //Render pawns
         mTurnOrder[i]->Render(pos);
-    }
-
+    }	
+	
 	//Render dice
 	for(unsigned i = 0; i < mDice.size(); ++i)
 		mDice[i]->render();
-
-	//Render controls
-	mControls.render();
 }
 
+//Render UI
+void Game::renderUI(){
+
+	//Render controls
+	mActiveUI->render();
+}
+
+
+
 //Player turn
-void Game::turn(Player * p){
+void Game::turn(Player* p){
     
 #ifdef DEBUG
 	//cout << "Turn called with " << p->getEColor() << endl;
 #endif
-    
-	//If player has rolled before recovery
-	if(!Recovery::hasRolled && mbRoll){
-		//Roll the dice
-		diceRoll();
-	} else {
+	//If player has not finished
+	if(!p->getIFinishPosition()){
+		//If player has rolled before recovery
+		if(!Recovery::hasRolled && mbRoll){
+			//Roll the dice
+			diceRoll();
+		} else {
 
 #ifdef DEBUG
 	cout << "Player " << p->getEColor() << " rolled " << p->getIDiceRoll() << endl;
 #endif
-	//Save recovery data
-	//Recovery::WriteXML(turnOrder, 1);
-	
-	//Set player roll
-	p->setIDiceRoll(miCurrentRoll[mTurnOrder.front()->getEColor()-1]);
-	
-	switch(p->getEColor()){
-			case YELLOW: p->setIDiceRoll(6); break;
-			case RED: p->setIDiceRoll(4); break;
-			default: p->setIDiceRoll(2); break;
-	}
-
-	//If roll is a 6 get another turn
-	//if(p->getIDiceRoll()==6) mTurnOrder.push_front(p);
-	
-	//If player has no active pawns
-	if(p->getIActivePawns()==0){
-		//If roll is a 6
-	   	if(p->getIDiceRoll()==6){
-			//Add an active pawn
-			activatePawn(p);
+		//Save recovery data
+		//Recovery::WriteXML(turnOrder, 1);
+		
+		//Set player roll
+		p->setIDiceRoll(miCurrentRoll[mTurnOrder.front()->getEColor()-1]);
+		
+		switch(p->getEColor()){
+				case YELLOW: p->setIDiceRoll(6); break;
+				case RED: p->setIDiceRoll(4); break;
+				default: p->setIDiceRoll(2); break;
 		}
-	}
-	//If player has only one active pawn
-	else if(p->getIActivePawns()==1 && p->getIDiceRoll()!=6){
-		//Traverse the pawns
-		for(unsigned i = 0; i < p->m_vPawns.size(); ++i){
-			//If pawn is on the board
-			if(MOVEABLE_SQUARES[p->m_vPawns[i]->getIYPosition()][p->m_vPawns[i]->getIXPosition()]){
-				cout << "Selected pawn: " << p->m_vPawns[i]->getEColor() << endl;
-				//Move pawn forward
-				movePawn(p->m_vPawns[i], p->getIDiceRoll());
-				break;	
+	
+		//If roll is a 6 get another turn
+		//if(p->getIDiceRoll()==6) mTurnOrder.push_front(p);
+		
+		//If player has no active pawns
+		if(p->getIActivePawns()==0){
+			//If roll is a 6
+		   	if(p->getIDiceRoll()==6){
+				//Add an active pawn
+				activatePawn(p);
 			}
 		}
-	}
-	//If player has more than one active pawn
-	else {
-		//If highglighters have not been set this turn	
-		if(!mbHighlight){
-			//If roll is a 6 and player has inactive pawns
-			if(p->getIDiceRoll()==6 && p->getIActivePawns()!=PAWNS){
-				//Find inactive pawn
-				for(unsigned i = 0; i < p->m_vPawns.size(); ++i){
-					if(isBase(p->m_vPawns[i]->getIXPosition(), p->m_vPawns[i]->getIYPosition(), p->getEColor())){
-						//Highlight inactive pawn
-						highlight(p->m_vPawns[i]->getIXPosition(), p->m_vPawns[i]->getIYPosition());
-						break;
+		//If player has only one active pawn
+		else if(p->getIActivePawns()==1 && p->getIDiceRoll()!=6){
+			//Traverse the pawns
+			for(unsigned i = 0; i < p->m_vPawns.size(); ++i){
+				//If pawn is on the board
+				if(MOVEABLE_SQUARES[p->m_vPawns[i]->getIYPosition()][p->m_vPawns[i]->getIXPosition()]){
+					cout << "Selected pawn: " << p->m_vPawns[i]->getEColor() << endl;
+					//Move pawn forward
+					movePawn(p->m_vPawns[i], p->getIDiceRoll());
+					break;	
+				}
+			}
+		}
+		//If player has more than one active pawn
+		else {
+			//If highglighters have not been set this turn	
+			if(!mbHighlight){
+				//If roll is a 6 and player has inactive pawns
+				if(p->getIDiceRoll()==6 && p->getIActivePawns()!=PAWNS){
+					//Find inactive pawn
+					for(unsigned i = 0; i < p->m_vPawns.size(); ++i){
+							if(isBase(p->m_vPawns[i]->getIXPosition(), p->m_vPawns[i]->getIYPosition(), p->getEColor())){
+							//Highlight inactive pawn
+							highlight(p->m_vPawns[i]->getIXPosition(), p->m_vPawns[i]->getIYPosition());
+							break;
+						}
 					}
 				}
+				//Active pawn counter
+				int activeCount = 0;	
+				//Traverse the board
+				for(unsigned i = 0; i < p->m_vPawns.size(); ++i){
+					//Find active ones
+					if(MOVEABLE_SQUARES[p->m_vPawns[i]->getIYPosition()][p->m_vPawns[i]->getIXPosition()]){
+						//Highlight active pawn
+						highlight(p->m_vPawns[i]->getIXPosition(), p->m_vPawns[i]->getIYPosition());	
+						//Increase active counter
+						activeCount++;
+					}
+					//Check if more active pawns exist
+					if(activeCount==p->getIActivePawns()) break;
+					}
+				//Raise highlighter flag
+				mbHighlight = 1;
 			}
-			//Active pawn counter
-			int activeCount = 0;	
-			//Traverse the board
-			for(unsigned i = 0; i < p->m_vPawns.size(); ++i){
-				//Find active ones
-				if(MOVEABLE_SQUARES[p->m_vPawns[i]->getIYPosition()][p->m_vPawns[i]->getIXPosition()]){
-					//Highlight active pawn
-					highlight(p->m_vPawns[i]->getIXPosition(), p->m_vPawns[i]->getIYPosition());	
-					//Increase active counter
-					activeCount++;
-				}
-				//Check if more active pawns exist
-				if(activeCount==p->getIActivePawns()) break;
-			}
-			//Raise highlighter flag
-			mbHighlight = 1;
-		}
-
-		//Get choice from highlights
-		pair<int,int> choice = getHighlightedChoice();
-		//If invalid choice
-		if(choice.first<0 || choice.second<0) return;
-		//If base is selected
-		else if(isBase(choice.first, choice.second, p->getEColor())) activatePawn(p);
-		//If field is selected
-		else movePawn(mBoardVector[choice.first][choice.second].front(), p->getIDiceRoll());	
-	}
-
-	//If no highlighters are active
-	if(!mbHighlight){	
-		//Cycle players
-		mTurnOrder.push_back(mTurnOrder.front());
-		//Remove current player from queue
-		mTurnOrder.pop_front();
-
-		//Save recovery data
-	//	Recovery::WriteXML(turnOrder);	
 	
-		//Raise roll flag for next turn
-		mbRoll = 1;
+			//Get choice from highlights
+			pair<int,int> choice = getHighlightedChoice();
+			//If invalid choice
+			if(choice.first<0 || choice.second<0) return;
+			//If base is selected
+			else if(isBase(choice.first, choice.second, p->getEColor())) activatePawn(p);
+			//If field is selected
+			else movePawn(mBoardVector[choice.first][choice.second].front(), p->getIDiceRoll());	
+		}
+	
+		//If no highlighters are active
+		if(!mbHighlight){	
+			
+			//If player has finished
+			if(hasFinished(mTurnOrder.front())){
+				//Determine finish position
+				int pos = 1;
+				for(unsigned i = 1; i < mTurnOrder.size(); ++i)
+					if(hasFinished(mTurnOrder[i])) pos++;
+				//Set player finish position
+				mTurnOrder.front()->setIFinishPosition(pos);
+			}
+			else {
+				//Cycle players
+				mTurnOrder.push_back(mTurnOrder.front());
+				//Remove current player from queue
+				mTurnOrder.pop_front();
+			}
+	
+			//Save recovery data
+		//	Recovery::WriteXML(turnOrder);	
+		
+			//Raise roll flag for next turn
+			mbRoll = 1;
 
 #ifdef DEBUG
 		cout << endl << endl;
 #endif
-	}
+		}
+		}
 	}
 }
 
@@ -326,6 +372,9 @@ void Game::determineTurnOrder(){
 		mTurnOrder.push_back(new Player(order[i]));
 		//Add a starting pawn
 		activatePawn(mTurnOrder.back());
+		//Initialize player dice
+		mDice.push_back(new Dice);
+		mDice.back()->setPosition(DICE_POS[order[i]-1].first, DICE_POS[order[i]-1].second);
 	}
 #ifdef DEBUG
 	cout << "Player turns: " << mTurnOrder[0]->getEColor() << " " << mTurnOrder[1]->getEColor() << " " << mTurnOrder[2]->getEColor() << endl;
@@ -347,15 +396,7 @@ void Game::diceRoll(){
 		//Play SFX
 		Sound::play(ON_ROLL);
 	}
-	//If player clicked the dice
-	if(mDice[mTurnOrder.front()->getEColor()-1]->Event(mEvent)){
-		//Clear roll flag
-		mbRoll = 0;
-		//Play SFX
-		if(miCurrentRoll[mTurnOrder.front()->getEColor()-1]==6) Sound::play(ON_SIX);
-		else Sound::play(ON_DICE);
-		delay(500);
-	}
+	
 }
 
 //Pawn movement
@@ -418,8 +459,10 @@ void Game::movePawn(Pawn * p, int with){
 		else{
 			//Delete pawn placeholder
 			delete mBoardVector[FINAL_SQUARES[p->getEColor()-1].first][FINAL_SQUARES[p->getEColor()-1].second][remainder];
+			//Set pawn finish flag
+			p->setBFinished(1);
 			//Place pawn in final vector
-			mBoardVector[FINAL_SQUARES[p->getEColor()-1].second][FINAL_SQUARES[p->getEColor()-1].first][remainder] = p;
+			mBoardVector[FINAL_SQUARES[p->getEColor()-1].second][FINAL_SQUARES[p->getEColor()-1].first][remainder] = p;	
 			//Decrease player active counter
 			mTurnOrder.front()->setIActivePawns(mTurnOrder.front()->getIActivePawns()-1);
 
@@ -641,6 +684,13 @@ bool Game::isBase(int pX, int pY, Colors c){
 //Determine if board square is entry
 bool Game::isEntry(int pX, int pY, Colors c){
 	return (pX==ENTRY_SQUARES[c-1].first && pY==ENTRY_SQUARES[c-1].second);
+}
+
+//Determine if player has finished
+bool Game::hasFinished(Player* p){
+	for(unsigned i = 0; i < p->m_vPawns.size(); ++i)
+		if(!p->m_vPawns[i]->getBFinished()) return 0;
+	return 1;
 }
 
 //Destructor

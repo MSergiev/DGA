@@ -8,6 +8,7 @@
 #include "Info.h"
 
 Info::Info() {
+PageCounter = 0;
 }
 
 Info::~Info() {
@@ -17,20 +18,23 @@ Info::~Info() {
 //handles the event - > when a button is pressed to
 //return the state of the button
 int Info::eventHandler(SDL_Event& e) {
-	if(pageNext.isClicked(e)) PageCounter++;
-	else if(pageBack.isClicked(e)) PageCounter--;
-
-	//if before first page
-	if(PageCounter<0){
-		PageCounter=0;
-		return 1;
+	//event timer
+	if(UI::debounce()){
+		if(pageNext.isClicked(e)) PageCounter++;
+		else if(pageBack.isClicked(e)) PageCounter--;
+		SDL_PumpEvents();
+		//if before first page
+		if(PageCounter<0){
+			PageCounter=0;
+			return 1;
+		}
+		//if over last page
+		else if(PageCounter>=PAGES_NUM){
+			PageCounter=0;
+			return 1;
+		}
 	}
-	//if over last page
-	else if(PageCounter>=PAGES_NUM){
-		PageCounter=0;
-		return 1;
-	}
-	else return 0;
+	return 0;
 }
 //initializes the  buttons size and position
 void Info::init() {
@@ -53,8 +57,4 @@ void Info::init() {
 //overwrite
 void Info::render() {
 	pages[PageCounter].render(0,0);
-	
-	//UI::render(); //calls the virtual render method from the base class UI
-	//pageNext.render();
-	//pageBack.render();
 }

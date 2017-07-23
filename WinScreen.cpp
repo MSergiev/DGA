@@ -48,23 +48,31 @@ void WinScreen::init()
 
 void WinScreen::render()
 {
-//	UI::render();
+	// render background
+	UI::render();
 	// render the buttons
 	m_bRestart.render();
 	m_BQuit.render();
 
 	//Text render color
 	SDL_Color textColor C_WHITE;
+	//Text shadow color
+	SDL_Color textShadow C_BLACK;
 	// for each player
 	for(int i = 0; i < PLAYERS; i++)
 	{
 		// and pawn
 		for(int j = 0; j < PLAYER_DATA; j++)
 		{
+			// load the text from the data with black color
+			text.textLoad(m_sPlayerData[i][j], getFont(), textShadow);
+			// and render as shadow
+			text.render(WIN_X_OFF+j*WIN_X_DATA+WIN_SHADOW_OFF, WIN_Y_OFF+i*WIN_Y_DATA+WIN_SHADOW_OFF);
+			
 			// load the text from the data
 			text.textLoad(m_sPlayerData[i][j], getFont(), textColor);
 			// and render it
-			text.render(100+j*WIN_OFFSET,100+i*WIN_OFFSET);
+			text.render(WIN_X_OFF+j*WIN_X_DATA, WIN_Y_OFF+i*WIN_Y_DATA);
 		}
 	}
 }
@@ -74,6 +82,8 @@ int WinScreen::eventHandler(SDL_Event& e)
 	// make a variable which will be returned
 	int ButtonState = 0;
 
+	// check if enough time has passed
+	if(UI::debounce()){
 	// Assign the variable after changing the value with logical or
 	// on the value of the integer with the returned value
 	// of method on the restart button responsible for checking
@@ -84,6 +94,7 @@ int WinScreen::eventHandler(SDL_Event& e)
 	// do the same thing with the quit button
 	ButtonState |= m_BQuit.isClicked(e);
 
+	}
 	// than return the variable with the correct arranged data
 	return ButtonState;
 }
