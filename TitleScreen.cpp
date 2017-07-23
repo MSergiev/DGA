@@ -53,13 +53,17 @@ void TitleScreen::init() {
 	ContinueButton.setSFX(BUTTON_SFX);
 	QuitButton.setSFX(BUTTON_SFX);
 	
+	StartButton.fadeIn(4);
+	ContinueButton.fadeIn(2);
+	QuitButton.fadeIn(1);
+	
 	StartButton.setLocation((WIDTH-BUTTON_WIDTH)/2,HEIGHT-VERT_OFFSET-BUTTON_HEIGHT*5);
 	ContinueButton.setLocation((WIDTH-BUTTON_WIDTH)/2,HEIGHT-VERT_OFFSET-BUTTON_HEIGHT*3);
 	QuitButton.setLocation((WIDTH-BUTTON_WIDTH)/2,HEIGHT-VERT_OFFSET);
 }
 // render function that draws the image on the screen
 void TitleScreen::render() {
-	UI::render(); //calls the render method from the base class
+	//UI::render(); //calls the render method from the base class
 	StartButton.render();
 	if(canContinue) ContinueButton.render();
 	QuitButton.render();

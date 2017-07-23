@@ -30,6 +30,11 @@ using std::deque;
 #include <algorithm>
 using std::random_shuffle;
 
+//Game screen enum
+enum Screens{
+	BLANK=0, RULES1, RULES2, TITLE, GAME, WIN
+};
+
 class Game {
 
 public:
@@ -41,7 +46,11 @@ private:
 	
     ///SDL event container
     SDL_Event mEvent;
-    
+	
+	///Camera coordinates
+	int miCameraX;
+	int miCameraY;
+
     ///Game state flags
 	bool mbRunning;
 	bool mbRoll;
@@ -92,6 +101,9 @@ private:
     ///Ordered player container
     deque<Player*> mTurnOrder;
 
+	//Current screen
+	Screens meScreen;
+
 public:
 
     ///Constructor
@@ -131,6 +143,11 @@ private:
 	///Render UI
 	void renderUI();
     
+	///Screen transition method
+	///Args:
+	///Screens to - screen to transition to
+	void transition(Screens to);
+
 	///Player turn
     ///Args:
     ///Player *p - pointer to active player

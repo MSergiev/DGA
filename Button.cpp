@@ -4,6 +4,11 @@
 Button::Button(int x, int y, int w, int h){
 	//Set default button size
 	this->mButtonBase = {x,y,w,h};
+	this->mbIsFadingIn = 0;
+	this->mbIsFadingOut = 0;
+	this->mfFactor = 0.5;
+	this->miAlpha = 255;
+	this->mTexture.setBlendMode(SDL_BLENDMODE_BLEND);
 }
 
 //Font setter method
@@ -34,6 +39,40 @@ void Button::setSize(int w, int h){
 void Button::setLocation(int x, int y){
 	this->mButtonBase.x = x;
 	this->mButtonBase.y = y;
+}
+
+//Fade in
+bool Button::fadeIn(float factor){
+	if(!mbIsFadingIn){ miAlpha = 0; mfFactor = factor, mbIsFadingIn = 1; }
+	else {		
+		if(miAlpha>=255){
+			mfFactor = 0.5;
+			mbIsFadingIn = 0;
+		   	return 1;
+		}
+		miAlpha+=factor;
+		if(miAlpha>255) miAlpha = 255;
+		mTexture.setAlpha(miAlpha);
+
+	}
+	return 0;
+}
+
+//Fade out
+bool Button::fadeOut(float factor){
+	if(!mbIsFadingOut){ mfFactor = factor, mbIsFadingOut = 1; }
+	else {		
+		if(miAlpha<=0){
+			mfFactor = 0.5;
+			mbIsFadingOut = 0;
+		   	return 1;
+		}
+		miAlpha-=factor;
+		if(miAlpha<0) miAlpha = 0;
+		mTexture.setAlpha(miAlpha);
+
+	}
+	return 0;
 }
 
 //Color setter
@@ -76,11 +115,22 @@ bool Button::isReleased(SDL_Event & e){
 	return 0;
 }
 
+//Button hover check
+bool Button::isOver(SDL_Event& e){
+	if(e.type == SDL_MOUSEMOTION){
+		int x,y;
+		SDL_GetMouseState(&x, &y);
+		return (x>=mButtonBase.x && x<=mButtonBase.x+mButtonBase.w &&
+					y>=mButtonBase.y && y<=mButtonBase.y+mButtonBase.h);
+
+	}
+	return 0;
+}
+
 //Render button
 void Button::render(){
-	//Render base
-	//SDL_SetRenderDrawColor(mRenderer, mButtonColor.r, mButtonColor.g, mButtonColor.b, mButtonColor.a);
-	//SDL_RenderFillRect(mRenderer, &mButtonBase);
+	if(mbIsFadingIn) fadeIn(mfFactor);
+	else if(mbIsFadingOut) fadeOut(mfFactor);
 	//Render texture
 	mTexture.render(mButtonBase.x, mButtonBase.y);
 	//Render label

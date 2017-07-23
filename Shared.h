@@ -14,6 +14,10 @@ extern bool quit;
 #define WIDTH 800
 #define HEIGHT 800
 
+//Scrollable field constants
+#define FIELD_WIDTH 2412
+#define FIELD_HEIGHT 1608
+
 ///Playing squares count
 #define BOARD_LENGTH 46
 
@@ -214,6 +218,9 @@ const int SPRITE_SCALE[]{
 
 ///Board texture path
 #define BOARD_PATH "./GFX/board.png"
+
+///Scrollable field path
+#define SCROLLABLE_PATH "./GFX/scrollable.png"
 
 ///Win screen background path
 #define WIN_PATH "./GFX/win.png"
