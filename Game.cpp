@@ -35,10 +35,9 @@ void Game::loop(){
 		//If game is running
 		if(mbRunning){		
 			//Execute player turn
-			//for(unsigned i = 0; i < mTurnOrder.size(); i++)
-			//	if(mTurnOrder[i]->getEColor()==RED){ turn(mTurnOrder[i]); break; }
 			turn(mTurnOrder.front());
 			
+
 			//Check for game end
 			int finishedPlayers = 0;
 			for(unsigned i = 0; i < mTurnOrder.size(); ++i)
@@ -293,14 +292,15 @@ void Game::turn(Player* p){
 		Recovery::WriteXML(mTurnOrder, 1);
 		
 		//Set player roll
-		p->setIDiceRoll(miCurrentRoll[mTurnOrder.front()->getEColor()-1]);
-		
-		switch(p->getEColor()){
+		p->setIDiceRoll(miCurrentRoll[p->getEColor()-1]);
+		mDice[p->getEColor()-1]->setDiceResult(miCurrentRoll[p->getEColor()-1]);
+
+	/*	switch(p->getEColor()){
 				case YELLOW: p->setIDiceRoll(6); break;
 				case RED: p->setIDiceRoll(4); break;
 				default: p->setIDiceRoll(2); break;
 		}
-	
+	*/
 		//If roll is a 6 get another turn
 		//if(p->getIDiceRoll()==6) mTurnOrder.push_front(p);
 		
@@ -544,24 +544,34 @@ void Game::collision(Pawn * p, int pX, int pY){
 	cout << "Collision called with " << p->getEColor() << " " << pX << " " << pY << endl;
 #endif
 	//If space is already occupied
-	if(mBoardVector[pY][pX].size()){
+	if(mBoardVector[pX][pY].size()){
 		//If occupant is a different player
-		if(mBoardVector[pY][pX].back()->getEColor()!=p->getEColor()){
+		if(mBoardVector[pX][pY].back()->getEColor()!=p->getEColor()){
 			//Other player pointer
 			Player* owner;
 			//Go through players to find occupying pawn owner
 			for(unsigned i = 1; i < mTurnOrder.size(); ++i){
-				if(mBoardVector[pY][pX].front()->getEColor()==mTurnOrder[i]->getEColor()){
+					cout << mBoardVector[pX][pY].front()->getEColor() <<  mTurnOrder[i]->getEColor() << endl;
+				if(mBoardVector[pX][pY].front()->getEColor()==mTurnOrder[i]->getEColor()){
 					owner = mTurnOrder[i];
 					break;
 				}
 			}
 			//Return other pawns to base
-			while(mBoardVector[pY][pX].size()){
-				mBoardVector[pY][pX].back()->setIXPosition(-1);
-				mBoardVector[pY][pX].back()->setIYPosition(-1);
+			while(mBoardVector[pX][pY].size()){
+				//Find free base coords
+				pair<int,int> base;
+				for(int i = 0; i < PAWNS; ++i){
+					base = BASE_SQUARES[mBoardVector[pX][pY].back()->getEColor()-1][i];
+					if(!mBoardVector[base.first][base.second].size()) break;
+				}
+				//Set pawn position
+				mBoardVector[pX][pY].back()->setIXPosition(base.first);
+				mBoardVector[pX][pY].back()->setIYPosition(base.second);
+				//Place pawn on base square
+				mBoardVector[base.first][base.second].push_back(mBoardVector[pX][pY].back());
 				//Remove pawn from active board
-				mBoardVector[pY][pX].pop_back();
+				mBoardVector[pX][pY].pop_back();
 				//Add to other pawns' owners' lost counter
 				owner->setILost(owner->getILost()+1);
 				//Decrease other players' active pawn counter
@@ -638,6 +648,7 @@ void Game::delay(Uint32 ms){
 	while(SDL_GetTicks()-timerDelay<ms){
 		eventHandler();
 		render();
+		SDL_RenderPresent(mRenderer);
 	}
 }
 
@@ -675,26 +686,6 @@ pair<int, int> Game::getCoords(int pX, int pY){
 	
 	//Return coordinate pair
 	return pair<int,int> {pX*SQUARE_SIZE+X_OFF, pY*SQUARE_SIZE+Y_OFF};	
-}
-
-//Get absolute position
-int Game::getAbsolute(Colors c, int pos){
-	//If in base
-	if(pos<0) return -1;
-	//If on safe squares
-	if(pos>BOARD_LENGTH) return pos;
-	//If on active squares
-	return (START_POS[c-1]+pos)%BOARD_LENGTH;
-}
-
-//Get relative position
-int Game::getRelative(Colors c, int pos){
-	//If in base
-	if(pos<0) return -1;
-	//If on safe squares
-	if(pos>BOARD_LENGTH) return pos;
-	//If on active squares
-	return (START_POS[c-1]-pos)%BOARD_LENGTH;
 }
 
 //Determine if board square is active

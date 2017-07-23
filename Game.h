@@ -32,6 +32,11 @@ using std::random_shuffle;
 
 class Game {
 
+public:
+
+	///SDL renderer object
+	SDL_Renderer* mRenderer;
+
 private:
 	
     ///SDL event container
@@ -116,7 +121,7 @@ public:
     ~Game();
     
 private:
-
+	
 	///Render background
 	void renderBackground();
 
@@ -170,18 +175,6 @@ private:
     ///Player p* - pointer to player
     void activatePawn(Player* p);
 
-    ///Get absolute from relative pawn position
-    ///Args:
-    ///Colors c - pawn color
-    ///int pos - relative position (not required)
-    int getAbsolute(Colors c, int pos = 0);
-
-    ///Get relative from absolute board position
-    ///Args:
-    ///Colors c - pawn color
-    ///int pos - absolute position (not required)
-    int getRelative(Colors c, int pos = 0);
-    
     ///Get screen coordinates from board position
     ///Args:
     ///int pX - X index

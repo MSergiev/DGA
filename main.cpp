@@ -148,6 +148,7 @@ bool init(){
                 //Initialize game
 				game.setEvent(event);
                 game.init();
+				game.mRenderer = renderer;
 			}
 	}
 	}
