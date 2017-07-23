@@ -27,6 +27,7 @@ public:
 	virtual ~Dice();
 	void render();
 	void setPosition(int x, int y);
+	void setDiceResult(int DiceResult);
 	int roll();
 	bool Event(SDL_Event& e);
 	void init();

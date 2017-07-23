@@ -132,6 +132,7 @@ void Game::initGame(){
 				mBoardVector[mTurnOrder[i]->m_vPawns[j]->getIXPosition()][mTurnOrder[i]->m_vPawns[j]->getIYPosition()].push_back(mTurnOrder[i]->m_vPawns[j]);
 			}
 			miCurrentRoll[mTurnOrder[i]->getEColor()-1]=mTurnOrder[i]->getIDiceRoll();
+			mDice[i]->setDiceResult(mTurnOrder[i]->getIDiceRoll());
 		}
 		cout << "Player data:" << endl;
 		Recovery::Print(mTurnOrder);    

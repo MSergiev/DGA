@@ -23,6 +23,10 @@ int Dice::roll() {
 	DiceResult=(rand()%6)+1;
 	return DiceResult;
 }
+//Dice roll setter
+void Dice::setDiceResult(int DiceResult){
+	this->DiceResult = DiceResult;
+}
 //Flag to check if user has clicked inside the dice
 bool Dice::Event(SDL_Event& e){
 	if (e.type == SDL_MOUSEBUTTONDOWN) {
