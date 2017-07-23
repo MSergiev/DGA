@@ -45,7 +45,7 @@ extern bool quit;
 #define WIN_SHADOW_OFF 4
 
 ///Rule screen button params
-#define RULES_WIDTH 50
+#define RULES_WIDTH 100
 #define RULES_HEIGHT 100
 
 ///Player data amount

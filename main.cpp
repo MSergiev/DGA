@@ -63,13 +63,9 @@ int main(int argc, char* argv[]){
 	//Initialize SDL
 	if(!init()) return 1;
 
-	//Play BGM
-	//Sound::music(rock);
-	
-
 	//Game loop
 	while(!quit){
-        //Handle events
+		//Handle events
 		eventHandler();
 
 		//Loop game
@@ -150,8 +146,7 @@ bool init(){
                 //Initialize sound
                 Sound::load();
                 //Initialize game
-                //game.setRenderer(renderer);
-                game.setEvent(event);
+				game.setEvent(event);
                 game.init();
 			}
 	}

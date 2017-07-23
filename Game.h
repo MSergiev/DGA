@@ -38,18 +38,18 @@ private:
     SDL_Event mEvent;
     
     ///Game state flags
-	bool mbRunning = 0;
-	bool mbRoll = 0;
-	bool mbHighlight = 0;
+	bool mbRunning;
+	bool mbRoll;
+	bool mbHighlight;
 
 	///Dice animation timer
-	Uint32 miDiceTimer = 0;
+	Uint32 miDiceTimer;
 
 	///Current dice roll
 	int miCurrentRoll[PLAYERS];
 
     ///Force ignore recovery
-    bool mbIgnoreRecovery = 0;
+    bool mbIgnoreRecovery;
 
     ///Game font
     TTF_Font* mFont;
@@ -57,8 +57,8 @@ private:
     ///Game board
     Texture mBoard;
     
-    ///Dice objects vector
-    vector<Dice*> mDice;
+    ///Dice objects array
+    Dice* mDice[PLAYERS];
 
     ///Title screen object
     TitleScreen mTitleScreen;
@@ -86,9 +86,6 @@ private:
 
     ///Ordered player container
     deque<Player*> mTurnOrder;
-
-    ///Deque holding finished players
-    deque<Player*> mFinished;
 
 public:
 

@@ -17,8 +17,10 @@ public:
 	void init();
 	virtual int eventHandler(SDL_Event& e);
 	virtual void render();
+	void setContinue(bool canContinue);
 private:
-
+	//Flag to draw continue button
+	bool canContinue;
 	Button StartButton;
 	Button ContinueButton;
 	Button QuitButton;

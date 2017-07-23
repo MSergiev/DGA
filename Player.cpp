@@ -118,7 +118,7 @@ Colors Player::getEColor() const
 
 int Player::getIFinishPosition() const
 {
-	return m_iDiceRoll;
+	return m_iFinishPosition;
 }
 
 void Player::setIFinishPosition(int iFinishPosition)

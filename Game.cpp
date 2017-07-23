@@ -1,13 +1,22 @@
 #include "Game.h"
 
 //Default constructor
-Game::Game(){}
+Game::Game(){
+	//Initialize class fields
+	miDiceTimer = SDL_GetTicks();
+	mbRunning = 0;
+	mbHighlight = 0;
+	mbIgnoreRecovery = 0;
+	for(int i=0;i<PLAYERS;++i) miCurrentRoll[i]=1;
+}
+
+
+
 
 //Game loop
 void Game::loop(){
     //Handle events
 	eventHandler();
-	
 #ifdef DEBUG
 /*		cout << "Active: " << endl;
 		for(unsigned i = 0; i < BOARD_HEIGHT; ++i){
@@ -26,9 +35,18 @@ void Game::loop(){
 		//If game is running
 		if(mbRunning){		
 			//Execute player turn
-			for(unsigned i = 0; i < mTurnOrder.size(); i++)
-				if(mTurnOrder[i]->getEColor()==RED){ turn(mTurnOrder[i]); break; }
-//			turn(mTurnOrder.front());
+			//for(unsigned i = 0; i < mTurnOrder.size(); i++)
+			//	if(mTurnOrder[i]->getEColor()==RED){ turn(mTurnOrder[i]); break; }
+			turn(mTurnOrder.front());
+			
+			//Check for game end
+			int finishedPlayers = 0;
+			for(unsigned i = 0; i < mTurnOrder.size(); ++i)
+				if(mTurnOrder[i]->getIFinishPosition()!=0) finishedPlayers++;
+			if(finishedPlayers>=(PLAYERS-1)){
+				mbRunning = 0;
+				mActiveUI = &mWinScreen;
+			}
 		}
 }
 
@@ -51,7 +69,7 @@ void Game::setEvent(SDL_Event& event){
 void Game::init(){
     
 #ifdef DEBUG
-	cout << "init called" << endl;
+	cout << "Game Init called" << endl;
 #endif
     //Load game font
     mFont = TTF_OpenFont(FONT_PATH, FONT_SIZE);
@@ -66,12 +84,24 @@ void Game::init(){
 		for(int j = 0; j < BOARD_WIDTH; ++j)
 		mBoardHighlghters[i][j].setTexture(HIGHLIGHTER_PATH);
 
+	//Initialize dice
+	for(int i = 0; i < PLAYERS; ++i){
+		mDice[i] = new Dice;
+		mDice[i]->setPosition(DICE_POS[i].first, DICE_POS[i].second);
+	}
+
     //Initialize UI
     mTitleScreen.init();
     mWinScreen.setFont(mFont);
     mWinScreen.init();
 	mInfoScreen.init();
 	mControls.init();
+
+	//Draw continue on title screen if recovery is available	
+	mbIgnoreRecovery = !(Recovery::ReadFromXML().size()>0);
+	mTitleScreen.setContinue(!mbIgnoreRecovery);
+
+	//Set active UI
 	mActiveUI = &mTitleScreen;
 }
 
@@ -85,31 +115,36 @@ void Game::initGame(){
 	for(int i = 0; i < PLAYERS; ++i)
 		for(int j = 0; j < PAWNS; ++j)
 			mBoardVector[FINAL_SQUARES[i].first][FINAL_SQUARES[i].second].push_back(new Pawn(NONE));			
-	//Try to recover state from XML	
-	mTurnOrder = Recovery::ReadFromXML();
-	if(!mTurnOrder.size() || mbIgnoreRecovery){
+
+	if(mbIgnoreRecovery){
 	   cout << "Starting new game" << endl;
    	   determineTurnOrder();
 	} else {
 		cout << "Recovering state" << endl;
 	
+	//Try to recover state from XML	
+	mTurnOrder = Recovery::ReadFromXML();
+
 	//Set player data
 		for(unsigned i = 0; i < mTurnOrder.size(); ++i){
 			for(unsigned j = 0; j < mTurnOrder[i]->m_vPawns.size(); ++j){
 				//Place pawns on board
 				mBoardVector[mTurnOrder[i]->m_vPawns[j]->getIXPosition()][mTurnOrder[i]->m_vPawns[j]->getIYPosition()].push_back(mTurnOrder[i]->m_vPawns[j]);
 			}
-			//Initialize player dice
-			mDice.push_back(new Dice);
-			mDice.back()->setPosition(DICE_POS[mTurnOrder.front()->getEColor()-1].first, DICE_POS[mTurnOrder.front()->getEColor()-1].second);
+			miCurrentRoll[mTurnOrder[i]->getEColor()-1]=mTurnOrder[i]->getIDiceRoll();
 		}
 		cout << "Player data:" << endl;
 		Recovery::Print(mTurnOrder);    
 
+		//Set roll flag
+		mbRoll = !Recovery::hasRolled;
 	}
+	
+	//Play BGM
+	Sound::music(BGM);
 
 	//Refresh RNG seed
-	mDice.back()->init();
+	mDice[0]->init();
 }
 
 
@@ -119,50 +154,56 @@ void Game::initGame(){
 
 //Event handler
 void Game::eventHandler(){	
+	
 	//If on rules screen
 	if(Info* ptr = dynamic_cast<Info*>(mActiveUI)){
-		if(mActiveUI->eventHandler(mEvent)) mActiveUI=&mControls;
+		if(mActiveUI->eventHandler(mEvent)){ mActiveUI=&mControls; mbRunning = 1; }
 	}
+	
 	//If on title screen
     else if(TitleScreen* ptr = dynamic_cast<TitleScreen*>(mActiveUI)){
 		//Get current button states
         int titleState = mActiveUI->eventHandler(mEvent);
         //If start button is clicked
-        if(titleState & TITLE_START){ mActiveUI=&mControls; mbRoll = 1; mbIgnoreRecovery = 1; initGame(); }
+        if(titleState & TITLE_START){ mActiveUI=&mControls; mbRoll = 1; mbRunning = 1; mbIgnoreRecovery = 1; initGame(); }
         //If continue button is clicked
-        else if(titleState & TITLE_CONTINUE){ mActiveUI=&mControls; initGame(); }
+        else if(titleState & TITLE_CONTINUE){ mActiveUI=&mControls; mbRoll = 1; mbRunning = 1; initGame(); }
         //If quit button is clicked
         else if(titleState & TITLE_QUIT){ quit = 1;}
 	}
+	
 	//If on win screen
 	else if(WinScreen* ptr = dynamic_cast<WinScreen*>(mActiveUI)){
 		//Get current button states
         int winState = mActiveUI->eventHandler(mEvent);
         //If restart button is clicked
-        if(winState & WIN_RESTART){ mActiveUI=&mControls; mbIgnoreRecovery = 1; initGame(); }
+        if(winState & WIN_RESTART){ mActiveUI=&mControls; mbRunning = 1; mbRoll = 1; mbIgnoreRecovery = 1; initGame(); }
         //If exit button is clicked
         else if(winState & WIN_QUIT){ quit = 1; }
 	}
+	
 	//If on game screen
 	else if(Controls* ptr = dynamic_cast<Controls*>(mActiveUI)){
 		//Get current button states
 		int controlsState = mControls.eventHandler(mEvent);
 		//If rules button is clicked
-		if(controlsState & CONTROLS_RULES) mActiveUI=&mInfoScreen;
+		if(controlsState & CONTROLS_RULES){ mActiveUI=&mInfoScreen; mbRunning = 0; }
 		//If quit button is clicked
 		if(controlsState & CONTROLS_QUIT) quit = 1;
 
 		//If dice is rolling
-		if(mbRoll) 
+		if(mbRoll){
 			//If player clicked the dice
 			if(mDice[mTurnOrder.front()->getEColor()-1]->Event(mEvent)){
-			//Clear roll flag
-			mbRoll = 0;
-			//Play SFX
-			if(miCurrentRoll[mTurnOrder.front()->getEColor()-1]==6) Sound::play(ON_SIX);
-			else Sound::play(ON_DICE);
-			delay(500);
+				//Clear roll flag
+				mbRoll = 0;
+				//Play SFX
+				if(miCurrentRoll[mTurnOrder.front()->getEColor()-1]==6) Sound::play(ON_SIX);
+				else Sound::play(ON_DICE);
+				delay(500);
+			}
 		}
+
 	}
 }
 
@@ -211,7 +252,7 @@ void Game::renderSprite(){
     }	
 	
 	//Render dice
-	for(unsigned i = 0; i < mDice.size(); ++i)
+	for(unsigned i = 0; i < PLAYERS; ++i)
 		mDice[i]->render();
 }
 
@@ -224,6 +265,11 @@ void Game::renderUI(){
 
 
 
+
+
+
+
+
 //Player turn
 void Game::turn(Player* p){
     
@@ -233,7 +279,7 @@ void Game::turn(Player* p){
 	//If player has not finished
 	if(!p->getIFinishPosition()){
 		//If player has rolled before recovery
-		if(!Recovery::hasRolled && mbRoll){
+		if(mbRoll){
 			//Roll the dice
 			diceRoll();
 		} else {
@@ -241,8 +287,9 @@ void Game::turn(Player* p){
 #ifdef DEBUG
 	cout << "Player " << p->getEColor() << " rolled " << p->getIDiceRoll() << endl;
 #endif
+		
 		//Save recovery data
-		//Recovery::WriteXML(turnOrder, 1);
+		Recovery::WriteXML(mTurnOrder, 1);
 		
 		//Set player roll
 		p->setIDiceRoll(miCurrentRoll[mTurnOrder.front()->getEColor()-1]);
@@ -340,7 +387,7 @@ void Game::turn(Player* p){
 			}
 	
 			//Save recovery data
-		//	Recovery::WriteXML(turnOrder);	
+			Recovery::WriteXML(mTurnOrder);	
 		
 			//Raise roll flag for next turn
 			mbRoll = 1;
@@ -372,9 +419,6 @@ void Game::determineTurnOrder(){
 		mTurnOrder.push_back(new Player(order[i]));
 		//Add a starting pawn
 		activatePawn(mTurnOrder.back());
-		//Initialize player dice
-		mDice.push_back(new Dice);
-		mDice.back()->setPosition(DICE_POS[order[i]-1].first, DICE_POS[order[i]-1].second);
 	}
 #ifdef DEBUG
 	cout << "Player turns: " << mTurnOrder[0]->getEColor() << " " << mTurnOrder[1]->getEColor() << " " << mTurnOrder[2]->getEColor() << endl;
@@ -385,7 +429,7 @@ void Game::determineTurnOrder(){
 void Game::diceRoll(){
 
 #ifdef DEBUG
-//	cout << "DiceRoll called" << endl;
+	//cout << "DiceRoll called" << endl;
 #endif
 
 	if((SDL_GetTicks()-miDiceTimer)>100){
@@ -709,7 +753,7 @@ Game::~Game()
 		delete mTurnOrder[i];
 	
 	//Release dice data
-	for(unsigned i = 0; i < mDice.size(); ++i)
+	for(unsigned i = 0; i < PLAYERS; ++i)
 		delete mDice[i];
 
 	//Release font

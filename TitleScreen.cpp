@@ -9,12 +9,18 @@
 
 //empty constructor
 TitleScreen::TitleScreen() {
-	// TODO Auto-generated constructor stub
+	canContinue = 0;
 }
 //empty destructor
 TitleScreen::~TitleScreen() {
 	// TODO Auto-generated destructor stub
 }
+
+//Set continue flag
+void TitleScreen::setContinue(bool canContinue){
+	this->canContinue = canContinue;
+}
+
 //handles the event - > when a button is pressed to
 //return the state of the button
 int TitleScreen::eventHandler(SDL_Event& e) {
@@ -23,7 +29,7 @@ int TitleScreen::eventHandler(SDL_Event& e) {
 	if(UI::debounce()){
 		ButtonState|=StartButton.isClicked(e);
 		ButtonState<<=1;
-		ButtonState|=ContinueButton.isClicked(e);
+		ButtonState|=(ContinueButton.isClicked(e)&&canContinue);
 		ButtonState<<=1;
 		ButtonState|=QuitButton.isClicked(e);
 	}
@@ -55,6 +61,6 @@ void TitleScreen::init() {
 void TitleScreen::render() {
 	UI::render(); //calls the render method from the base class
 	StartButton.render();
-	ContinueButton.render();
+	if(canContinue) ContinueButton.render();
 	QuitButton.render();
 }
