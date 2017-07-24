@@ -8,6 +8,7 @@
 //empty constructor
 Dice::Dice() {
 	DiceTexture.load(DICE_PATH);
+	DiceResult = 0;
 }
 //frees the  memory that the DiceTexture used
 Dice::~Dice() {
@@ -26,6 +27,10 @@ int Dice::roll() {
 //Dice roll setter
 void Dice::setDiceResult(int DiceResult){
 	this->DiceResult = DiceResult;
+}
+//Dice roll getter
+int Dice::getDiceResult() const {
+	return DiceResult;
 }
 //Flag to check if user has clicked inside the dice
 bool Dice::Event(SDL_Event& e){
@@ -47,8 +52,10 @@ bool Dice::Event(SDL_Event& e){
 }
 // sets  the image and the SIZE on the screen
 void Dice::render(){
+	if(DiceResult!=0){
 	SDL_Rect DiceFace={(DiceResult-1)*DICE_WIDTH,0,DICE_WIDTH,DICE_HEIGHT};
 	DiceTexture.render(posX, posY, 1, &DiceFace);
+	}
 }
 //method that sets the seed for the  random generator  from the current time
 void Dice::init(){

@@ -72,8 +72,4 @@ void Controls::render(){
 	mQuitButton.render();
 }
 
-Controls::~Controls() 
-{
-
-}
-
+Controls::~Controls(){}

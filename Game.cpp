@@ -1,7 +1,9 @@
 #include "Game.h"
 
 //Default constructor
-Game::Game(){
+Game::Game()
+:mExplosion(SDL_Rect {0,0,EXPLODE_WIDTH,EXPLODE_HEIGHT},EXPLODE_FRAMES,EXPLODE_DELAY),
+mShockwave(SDL_Rect {0,0,SHOCK_WIDTH,SHOCK_HEIGHT},SHOCK_FRAMES,SHOCK_DELAY){
 	//Initialize class fields
 	miDiceTimer = SDL_GetTicks();
 	mbRunning = 0;
@@ -11,7 +13,6 @@ Game::Game(){
 	miCameraY = 0;
 	mbTransition = 0;
 	mbTransitionState = 0;
-	for(int i=0;i<PLAYERS;++i) miCurrentRoll[i]=1;
 }
 
 
@@ -138,7 +139,7 @@ void Game::initGame(){
 				//Place pawns on board
 				mBoardVector[mTurnOrder[i]->m_vPawns[j]->getIXPosition()][mTurnOrder[i]->m_vPawns[j]->getIYPosition()].push_back(mTurnOrder[i]->m_vPawns[j]);
 			}
-			miCurrentRoll[mTurnOrder[i]->getEColor()-1]=mTurnOrder[i]->getIDiceRoll();
+			mDice[mTurnOrder[i]->getEColor()-1]->setDiceResult(mTurnOrder[i]->getIDiceRoll());
 			mDice[i]->setDiceResult(mTurnOrder[i]->getIDiceRoll());
 		}
 		cout << "Player data:" << endl;
@@ -153,6 +154,10 @@ void Game::initGame(){
 
 	//Refresh RNG seed
 	mDice[0]->init();
+
+	//Load SFX
+	mExplosion.load(EXPLODE_PATH);
+	mShockwave.load(SHOCK_PATH);
 }
 
 
@@ -179,7 +184,7 @@ void Game::eventHandler(){
 	
 	
 		//If on rules screen
-		if(Info* ptr = dynamic_cast<Info*>(mActiveUI)){
+		if(dynamic_cast<Info*>(mActiveUI)){
 			//Get current button state
 			int rulesState = mActiveUI->eventHandler(mEvent);
 			//If page 1 back is clicked
@@ -193,7 +198,7 @@ void Game::eventHandler(){
 		}
 		
 		//If on title screen
-	 else if(TitleScreen* ptr = dynamic_cast<TitleScreen*>(mActiveUI)){
+	 else if(dynamic_cast<TitleScreen*>(mActiveUI)){
 			//Get current button states
 		     int titleState = mActiveUI->eventHandler(mEvent);
 		     //If start button is clicked
@@ -205,7 +210,7 @@ void Game::eventHandler(){
 		}
 		
 		//If on win screen
-		else if(WinScreen* ptr = dynamic_cast<WinScreen*>(mActiveUI)){
+		else if(dynamic_cast<WinScreen*>(mActiveUI)){
 			//Get current button states
 		     int winState = mActiveUI->eventHandler(mEvent);
 		     //If restart button is clicked
@@ -215,7 +220,7 @@ void Game::eventHandler(){
 		}
 		
 		//If on game screen
-		else if(Controls* ptr = dynamic_cast<Controls*>(mActiveUI)){
+		else if(dynamic_cast<Controls*>(mActiveUI)){
 			//Get current button states
 			int controlsState = mControls.eventHandler(mEvent);
 			//If sound button is clicked
@@ -232,9 +237,20 @@ void Game::eventHandler(){
 					//Clear roll flag
 					mbRoll = 0;
 					//Play SFX
-					if(miCurrentRoll[mTurnOrder.front()->getEColor()-1]==6) Sound::play(ON_SIX);
-					else Sound::play(ON_DICE);
-					delay(500);
+					if(mDice[mTurnOrder.front()->getEColor()-1]->getDiceResult()==6){
+					   	Sound::play(ON_SIX);
+						mbShockwave = 1;
+						mShockwaveCoords = DICE_POS[mTurnOrder.front()->getEColor()-1];
+						mShockwaveCoords.first-=(SHOCK_WIDTH-DICE_WIDTH)/2;
+						mShockwaveCoords.second-=(SHOCK_HEIGHT-DICE_HEIGHT)/2;
+						delay(SHOCK_FRAMES*SHOCK_DELAY);
+						mbShockwave = 0;
+
+					}
+					else {
+						Sound::play(ON_DICE);
+						delay(500);
+					}
 				}
 			}
 	
@@ -283,14 +299,22 @@ void Game::renderSprite(){
         for(unsigned j = 0; j < mTurnOrder[i]->m_vPawns.size(); ++j){
                 //Get pawn screen coordinates
                 pos.push_back(getCoords(mTurnOrder[i]->m_vPawns[j]->getIXPosition(), mTurnOrder[i]->m_vPawns[j]->getIYPosition()));
-            }
+        }
         //Render pawns
         mTurnOrder[i]->Render(pos);
     }	
 	
+	//Render shockwave
+	if(mbShockwave)
+		mShockwave.render(mShockwaveCoords.first, mShockwaveCoords.second);
+
 	//Render dice
 	for(unsigned i = 0; i < PLAYERS; ++i)
 		mDice[i]->render();
+	
+	//Render explosion
+	if(mbExplosion) 
+		mExplosion.render(mExplosionCoords.first, mExplosionCoords.second-50);		
 }
 
 //Render UI
@@ -333,8 +357,9 @@ void Game::turn(Player* p){
 		Recovery::WriteXML(mTurnOrder, 1);
 		
 		//Set player roll
-		p->setIDiceRoll(miCurrentRoll[p->getEColor()-1]);
-		mDice[p->getEColor()-1]->setDiceResult(miCurrentRoll[p->getEColor()-1]);
+		p->setIDiceRoll(mDice[p->getEColor()-1]->getDiceResult());
+		//p->setIDiceRoll(miCurrentRoll[p->getEColor()-1]);
+		//mDice[p->getEColor()-1]->setDiceResult(miCurrentRoll[p->getEColor()-1]);
 
 	/*	switch(p->getEColor()){
 				case YELLOW: p->setIDiceRoll(6); break;
@@ -474,9 +499,10 @@ void Game::diceRoll(){
 	//cout << "DiceRoll called" << endl;
 #endif
 
-	if((SDL_GetTicks()-miDiceTimer)>100){
 		//Save current roll
-		miCurrentRoll[mTurnOrder.front()->getEColor()-1] = mDice[mTurnOrder.front()->getEColor()-1]->roll();
+		mDice[mTurnOrder.front()->getEColor()-1]->roll();
+	//	miCurrentRoll[mTurnOrder.front()->getEColor()-1] = mDice[mTurnOrder.front()->getEColor()-1]->roll();
+	if((SDL_GetTicks()-miDiceTimer)>200){
 		//Reset timer
 		miDiceTimer = SDL_GetTicks();
 		//Play SFX
@@ -623,6 +649,11 @@ void Game::collision(Pawn * p, int pX, int pY){
 #endif			
 			//Play SFX
 			Sound::play(ON_COLLISION);
+			//Explode
+			mbExplosion = 1;
+			mExplosionCoords = getCoords(pX, pY);
+			delay(EXPLODE_DELAY*EXPLODE_FRAMES);
+			mbExplosion = 0;
 		}
 	}
 }
@@ -810,7 +841,7 @@ void Game::transition(Screens to){
 		miCameraX = (int)((float)oldX + vX*i);
 		miCameraY = (int)((float)oldY + vY*i);
 		//eventHandler();
-		if(i%12==0){
+		if(!(i%32)){
 			render();
 			SDL_RenderPresent(mRenderer);
 		}
