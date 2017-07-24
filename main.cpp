@@ -3,14 +3,9 @@
 //-----------------------------
 
 
-//Include SDL modules
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
-#include <SDL2/SDL_mixer.h>
-
 //Include local modules
 #include "Game.h"
+#include "SDL_Manager.h"
 
 
 //-----------------------------
@@ -18,12 +13,11 @@
 //-----------------------------
 
 
-//SDL attributes
-SDL_Window* window;
-SDL_Renderer* renderer;
-
 //Exit flag (from Shared.h)
 bool quit = 0;
+
+//SDL_Manager object
+SDL_Manager manager;
 
 //SDL event container
 SDL_Event event;
@@ -38,13 +32,10 @@ Game game;
 
 
 //SDL initializing function
-bool init();
+void init();
 
 //Event handler
 void eventHandler();
-
-//Resource releasing function
-void free();
 
 
 //-----------------------------
@@ -53,6 +44,7 @@ void free();
 
 
 int main(int argc, char* argv[]){
+    
 #ifdef DEBUG
 	cout << "========= DEBUG MODE =========" << endl;
 #endif
@@ -61,7 +53,7 @@ int main(int argc, char* argv[]){
 	argc = 0; argv = 0;
 
 	//Initialize SDL
-	if(!init()) return 1;
+	init();
 
 	//Game loop
 	while(!quit){
@@ -72,19 +64,21 @@ int main(int argc, char* argv[]){
 		game.loop();
 
 		//Render on screen
-		SDL_RenderPresent(renderer);
+		SDL_RenderPresent(manager.getRenderer());
 	}
 
 #ifdef DEBUG
 	cout << "Game loop broken" << endl;
 #endif
+    
+    //Release sound
+	Sound::free();
 
-	//Free resources
-	free();
 #ifdef DEBUG
 	cout << "========= SUCCESSFUL EXIT =========" << endl;
 #endif
-	//Successful exit
+	
+    //Successful exit
 	return 0;
 }
 
@@ -95,76 +89,31 @@ int main(int argc, char* argv[]){
 
 
 //SDL inititalizing function
-bool init(){
+void init(){
 	
 #ifdef DEBUG
 	cout << "Init called" << endl;
 #endif
-	
-	//Success flag
-	bool success = 1;
 
-	//Try to initialize SDL_main
-	if(SDL_Init(SDL_INIT_VIDEO)<0){
-		cerr << "SDL Error: " << SDL_GetError() << endl;
-		success = 0;
-	} else {
-	//Try to initialize SDL_image
-	if(!IMG_Init(IMG_INIT_PNG)){
-		cerr << "IMG Error: " << IMG_GetError() << endl;
-		success = 0;
-	} else {
-	//Try to initialize SDL_mixer
-	if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048)<0){
-		cerr << "MIX Error: " << Mix_GetError() << endl;
-		success = 0;
-	} else {
-	//Try to initialize SDL_ttf
-	if(TTF_Init()==-1){
-		cerr << "TTF Error: " << TTF_GetError() << endl;
-		success = 0;
-	} else {
-	//Try to set linear filtering
-		if(!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1")){
-			cerr << "- Linear filtering not enabled!" << endl;
-		}
-		//Create window
-		window = SDL_CreateWindow("LUDO", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
-		//Window integrity check
-		if(window==NULL){
-			cerr << "Window error: " << SDL_GetError() << endl;
-			success = 0;
-		} else {
-			//Create renderer
-			renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
-			//Renderer integrity check
-			if(renderer==NULL){
-				cerr << "Renderer error: " << SDL_GetError() << endl;
-				success = 0;
-			} else {
-				Texture::setRenderer(renderer);
-                //Initialize sound
-                Sound::load();
-                //Initialize game
-				game.setEvent(event);
-                game.init();
-				game.mRenderer = renderer;
-			}
-	}
-	}
-	}
-	}
-	}
+    Texture::setRenderer(manager.getRenderer());
+    //Initialize sound
+    Sound::load();
+    //Initialize game event container
+    game.setEvent(event);
+    //Initialize game data
+    game.init();
+    //Set game renderer
+    game.mRenderer = manager.getRenderer();
 
-	//Return success flag
-	return success;
 }
 
 //Event handler
 void eventHandler(){
+    
 #ifdef DEBUG
 	//cout << "EventHandler called" << endl;
 #endif
+    
 	while(SDL_PollEvent(&event)!=0){
 		//Application quit event
 		if(event.type == SDL_QUIT || event.key.keysym.sym == SDLK_ESCAPE){
@@ -173,24 +122,4 @@ void eventHandler(){
 		game.setEvent(event);
 		game.eventHandler();
 	}
-}
-
-
-//Resource freeing function
-void free(){
-#ifdef DEBUG
-	cout << "Free called" << endl;
-#endif
-
-	//Release sound
-	Sound::free();
-	//Release renderer
-	SDL_DestroyRenderer(renderer);
-	//Release window
-	SDL_DestroyWindow(window);
-	//SDL Quit functions
-	Mix_Quit();
-	IMG_Quit();
-	TTF_Quit();
-	SDL_Quit();
 }
