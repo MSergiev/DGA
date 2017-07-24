@@ -7,6 +7,10 @@ Game::Game(){
 	mbRunning = 0;
 	mbHighlight = 0;
 	mbIgnoreRecovery = 0;
+	miCameraX = 0;
+	miCameraY = 0;
+	mbTransition = 0;
+	mbTransitionState = 0;
 	for(int i=0;i<PLAYERS;++i) miCurrentRoll[i]=1;
 }
 
@@ -18,7 +22,7 @@ void Game::loop(){
     //Handle events
 	eventHandler();
 #ifdef DEBUG
-/*		cout << "Active: " << endl;
+		cout << "Active: " << endl;
 		for(unsigned i = 0; i < BOARD_HEIGHT; ++i){
 			for(unsigned j = 0; j < BOARD_WIDTH; ++j){
 				cout << mBoardVector[j][i].size();
@@ -26,12 +30,11 @@ void Game::loop(){
 			cout << endl;
 		}
 		cout << endl;
-		*/
 #endif
 					
 		//Render objects
 		render();
-		
+
 		//If game is running
 		if(mbRunning){		
 			//Execute player turn
@@ -45,6 +48,7 @@ void Game::loop(){
 			if(finishedPlayers>=(PLAYERS-1)){
 				mbRunning = 0;
 				mActiveUI = &mWinScreen;
+				transition(WIN);
 			}
 		}
 }
@@ -76,7 +80,7 @@ void Game::init(){
 
 
 	//Load game board texture
-	mBoard.load(BOARD_PATH);
+	mBoard.load(SCROLLABLE_PATH);
 
 	//Initialize highlighters
 	for(int i = 0; i < BOARD_HEIGHT; ++i)
@@ -102,6 +106,10 @@ void Game::init(){
 
 	//Set active UI
 	mActiveUI = &mTitleScreen;
+
+	//Set current screen
+	meScreen = TITLE;
+	transition(meScreen);
 }
 
 //Game data inititalizing method
@@ -154,57 +162,81 @@ void Game::initGame(){
 
 //Event handler
 void Game::eventHandler(){	
-	
-	//If on rules screen
-	if(Info* ptr = dynamic_cast<Info*>(mActiveUI)){
-		if(mActiveUI->eventHandler(mEvent)){ mActiveUI=&mControls; mbRunning = 1; }
-	}
-	
-	//If on title screen
-    else if(TitleScreen* ptr = dynamic_cast<TitleScreen*>(mActiveUI)){
-		//Get current button states
-        int titleState = mActiveUI->eventHandler(mEvent);
-        //If start button is clicked
-        if(titleState & TITLE_START){ mActiveUI=&mControls; mbRoll = 1; mbRunning = 1; mbIgnoreRecovery = 1; initGame(); }
-        //If continue button is clicked
-        else if(titleState & TITLE_CONTINUE){ mActiveUI=&mControls; mbRoll = 1; mbRunning = 1; initGame(); }
-        //If quit button is clicked
-        else if(titleState & TITLE_QUIT){ quit = 1;}
-	}
-	
-	//If on win screen
-	else if(WinScreen* ptr = dynamic_cast<WinScreen*>(mActiveUI)){
-		//Get current button states
-        int winState = mActiveUI->eventHandler(mEvent);
-        //If restart button is clicked
-        if(winState & WIN_RESTART){ mActiveUI=&mControls; mbRunning = 1; mbRoll = 1; mbIgnoreRecovery = 1; initGame(); }
-        //If exit button is clicked
-        else if(winState & WIN_QUIT){ quit = 1; }
-	}
-	
-	//If on game screen
-	else if(Controls* ptr = dynamic_cast<Controls*>(mActiveUI)){
-		//Get current button states
-		int controlsState = mControls.eventHandler(mEvent);
-		//If rules button is clicked
-		if(controlsState & CONTROLS_RULES){ mActiveUI=&mInfoScreen; mbRunning = 0; }
-		//If quit button is clicked
-		if(controlsState & CONTROLS_QUIT) quit = 1;
 
-		//If dice is rolling
-		if(mbRoll){
-			//If player clicked the dice
-			if(mDice[mTurnOrder.front()->getEColor()-1]->Event(mEvent)){
-				//Clear roll flag
-				mbRoll = 0;
-				//Play SFX
-				if(miCurrentRoll[mTurnOrder.front()->getEColor()-1]==6) Sound::play(ON_SIX);
-				else Sound::play(ON_DICE);
-				delay(500);
-			}
+		//Keyboard scroll
+		if(mEvent.key.keysym.sym == SDLK_1) transition(BLANK);
+		if(mEvent.key.keysym.sym == SDLK_2) transition(RULES1);
+		if(mEvent.key.keysym.sym == SDLK_3) transition(RULES2);
+		if(mEvent.key.keysym.sym == SDLK_4) transition(TITLE);
+		if(mEvent.key.keysym.sym == SDLK_5) transition(GAME);
+		if(mEvent.key.keysym.sym == SDLK_6) transition(WIN);
+
+	
+		if(mEvent.key.keysym.sym == SDLK_LEFT)miCameraX+=10;
+		if(mEvent.key.keysym.sym == SDLK_RIGHT)miCameraX-=10;
+		if(mEvent.key.keysym.sym == SDLK_UP)miCameraY+=10;
+		if(mEvent.key.keysym.sym == SDLK_DOWN)miCameraY-=10;
+	
+	
+		//If on rules screen
+		if(Info* ptr = dynamic_cast<Info*>(mActiveUI)){
+			//Get current button state
+			int rulesState = mActiveUI->eventHandler(mEvent);
+			//If page 1 back is clicked
+			if(rulesState&0b0001) { mActiveUI=&mControls; mbRunning = 1; mActiveUI=&mControls; transition(GAME); }
+			//If page 1 next is clicked
+			else if(rulesState&0b0010) { transition(RULES2); }
+			//If page 2 back is clicked
+			else if(rulesState&0b0100) { transition(RULES1); }
+			//If page 2 next is clicked
+			else if(rulesState&0b1000) { mActiveUI=&mControls; mbRunning = 1; mActiveUI=&mControls; transition(GAME); }
 		}
-
-	}
+		
+		//If on title screen
+	 else if(TitleScreen* ptr = dynamic_cast<TitleScreen*>(mActiveUI)){
+			//Get current button states
+	     int titleState = mActiveUI->eventHandler(mEvent);
+	     //If start button is clicked
+	     if(titleState & TITLE_START){ transition(GAME); mActiveUI=&mControls; mbRoll = 1; mbRunning = 1; mbIgnoreRecovery = 1; initGame(); }
+	     //If continue button is clicked
+	     else if(titleState & TITLE_CONTINUE){ transition(GAME); mActiveUI=&mControls; mbRoll = 1; mbRunning = 1; initGame(); }
+	     //If quit button is clicked
+	     else if(titleState & TITLE_QUIT){ quit = 1;}
+		}
+		
+		//If on win screen
+		else if(WinScreen* ptr = dynamic_cast<WinScreen*>(mActiveUI)){
+			//Get current button states
+	     int winState = mActiveUI->eventHandler(mEvent);
+	     //If restart button is clicked
+	     if(winState & WIN_RESTART){ transition(GAME); mActiveUI=&mControls; mbRunning = 1; mbRoll = 1; mbIgnoreRecovery = 1; initGame(); }
+	     //If exit button is clicked
+	     else if(winState & WIN_QUIT){ quit = 1; }
+		}
+		
+		//If on game screen
+		else if(Controls* ptr = dynamic_cast<Controls*>(mActiveUI)){
+			//Get current button states
+			int controlsState = mControls.eventHandler(mEvent);
+			//If rules button is clicked
+			if(controlsState & CONTROLS_RULES){ transition(RULES1); mActiveUI=&mInfoScreen; mbRunning = 0; }
+			//If quit button is clicked
+			else if(controlsState & CONTROLS_QUIT) quit = 1;
+	
+			//If dice is rolling
+			if(mbRoll){
+				//If player clicked the dice
+				if(mDice[mTurnOrder.front()->getEColor()-1]->Event(mEvent)){
+					//Clear roll flag
+					mbRoll = 0;
+					//Play SFX
+					if(miCurrentRoll[mTurnOrder.front()->getEColor()-1]==6) Sound::play(ON_SIX);
+					else Sound::play(ON_DICE);
+					delay(500);
+				}
+			}
+	
+		}
 }
 
 
@@ -220,16 +252,19 @@ void Game::render(){
 	renderBackground();
 	
 	//Render sprites 
-	renderSprite();
+	if(meScreen==GAME) renderSprite();
 
     //Render UI
 	renderUI();
+
+	//Set transition state
+	mbTransitionState = mbTransition;
 }
 
 //Render background
 void Game::renderBackground(){
     //Draw game board;
-    mBoard.render(0,0);
+    mBoard.render(miCameraX, miCameraY);
 }
 
 //Render sprite layer
@@ -259,6 +294,10 @@ void Game::renderSprite(){
 //Render UI
 void Game::renderUI(){
 
+	//If transition has finished
+	if(!mbTransition && mbTransitionState) mActiveUI->fadeIn();	
+	//If transition has started
+	else if(mbTransition && !mbTransitionState) mActiveUI->fadeOut();
 	//Render controls
 	mActiveUI->render();
 }
@@ -496,18 +535,17 @@ void Game::movePawn(Pawn * p, int with){
 	if(!useSafe && !finished) collision(p,newPos.first, newPos.second);
 	//If on final squares
    	else if(finished){
-		cout << mBoardVector[7][6].size() << endl;
 		//If final space is occupied
-		if(mBoardVector[FINAL_SQUARES[p->getEColor()-1].first][FINAL_SQUARES[p->getEColor()-1].second][remainder]->getEColor()!=NONE)
+		if(mBoardVector[FINAL_SQUARES[p->getEColor()-1].first][FINAL_SQUARES[p->getEColor()-1].second][remainder-1]->getEColor()!=NONE)
 			return;
 		//If final space is unoccupied
 		else{
 			//Delete pawn placeholder
-			delete mBoardVector[FINAL_SQUARES[p->getEColor()-1].first][FINAL_SQUARES[p->getEColor()-1].second][remainder];
+			delete mBoardVector[FINAL_SQUARES[p->getEColor()-1].first][FINAL_SQUARES[p->getEColor()-1].second][remainder-1];
 			//Set pawn finish flag
 			p->setBFinished(1);
 			//Place pawn in final vector
-			mBoardVector[FINAL_SQUARES[p->getEColor()-1].second][FINAL_SQUARES[p->getEColor()-1].first][remainder] = p;	
+			mBoardVector[FINAL_SQUARES[p->getEColor()-1].first][FINAL_SQUARES[p->getEColor()-1].second][remainder-1] = p;	
 			//Decrease player active counter
 			mTurnOrder.front()->setIActivePawns(mTurnOrder.front()->getIActivePawns()-1);
 
@@ -546,12 +584,11 @@ void Game::collision(Pawn * p, int pX, int pY){
 	//If space is already occupied
 	if(mBoardVector[pX][pY].size()){
 		//If occupant is a different player
-		if(mBoardVector[pX][pY].back()->getEColor()!=p->getEColor()){
+		if(mBoardVector[pX][pY].back()->getEColor()!=p->getEColor() && mBoardVector[pX][pY].back()->getEColor()!=NONE){
 			//Other player pointer
 			Player* owner;
 			//Go through players to find occupying pawn owner
 			for(unsigned i = 1; i < mTurnOrder.size(); ++i){
-					cout << mBoardVector[pX][pY].front()->getEColor() <<  mTurnOrder[i]->getEColor() << endl;
 				if(mBoardVector[pX][pY].front()->getEColor()==mTurnOrder[i]->getEColor()){
 					owner = mTurnOrder[i];
 					break;
@@ -727,6 +764,61 @@ bool Game::hasFinished(Player* p){
 	for(unsigned i = 0; i < p->m_vPawns.size(); ++i)
 		if(!p->m_vPawns[i]->getBFinished()) return 0;
 	return 1;
+}
+
+
+//Screen transition
+void Game::transition(Screens to){
+#ifdef DEBUG
+	cout << "Transition called with " << to << endl;
+#endif	
+
+	//Transitioning coordinates
+	int newX, newY;
+	
+	//Determine coordinates
+	switch(to){
+		case BLANK: newX = 0; newY = 0; break;
+		case RULES1: newX = -800; newY = 0; break;
+		case RULES2: newX = -1600; newY = 0; break;
+		case TITLE: newX = 0; newY = -800; break;
+		case GAME: newX = -800; newY = -800; break;
+		case WIN: newX = -1600; newY = -800; break;
+	}
+
+	//Keep old coordinates
+	int oldX = miCameraX;
+	int oldY = miCameraY;
+	//Find direction vectors
+	int vX = newX-oldX;
+	int vY = newY-oldY;
+	//Find line length
+	int length = sqrt(vX*vX+vY*vY);
+	//If length is 0
+	if(!length) return;
+	//Normalize vectors
+	vX/=length; vY/=length;
+
+	//Set transition flag
+	mbTransition = 1;
+
+	//Traverse line
+	for(int i = 0; i < length; i++){
+		//Calculate coordinates
+		miCameraX = (int)((float)oldX + vX*i);
+		miCameraY = (int)((float)oldY + vY*i);
+		//eventHandler();
+		if(i%12==0){
+			render();
+			SDL_RenderPresent(mRenderer);
+		}
+	}
+
+	//Lower transition flag
+	mbTransition = 0;
+
+	//Assign screen to variable
+	meScreen = to;
 }
 
 //Destructor

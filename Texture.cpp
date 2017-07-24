@@ -78,13 +78,13 @@ void Texture::setBlendMode(SDL_BlendMode b){
 	SDL_SetTextureBlendMode(mTexture, b);
 }
 
-void Texture::render(int x, int y, SDL_Rect * clip, double a, SDL_Point * c, SDL_RendererFlip f){
+void Texture::render(int x, int y, double s, SDL_Rect * clip, double a, SDL_Point * c, SDL_RendererFlip f){
 	//Set drawing size
-	SDL_Rect renderQuad = {x, y, mWidth, mHeight};
+	SDL_Rect renderQuad = {x, y, (int)(mWidth*s), (int)(mHeight*s)};
 	//Assign rendering size
 	if(clip!=NULL){
-		renderQuad.w = clip->w;
-		renderQuad.h = clip->h;
+		renderQuad.w = clip->w*s;
+		renderQuad.h = clip->h*s;
 	}
 	//Render image
 	SDL_RenderCopyEx(mRenderer, mTexture, clip, &renderQuad, a, c, f);

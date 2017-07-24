@@ -58,6 +58,20 @@ int Controls::eventHandler(SDL_Event & e){
 	return buttonState;
 }
 
+//Fade in
+void Controls::fadeIn(){
+	mSoundButton.fadeIn(FADE_FACTOR);
+	mRulesButton.fadeIn(FADE_FACTOR);
+	mQuitButton.fadeIn(FADE_FACTOR);
+}
+
+//Fade out
+void Controls::fadeOut(){
+	mSoundButton.fadeOut(FADE_FACTOR);
+	mRulesButton.fadeOut(FADE_FACTOR);
+	mQuitButton.fadeOut(FADE_FACTOR);
+}
+
 //Render method
 void Controls::render(){
 	mSoundButton.render();

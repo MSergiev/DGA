@@ -56,11 +56,12 @@ public:
 	///Args:
 	///int x - top left X coordinate on screen
 	///int y - top left Y coordinate on screen
+	///double s - scale factor
 	///SDL_Rect* clip - clipping rectangle
 	///double a - rotation angle (0-359)
 	///SDL_Point* c - rotation center
 	///SDL_RendererFlip f - SDL renderer flip flag
-	virtual void render(int x, int y, SDL_Rect* clip = NULL, double a = 0,
+	virtual void render(int x, int y, double s = 1, SDL_Rect* clip = NULL, double a = 0,
 			SDL_Point* c = NULL, SDL_RendererFlip f = SDL_FLIP_NONE);
 
 	///Get image dimensions

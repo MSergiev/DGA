@@ -14,6 +14,7 @@ Pawn::Pawn(Colors c)
 	setIXPosition(-1);
 	setIYPosition(-1);
 	setBFinished(0);
+	setDScale(1);
 	mPlayerSprite.load(PAWN_PATH);
 }
 
@@ -21,14 +22,12 @@ Pawn::Pawn(Colors c)
 void Pawn::render(int x, int y)
 {
 	//Render sprite
-	mPlayerSprite.render(x, y);
+	mPlayerSprite.render(x, y, m_dScale);
 }
 
 // destructor
 Pawn::~Pawn()
 {
-	//Release resources
-	//delete mPlayerSprite;
 }
 
 // setters & getters
@@ -46,6 +45,11 @@ int Pawn::getIYPosition() const
 bool Pawn::getBFinished() const
 {
 	return m_bFinished;
+}
+
+double Pawn::getDScale() const
+{
+	return m_dScale;
 }
 
 Colors Pawn::getEColor() const
@@ -71,6 +75,10 @@ void Pawn::setIXPosition(int iXPosition)
 void Pawn::setIYPosition(int iYPosition)
 {
 	m_iYPosition = iYPosition;
+}
+void Pawn::setDScale(double dScale)
+{
+	m_dScale = dScale;
 }
 void Pawn::setBFinished(bool bFinished)
 {

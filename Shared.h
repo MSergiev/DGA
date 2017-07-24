@@ -14,6 +14,10 @@ extern bool quit;
 #define WIDTH 800
 #define HEIGHT 800
 
+//Scrollable field constants
+#define FIELD_WIDTH 2412
+#define FIELD_HEIGHT 1608
+
 ///Playing squares count
 #define BOARD_LENGTH 46
 
@@ -88,7 +92,7 @@ const pair<int,int> IDLE_POS[5]{
 #define ZERO_Y_INDEX 0
 
 ///Graphics draw offset
-#define X_OFF 40
+#define X_OFF 60
 #define Y_OFF 40
 
 ///Active board
@@ -215,6 +219,9 @@ const int SPRITE_SCALE[]{
 ///Board texture path
 #define BOARD_PATH "./GFX/board.png"
 
+///Scrollable field path
+#define SCROLLABLE_PATH "./GFX/scrollable.png"
+
 ///Win screen background path
 #define WIN_PATH "./GFX/win.png"
 
@@ -226,9 +233,9 @@ const int SPRITE_SCALE[]{
 
 ///Player dice positions (in pixels)
 const pair<int,int> DICE_POS[]{
-	{85,155}, ///YELLOW
-	{156,567}, ///RED
-	{568,493} ////BLUE
+	{115,153}, ///YELLOW
+	{186,565}, ///RED
+	{598,491} ////BLUE
 };
 
 ///UI constants
@@ -269,6 +276,9 @@ const pair<int,int> DICE_POS[]{
 #define ON_ROLL DiceRoll
 #define ON_SIX orchHit
 #define ON_DICE ding
+
+//UI fade speed
+#define FADE_FACTOR 10
 
 ///Debug mode
 #define DEBUG

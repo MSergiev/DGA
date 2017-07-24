@@ -31,6 +31,12 @@ public:
 	///Event debouncer
 	bool debounce();
 
+	///Button fade in
+	virtual void fadeIn()=0;
+
+	///Button fade out
+	virtual void fadeOut()=0;
+
 	///Get class font
 	TTF_Font* getFont() const;
 

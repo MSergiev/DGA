@@ -30,6 +30,8 @@ class Pawn
 private:
 	int m_iXPosition, m_iYPosition;
 	//Flag if pawn is on the final field
+	//Scale factor
+	double m_dScale;
 	bool m_bFinished;
 	Colors m_eColor;
 	
@@ -53,6 +55,9 @@ public:
 	int getIYPosition() const;
 	void setIYPosition(int iYPosition);
 
+	double getDScale() const;
+	void setDScale(double dScale);
+	
 	bool getBFinished() const;
 	void setBFinished(bool bFinished);
 

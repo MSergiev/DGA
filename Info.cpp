@@ -18,23 +18,32 @@ Info::~Info() {
 //handles the event - > when a button is pressed to
 //return the state of the button
 int Info::eventHandler(SDL_Event& e) {
+	int ButtonState = 0;
 	//event timer
 	if(UI::debounce()){
-		if(pageNext.isClicked(e)) PageCounter++;
-		else if(pageBack.isClicked(e)) PageCounter--;
-		SDL_PumpEvents();
-		//if before first page
-		if(PageCounter<0){
-			PageCounter=0;
-			return 1;
-		}
-		//if over last page
-		else if(PageCounter>=PAGES_NUM){
-			PageCounter=0;
-			return 1;
-		}
+		bool nextState = pageNext.isClicked(e);
+		bool backState = pageBack.isClicked(e);
+		if(nextState) PageCounter++;
+		else if(backState) PageCounter--;
+		ButtonState|=(backState&&PageCounter==0);
+		ButtonState<<=1;
+		ButtonState|=(nextState&&PageCounter==0);
+		ButtonState<<=1;
+		ButtonState|=(backState&&PageCounter==1);
+		ButtonState<<=1;
+		ButtonState|=(nextState&&PageCounter==1);
+		ButtonState<<=1;
 	}
-	return 0;
+	return ButtonState;
+}
+//overridden fade effects
+void Info::fadeIn(){
+	pageNext.fadeIn(FADE_FACTOR);
+	pageBack.fadeIn(FADE_FACTOR);
+}
+void Info::fadeOut(){
+	pageNext.fadeOut(FADE_FACTOR);
+	pageBack.fadeOut(FADE_FACTOR);
 }
 //initializes the  buttons size and position
 void Info::init() {
@@ -56,5 +65,5 @@ void Info::init() {
 // render function that draws the image on the screen
 //overwrite
 void Info::render() {
-	pages[PageCounter].render(0,0);
+	//pages[PageCounter].render(0,0);
 }

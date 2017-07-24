@@ -37,6 +37,8 @@ public:
 	void init();
 	virtual void render();
 	virtual int eventHandler(SDL_Event& e);
+	virtual void fadeIn();
+	virtual void fadeOut();
 	void loadData(deque<Player*>);
 };
 

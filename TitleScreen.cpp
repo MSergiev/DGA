@@ -36,6 +36,18 @@ int TitleScreen::eventHandler(SDL_Event& e) {
 	return ButtonState;
 
 }
+//fade in effect
+void TitleScreen::fadeIn(){
+	StartButton.fadeIn(FADE_FACTOR);
+	ContinueButton.fadeIn(FADE_FACTOR);
+	QuitButton.fadeIn(FADE_FACTOR);
+}
+//fade out effect
+void TitleScreen::fadeOut(){
+	StartButton.fadeOut(FADE_FACTOR);
+	ContinueButton.fadeOut(FADE_FACTOR);
+	QuitButton.fadeOut(FADE_FACTOR);
+}
 //initializes the  buttons size and position
 void TitleScreen::init() {
 	loadBackground(TITLE_PATH);
@@ -51,15 +63,17 @@ void TitleScreen::init() {
 
 	StartButton.setSFX(BUTTON_SFX);
 	ContinueButton.setSFX(BUTTON_SFX);
-	QuitButton.setSFX(BUTTON_SFX);
+	QuitButton.setSFX(BUTTON_SFX);	
 	
 	StartButton.setLocation((WIDTH-BUTTON_WIDTH)/2,HEIGHT-VERT_OFFSET-BUTTON_HEIGHT*5);
 	ContinueButton.setLocation((WIDTH-BUTTON_WIDTH)/2,HEIGHT-VERT_OFFSET-BUTTON_HEIGHT*3);
 	QuitButton.setLocation((WIDTH-BUTTON_WIDTH)/2,HEIGHT-VERT_OFFSET);
+
+	fadeIn();
 }
 // render function that draws the image on the screen
 void TitleScreen::render() {
-	UI::render(); //calls the render method from the base class
+	//UI::render(); //calls the render method from the base class
 	StartButton.render();
 	if(canContinue) ContinueButton.render();
 	QuitButton.render();

@@ -40,6 +40,16 @@ public:
 	///int y - top left Y coordinate
 	void setLocation(int x, int y);
 
+	///Button fade in animation
+	///Args:
+	///float coefficient - animation speed factor (not required)
+	bool fadeIn(float factor = 1);
+
+	///Button fade out animation
+	///Args:
+	///float coefficient - animation speed factor (not required)
+	bool fadeOut(float factor = 1);
+	
 	///Button color setter
 	///Args:
 	///SDL_Color c - button color
@@ -60,6 +70,11 @@ public:
 	///SDL_Event& e - reference to SDL_Event instance
 	bool isReleased(SDL_Event& e);
 
+	///Hover check
+	///Args:
+	///SDL_Event& e - reference to SDL_Event instance
+	bool isOver(SDL_Event& e);
+	
 	///Render button
 	///Args:
 	void render();
@@ -101,6 +116,11 @@ private:
 
 	///SFX set flag
 	bool mbHasSFX;
+
+	///Animation data
+	float mfFactor;
+	bool mbIsFadingIn, mbIsFadingOut;
+	float miAlpha;
 };
 
 #endif

@@ -15,6 +15,8 @@ public:
 	TitleScreen();
 	virtual ~TitleScreen();
 	void init();
+	virtual void fadeIn();
+	virtual void fadeOut();
 	virtual int eventHandler(SDL_Event& e);
 	virtual void render();
 	void setContinue(bool canContinue);
