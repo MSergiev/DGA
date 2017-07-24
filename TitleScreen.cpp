@@ -68,8 +68,6 @@ void TitleScreen::init() {
 	StartButton.setLocation((WIDTH-BUTTON_WIDTH)/2,HEIGHT-VERT_OFFSET-BUTTON_HEIGHT*5);
 	ContinueButton.setLocation((WIDTH-BUTTON_WIDTH)/2,HEIGHT-VERT_OFFSET-BUTTON_HEIGHT*3);
 	QuitButton.setLocation((WIDTH-BUTTON_WIDTH)/2,HEIGHT-VERT_OFFSET);
-
-	fadeIn();
 }
 // render function that draws the image on the screen
 void TitleScreen::render() {

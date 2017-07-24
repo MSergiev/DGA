@@ -244,8 +244,11 @@ const pair<int,int> DICE_POS[]{
 #define TITLE_QUIT 0b001
 #define WIN_RESTART 0b01
 #define WIN_QUIT 0b10
-#define CONTROLS_RULES 0b10
-#define CONTROLS_QUIT 0b01
+#define CONTROLS_SOUND 0b100
+#define CONTROLS_RULES 0b010
+#define CONTROLS_QUIT 0b001
+#define RULES_BACK 0b10
+#define RULES_NEXT 0b01
 
 ///Rulebook images path
 #define RULES_1_PATH "./GFX/Rules of LUDO/1.png"
@@ -279,6 +282,20 @@ const pair<int,int> DICE_POS[]{
 
 //UI fade speed
 #define FADE_FACTOR 10
+
+//Explosion FX data
+#define EXPLODE_PATH "./GFX/explode.png"
+#define EXPLODE_WIDTH 50
+#define EXPLODE_HEIGHT 105
+#define EXPLODE_FRAMES 9
+#define EXPLODE_DELAY 100
+
+//Shockwave FX data
+#define SHOCK_PATH "./GFX/shockwave.png"
+#define SHOCK_WIDTH 327
+#define SHOCK_HEIGHT 304
+#define SHOCK_FRAMES 5
+#define SHOCK_DELAY 50
 
 ///Debug mode
 #define DEBUG
