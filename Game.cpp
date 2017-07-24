@@ -22,7 +22,7 @@ void Game::loop(){
     //Handle events
 	eventHandler();
 #ifdef DEBUG
-/*		cout << "Active: " << endl;
+		cout << "Active: " << endl;
 		for(unsigned i = 0; i < BOARD_HEIGHT; ++i){
 			for(unsigned j = 0; j < BOARD_WIDTH; ++j){
 				cout << mBoardVector[j][i].size();
@@ -30,7 +30,6 @@ void Game::loop(){
 			cout << endl;
 		}
 		cout << endl;
-		*/
 #endif
 					
 		//Render objects
@@ -506,7 +505,6 @@ void Game::movePawn(Pawn * p, int with){
 			cout << "Final square" << endl;
 			//Get remaining moves
 			remainder = with-i;
-			cout << remainder << endl;
 			finished = 1;
 			break;
 		}
@@ -546,7 +544,7 @@ void Game::movePawn(Pawn * p, int with){
 			//Set pawn finish flag
 			p->setBFinished(1);
 			//Place pawn in final vector
-			mBoardVector[FINAL_SQUARES[p->getEColor()-1].second][FINAL_SQUARES[p->getEColor()-1].first][remainder-1] = p;	
+			mBoardVector[FINAL_SQUARES[p->getEColor()-1].first][FINAL_SQUARES[p->getEColor()-1].second][remainder-1] = p;	
 			//Decrease player active counter
 			mTurnOrder.front()->setIActivePawns(mTurnOrder.front()->getIActivePawns()-1);
 
@@ -585,7 +583,7 @@ void Game::collision(Pawn * p, int pX, int pY){
 	//If space is already occupied
 	if(mBoardVector[pX][pY].size()){
 		//If occupant is a different player
-		if(mBoardVector[pX][pY].back()->getEColor()!=p->getEColor() || mBoardVector[pX][pY].back()->getEColor()!=NONE){
+		if(mBoardVector[pX][pY].back()->getEColor()!=p->getEColor() && mBoardVector[pX][pY].back()->getEColor()!=NONE){
 			//Other player pointer
 			Player* owner;
 			//Go through players to find occupying pawn owner
