@@ -195,31 +195,33 @@ void Game::eventHandler(){
 		//If on title screen
 	 else if(TitleScreen* ptr = dynamic_cast<TitleScreen*>(mActiveUI)){
 			//Get current button states
-	     int titleState = mActiveUI->eventHandler(mEvent);
-	     //If start button is clicked
-	     if(titleState & TITLE_START){ transition(GAME); mActiveUI=&mControls; mbRoll = 1; mbRunning = 1; mbIgnoreRecovery = 1; initGame(); }
-	     //If continue button is clicked
-	     else if(titleState & TITLE_CONTINUE){ transition(GAME); mActiveUI=&mControls; mbRoll = 1; mbRunning = 1; initGame(); }
-	     //If quit button is clicked
-	     else if(titleState & TITLE_QUIT){ quit = 1;}
+		     int titleState = mActiveUI->eventHandler(mEvent);
+		     //If start button is clicked
+		     if(titleState & TITLE_START){ transition(GAME); mActiveUI=&mControls; mbRoll = 1; mbRunning = 1; mbIgnoreRecovery = 1; initGame(); }
+		     //If continue button is clicked
+		     else if(titleState & TITLE_CONTINUE){ transition(GAME); mActiveUI=&mControls; mbRoll = 1; mbRunning = 1; initGame(); }
+		     //If quit button is clicked
+		     else if(titleState & TITLE_QUIT){ quit = 1;}
 		}
 		
 		//If on win screen
 		else if(WinScreen* ptr = dynamic_cast<WinScreen*>(mActiveUI)){
 			//Get current button states
-	     int winState = mActiveUI->eventHandler(mEvent);
-	     //If restart button is clicked
-	     if(winState & WIN_RESTART){ transition(GAME); mActiveUI=&mControls; mbRunning = 1; mbRoll = 1; mbIgnoreRecovery = 1; initGame(); }
-	     //If exit button is clicked
-	     else if(winState & WIN_QUIT){ quit = 1; }
+		     int winState = mActiveUI->eventHandler(mEvent);
+		     //If restart button is clicked
+		     if(winState & WIN_RESTART){ transition(GAME); mActiveUI=&mControls; mbRunning = 1; mbRoll = 1; mbIgnoreRecovery = 1; initGame(); }
+		     //If exit button is clicked
+		     else if(winState & WIN_QUIT){ quit = 1; }
 		}
 		
 		//If on game screen
 		else if(Controls* ptr = dynamic_cast<Controls*>(mActiveUI)){
 			//Get current button states
 			int controlsState = mControls.eventHandler(mEvent);
+			//If sound button is clicked
+			if(controlsState & CONTROLS_SOUND){ Sound::mute=!Sound::mute; Sound::mute?Sound::pause():Sound::music(BGM);	}
 			//If rules button is clicked
-			if(controlsState & CONTROLS_RULES){ transition(RULES1); mActiveUI=&mInfoScreen; mbRunning = 0; }
+			else if(controlsState & CONTROLS_RULES){ transition(RULES1); mActiveUI=&mInfoScreen; mbRunning = 0; }
 			//If quit button is clicked
 			else if(controlsState & CONTROLS_QUIT) quit = 1;
 	

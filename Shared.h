@@ -244,8 +244,11 @@ const pair<int,int> DICE_POS[]{
 #define TITLE_QUIT 0b001
 #define WIN_RESTART 0b01
 #define WIN_QUIT 0b10
-#define CONTROLS_RULES 0b10
-#define CONTROLS_QUIT 0b01
+#define CONTROLS_SOUND 0b100
+#define CONTROLS_RULES 0b010
+#define CONTROLS_QUIT 0b001
+#define RULES_BACK 0b10
+#define RULES_NEXT 0b01
 
 ///Rulebook images path
 #define RULES_1_PATH "./GFX/Rules of LUDO/1.png"

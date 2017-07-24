@@ -34,22 +34,15 @@ int Controls::eventHandler(SDL_Event & e){
 	//Debounce events
 	if(UI::debounce()){
 		//Get sound button state
-		 if(mSoundButton.isClicked(e)){
-		   	mbSoundState=!mbSoundState;
-			Sound::mute = mbSoundState;
-			if(mbSoundState){
-			   	Sound::pause();
-				mSoundButton.setTexture(SOUND_OFF_PATH);
-			}
-			else{
-			   	Sound::music(BGM);
-				mSoundButton.setTexture(SOUND_ON_PATH);
-			}
-		}
-
+		buttonState|=mSoundButton.isClicked(e);		
+		//Set correct button texture
+		if(Sound::mute) mSoundButton.setTexture(SOUND_OFF_PATH);
+		else mSoundButton.setTexture(SOUND_ON_PATH);
+		//Shift state holder bits
+		buttonState<<=1;
 		//Get rules button state
 		buttonState|=mRulesButton.isClicked(e);
-		//Shift state holder bits to the left
+		//Shift state holder bits
 		buttonState<<=1;
 		//Get quit button state
 		buttonState|=mQuitButton.isClicked(e);
