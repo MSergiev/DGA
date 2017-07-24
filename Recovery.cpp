@@ -20,19 +20,22 @@ Recovery::~Recovery()
 	// TODO Auto-generated destructor stub
 }
 
-deque< Player* > Recovery::ReadFromXML()
+deque<Player*> Recovery::ReadFromXML()
 {
 	// the vector which will be returned
 	deque<Player*> result;
-	
+
 	// sets the flag to false
 	hasRolled = 0;
 
 	pugi::xml_document doc;
+	pugi::xml_parse_result res = doc.load_file("Recovery.xml");
 
 	// checking if the file is loaded
-	if (!doc.load_file("Recovery.xml"))
+	if (!res)
 	{
+		// show what is the problem
+		cerr << "ERROR with the xml file: " << res.description() << endl;
 		// return empty deque
 		return result;
 	}
@@ -45,44 +48,48 @@ deque< Player* > Recovery::ReadFromXML()
 	// for each node of the players
 	for (pugi::xml_node player = players.first_child(); player;
 			player = player.next_sibling())
-		{
-	
-			// making helper object
-			Player* person = new Player(NONE);
-			// fill the Player object with the data from the xml
-			// static_cast<Colors> - so we can give the right type of the color
-			person->setEColor(static_cast<Colors>(player.child("Color").text().as_int()));
-			person->setISteps(player.child("Steps").text().as_int());
-			person->setITaken(player.child("Taken").text().as_int());
-			person->setILost(player.child("Lost").text().as_int());
-			person->setIActivePawns(player.child("Active").text().as_int());
-            person->setIFinishPosition(player.child("Finished").text().as_int());
-			person->setIDiceRoll(player.child("LastDiceRoll").text().as_int());
+	{
 
-			// read pawn positions
-			int count = 0;
-			// the node of the pawns
-			pugi::xml_node pawns = player.child("Pawns");
-			// for each pawn
-			for(pugi::xml_node pawn = pawns.first_child(); pawn;
-				   	pawn = pawn.next_sibling())
-			{
-				// set pawn finish flag
-				person->m_vPawns[count]->setBFinished(pawn.attribute("Finished").as_int());
-				// put the data in the vector in the correct order
-				person->m_vPawns[count]->setIXPosition(pawn.attribute("PosX").as_int());
-				person->m_vPawns[count]->setIYPosition(pawn.attribute("PosY").as_int());
-				// increment the helper variable
-				count++;
-			}
-			// fill the deque which will be returned
-			result.push_back(person);
-	
+		// making helper object
+		Player* person = new Player(NONE);
+		// fill the Player object with the data from the xml
+		// static_cast<Colors> - so we can give the right type of the color
+		person->setEColor(
+				static_cast<Colors>(player.child("Color").text().as_int()));
+		person->setISteps(player.child("Steps").text().as_int());
+		person->setITaken(player.child("Taken").text().as_int());
+		person->setILost(player.child("Lost").text().as_int());
+		person->setIActivePawns(
+				player.child("Active").text().as_int());
+		person->setIFinishPosition(
+				player.child("Finished").text().as_int());
+		person->setIDiceRoll(
+				player.child("LastDiceRoll").text().as_int());
+
+		// read pawn positions
+		int count = 0;
+		// the node of the pawns
+		pugi::xml_node pawns = player.child("Pawns");
+		// for each pawn
+		for (pugi::xml_node pawn = pawns.first_child(); pawn; pawn =
+				pawn.next_sibling())
+		{
+			// put the data in the vector in the correct order
+			person->m_vPawns[count]->setIXPosition(
+					pawn.attribute("PosX").as_int());
+			person->m_vPawns[count]->setIYPosition(
+					pawn.attribute("PosY").as_int());
+			// increment the helper variable
+			count++;
 		}
+		// fill the deque which will be returned
+		result.push_back(person);
+
+	}
 	return result;
 }
 
-void Recovery::WriteXML(deque< Player*> players, bool rolled)
+void Recovery::WriteXML(deque<Player*> players, bool rolled)
 {
 	hasRolled = rolled;
 	pugi::xml_document doc;
@@ -91,7 +98,7 @@ void Recovery::WriteXML(deque< Player*> players, bool rolled)
 	pugi::xml_node game = doc.append_child("Game");
 	game.append_attribute("Rolled") = rolled;
 
-	for (unsigned int i = 0 ; i < players.size(); i++)
+	for (unsigned int i = 0; i < players.size(); i++)
 	{
 		// making the player node
 		pugi::xml_node player = game.append_child("Player");
@@ -106,52 +113,59 @@ void Recovery::WriteXML(deque< Player*> players, bool rolled)
 		pugi::xml_node color = player.append_child("Color");
 		// making it as a type text and setting it to the node
 		// node_pcdata - Plain character data, i.e. 'text'
-		color.append_child(pugi::node_pcdata).set_value(str.str().c_str());
+		color.append_child(pugi::node_pcdata).set_value(
+				str.str().c_str());
 		str.str("");
 
 		pugi::xml_node steps = player.append_child("Steps");
 		str << players[i]->getISteps();
-		steps.append_child(pugi::node_pcdata).set_value(str.str().c_str());
+		steps.append_child(pugi::node_pcdata).set_value(
+				str.str().c_str());
 		// setting the input to empty before using the variable again
 		str.str("");
 
 		pugi::xml_node taken = player.append_child("Taken");
 		str << players[i]->getITaken();
-		taken.append_child(pugi::node_pcdata).set_value(str.str().c_str());
+		taken.append_child(pugi::node_pcdata).set_value(
+				str.str().c_str());
 		str.str("");
 
 		pugi::xml_node lost = player.append_child("Lost");
 		str << players[i]->getILost();
-		lost.append_child(pugi::node_pcdata).set_value(str.str().c_str());
+		lost.append_child(pugi::node_pcdata).set_value(
+				str.str().c_str());
 		str.str("");
 
 		pugi::xml_node active = player.append_child("Active");
 		str << players[i]->getIActivePawns();
-		active.append_child(pugi::node_pcdata).set_value(str.str().c_str());
+		active.append_child(pugi::node_pcdata).set_value(
+				str.str().c_str());
 		str.str("");
 
 		pugi::xml_node finished = player.append_child("Finished");
 		str << players[i]->getIFinishPosition();
-		finished.append_child(pugi::node_pcdata).set_value(str.str().c_str());
+		finished.append_child(pugi::node_pcdata).set_value(
+				str.str().c_str());
 		str.str("");
-        
+
 		pugi::xml_node diceRoll = player.append_child("LastDiceRoll");
 		str << players[i]->getIDiceRoll();
-		diceRoll.append_child(pugi::node_pcdata).set_value(str.str().c_str());
+		diceRoll.append_child(pugi::node_pcdata).set_value(
+				str.str().c_str());
 		str.str("");
 
 		// write pawn positions
 		pugi::xml_node pawns = player.append_child("Pawns");
 		// for each pawn
-		for(unsigned j = 0; j < players[i]->m_vPawns.size(); j++)
+		for (unsigned j = 0; j < players[i]->m_vPawns.size(); j++)
 		{
 			// make a node pawn
 			pugi::xml_node pawn = pawns.append_child("Pawn");
-			// write finish flag
-			pawn.append_attribute("Finished") = players[i]->m_vPawns[j]->getBFinished();
 			// add attribute and give it value of the position of the pawn
-			pawn.append_attribute("PosX") = players[i]->m_vPawns[j]->getIXPosition();
-			pawn.append_attribute("PosY") = players[i]->m_vPawns[j]->getIYPosition();
+			pawn.append_attribute("PosX") =
+					players[i]->m_vPawns[j]->getIXPosition();
+			pawn.append_attribute("PosY") =
+					players[i]->m_vPawns[j]->getIYPosition();
 		}
 
 	}
@@ -159,7 +173,7 @@ void Recovery::WriteXML(deque< Player*> players, bool rolled)
 	doc.save_file("Recovery.xml");
 }
 
-void Recovery::Print(deque< Player*> players)
+void Recovery::Print(deque<Player*> players)
 {
 	// for each player
 	for (unsigned int i = 0; i < players.size(); i++)
