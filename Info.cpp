@@ -21,18 +21,9 @@ int Info::eventHandler(SDL_Event& e) {
 	int ButtonState = 0;
 	//event timer
 	if(UI::debounce()){
-		bool nextState = pageNext.isClicked(e);
-		bool backState = pageBack.isClicked(e);
-		if(nextState) PageCounter++;
-		else if(backState) PageCounter--;
-		ButtonState|=(backState&&PageCounter==0);
+		ButtonState|=(pageNext.isClicked(e));
 		ButtonState<<=1;
-		ButtonState|=(nextState&&PageCounter==0);
-		ButtonState<<=1;
-		ButtonState|=(backState&&PageCounter==1);
-		ButtonState<<=1;
-		ButtonState|=(nextState&&PageCounter==1);
-		ButtonState<<=1;
+		ButtonState|=(pageBack.isClicked(e));
 	}
 	return ButtonState;
 }
