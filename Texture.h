@@ -30,11 +30,6 @@ public:
 	///SDL_Color c - text drawing color
 	void textLoad(string t, TTF_Font* f, SDL_Color c);
 
-	///Set class renderer
-	///Args:
-	///SDL_Renderer* renderer - pointer to renderer
-	static void setRenderer(SDL_Renderer* renderer);
-
 	///Set color modulation
 	///Args:
 	///Uint8 r - red value (0-255)
@@ -74,10 +69,10 @@ public:
 	///Destructor
 	virtual ~Texture();
 
-private:
-
 	///SDL renderer pointer
 	static SDL_Renderer* mRenderer;
+
+private:
 
 	///SDL tecture pointer
 	SDL_Texture* mTexture;

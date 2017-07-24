@@ -95,16 +95,13 @@ void init(){
 	cout << "Init called" << endl;
 #endif
 
-    Texture::setRenderer(manager.getRenderer());
+    Texture::mRenderer = manager.getRenderer();
     //Initialize sound
     Sound::load();
     //Initialize game event container
     game.setEvent(event);
     //Initialize game data
     game.init();
-    //Set game renderer
-    game.mRenderer = manager.getRenderer();
-
 }
 
 //Event handler

@@ -187,14 +187,29 @@ void Game::eventHandler(){
 		if(dynamic_cast<Info*>(mActiveUI)){
 			//Get current button state
 			int rulesState = mActiveUI->eventHandler(mEvent);
-			//If page 1 back is clicked
-			if(rulesState&0b0001) { mActiveUI=&mControls; mbRunning = 1; mActiveUI=&mControls; transition(GAME); }
-			//If page 1 next is clicked
-			else if(rulesState&0b0010) { transition(RULES2); }
-			//If page 2 back is clicked
-			else if(rulesState&0b0100) { transition(RULES1); }
-			//If page 2 next is clicked
-			else if(rulesState&0b1000) { mActiveUI=&mControls; mbRunning = 1; mActiveUI=&mControls; transition(GAME); }
+			//If back is clicked
+			if(rulesState&RULES_BACK) {
+				//If on first screen
+			   	if(meScreen == RULES1){	
+				mActiveUI=&mControls; mbRunning = 1; mActiveUI=&mControls; transition(GAME);
+			   }
+				//If on second screen
+			   	else {
+				transition(RULES1,1);
+			   }
+			}
+			//If next is clicked
+			else if(rulesState&RULES_NEXT) {
+				//If on first screen
+			   	if(meScreen == RULES1){	
+					//If animated
+					transition(RULES2,1);
+			   }
+				//If on second screen
+			   	else {
+				mActiveUI=&mControls; mbRunning = 1; mActiveUI=&mControls; transition(GAME);
+			   }
+			}		
 		}
 		
 		//If on title screen
@@ -289,7 +304,7 @@ void Game::renderBackground(){
 void Game::renderSprite(){
 	//Render highlighters
 	for(unsigned i = 0; i < mActiveHighlighters.size(); ++i)
-		mBoardHighlghters[mActiveHighlighters[i].second][mActiveHighlighters[i].first].render();
+		mBoardHighlghters[mActiveHighlighters[i].first][mActiveHighlighters[i].second].render();
     
 	//Render player sprites
     for(unsigned i = 0; i < mTurnOrder.size(); ++i){
@@ -323,7 +338,7 @@ void Game::renderUI(){
 	//If transition has finished
 	if(!mbTransition && mbTransitionState) mActiveUI->fadeIn();	
 	//If transition has started
-	else if(mbTransition && !mbTransitionState) mActiveUI->fadeOut();
+	//else if(mbTransition && !mbTransitionState) mActiveUI->fadeOut();
 	//Render controls
 	mActiveUI->render();
 }
@@ -358,18 +373,7 @@ void Game::turn(Player* p){
 		
 		//Set player roll
 		p->setIDiceRoll(mDice[p->getEColor()-1]->getDiceResult());
-		//p->setIDiceRoll(miCurrentRoll[p->getEColor()-1]);
-		//mDice[p->getEColor()-1]->setDiceResult(miCurrentRoll[p->getEColor()-1]);
 
-	/*	switch(p->getEColor()){
-				case YELLOW: p->setIDiceRoll(6); break;
-				case RED: p->setIDiceRoll(4); break;
-				default: p->setIDiceRoll(2); break;
-		}
-	*/
-		//If roll is a 6 get another turn
-		//if(p->getIDiceRoll()==6) mTurnOrder.push_front(p);
-		
 		//If player has no active pawns
 		if(p->getIActivePawns()==0){
 			//If roll is a 6
@@ -446,16 +450,19 @@ void Game::turn(Player* p){
 				//Set player finish position
 				mTurnOrder.front()->setIFinishPosition(pos);
 			}
-			else {
-				//Cycle players
-				mTurnOrder.push_back(mTurnOrder.front());
-				//Remove current player from queue
-				mTurnOrder.pop_front();
+			else {			
+				//If roll is a 6 get another turn
+				if(p->getIDiceRoll()!=6){
+					//Cycle players
+					mTurnOrder.push_back(mTurnOrder.front());
+					//Remove current player from queue
+					mTurnOrder.pop_front();
+				}
 			}
 	
 			//Save recovery data
 			Recovery::WriteXML(mTurnOrder);	
-		
+	
 			//Raise roll flag for next turn
 			mbRoll = 1;
 
@@ -501,8 +508,7 @@ void Game::diceRoll(){
 
 		//Save current roll
 		mDice[mTurnOrder.front()->getEColor()-1]->roll();
-	//	miCurrentRoll[mTurnOrder.front()->getEColor()-1] = mDice[mTurnOrder.front()->getEColor()-1]->roll();
-	if((SDL_GetTicks()-miDiceTimer)>200){
+	if((SDL_GetTicks()-miDiceTimer)>500){
 		//Reset timer
 		miDiceTimer = SDL_GetTicks();
 		//Play SFX
@@ -666,8 +672,8 @@ void Game::highlight(int pX, int pY){
 	pair<int, int> coords = getCoords(pX, pY);
 	
 	//Set highlighter params
-	mBoardHighlghters[pY][pX].setSize(SQUARE_SIZE, SQUARE_SIZE);
-	mBoardHighlghters[pY][pX].setLocation(coords.first-10, coords.second-10);
+	mBoardHighlghters[pX][pY].setSize(SQUARE_SIZE, SQUARE_SIZE);
+	mBoardHighlghters[pX][pY].setLocation(coords.first-10, coords.second-10);
 
 #ifdef DEBUG
 	cout << "Adding highlighter at " << pX << " " << pY << endl;
@@ -690,7 +696,7 @@ pair<int,int> Game::getHighlightedChoice(){
 		//Traverse active highlighters
 		for(unsigned i = 0; i < mActiveHighlighters.size(); ++i){
 			//If clicked
-			if(mBoardHighlghters[mActiveHighlighters[i].second][mActiveHighlighters[i].first].isClicked(mEvent)){
+			if(mBoardHighlghters[mActiveHighlighters[i].first][mActiveHighlighters[i].second].isClicked(mEvent)){
 				//Save board index before clearing
 				choice = mActiveHighlighters[i];
 				//Clear active highlighters
@@ -718,7 +724,7 @@ void Game::delay(Uint32 ms){
 	while(SDL_GetTicks()-timerDelay<ms){
 		eventHandler();
 		render();
-		SDL_RenderPresent(mRenderer);
+		SDL_RenderPresent(Texture::mRenderer);
 	}
 }
 
@@ -801,7 +807,7 @@ bool Game::hasFinished(Player* p){
 
 
 //Screen transition
-void Game::transition(Screens to){
+void Game::transition(Screens to, bool instant){
 #ifdef DEBUG
 	cout << "Transition called with " << to << endl;
 #endif	
@@ -818,6 +824,13 @@ void Game::transition(Screens to){
 		case GAME: newX = -800; newY = -800; break;
 		case WIN: newX = -1600; newY = -800; break;
 	}
+
+	if(instant){
+		miCameraX = newX;
+		miCameraY = newY;
+		return;
+	}
+
 
 	//Keep old coordinates
 	int oldX = miCameraX;
@@ -843,7 +856,7 @@ void Game::transition(Screens to){
 		//eventHandler();
 		if(!(i%32)){
 			render();
-			SDL_RenderPresent(mRenderer);
+			SDL_RenderPresent(Texture::mRenderer);
 		}
 	}
 
