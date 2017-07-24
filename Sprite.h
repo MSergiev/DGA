@@ -36,11 +36,12 @@ public:
 	///Args:
 	///int x - X screen coordinate
 	///int y - Y screen coordinate
+	///double s - scale factor
 	///SDL_Rect* clip - clipping rectangle
 	///double a - rotation angle (0-359)
 	///SDL_Point* c - rotation center
 	///SDL_RendererFlip f - SDL renderer flip flag
-	virtual void render(int x, int y, SDL_Rect* clip = NULL, double a = 0, SDL_Point* c = NULL, SDL_RendererFlip f = SDL_FLIP_NONE);
+	virtual void render(int x, int y, double s = 1, SDL_Rect* clip = NULL, double a = 0, SDL_Point* c = NULL, SDL_RendererFlip f = SDL_FLIP_NONE);
 
 	///Destructor
 	virtual ~Sprite();

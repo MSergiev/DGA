@@ -92,7 +92,7 @@ const pair<int,int> IDLE_POS[5]{
 #define ZERO_Y_INDEX 0
 
 ///Graphics draw offset
-#define X_OFF 40
+#define X_OFF 60
 #define Y_OFF 40
 
 ///Active board
@@ -233,9 +233,9 @@ const int SPRITE_SCALE[]{
 
 ///Player dice positions (in pixels)
 const pair<int,int> DICE_POS[]{
-	{85,155}, ///YELLOW
-	{156,567}, ///RED
-	{568,493} ////BLUE
+	{115,153}, ///YELLOW
+	{186,565}, ///RED
+	{598,491} ////BLUE
 };
 
 ///UI constants

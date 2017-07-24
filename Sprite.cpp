@@ -30,7 +30,7 @@ void Sprite::setAnimationFrame(SDL_Rect animationFrame){
 	this->miInitY = animationFrame.y;
 }
 
-void Sprite::render(int x, int y, SDL_Rect* clip, double a, SDL_Point* c, SDL_RendererFlip f){
+void Sprite::render(int x, int y, double s, SDL_Rect* clip, double a, SDL_Point* c, SDL_RendererFlip f){
 	//If enough time has passed
 	if(SDL_GetTicks()-miAnimationTimer > miAnimationDelay){
 		//If we are not on the last frame
@@ -66,11 +66,11 @@ void Sprite::render(int x, int y, SDL_Rect* clip, double a, SDL_Point* c, SDL_Re
 		clipped.y = mAnimationFrame.y+clip->y;
 		clipped.w = mAnimationFrame.x+clip->w;
 		clipped.h = mAnimationFrame.y+clip->h;
-		Texture::render(x,y,&clipped,a,c,f);	
+		Texture::render(x,y,s,&clipped,a,c,f);	
 	}
 	else 
 	//Render sprite	
-		Texture::render(x,y,&mAnimationFrame,a,c,f);
+		Texture::render(x,y,s,&mAnimationFrame,a,c,f);
 
 }
 

@@ -48,7 +48,7 @@ bool Dice::Event(SDL_Event& e){
 // sets  the image and the SIZE on the screen
 void Dice::render(){
 	SDL_Rect DiceFace={(DiceResult-1)*DICE_WIDTH,0,DICE_WIDTH,DICE_HEIGHT};
-	DiceTexture.render(posX, posY, &DiceFace);
+	DiceTexture.render(posX, posY, 1, &DiceFace);
 }
 //method that sets the seed for the  random generator  from the current time
 void Dice::init(){

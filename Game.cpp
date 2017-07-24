@@ -506,6 +506,7 @@ void Game::movePawn(Pawn * p, int with){
 			cout << "Final square" << endl;
 			//Get remaining moves
 			remainder = with-i;
+			cout << remainder << endl;
 			finished = 1;
 			break;
 		}
@@ -535,18 +536,17 @@ void Game::movePawn(Pawn * p, int with){
 	if(!useSafe && !finished) collision(p,newPos.first, newPos.second);
 	//If on final squares
    	else if(finished){
-		cout << mBoardVector[7][6].size() << endl;
 		//If final space is occupied
-		if(mBoardVector[FINAL_SQUARES[p->getEColor()-1].first][FINAL_SQUARES[p->getEColor()-1].second][remainder]->getEColor()!=NONE)
+		if(mBoardVector[FINAL_SQUARES[p->getEColor()-1].first][FINAL_SQUARES[p->getEColor()-1].second][remainder-1]->getEColor()!=NONE)
 			return;
 		//If final space is unoccupied
 		else{
 			//Delete pawn placeholder
-			delete mBoardVector[FINAL_SQUARES[p->getEColor()-1].first][FINAL_SQUARES[p->getEColor()-1].second][remainder];
+			delete mBoardVector[FINAL_SQUARES[p->getEColor()-1].first][FINAL_SQUARES[p->getEColor()-1].second][remainder-1];
 			//Set pawn finish flag
 			p->setBFinished(1);
 			//Place pawn in final vector
-			mBoardVector[FINAL_SQUARES[p->getEColor()-1].second][FINAL_SQUARES[p->getEColor()-1].first][remainder] = p;	
+			mBoardVector[FINAL_SQUARES[p->getEColor()-1].second][FINAL_SQUARES[p->getEColor()-1].first][remainder-1] = p;	
 			//Decrease player active counter
 			mTurnOrder.front()->setIActivePawns(mTurnOrder.front()->getIActivePawns()-1);
 
@@ -585,12 +585,11 @@ void Game::collision(Pawn * p, int pX, int pY){
 	//If space is already occupied
 	if(mBoardVector[pX][pY].size()){
 		//If occupant is a different player
-		if(mBoardVector[pX][pY].back()->getEColor()!=p->getEColor()){
+		if(mBoardVector[pX][pY].back()->getEColor()!=p->getEColor() || mBoardVector[pX][pY].back()->getEColor()!=NONE){
 			//Other player pointer
 			Player* owner;
 			//Go through players to find occupying pawn owner
 			for(unsigned i = 1; i < mTurnOrder.size(); ++i){
-					cout << mBoardVector[pX][pY].front()->getEColor() <<  mTurnOrder[i]->getEColor() << endl;
 				if(mBoardVector[pX][pY].front()->getEColor()==mTurnOrder[i]->getEColor()){
 					owner = mTurnOrder[i];
 					break;
@@ -784,7 +783,7 @@ void Game::transition(Screens to){
 		case RULES1: newX = -800; newY = 0; break;
 		case RULES2: newX = -1600; newY = 0; break;
 		case TITLE: newX = 0; newY = -800; break;
-		case GAME: newX = -826; newY = -796; break;
+		case GAME: newX = -800; newY = -800; break;
 		case WIN: newX = -1600; newY = -800; break;
 	}
 
