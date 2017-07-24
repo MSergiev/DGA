@@ -48,6 +48,7 @@ void Game::loop(){
 			if(finishedPlayers>=(PLAYERS-1)){
 				mbRunning = 0;
 				mActiveUI = &mWinScreen;
+				transition(WIN);
 			}
 		}
 }

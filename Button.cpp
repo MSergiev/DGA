@@ -147,5 +147,4 @@ void Button::free(){
 
 //Destructor
 Button::~Button(){
-	free();
 }

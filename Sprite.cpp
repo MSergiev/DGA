@@ -75,6 +75,5 @@ void Sprite::render(int x, int y, double s, SDL_Rect* clip, double a, SDL_Point*
 }
 
 Sprite::~Sprite(){
-	free();
 }
 

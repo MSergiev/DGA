@@ -28,8 +28,6 @@ void Pawn::render(int x, int y)
 // destructor
 Pawn::~Pawn()
 {
-	//Release resources
-	//delete mPlayerSprite;
 }
 
 // setters & getters
