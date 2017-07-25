@@ -12,7 +12,6 @@ mShockwave(SDL_Rect {0,0,SHOCK_WIDTH,SHOCK_HEIGHT},SHOCK_FRAMES,SHOCK_DELAY){
 	miCameraX = 0;
 	miCameraY = 0;
 	mbTransition = 0;
-	mbTransitionState = 0;
 }
 
 
@@ -23,7 +22,7 @@ void Game::loop(){
     //Handle events
 	eventHandler();
 #ifdef DEBUG
-		cout << "Active: " << endl;
+/*		cout << "Active: " << endl;
 		for(unsigned i = 0; i < BOARD_HEIGHT; ++i){
 			for(unsigned j = 0; j < BOARD_WIDTH; ++j){
 				cout << mBoardVector[j][i].size();
@@ -31,6 +30,7 @@ void Game::loop(){
 			cout << endl;
 		}
 		cout << endl;
+*/
 #endif
 					
 		//Render objects
@@ -290,8 +290,6 @@ void Game::render(){
     //Render UI
 	renderUI();
 
-	//Set transition state
-	mbTransitionState = mbTransition;
 }
 
 //Render background
@@ -335,10 +333,6 @@ void Game::renderSprite(){
 //Render UI
 void Game::renderUI(){
 
-	//If transition has finished
-	if(!mbTransition && mbTransitionState) mActiveUI->fadeIn();	
-	//If transition has started
-	//else if(mbTransition && !mbTransitionState) mActiveUI->fadeOut();
 	//Render controls
 	mActiveUI->render();
 }
@@ -367,109 +361,148 @@ void Game::turn(Player* p){
 #ifdef DEBUG
 	cout << "Player " << p->getEColor() << " rolled " << p->getIDiceRoll() << endl;
 #endif
-		
-		//Save recovery data
-		Recovery::WriteXML(mTurnOrder, 1);
-		
-		//Set player roll
-		p->setIDiceRoll(mDice[p->getEColor()-1]->getDiceResult());
-
-		//If player has no active pawns
-		if(p->getIActivePawns()==0){
-			//If roll is a 6
-		   	if(p->getIDiceRoll()==6){
-				//Add an active pawn
-				activatePawn(p);
-			}
-		}
-		//If player has only one active pawn
-		else if(p->getIActivePawns()==1 && p->getIDiceRoll()!=6){
-			//Traverse the pawns
-			for(unsigned i = 0; i < p->m_vPawns.size(); ++i){
-				//If pawn is on the board
-				if(MOVEABLE_SQUARES[p->m_vPawns[i]->getIYPosition()][p->m_vPawns[i]->getIXPosition()]){
-					cout << "Selected pawn: " << p->m_vPawns[i]->getEColor() << endl;
-					//Move pawn forward
-					movePawn(p->m_vPawns[i], p->getIDiceRoll());
-					break;	
+            
+			//If no pawn is moving
+			if(!mbMove){
+                //Set player roll
+                p->setIDiceRoll(mDice[p->getEColor()-1]->getDiceResult());
+        
+                //Save recovery data
+                Recovery::WriteXML(mTurnOrder, 1);
+                
+                //If player has no active pawns
+                if(p->getIActivePawns()==0){
+                    //If roll is a 6
+                    if(p->getIDiceRoll()==6){
+                        //Add an active pawn
+                        activatePawn(p);
+                    }
+                }
+                //If player has only one active pawn
+                else if(p->getIActivePawns()==1 && p->getIDiceRoll()!=6){
+                    //Traverse the pawns
+                    for(unsigned i = 0; i < p->m_vPawns.size(); ++i){
+                        //If pawn is on the board
+                        if(MOVEABLE_SQUARES[p->m_vPawns[i]->getIYPosition()][p->m_vPawns[i]->getIXPosition()]){
+                            cout << "Selected pawn: " << p->m_vPawns[i]->getEColor() << endl;
+                            //Raise movement flag
+                            mbMove = 1;
+							//Assign moving pawn
+                            mMovingPawn = p->m_vPawns[i];
+							//Set pawn as active
+							mMovingPawn->setBIdle(0);
+							//Assign remaining moves
+							miRemaining = p->getIDiceRoll();
+                            break;	
+                        }
+                    }
+                }
+                //If player has more than one active pawn
+                else {
+                    //If highglighters have not been set this turn	
+                        if(!mbHighlight){
+                        //If roll is a 6 and player has inactive pawns
+                        if(p->getIDiceRoll()==6 && p->getIActivePawns()!=PAWNS){
+                            //Find inactive pawn
+                            for(unsigned i = 0; i < p->m_vPawns.size(); ++i){
+                                    if(isBase(p->m_vPawns[i]->getIXPosition(), p->m_vPawns[i]->getIYPosition(), p->getEColor())){
+                                    //Highlight inactive pawn
+                                    highlight(p->m_vPawns[i]->getIXPosition(), p->m_vPawns[i]->getIYPosition());
+                                    break;
+                                }
+                            }
+                        }
+                        //Active pawn counter
+                        int activeCount = 0;	
+                        //Traverse the board
+                    for(unsigned i = 0; i < p->m_vPawns.size(); ++i){
+                            //Find active ones
+                            if(MOVEABLE_SQUARES[p->m_vPawns[i]->getIYPosition()][p->m_vPawns[i]->getIXPosition()]){
+                                //Highlight active pawn
+                                highlight(p->m_vPawns[i]->getIXPosition(), p->m_vPawns[i]->getIYPosition());	
+                                //Increase active counter
+                                activeCount++;
+                                }
+                            //Check if more active pawns exist
+                            if(activeCount==p->getIActivePawns()) break;
+                            }
+                        //Raise highlighter flag
+                        mbHighlight = 1;
+                    }
+            
+                    //Get choice from highlights
+                    pair<int,int> choice = getHighlightedChoice();
+                    //If invalid choice
+                    if(choice.first<0 || choice.second<0) return;
+                    //If base is selected
+                    else if(isBase(choice.first, choice.second, p->getEColor())) activatePawn(p);
+                    //If field is selected
+                    else {
+						//Raise movement flag
+                        mbMove = 1;
+						//Assign moving pawn
+                        mMovingPawn = mBoardVector[choice.first][choice.second].front();
+						//Set pawn as active
+						mMovingPawn->setBIdle(0);
+						//Assign remaining moves
+						miRemaining = p->getIDiceRoll();
+                    }
+                }
+            }
+			//If remaining moves are available
+			else {
+				cout << "Remaining moves " << miRemaining << endl;	
+				//Delay
+				if(SDL_GetTicks()-miMoveDelay>MOVEMENT_DELAY){
+					//Reset timer
+					miMoveDelay = SDL_GetTicks();	
+					//Decrease remaining move counter
+					miRemaining--;
+					//Move pawn
+					movePawn(mMovingPawn, 1);
+					//If no more moves remain
+					if(!miRemaining){
+					   	//Lower movement flag
+						mbMove = 0;
+						//Set moving pawn to idle
+						mMovingPawn->setBIdle(1);
+					}
 				}
 			}
-		}
-		//If player has more than one active pawn
-		else {
-			//If highglighters have not been set this turn	
-			if(!mbHighlight){
-				//If roll is a 6 and player has inactive pawns
-				if(p->getIDiceRoll()==6 && p->getIActivePawns()!=PAWNS){
-					//Find inactive pawn
-					for(unsigned i = 0; i < p->m_vPawns.size(); ++i){
-							if(isBase(p->m_vPawns[i]->getIXPosition(), p->m_vPawns[i]->getIYPosition(), p->getEColor())){
-							//Highlight inactive pawn
-							highlight(p->m_vPawns[i]->getIXPosition(), p->m_vPawns[i]->getIYPosition());
-							break;
+			//If destination square is reached
+			if(!miRemaining){
+				//If no highlighters are active
+				if(!mbHighlight){	
+				//If player has finished
+					if(hasFinished(mTurnOrder.front())){
+					//Determine finish position
+						int pos = 1;
+						for(unsigned i = 1; i < mTurnOrder.size(); ++i)
+							if(hasFinished(mTurnOrder[i])) pos++;
+						//Set player finish position
+						mTurnOrder.front()->setIFinishPosition(pos);
+					}
+					else {			
+						//If roll is a 6 get another turn
+						if(p->getIDiceRoll()!=6){
+							//Cycle players
+							mTurnOrder.push_back(mTurnOrder.front());
+							//Remove current player from queue
+							mTurnOrder.pop_front();
 						}
 					}
-				}
-				//Active pawn counter
-				int activeCount = 0;	
-				//Traverse the board
-				for(unsigned i = 0; i < p->m_vPawns.size(); ++i){
-					//Find active ones
-					if(MOVEABLE_SQUARES[p->m_vPawns[i]->getIYPosition()][p->m_vPawns[i]->getIXPosition()]){
-						//Highlight active pawn
-						highlight(p->m_vPawns[i]->getIXPosition(), p->m_vPawns[i]->getIYPosition());	
-						//Increase active counter
-						activeCount++;
-					}
-					//Check if more active pawns exist
-					if(activeCount==p->getIActivePawns()) break;
-					}
-				//Raise highlighter flag
-				mbHighlight = 1;
-			}
 	
-			//Get choice from highlights
-			pair<int,int> choice = getHighlightedChoice();
-			//If invalid choice
-			if(choice.first<0 || choice.second<0) return;
-			//If base is selected
-			else if(isBase(choice.first, choice.second, p->getEColor())) activatePawn(p);
-			//If field is selected
-			else movePawn(mBoardVector[choice.first][choice.second].front(), p->getIDiceRoll());	
-		}
-	
-		//If no highlighters are active
-		if(!mbHighlight){	
-			
-			//If player has finished
-			if(hasFinished(mTurnOrder.front())){
-				//Determine finish position
-				int pos = 1;
-				for(unsigned i = 1; i < mTurnOrder.size(); ++i)
-					if(hasFinished(mTurnOrder[i])) pos++;
-				//Set player finish position
-				mTurnOrder.front()->setIFinishPosition(pos);
-			}
-			else {			
-				//If roll is a 6 get another turn
-				if(p->getIDiceRoll()!=6){
-					//Cycle players
-					mTurnOrder.push_back(mTurnOrder.front());
-					//Remove current player from queue
-					mTurnOrder.pop_front();
-				}
-			}
-	
-			//Save recovery data
-			Recovery::WriteXML(mTurnOrder);	
-	
-			//Raise roll flag for next turn
-			mbRoll = 1;
+					//Save recovery data
+					Recovery::WriteXML(mTurnOrder);	
+		
+					//Raise roll flag for next turn
+					mbRoll = 1;
 
 #ifdef DEBUG
 		cout << endl << endl;
 #endif
-		}
+				}
+			}
 		}
 	}
 }
@@ -566,7 +599,7 @@ void Game::movePawn(Pawn * p, int with){
 		newPos.second = tmp.second;	
 	}
 	//If on active squares
-	if(!useSafe && !finished) collision(p,newPos.first, newPos.second);
+	if(!useSafe && !finished && !miRemaining) collision(p,newPos.first, newPos.second);
 	//If on final squares
    	else if(finished){
 		//If final space is occupied
@@ -601,6 +634,8 @@ void Game::movePawn(Pawn * p, int with){
 	p->setIYPosition(newPos.second);
 	//Add roll to player step count
 	mTurnOrder.front()->setISteps(mTurnOrder.front()->getISteps()+(with-remainder));
+	//Set as new moving pawn
+	if(mbMove) mMovingPawn = mBoardVector[newPos.first][newPos.second].back();
 
 #ifdef DEBUG		
 	cout << "Moved to (" << newPos.first << ", " << newPos.second << ")" << endl;

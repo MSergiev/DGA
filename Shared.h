@@ -280,22 +280,25 @@ const pair<int,int> DICE_POS[]{
 #define ON_SIX orchHit
 #define ON_DICE ding
 
-//UI fade speed
+///UI fade speed
 #define FADE_FACTOR 10
 
-//Explosion FX data
+///Explosion FX data
 #define EXPLODE_PATH "./GFX/explode.png"
 #define EXPLODE_WIDTH 50
 #define EXPLODE_HEIGHT 105
 #define EXPLODE_FRAMES 9
 #define EXPLODE_DELAY 100
 
-//Shockwave FX data
+///Shockwave FX data
 #define SHOCK_PATH "./GFX/shockwave.png"
 #define SHOCK_WIDTH 327
 #define SHOCK_HEIGHT 304
 #define SHOCK_FRAMES 5
 #define SHOCK_DELAY 50
+
+///Pawn movement delay
+#define MOVEMENT_DELAY 400
 
 ///Debug mode
 #define DEBUG
