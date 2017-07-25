@@ -83,8 +83,8 @@ void Game::init(){
 
 	//Initialize dice
 	for(int i = 0; i < PLAYERS; ++i){
-		mDice[i] = new Dice;
-		mDice[i]->setPosition(DICE_POS[i].first, DICE_POS[i].second);
+		mDice.push_back(new Dice);
+		mDice.back()->setPosition(DICE_POS[i].first, DICE_POS[i].second);
 	}
 
     //Initialize UI
@@ -728,7 +728,7 @@ void Game::highlight(int pX, int pY){
 	
 	//Set highlighter params
 	mBoardHighlghters[pX][pY].setSize(SQUARE_SIZE, SQUARE_SIZE);
-	mBoardHighlghters[pX][pY].setLocation(coords.first-10, coords.second-10);
+	mBoardHighlghters[pX][pY].setLocation(coords.first-5, coords.second-15);
 
 #ifdef DEBUG
 	cout << "Adding highlighter at " << pX << " " << pY << endl;
@@ -967,7 +967,7 @@ Game::~Game()
 {
 	//Release unused pawn placeholders
 	for(int i = 0; i < PLAYERS; ++i)
-		for(int j = 0; j < PAWNS; ++j)
+		for(unsigned j = 0; j < mBoardVector[FINAL_SQUARES[i].first][FINAL_SQUARES[i].second].size(); ++j)
 			if(!mBoardVector[FINAL_SQUARES[i].first][FINAL_SQUARES[i].second].back()->getEColor()){
 				delete mBoardVector[FINAL_SQUARES[i].first][FINAL_SQUARES[i].second].back();
 				mBoardVector[FINAL_SQUARES[i].first][FINAL_SQUARES[i].second].pop_back();
@@ -978,7 +978,7 @@ Game::~Game()
 		delete mTurnOrder[i];
 	
 	//Release dice data
-	for(unsigned i = 0; i < PLAYERS; ++i)
+	for(unsigned i = 0; i < mDice.size(); ++i)
 		delete mDice[i];
 
 	//Release font

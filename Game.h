@@ -81,7 +81,7 @@ private:
     Texture mBoard;
     
     ///Dice objects array
-	Dice* mDice[PLAYERS];
+	vector<Dice*> mDice;
 
     ///Title screen object
     TitleScreen mTitleScreen;
