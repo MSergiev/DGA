@@ -41,15 +41,10 @@ void WinScreen::init()
 	// set the size on the buttons
 	m_bRestart.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 	m_BQuit.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-
-	// load the background for the screen
-	UI::loadBackground(WIN_PATH);
 }
 
 void WinScreen::render()
 {
-	// render background
-	UI::render();
 	// render the buttons
 	m_bRestart.render();
 	m_BQuit.render();
