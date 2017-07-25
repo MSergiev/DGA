@@ -65,16 +65,41 @@ void Player::Render(vector<pair<int, int> > pos)
 		for (unsigned i = 0; i < it->second.size(); i++)
 		{
 			//Scale factor
-			float scale = (1 / (float) it->second.size());
+			float scale;
+			if(it->second.size()>1) scale = 0.6;
+			else scale = 1;
 			//Set pawn scale
 			it->second[i]->setDScale(scale);
+			
+			//Render coordinates
+			pair<int,int> coords;
 			//Render pawn
+			switch(i)
+			{
+			case 0:
+			   	coords = {it->first.first, it->first.second - 15};
+			   	break;
+			case 1:
+				coords = {it->first.first + SQUARE_SIZE * scale, it->first.second - 15};
+				break;
+			case 2:
+				coords = {it->first.first, it->first.second - 15 + SQUARE_SIZE * scale};
+				break;
+			case 3:
+				coords = {it->first.first + SQUARE_SIZE * scale, it->first.second - 15 + SQUARE_SIZE * scale};
+				break;
+			case 4:
+				coords = {it->first.first + SQUARE_SIZE * scale / 2, it->first.second - 15 + SQUARE_SIZE * scale / 2};
+			}
+
+			//Render pawn
+			it->second[i]->render(coords.first, coords.second);
+			/*
 			if (i < 3)
 			{
 				it->second[i]->render(
 						it->first.first + i * SPRITE_SIZE * scale,
-						it->first.second - 15
-								+ i * SPRITE_SIZE * scale);
+						it->first.second - 15 + i * SPRITE_SIZE * scale);
 			} else
 			{
 				if (i == 3)
@@ -90,7 +115,7 @@ void Player::Render(vector<pair<int, int> > pos)
 							it->first.first + 2 * SPRITE_SIZE * scale,
 							it->first.second - SPRITE_SIZE * scale);
 				}
-			}
+			}*/
 		}
 	}
 }
