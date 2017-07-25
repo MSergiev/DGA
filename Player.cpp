@@ -44,29 +44,33 @@ void Player::Render(vector<pair<int, int> > pos)
 		cerr << "The vector of the pawns is empty." << endl;
 	}
 
-	map<pair<int, int>, int> mapToCount;
-	map<pair<int, int>, int>::iterator it;
+	//Map object: coordinate pair -> vector of pawns with these coordinates
+	map<pair<int, int>, vector<Pawn*> > mapToCount;
+	//Map iterator
+	map<pair<int, int>, vector<Pawn*> >::iterator it;
 
+	//Traverse position vector
 	for (unsigned int i = 0; i < pos.size(); i++)
 	{
+		//Create key pair
 		pair<int, int> key = {pos[i].first, pos[i].second};
-
-		if (isKeyInMap(mapToCount, key))
-		{
-			mapToCount[key]++;
-		} else
-		{
-			mapToCount[key]=1;
-		}
+		//Push pawn in map vector
+		mapToCount[key].push_back(m_vPawns[i]);
 	}
-
-	for (it = mapToCount.begin(); it != mapToCount.end(); ++it)
+	
+	//Traverse map
+	for (it = mapToCount.begin(); it!=mapToCount.end(); ++it)
 	{
-		float scale = (1/(float)it->second);
-		m_vPawns[0]->setDScale(scale);
-		for(int i = 0; i < it->second; i++){
-			m_vPawns[0]->render(it->first.first+i*SPRITE_SIZE*scale,
-								it->first.second-15+i*SPRITE_SIZE*scale);
+		//Traverse map vector
+		for(unsigned i = 0; i < it->second.size(); i++)
+		{
+			//Scale factor
+			float scale = (1/(float)it->second.size());
+			//Set pawn scale
+			it->second[i]->setDScale(scale);
+			//Render pawn
+			it->second[i]->render(it->first.first+i*SPRITE_SIZE*scale,
+							it->first.second-15+i*SPRITE_SIZE*scale);
 		}
 	}
 }

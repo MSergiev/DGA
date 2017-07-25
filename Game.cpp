@@ -20,17 +20,6 @@ mShockwave(SDL_Rect {0,0,SHOCK_WIDTH,SHOCK_HEIGHT},SHOCK_FRAMES,SHOCK_DELAY){
 
 //Game loop
 void Game::loop(){
-#ifdef DEBUG
-/*		cout << "Active: " << endl;
-		for(unsigned i = 0; i < BOARD_HEIGHT; ++i){
-			for(unsigned j = 0; j < BOARD_WIDTH; ++j){
-				cout << mBoardVector[j][i].size();
-			}
-			cout << endl;
-		}
-		cout << endl;
-*/
-#endif
 					
     //Handle events
 	eventHandler();
@@ -55,6 +44,7 @@ void Game::loop(){
 			transition(WIN);
 		}
 	}
+
 }
 
 
@@ -114,6 +104,9 @@ void Game::init(){
 	//Set current screen
 	transition(TITLE);
 }
+
+
+
 
 //Game data inititalizing method
 void Game::initGame(){
@@ -364,7 +357,7 @@ void Game::turn(Player* p){
 	cout << "Player " << p->getEColor() << " rolled " << p->getIDiceRoll() << endl;
 #endif
                 //Set player roll
-				//mDice[mTurnOrder.front()->getEColor()-1]->setDiceResult(6);
+				mDice[mTurnOrder.front()->getEColor()-1]->setDiceResult(6);
                 p->setIDiceRoll(mDice[p->getEColor()-1]->getDiceResult());
         
                 //Save recovery data
@@ -451,7 +444,6 @@ void Game::turn(Player* p){
             }
 			//If remaining moves are available
 			else {
-				cout << "Remaining moves " << miRemaining << endl;	
 				//Delay
 				if(SDL_GetTicks()-miMoveDelay>MOVEMENT_DELAY){
 					//Reset timer
@@ -497,15 +489,25 @@ void Game::turn(Player* p){
 		
 					//Raise roll flag for next turn
 					mbRoll = 1;
-
 #ifdef DEBUG
-		cout << endl << endl;
+		cout << "Active: " << endl;
+		for(unsigned i = 0; i < BOARD_HEIGHT; ++i){
+			for(unsigned j = 0; j < BOARD_WIDTH; ++j){
+				cout << mBoardVector[j][i].size() << " ";
+			}
+			cout << endl;
+		}
+		cout << endl;
 #endif
 				}
 			}
 		}
 	}
 }
+
+
+
+
 
 //Determine turn order
 void Game::determineTurnOrder(){
@@ -534,6 +536,10 @@ void Game::determineTurnOrder(){
 #endif
 }
 
+
+
+
+
 //Dice roll
 void Game::diceRoll(){
 
@@ -551,6 +557,10 @@ void Game::diceRoll(){
 	}
 	
 }
+
+
+
+
 
 //Pawn movement
 void Game::movePawn(Pawn * p, int with){
@@ -647,6 +657,10 @@ void Game::movePawn(Pawn * p, int with){
 		Sound::play(ON_MOVE);
 }
 
+
+
+
+
 //Collision detection
 void Game::collision(Pawn * p, int pX, int pY){
 #ifdef DEBUG
@@ -701,6 +715,10 @@ void Game::collision(Pawn * p, int pX, int pY){
 	}
 }
 
+
+
+
+
 //Board square highlighter
 void Game::highlight(int pX, int pY){
 #ifdef DEBUG
@@ -719,6 +737,10 @@ void Game::highlight(int pX, int pY){
 	//Add to active highlighter list
 	mActiveHighlighters.push_back(pair<int,int> {pX, pY});
 }
+
+
+
+
 
 //Highlighted squares event handler
 pair<int,int> Game::getHighlightedChoice(){
@@ -753,6 +775,10 @@ pair<int,int> Game::getHighlightedChoice(){
 	return choice;
 }
 
+
+
+
+
 //Timed delay
 void Game::delay(Uint32 ms){
 #ifdef DEBUG
@@ -765,6 +791,10 @@ void Game::delay(Uint32 ms){
 		SDL_RenderPresent(Texture::mRenderer);
 	}
 }
+
+
+
+
 
 //Activate pawn
 void Game::activatePawn(Player * p){
@@ -791,6 +821,10 @@ void Game::activatePawn(Player * p){
 	}
 }
 
+
+
+
+
 //Get world coordinates from array index
 pair<int, int> Game::getCoords(int pX, int pY){
     
@@ -801,6 +835,9 @@ pair<int, int> Game::getCoords(int pX, int pY){
 	//Return coordinate pair
 	return pair<int,int> {pX*SQUARE_SIZE+X_OFF, pY*SQUARE_SIZE+Y_OFF};	
 }
+
+
+
 
 //Determine if board square is active
 bool Game::isActive(int pX, int pY){
@@ -842,6 +879,9 @@ bool Game::hasFinished(Player* p){
 		if(!p->m_vPawns[i]->getBFinished()) return 0;
 	return 1;
 }
+
+
+
 
 
 //Screen transition
@@ -902,6 +942,10 @@ void Game::transition(Screens to, bool instant){
 	}
 }
 
+
+
+
+
 //Active UI switcher
 void Game::switchUI(){
 	switch(meScreen){
@@ -913,6 +957,10 @@ void Game::switchUI(){
 		case WIN: mActiveUI=&mWinScreen; break;
 	}
 }
+
+
+
+
 
 //Destructor
 Game::~Game()
