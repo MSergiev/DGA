@@ -53,24 +53,44 @@ void Player::Render(vector<pair<int, int> > pos)
 	for (unsigned int i = 0; i < pos.size(); i++)
 	{
 		//Create key pair
-		pair<int, int> key = {pos[i].first, pos[i].second};
+		pair<int, int> key = { pos[i].first, pos[i].second };
 		//Push pawn in map vector
 		mapToCount[key].push_back(m_vPawns[i]);
 	}
-	
+
 	//Traverse map
-	for (it = mapToCount.begin(); it!=mapToCount.end(); ++it)
+	for (it = mapToCount.begin(); it != mapToCount.end(); ++it)
 	{
 		//Traverse map vector
-		for(unsigned i = 0; i < it->second.size(); i++)
+		for (unsigned i = 0; i < it->second.size(); i++)
 		{
 			//Scale factor
-			float scale = (1/(float)it->second.size());
+			float scale = (1 / (float) it->second.size());
 			//Set pawn scale
 			it->second[i]->setDScale(scale);
 			//Render pawn
-			it->second[i]->render(it->first.first+i*SPRITE_SIZE*scale,
-							it->first.second-15+i*SPRITE_SIZE*scale);
+			if (i < 3)
+			{
+				it->second[i]->render(
+						it->first.first + i * SPRITE_SIZE * scale,
+						it->first.second - 15
+								+ i * SPRITE_SIZE * scale);
+			} else
+			{
+				if (i == 3)
+				{
+					it->second[i]->render(
+							it->first.first,
+							it->first.second
+									+ SPRITE_SIZE * scale);
+				}
+				if (i == 4)
+				{
+					it->second[i]->render(
+							it->first.first + 2 * SPRITE_SIZE * scale,
+							it->first.second - SPRITE_SIZE * scale);
+				}
+			}
 		}
 	}
 }
