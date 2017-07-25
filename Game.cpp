@@ -12,6 +12,7 @@ mShockwave(SDL_Rect {0,0,SHOCK_WIDTH,SHOCK_HEIGHT},SHOCK_FRAMES,SHOCK_DELAY){
 	miCameraX = 0;
 	miCameraY = 0;
 	mbTransition = 0;
+	meScreen = BLANK;
 }
 
 
@@ -19,8 +20,6 @@ mShockwave(SDL_Rect {0,0,SHOCK_WIDTH,SHOCK_HEIGHT},SHOCK_FRAMES,SHOCK_DELAY){
 
 //Game loop
 void Game::loop(){
-    //Handle events
-	eventHandler();
 #ifdef DEBUG
 /*		cout << "Active: " << endl;
 		for(unsigned i = 0; i < BOARD_HEIGHT; ++i){
@@ -33,25 +32,29 @@ void Game::loop(){
 */
 #endif
 					
-		//Render objects
-		render();
+    //Handle events
+	eventHandler();
 
-		//If game is running
-		if(mbRunning){		
-			//Execute player turn
-			turn(mTurnOrder.front());
-			
+	//Render objects
+	render();
 
-			//Check for game end
-			int finishedPlayers = 0;
-			for(unsigned i = 0; i < mTurnOrder.size(); ++i)
-				if(mTurnOrder[i]->getIFinishPosition()!=0) finishedPlayers++;
-			if(finishedPlayers>=(PLAYERS-1)){
-				mbRunning = 0;
-				mActiveUI = &mWinScreen;
-				transition(WIN);
-			}
+	//If transitioning
+	if(mbTransition) transition();	
+	//If game is running
+	else if(mbRunning){	
+		//Execute player turn
+		turn(mTurnOrder.front());
+	
+		//Check for game end
+		int finishedPlayers = 0;
+		for(unsigned i = 0; i < mTurnOrder.size(); ++i)
+			if(mTurnOrder[i]->getIFinishPosition()!=0) finishedPlayers++;
+		if(finishedPlayers>=(PLAYERS-1)){
+			mbRunning = 0;
+			mActiveUI = &mWinScreen;
+			transition(WIN);
 		}
+	}
 }
 
 
@@ -109,8 +112,7 @@ void Game::init(){
 	mActiveUI = &mTitleScreen;
 
 	//Set current screen
-	meScreen = TITLE;
-	transition(meScreen);
+	transition(TITLE);
 }
 
 //Game data inititalizing method
@@ -168,108 +170,109 @@ void Game::initGame(){
 //Event handler
 void Game::eventHandler(){	
 
-		//Keyboard scroll
-		if(mEvent.key.keysym.sym == SDLK_1) transition(BLANK);
-		if(mEvent.key.keysym.sym == SDLK_2) transition(RULES1);
-		if(mEvent.key.keysym.sym == SDLK_3) transition(RULES2);
-		if(mEvent.key.keysym.sym == SDLK_4) transition(TITLE);
-		if(mEvent.key.keysym.sym == SDLK_5) transition(GAME);
-		if(mEvent.key.keysym.sym == SDLK_6) transition(WIN);
+	//Keyboard scroll
+	if(mEvent.key.keysym.sym == SDLK_1) transition(BLANK);
+	if(mEvent.key.keysym.sym == SDLK_2) transition(RULES1);
+	if(mEvent.key.keysym.sym == SDLK_3) transition(RULES2);
+	if(mEvent.key.keysym.sym == SDLK_4) transition(TITLE);
+	if(mEvent.key.keysym.sym == SDLK_5) transition(GAME);
+	if(mEvent.key.keysym.sym == SDLK_6) transition(WIN);
 
-	
-		if(mEvent.key.keysym.sym == SDLK_LEFT)miCameraX+=10;
-		if(mEvent.key.keysym.sym == SDLK_RIGHT)miCameraX-=10;
-		if(mEvent.key.keysym.sym == SDLK_UP)miCameraY+=10;
-		if(mEvent.key.keysym.sym == SDLK_DOWN)miCameraY-=10;
-	
-	
-		//If on rules screen
-		if(dynamic_cast<Info*>(mActiveUI)){
-			//Get current button state
-			int rulesState = mActiveUI->eventHandler(mEvent);
-			//If back is clicked
-			if(rulesState&RULES_BACK) {
-				//If on first screen
-			   	if(meScreen == RULES1){	
-				mActiveUI=&mControls; mbRunning = 1; mActiveUI=&mControls; transition(GAME);
-			   }
-				//If on second screen
-			   	else {
-				transition(RULES1,1);
-			   }
-			}
-			//If next is clicked
-			else if(rulesState&RULES_NEXT) {
-				//If on first screen
-			   	if(meScreen == RULES1){	
-					//If animated
-					transition(RULES2,1);
-			   }
-				//If on second screen
-			   	else {
-				mActiveUI=&mControls; mbRunning = 1; mActiveUI=&mControls; transition(GAME);
-			   }
-			}		
-		}
-		
-		//If on title screen
-	 else if(dynamic_cast<TitleScreen*>(mActiveUI)){
-			//Get current button states
-		     int titleState = mActiveUI->eventHandler(mEvent);
-		     //If start button is clicked
-		     if(titleState & TITLE_START){ transition(GAME); mActiveUI=&mControls; mbRoll = 1; mbRunning = 1; mbIgnoreRecovery = 1; initGame(); }
-		     //If continue button is clicked
-		     else if(titleState & TITLE_CONTINUE){ transition(GAME); mActiveUI=&mControls; mbRoll = 1; mbRunning = 1; initGame(); }
-		     //If quit button is clicked
-		     else if(titleState & TITLE_QUIT){ quit = 1;}
-		}
-		
-		//If on win screen
-		else if(dynamic_cast<WinScreen*>(mActiveUI)){
-			//Get current button states
-		     int winState = mActiveUI->eventHandler(mEvent);
-		     //If restart button is clicked
-		     if(winState & WIN_RESTART){ transition(GAME); mActiveUI=&mControls; mbRunning = 1; mbRoll = 1; mbIgnoreRecovery = 1; initGame(); }
-		     //If exit button is clicked
-		     else if(winState & WIN_QUIT){ quit = 1; }
-		}
-		
-		//If on game screen
-		else if(dynamic_cast<Controls*>(mActiveUI)){
-			//Get current button states
-			int controlsState = mControls.eventHandler(mEvent);
-			//If sound button is clicked
-			if(controlsState & CONTROLS_SOUND){ Sound::mute=!Sound::mute; Sound::mute?Sound::pause():Sound::music(BGM);	}
-			//If rules button is clicked
-			else if(controlsState & CONTROLS_RULES){ transition(RULES1); mActiveUI=&mInfoScreen; mbRunning = 0; }
-			//If quit button is clicked
-			else if(controlsState & CONTROLS_QUIT) quit = 1;
-	
-			//If dice is rolling
-			if(mbRoll){
-				//If player clicked the dice
-				if(mDice[mTurnOrder.front()->getEColor()-1]->Event(mEvent)){
-					//Clear roll flag
-					mbRoll = 0;
-					//Play SFX
-					if(mDice[mTurnOrder.front()->getEColor()-1]->getDiceResult()==6){
-					   	Sound::play(ON_SIX);
-						mbShockwave = 1;
-						mShockwaveCoords = DICE_POS[mTurnOrder.front()->getEColor()-1];
-						mShockwaveCoords.first-=(SHOCK_WIDTH-DICE_WIDTH)/2;
-						mShockwaveCoords.second-=(SHOCK_HEIGHT-DICE_HEIGHT)/2;
-						delay(SHOCK_FRAMES*SHOCK_DELAY);
-						mbShockwave = 0;
 
+	if(mEvent.key.keysym.sym == SDLK_LEFT)miCameraX+=10;
+	if(mEvent.key.keysym.sym == SDLK_RIGHT)miCameraX-=10;
+	if(mEvent.key.keysym.sym == SDLK_UP)miCameraY+=10;
+	if(mEvent.key.keysym.sym == SDLK_DOWN)miCameraY-=10;
+	
+	//If no UI is active
+	if(!mActiveUI) return;
+	
+	//If on rules screen
+	if(dynamic_cast<Info*>(mActiveUI)){
+		//Get current button state
+		int rulesState = mActiveUI->eventHandler(mEvent);
+		//If back is clicked
+		if(rulesState&RULES_BACK) {
+			//If on first screen
+		   	if(meScreen == RULES1){	
+			mbRunning = 1; transition(GAME);
+		   }
+			//If on second screen
+		   	else {
+			transition(RULES1,1);
+		   }
+		}
+		//If next is clicked
+		else if(rulesState&RULES_NEXT) {
+			//If on first screen
+		   	if(meScreen == RULES1){	
+				//If animated
+				transition(RULES2,1);
+		   }
+			//If on second screen
+		   	else {
+			mbRunning = 1; transition(GAME);
+		   }
+		}		
+	}
+	
+	//If on title screen
+	else if(dynamic_cast<TitleScreen*>(mActiveUI)){
+		//Get current button states
+	     int titleState = mActiveUI->eventHandler(mEvent);
+	     //If start button is clicked
+	     if(titleState & TITLE_START){ transition(GAME); mbRoll = 1; mbRunning = 1; mbIgnoreRecovery = 1; initGame(); }
+	     //If continue button is clicked
+	     else if(titleState & TITLE_CONTINUE){ transition(GAME); mbRoll = 1; mbRunning = 1; initGame(); }
+	     //If quit button is clicked
+	     else if(titleState & TITLE_QUIT){ quit = 1;}
+	}
+	
+	//If on win screen
+	else if(dynamic_cast<WinScreen*>(mActiveUI)){
+		//Get current button states
+	     int winState = mActiveUI->eventHandler(mEvent);
+	     //If restart button is clicked
+	     if(winState & WIN_RESTART){ transition(GAME); mbRunning = 1; mbRoll = 1; mbIgnoreRecovery = 1; initGame(); }
+	     //If exit button is clicked
+	     else if(winState & WIN_QUIT){ quit = 1; }
+	}
+		
+	//If on game screen
+	else if(dynamic_cast<Controls*>(mActiveUI)){
+		//Get current button states
+		int controlsState = mControls.eventHandler(mEvent);
+		//If sound button is clicked
+		if(controlsState & CONTROLS_SOUND){ Sound::mute=!Sound::mute; Sound::mute?Sound::pause():Sound::music(BGM);	}
+		//If rules button is clicked
+		else if(controlsState & CONTROLS_RULES){ transition(RULES1); mbRunning = 0; }
+		//If quit button is clicked
+		else if(controlsState & CONTROLS_QUIT) quit = 1;
+
+		//If dice is rolling
+		if(mbRoll){
+			//If player clicked the dice
+			if(mDice[mTurnOrder.front()->getEColor()-1]->Event(mEvent)){
+				//Clear roll flag
+				mbRoll = 0;
+				//Play SFX
+				if(mDice[mTurnOrder.front()->getEColor()-1]->getDiceResult()==6){
+				   	Sound::play(ON_SIX);
+					mbShockwave = 1;
+					mShockwaveCoords = DICE_POS[mTurnOrder.front()->getEColor()-1];
+					mShockwaveCoords.first-=(SHOCK_WIDTH-DICE_WIDTH)/2;
+					mShockwaveCoords.second-=(SHOCK_HEIGHT-DICE_HEIGHT)/2;
+					delay(SHOCK_FRAMES*SHOCK_DELAY);
+					mbShockwave = 0;
 					}
-					else {
-						Sound::play(ON_DICE);
-						delay(500);
-					}
+				else {
+					Sound::play(ON_DICE);
+					delay(500);
 				}
 			}
-	
 		}
+
+	}
 }
 
 
@@ -284,12 +287,13 @@ void Game::render(){
 	//Render background
 	renderBackground();
 	
-	//Render sprites 
-	if(meScreen==GAME) renderSprite();
+	if(!mbTransition){
+		//Render sprites 
+		if(meScreen==GAME) renderSprite();
 
-    //Render UI
-	renderUI();
-
+		//Render UI
+		renderUI();
+	}
 }
 
 //Render background
@@ -590,7 +594,7 @@ void Game::movePawn(Pawn * p, int with){
 			tmp.second+=NEXT_SAFE[p->getEColor()-1].second;
 		}
 		//If on active squares
-	   	else {
+   	else {
 			tmp.first+=NEXT_SQUARE[newPos.second][newPos.first].first;
 			tmp.second+=NEXT_SQUARE[newPos.second][newPos.first].second;
 		}
@@ -726,6 +730,7 @@ pair<int,int> Game::getHighlightedChoice(){
 	//Selected coordinate container
 	pair<int,int> choice = {-1,-1};
 
+
 	//If active highlighters exist
 	if(mActiveHighlighters.size()){
 		//Traverse active highlighters
@@ -844,62 +849,71 @@ bool Game::hasFinished(Player* p){
 //Screen transition
 void Game::transition(Screens to, bool instant){
 #ifdef DEBUG
-	cout << "Transition called with " << to << endl;
+	//cout << "Transition called with " << to << endl;
 #endif	
 
-	//Transitioning coordinates
-	int newX, newY;
-	
-	//Determine coordinates
-	switch(to){
-		case BLANK: newX = 0; newY = 0; break;
-		case RULES1: newX = -800; newY = 0; break;
-		case RULES2: newX = -1600; newY = 0; break;
-		case TITLE: newX = 0; newY = -800; break;
-		case GAME: newX = -800; newY = -800; break;
-		case WIN: newX = -1600; newY = -800; break;
-	}
-
-	if(instant){
-		miCameraX = newX;
-		miCameraY = newY;
-		return;
-	}
-
-
-	//Keep old coordinates
-	int oldX = miCameraX;
-	int oldY = miCameraY;
-	//Find direction vectors
-	int vX = newX-oldX;
-	int vY = newY-oldY;
-	//Find line length
-	int length = sqrt(vX*vX+vY*vY);
-	//If length is 0
-	if(!length) return;
-	//Normalize vectors
-	vX/=length; vY/=length;
-
-	//Set transition flag
-	mbTransition = 1;
-
-	//Traverse line
-	for(int i = 0; i < length; i++){
-		//Calculate coordinates
-		miCameraX = (int)((float)oldX + vX*i);
-		miCameraY = (int)((float)oldY + vY*i);
-		//eventHandler();
-		if(!(i%32)){
-			render();
-			SDL_RenderPresent(Texture::mRenderer);
+	//If not transitioning
+	if(!mbTransition){
+		cout << "Camera: (" << miCameraX << ", " << miCameraY << ")" << endl;
+		//New coordinate holder
+		pair<int,int> coords = SCREEN_COORDS[to];
+		cout << "Destination: (" << coords.first << ", " << coords.second << ")" << endl;
+		//If instant
+		if(instant){
+			miCameraX = coords.first;
+			miCameraY = coords.second;
+			return;
 		}
+		//Assign destination screen as current
+		meScreen = to;
+		//Zero current travelled distance
+		miCurrentDistance = 0;
+		//Keep old coordinates
+		miOldTransitionX = miCameraX;
+		miOldTransitionY = miCameraY;
+		//Raise transition flag
+		mbTransition = 1;
+		//Find direction vector
+		mDirection = {coords.first-miOldTransitionX, coords.second-miOldTransitionY};
+		//Find length
+		miDestinationDistance = sqrt(mDirection.first*mDirection.first+mDirection.second*mDirection.second);
+		cout << "Length: " << miDestinationDistance << endl;
+		//If length is 0
+		if(!miDestinationDistance) return;
+		//Normalize vectors
+		mDirection.first/=miDestinationDistance; mDirection.second/=miDestinationDistance;
+		cout << "Transitioning with vector (" << mDirection.first << ", " << mDirection.second << ")" << endl;
 	}
 
-	//Lower transition flag
-	mbTransition = 0;
+	//Calculate coordinates
+	miCameraX+=10*mDirection.first;
+	miCameraY+=10*mDirection.second;
 
-	//Assign screen to variable
-	meScreen = to;
+	//Increase travelled distance
+	miCurrentDistance+=10;
+
+	//If destination is reached
+	if(miCurrentDistance==miDestinationDistance){
+		cout << "Transition end" << endl;
+		cout << "New camera: (" << miCameraX << ", " << miCameraY << ")" << endl;
+		//Lower transition flag
+		mbTransition = 0;
+		//Switch UI
+		switchUI();
+		
+	}
+}
+
+//Active UI switcher
+void Game::switchUI(){
+	switch(meScreen){
+		case BLANK: mActiveUI=NULL; break;
+		case RULES1:
+		case RULES2: mActiveUI=&mInfoScreen; break;
+		case TITLE: mActiveUI=&mTitleScreen; break;
+		case GAME: mActiveUI=&mControls; break;
+		case WIN: mActiveUI=&mWinScreen; break;
+	}
 }
 
 //Destructor

@@ -204,6 +204,15 @@ const int SPRITE_SCALE[]{
 	12	///Five sprites per square
 };
 
+const pair<int,int> SCREEN_COORDS[]{
+	{    0,   0}, //BLANK
+	{ -800,   0}, //RULES1
+	{-1600,   0}, //RULES2
+	{    0, -800}, //TITLE
+	{ -800, -800}, //GAME
+	{-1600, -800}  //WIN
+};
+
 ///Font size
 #define FONT_SIZE 20
 
