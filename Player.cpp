@@ -6,15 +6,14 @@ Player::Player(Colors color)
 	// set the active pawns to zero
 	setIActivePawns(0);
 	// put the dice with correct default value
-	setIDiceRoll(1);	
-    // at the begging of the game no one is finished
+	setIDiceRoll(1);
+	// at the begging of the game no one is finished
 	setIFinishPosition(0);
 	// it set the color of the pawns and the player
 	setEColor(color);
 	// sets the pawns vector with empty values
 	SetPawnsVector();
 }
-
 
 Player::~Player()
 {
@@ -27,34 +26,93 @@ Player::~Player()
 	}
 }
 
+template<typename Key, typename Value>
+bool Player::isKeyInMap(map<Key, Value> &theMap, const Key &key)
+{
+	return theMap.find(key) != theMap.end();
+}
+
+template<typename Key, typename Value>
+Value &Player::getFromMap(map<Key, Value> &theMap, const Key &key)
+{
+	return theMap.find(key)->second;
+}
+
+template<typename Key, typename Value>
+void Player::putInMap(map<Key, Value> &theMap, const Key &key,
+		const Value &val)
+{
+	theMap[key] = val;
+	// theMap.insert(make_pair(key, val));
+}
+
+template<typename Key, typename Value>
+void Player::delKeyInMap(map<Key, Value> theMap, const Key &key)
+{
+	theMap.erase(theMap.find(key));
+}
 void Player::Render(vector<pair<int, int> > pos)
 {
+	// the actual render method -
+	// pass the data of the positions of every pawn
+	// pos[i].first - x on the board
+	// pos[i].second - y on the board
+
+	if (pos.size() == 0)
+	{
+		cerr << "The vector of the pawns is empty." << endl;
+	}
+
+	map<pair<int, int>, int> mapToCount;
+	map<pair<int, int>, int>::iterator it;
 	for (unsigned int i = 0; i < pos.size(); i++)
 	{
-		// the actual render method -
-		// pass the data of the positions of every pawn
-		// pos[i].first - x on the board
-		// pos[i].second - y on the board
-		m_vPawns[i]->render(pos[i].first, pos[i].second-15);
+		pair<int, int> key = std::make_pair(pos[i].first,
+				pos[i].second);
+		int value = 1;
+
+		if (isKeyInMap(mapToCount, key))
+		{
+			putInMap(mapToCount, key,
+					getFromMap(mapToCount, key) + value);
+		} else
+		{
+			putInMap(mapToCount, key, value);
+		}
+	}
+
+	for (unsigned int i = 0; i < pos.size(); i++)
+	{
+		for (it = mapToCount.begin(); it != mapToCount.end(); ++it)
+		{
+			if (it->second > 1)
+			{
+				cout << it->second << endl;
+				it->second--;
+				m_vPawns[i]->setDScale(0.5);
+				m_vPawns[i]->render(pos[i].first, pos[i].second - 15);
+			} else {
+				m_vPawns[i]->setDScale(1);
+				m_vPawns[i]->render(pos[i].first, pos[i].second - 15);
+			}
+		}
 	}
 }
 
 void Player::Print()
 {
-	cout 	<< "Color: " << getEColor() << endl
-			<< "Steps: " << getISteps() << endl
-			<< "Taken: " << getITaken() << endl
-			<< "Lost: " << getILost() << endl
-			<< "Active: " << getIActivePawns() << endl
-			<< "Roll: " << getIDiceRoll() << endl
-			<< "Pawn positions:"
-	<< endl;
+	cout << "Color: " << getEColor() << endl << "Steps: "
+			<< getISteps() << endl << "Taken: " << getITaken() << endl
+			<< "Lost: " << getILost() << endl << "Active: "
+			<< getIActivePawns() << endl << "Roll: " << getIDiceRoll()
+			<< endl << "Pawn positions:" << endl;
 
 	// for every pawn
 	for (unsigned i = 0; i < m_vPawns.size(); i++)
 	{
 		// print in the console the position
-		cout << "(" << m_vPawns[i]->getIXPosition() << ", " << m_vPawns[i]->getIYPosition() << ") ";
+		cout << "(" << m_vPawns[i]->getIXPosition() << ", "
+				<< m_vPawns[i]->getIYPosition() << ") ";
 	}
 	cout << endl;
 }
@@ -107,7 +165,7 @@ int Player::getIDiceRoll() const
 
 void Player::setIDiceRoll(int iDiceRoll)
 {
-	if(iDiceRoll>=1 && iDiceRoll<=6)
+	if (iDiceRoll >= 1 && iDiceRoll <= 6)
 		m_iDiceRoll = iDiceRoll;
 }
 
@@ -132,7 +190,7 @@ void Player::setEColor(Colors eColor)
 	m_EColor = eColor;
 
 	// for each pawn
-	for(unsigned i = 0; i < m_vPawns.size(); i++)
+	for (unsigned i = 0; i < m_vPawns.size(); i++)
 	{
 		// pass the color
 		m_vPawns[i]->setEColor(m_EColor);
@@ -142,7 +200,8 @@ void Player::setEColor(Colors eColor)
 
 void Player::SetPawnsVector()
 {
-	for (unsigned int i = 0; i < PAWNS; i++){
+	for (unsigned int i = 0; i < PAWNS; i++)
+	{
 		//make a dynamic allocated pawn
 		Pawn* pawn = new Pawn(m_EColor);
 
@@ -150,7 +209,9 @@ void Player::SetPawnsVector()
 		m_vPawns.push_back(pawn);
 
 		// set position into base
-		m_vPawns.back()->setIXPosition(BASE_SQUARES[m_EColor-1][i].first);
-		m_vPawns.back()->setIYPosition(BASE_SQUARES[m_EColor-1][i].second);
+		m_vPawns.back()->setIXPosition(
+				BASE_SQUARES[m_EColor - 1][i].first);
+		m_vPawns.back()->setIYPosition(
+				BASE_SQUARES[m_EColor - 1][i].second);
 	}
 }
