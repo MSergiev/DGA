@@ -37,18 +37,10 @@ enum Screens{
 
 class Game {
 
-public:
-
-	///SDL renderer object
-	SDL_Renderer* mRenderer;
-
 private:
 	
     ///SDL event container
     SDL_Event mEvent;
-
-	//Transition flags
-	bool mbTransition, mbTransitionState;
 
 	///Camera coordinates
 	int miCameraX;
@@ -57,13 +49,24 @@ private:
     ///Game state flags
 	bool mbRunning;
 	bool mbRoll;
+	bool mbMove;
+	bool mbTransition;
 	bool mbHighlight;
+
+	///Transition coordinate data
+	int miOldX, miOldY;
+
+	///Move remaining moves
+	int miRemaining;
+
+	///Movement pawn data
+	Pawn* mMovingPawn;
+
+	///Movement delay timer
+	Uint32 miMoveDelay;
 
 	///Dice animation timer
 	Uint32 miDiceTimer;
-
-	///Current dice roll
-	int miCurrentRoll[PLAYERS];
 
     ///Force ignore recovery
     bool mbIgnoreRecovery;
@@ -75,7 +78,7 @@ private:
     Texture mBoard;
     
     ///Dice objects array
-    Dice* mDice[PLAYERS];
+	Dice* mDice[PLAYERS];
 
     ///Title screen object
     TitleScreen mTitleScreen;
@@ -106,6 +109,17 @@ private:
 
 	//Current screen
 	Screens meScreen;
+
+	///Explosion FX data
+	Sprite mExplosion;
+	bool mbExplosion;
+	pair<int,int> mExplosionCoords;
+
+	///Shockwave FX data
+	Sprite mShockwave;
+	bool mbShockwave;
+	pair<int,int> mShockwaveCoords;
+
 
 public:
 
@@ -149,7 +163,8 @@ private:
 	///Screen transition method
 	///Args:
 	///Screens to - screen to transition to
-	void transition(Screens to);
+	///bool instant - instant transition (not required)
+	void transition(Screens to, bool instant = 0);
 
 	///Player turn
     ///Args:

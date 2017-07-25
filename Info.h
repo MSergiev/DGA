@@ -22,8 +22,6 @@ public:
 	virtual void fadeOut();
 	virtual void render();
 private:
-int PageCounter;
-Texture pages[PAGES_NUM];
 Button pageNext;
 Button pageBack;
 };

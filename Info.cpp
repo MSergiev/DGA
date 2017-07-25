@@ -8,7 +8,6 @@
 #include "Info.h"
 
 Info::Info() {
-PageCounter = 0;
 }
 
 Info::~Info() {
@@ -38,10 +37,6 @@ void Info::fadeOut(){
 }
 //initializes the  buttons size and position
 void Info::init() {
-	//load page textures
-	pages[0].load(RULES_1_PATH);
-	pages[1].load(RULES_2_PATH);
-	
 	pageNext.setSize(RULES_WIDTH, RULES_HEIGHT);
 	pageBack.setSize(RULES_WIDTH,RULES_HEIGHT);
 
@@ -51,10 +46,8 @@ void Info::init() {
 	pageNext.setLocation((WIDTH-RULES_WIDTH),(HEIGHT-RULES_HEIGHT)/2);
 	pageBack.setLocation(0,(HEIGHT-RULES_HEIGHT)/2);
 	
-//	UI::loadBackground(RULES_1_PATH);
 }
 // render function that draws the image on the screen
-//overwrite
+//override
 void Info::render() {
-	//pages[PageCounter].render(0,0);
 }

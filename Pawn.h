@@ -32,7 +32,10 @@ private:
 	//Flag if pawn is on the final field
 	//Scale factor
 	double m_dScale;
+	//Pawn is on final square flag
 	bool m_bFinished;
+	//Pawn is idle flag
+	bool m_bIdle;
 	Colors m_eColor;
 	
 	///Sprite object pointer
@@ -61,6 +64,9 @@ public:
 	bool getBFinished() const;
 	void setBFinished(bool bFinished);
 
+	bool getBIdle() const;
+	void setBIdle(bool bIdle);
+	
 	Colors getEColor() const;
 	void setEColor(Colors eColor);
 };

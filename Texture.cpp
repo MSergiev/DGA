@@ -62,10 +62,6 @@ void Texture::textLoad(string s, TTF_Font* f, SDL_Color c){
 	}
 }
 
-void Texture::setRenderer(SDL_Renderer* renderer){
-	Texture::mRenderer = renderer;
-}
-
 void Texture::setColor(Uint8 r, Uint8 g, Uint8 b){
 	SDL_SetTextureColorMod(mTexture, r, g, b);
 }
