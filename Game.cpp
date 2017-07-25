@@ -51,7 +51,7 @@ void Game::loop(){
 			if(mTurnOrder[i]->getIFinishPosition()!=0) finishedPlayers++;
 		if(finishedPlayers>=(PLAYERS-1)){
 			mbRunning = 0;
-			mActiveUI = &mWinScreen;
+			mWinScreen.loadData(mTurnOrder);
 			transition(WIN);
 		}
 	}
@@ -131,7 +131,7 @@ void Game::initGame(){
    	   determineTurnOrder();
 	} else {
 		cout << "Recovering state" << endl;
-	
+
 	//Try to recover state from XML	
 	mTurnOrder = Recovery::ReadFromXML();
 
@@ -153,9 +153,6 @@ void Game::initGame(){
 	
 	//Play BGM
 	Sound::music(BGM);
-
-	//Refresh RNG seed
-	mDice[0]->init();
 
 	//Load SFX
 	mExplosion.load(EXPLODE_PATH);
@@ -361,14 +358,13 @@ void Game::turn(Player* p){
 			//Roll the dice
 			diceRoll();
 		} else {
-
+			//If no pawn is moving
+			if(!mbMove){
 #ifdef DEBUG
 	cout << "Player " << p->getEColor() << " rolled " << p->getIDiceRoll() << endl;
 #endif
-            
-			//If no pawn is moving
-			if(!mbMove){
                 //Set player roll
+				//mDice[mTurnOrder.front()->getEColor()-1]->setDiceResult(6);
                 p->setIDiceRoll(mDice[p->getEColor()-1]->getDiceResult());
         
                 //Save recovery data
@@ -516,6 +512,8 @@ void Game::determineTurnOrder(){
 #ifdef DEBUG
 	cout << "DetermineTurnOrder called" << endl;
 #endif
+	//Refresh RNG seed
+	srand(time(0));
 	//Clear old data if existing
 	for(unsigned i = 0; i < mTurnOrder.size(); ++i){
 		delete mTurnOrder.front();
@@ -778,7 +776,7 @@ void Game::activatePawn(Player * p){
 		//If current pawn is inactive
 		if(isBase(p->m_vPawns[i]->getIXPosition(), p->m_vPawns[i]->getIYPosition(),p->getEColor())){
 			//Check for collisions
-			collision(p->m_vPawns[i], p->m_vPawns[i]->getIXPosition(), p->m_vPawns[i]->getIYPosition());
+			collision(p->m_vPawns[i], START_SQUARES[p->getEColor()-1].first, START_SQUARES[p->getEColor()-1].second);
 			//Place pawn location on start position
 			p->m_vPawns[i]->setIXPosition(START_SQUARES[p->getEColor()-1].first);
 			p->m_vPawns[i]->setIYPosition(START_SQUARES[p->getEColor()-1].second);

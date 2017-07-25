@@ -53,8 +53,11 @@ private:
 	bool mbTransition;
 	bool mbHighlight;
 
-	///Transition coordinate data
-	int miOldX, miOldY;
+	///Transition data
+	int miOldTransitionX, miOldTransitionY;
+	int miCurrentDistance, miDestinationDistance;
+	pair<float,float> mDirection;
+	Uint32 miTransitionTimer;
 
 	///Move remaining moves
 	int miRemaining;
@@ -162,9 +165,9 @@ private:
     
 	///Screen transition method
 	///Args:
-	///Screens to - screen to transition to
+	///Screens to - screen to transition to (not required)
 	///bool instant - instant transition (not required)
-	void transition(Screens to, bool instant = 0);
+	void transition(Screens to = BLANK, bool instant = 0);
 
 	///Player turn
     ///Args:
@@ -254,6 +257,9 @@ private:
 	///Args:
 	///Player* p - pointer to player
 	bool hasFinished(Player* p);
+
+	///Active UI switcher
+	void switchUI();
 };
 
 #endif

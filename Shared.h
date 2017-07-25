@@ -195,15 +195,21 @@ const pair<int,int> ENTRY_SQUARES[PLAYERS]{
 };
 
 ///Sprite sizes (pixels)
-const int SPRITE_SCALE[]{
-	0, ///No sprite
-	48, ///One sprite per square
-	24,	///Two sprites per square
-	24,	///Three sprites per square
-	24,	///Four sprites per square
-	12	///Five sprites per square
+const float SPRITE_SCALE[]{
+	1,	 ///1 sprite per square
+	0.5, ///2 sprites per square
+	0.5, ///3 sprites per square
+	0.5, ///4 sprites per square
+	0.5	 ///5 sprites per square
 };
 
+///Pawn positions on square
+const pair<int,int> PAWN_LAYOUT[]{
+	{1,1},{0,0},{2,0},
+	{0,2},{2,2}
+};
+
+///UI screen coordinates
 const pair<int,int> SCREEN_COORDS[]{
 	{    0,   0}, //BLANK
 	{ -800,   0}, //RULES1
