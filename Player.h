@@ -17,16 +17,6 @@ private:
 	template<typename Key, typename Value>
 	bool isKeyInMap(map<Key, Value> &theMap, const Key &key);
 
-	template<typename Key, typename Value>
-	void putInMap(map<Key, Value> &theMap, const Key &key,
-			const Value &val);
-
-	template<typename Key, typename Value>
-	Value &getFromMap(map<Key, Value> &theMap, const Key &key);
-
-	template<typename Key, typename Value>
-	void delKeyInMap(map<Key, Value> theMap, const Key &key);
-
 	/// private members
 
 	/// the color of the player

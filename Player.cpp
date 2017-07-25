@@ -32,25 +32,6 @@ bool Player::isKeyInMap(map<Key, Value> &theMap, const Key &key)
 	return theMap.find(key) != theMap.end();
 }
 
-template<typename Key, typename Value>
-Value &Player::getFromMap(map<Key, Value> &theMap, const Key &key)
-{
-	return theMap.find(key)->second;
-}
-
-template<typename Key, typename Value>
-void Player::putInMap(map<Key, Value> &theMap, const Key &key,
-		const Value &val)
-{
-	theMap[key] = val;
-	// theMap.insert(make_pair(key, val));
-}
-
-template<typename Key, typename Value>
-void Player::delKeyInMap(map<Key, Value> theMap, const Key &key)
-{
-	theMap.erase(theMap.find(key));
-}
 void Player::Render(vector<pair<int, int> > pos)
 {
 	// the actual render method -
@@ -65,36 +46,27 @@ void Player::Render(vector<pair<int, int> > pos)
 
 	map<pair<int, int>, int> mapToCount;
 	map<pair<int, int>, int>::iterator it;
+
 	for (unsigned int i = 0; i < pos.size(); i++)
 	{
-		pair<int, int> key = std::make_pair(pos[i].first,
-				pos[i].second);
-		int value = 1;
+		pair<int, int> key = {pos[i].first, pos[i].second};
 
 		if (isKeyInMap(mapToCount, key))
 		{
-			putInMap(mapToCount, key,
-					getFromMap(mapToCount, key) + value);
+			mapToCount[key]++;
 		} else
 		{
-			putInMap(mapToCount, key, value);
+			mapToCount[key]=1;
 		}
 	}
 
-	for (unsigned int i = 0; i < pos.size(); i++)
+	for (it = mapToCount.begin(); it != mapToCount.end(); ++it)
 	{
-		for (it = mapToCount.begin(); it != mapToCount.end(); ++it)
-		{
-			if (it->second > 1)
-			{
-				cout << it->second << endl;
-				it->second--;
-				m_vPawns[i]->setDScale(0.5);
-				m_vPawns[i]->render(pos[i].first, pos[i].second - 15);
-			} else {
-				m_vPawns[i]->setDScale(1);
-				m_vPawns[i]->render(pos[i].first, pos[i].second - 15);
-			}
+		float scale = (1/(float)it->second);
+		m_vPawns[0]->setDScale(scale);
+		for(int i = 0; i < it->second; i++){
+			m_vPawns[0]->render(it->first.first+i*SPRITE_SIZE*scale,
+								it->first.second-15+i*SPRITE_SIZE*scale);
 		}
 	}
 }
