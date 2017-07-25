@@ -5,8 +5,27 @@
 
 #include "Pawn.h"
 
-class Player{
+#include <map>
+#include <utility>
+using std::map;
+using std::pair;
+
+class Player
+{
 private:
+	// private method to help work with map
+	template<typename Key, typename Value>
+	bool isKeyInMap(map<Key, Value> &theMap, const Key &key);
+
+	template<typename Key, typename Value>
+	void putInMap(map<Key, Value> &theMap, const Key &key,
+			const Value &val);
+
+	template<typename Key, typename Value>
+	Value &getFromMap(map<Key, Value> &theMap, const Key &key);
+
+	template<typename Key, typename Value>
+	void delKeyInMap(map<Key, Value> theMap, const Key &key);
 
 	/// private members
 
@@ -30,7 +49,7 @@ private:
 
 	/// at what position the player finished the game
 	int m_iFinishPosition;
-    
+
 	/// private method which helps to fill
 	/// the vector of the pawns with the necessary info
 	void SetPawnsVector();
@@ -41,7 +60,7 @@ public:
 
 	///Vector of player pawn pointers
 	/// its public so it can be used more efficiently and easy
-	vector< Pawn* > m_vPawns;
+	vector<Pawn*> m_vPawns;
 
 	/// methods
 	/// print all the info for the player
@@ -66,10 +85,10 @@ public:
 
 	int getIDiceRoll() const;
 	void setIDiceRoll(int iDiceRoll);
-    
+
 	int getIFinishPosition() const;
 	void setIFinishPosition(int iFinishPosition);
-    
+
 	Colors getEColor() const;
 	void setEColor(Colors eColor);
 
