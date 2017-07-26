@@ -13,7 +13,7 @@ Pawn::Pawn(Colors c)
 	setEColor(c);
 	setIXPosition(-1);
 	setIYPosition(-1);
-	setIFinished(0);
+	setIFinished(-1);
 	setDScale(1);
 	setBIdle(1);
 	mPlayerSprite.load(PAWN_PATH);
