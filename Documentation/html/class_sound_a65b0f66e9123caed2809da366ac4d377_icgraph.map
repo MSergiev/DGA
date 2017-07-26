@@ -1,8 +1,0 @@
-<map id="Sound::pause" name="Sound::pause">
-<area shape="rect" id="node2" href="$class_controls.html#a74caa6dbdc7ee35dd9b713c1840d1401" title="Controls::eventHandler" alt="" coords="156,21,308,48"/>
-<area shape="rect" id="node3" href="$class_game.html#ae7b37f14614960680b9648cd60cb541e" title="Event handler. " alt="" coords="356,21,495,48"/>
-<area shape="rect" id="node4" href="$class_game.html#a7ad92b77b596d7882a7ae76eb18b5e6c" title="Game loop. " alt="" coords="695,21,785,48"/>
-<area shape="rect" id="node6" href="$class_game.html#a15ddd769261d923827a3cdf41499c843" title="Render assets. " alt="" coords="543,21,644,48"/>
-<area shape="rect" id="node7" href="$main_8cpp.html#a093e27653d363c5a8cacd9a8d61b3c80" title="eventHandler" alt="" coords="692,72,788,99"/>
-<area shape="rect" id="node5" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="836,47,887,73"/>
-</map>

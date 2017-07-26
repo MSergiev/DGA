@@ -1,0 +1,36 @@
+Compiler requirements:
+- Windows: mingw32
+- Linux: g++
+
+Dependencies:
+- SDL2
+- SDL2_image
+- SDL2_ttf
+- SDL2_mixer
+- pugixml
+
+Compilation:
+
+Windows:
+- Download and install Mingw32
+- Donwload the entire SDL2 development package
+- Download and place pugixml into the source folder
+- Run this command in the folder with the source code:
+
+g++ -o ludo.exe main.cpp SDL_Manager.cpp Game.cpp Recovery.cpp Texture.cpp Sprite.cpp Sound.cpp Dice.cpp Player.cpp Pawn.cpp Button.cpp UI.cpp TitleScreen.cpp WinScreen.cpp Info.cpp Controls.cpp pugixml.cpp -IC:\MinGW\include\SDL2 -LC:\MinGW\lib -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf -Wall
+
+(Consider changing the SDL library location, if you have installed it elsewhere)
+
+- Run with "ludo.exe"
+
+Linux:
+- Download pugixml and the entire SDL2 development package with your preferred package manager
+- Run this command in the folder with the source code:
+
+ g++ -o ludo main.cpp SDL_Manager.cpp Game.cpp Recovery.cpp Texture.cpp Sprite.cpp Sound.cpp Dice.cpp Player.cpp Pawn.cpp Button.cpp UI.cpp TitleScreen.cpp WinScreen.cpp Info.cpp Controls.cpp -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf -lpugixml -Wall
+
+OR
+
+- Use the "make" command in the folder of the source code
+
+- Run with "./ludo"

@@ -1,8 +1,0 @@
-<map id="Button::render" name="Button::render">
-<area shape="rect" id="node2" href="$class_controls.html#a4a0443c1da74f4ccc56c3eb0809aee14" title="Render method. " alt="" coords="165,5,280,32"/>
-<area shape="rect" id="node6" href="$class_title_screen.html#a790bebb26543d8a9ce45093020e5dcee" title="Render method. " alt="" coords="336,56,467,83"/>
-<area shape="rect" id="node7" href="$class_win_screen.html#aa9cbc37bc26fce5bfb01883c617eb08a" title="Render method. " alt="" coords="157,107,288,133"/>
-<area shape="rect" id="node3" href="$class_game.html#a15ddd769261d923827a3cdf41499c843" title="Render assets. " alt="" coords="351,5,452,32"/>
-<area shape="rect" id="node4" href="$class_game.html#a7ad92b77b596d7882a7ae76eb18b5e6c" title="Game loop. " alt="" coords="515,56,604,83"/>
-<area shape="rect" id="node5" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="652,56,703,83"/>
-</map>
