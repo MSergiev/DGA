@@ -9,7 +9,7 @@
 #define SOUND_H_
 
 #define SFX_NUM 24
-#define BGM_NUM 1
+#define BGM_NUM 4
 
 #include <iostream>
 #include <SDL2/SDL.h>
@@ -22,7 +22,7 @@ enum SEFFECTS {accend,accend2,boink,boink2,camera,censor,click,DiceRoll
 typing,whisle,whisleSlide,whislewind,whoosh,orchHit
 };
 ///  sorted music  effects
-enum MUSIC{menuS};
+enum MUSIC{menuS,ambient,electric,rock};
 
 class Sound {
 public:

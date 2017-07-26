@@ -161,12 +161,11 @@ void Game::initGame(){
 void Game::eventHandler(){	
 
 	//Keyboard scroll
-	if(mEvent.key.keysym.sym == SDLK_1) transition(BLANK);
-	if(mEvent.key.keysym.sym == SDLK_2) transition(RULES1);
-	if(mEvent.key.keysym.sym == SDLK_3) transition(RULES2);
-	if(mEvent.key.keysym.sym == SDLK_4) transition(TITLE);
-	if(mEvent.key.keysym.sym == SDLK_5) transition(GAME);
-	if(mEvent.key.keysym.sym == SDLK_6) transition(WIN);
+	if(mEvent.key.keysym.sym == SDLK_2) transition(RULES1,1);
+	if(mEvent.key.keysym.sym == SDLK_3) transition(RULES2,1);
+	if(mEvent.key.keysym.sym == SDLK_4) transition(TITLE,1);
+	if(mEvent.key.keysym.sym == SDLK_5) transition(GAME,1);
+	if(mEvent.key.keysym.sym == SDLK_6) transition(WIN,1);
 
 
 	if(mEvent.key.keysym.sym == SDLK_LEFT)miCameraX+=10;
@@ -357,7 +356,7 @@ void Game::turn(Player* p){
 	cout << "Player " << p->getEColor() << " rolled " << p->getIDiceRoll() << endl;
 #endif
                 //Set player roll
-				mDice[mTurnOrder.front()->getEColor()-1]->setDiceResult(6);
+				//mDice[mTurnOrder.front()->getEColor()-1]->setDiceResult(6);
                 p->setIDiceRoll(mDice[p->getEColor()-1]->getDiceResult());
         
                 //Save recovery data
@@ -900,6 +899,8 @@ void Game::transition(Screens to, bool instant){
 		if(instant){
 			miCameraX = coords.first;
 			miCameraY = coords.second;
+			meScreen = to;
+			switchUI();
 			return;
 		}
 		//Assign destination screen as current
@@ -954,7 +955,7 @@ void Game::switchUI(){
 		case RULES2: mActiveUI=&mInfoScreen; break;
 		case TITLE: mActiveUI=&mTitleScreen; break;
 		case GAME: mActiveUI=&mControls; break;
-		case WIN: mActiveUI=&mWinScreen; break;
+		case WIN: mActiveUI=&mWinScreen; mWinScreen.loadData(mTurnOrder); break;
 	}
 }
 
