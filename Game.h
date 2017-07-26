@@ -217,8 +217,14 @@ private:
     ///Args:
     ///int pX - X index
 	///int pY - Y index
-    pair<int, int> getCoords(int pX, int pY);
+    pair<int,int> getCoords(int pX, int pY);
 
+    ///Get screen coordinates for final position
+    ///Args:
+    ///Color c - player color
+	///int pos - position in final vector
+    pair<int,int> getFinalCoords(Colors c, int pos);
+	
 	///Determine if board square is active
 	///Args:
 	///int pX - X index
