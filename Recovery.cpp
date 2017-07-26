@@ -79,6 +79,8 @@ deque<Player*> Recovery::ReadFromXML()
 					pawn.attribute("PosX").as_int());
 			person->m_vPawns[count]->setIYPosition(
 					pawn.attribute("PosY").as_int());
+			person->m_vPawns[count]->setIFinished(
+					pawn.attribute("Finish").as_int());
 			// increment the helper variable
 			count++;
 		}
@@ -166,6 +168,8 @@ void Recovery::WriteXML(deque<Player*> players, bool rolled)
 					players[i]->m_vPawns[j]->getIXPosition();
 			pawn.append_attribute("PosY") =
 					players[i]->m_vPawns[j]->getIYPosition();
+			pawn.append_attribute("Finish") =
+					players[i]->m_vPawns[j]->getIFinished();
 		}
 
 	}

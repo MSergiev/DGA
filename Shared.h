@@ -168,9 +168,9 @@ const pair<int,int> SAFE_SQUARES[PLAYERS][PAWNS]{
 
 ///Final squares on board
 const pair<int,int> FINAL_SQUARES[PLAYERS]{
-	{6,6}, ///YELLOW
+	{7,6}, ///YELLOW
 	{6,7}, ///RED
-	{6,8}  ///BLUE
+	{7,8}  ///BLUE
 };
 
 ///Base squares on board
