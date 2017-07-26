@@ -1,0 +1,44 @@
+<map id="Game::loop" name="Game::loop">
+<area shape="rect" id="node2" href="$class_game.html#ae7b37f14614960680b9648cd60cb541e" title="Event handler. " alt="" coords="352,284,491,311"/>
+<area shape="rect" id="node22" href="$class_game.html#a15ddd769261d923827a3cdf41499c843" title="Render assets. " alt="" coords="165,765,266,792"/>
+<area shape="rect" id="node43" href="$class_win_screen.html#a3f4b622227c4f7a30b2a3c832bf3fe02" title="WinScreen::loadData" alt="" coords="143,816,288,843"/>
+<area shape="rect" id="node3" href="$class_u_i.html#a97103b8a0e03efef48b899f80e4e8fd3" title="UI::eventHandler" alt="" coords="585,335,701,361"/>
+<area shape="rect" id="node4" href="$class_game.html#ab684b380c7d3f3577e2fb80006415297" title="Game data initializing function. " alt="" coords="585,233,702,260"/>
+<area shape="rect" id="node14" href="$class_sound.html#a8d80cc88450b882c5ae3421e5c6122ab" title="Sound::music" alt="" coords="813,335,915,361"/>
+<area shape="rect" id="node16" href="$class_controls.html#a74caa6dbdc7ee35dd9b713c1840d1401" title="Controls::eventHandler" alt="" coords="567,461,719,488"/>
+<area shape="rect" id="node19" href="$class_sound.html#a83e49d6061b559052aba4dc8f3394af1" title="Sound::play" alt="" coords="1036,588,1127,615"/>
+<area shape="rect" id="node21" href="$class_sound.html#a65b0f66e9123caed2809da366ac4d377" title="Sound::pause" alt="" coords="592,284,695,311"/>
+<area shape="rect" id="node5" href="$class_recovery.html#a7014f7dee99148d30257554b0af3cf20" title="returns deque with all the data from the file " alt="" coords="780,132,948,159"/>
+<area shape="rect" id="node13" href="$class_recovery.html#a35b8f963ef54cfe64715a7635080fbcc" title="prints the data " alt="" coords="809,233,919,260"/>
+<area shape="rect" id="node15" href="$class_texture.html#a6363df95fd8348aa7c7bd10bab97dd43" title="Texture::load" alt="" coords="1033,461,1130,488"/>
+<area shape="rect" id="node6" href="$class_player.html#a242dce823208b1ae64b50d930388b118" title="Player::setEColor" alt="" coords="1019,56,1143,83"/>
+<area shape="rect" id="node7" href="$class_player.html#a7512c4fc800f3f87d2d1741638fa7efd" title="Player::setISteps" alt="" coords="1020,107,1143,133"/>
+<area shape="rect" id="node8" href="$class_player.html#af7e0bf1fbb4e137735d981694ba6b182" title="Player::setITaken" alt="" coords="1020,157,1143,184"/>
+<area shape="rect" id="node9" href="$class_player.html#a47c78c33949f6a24a3df85a29f261c8a" title="Player::setILost" alt="" coords="1025,208,1138,235"/>
+<area shape="rect" id="node10" href="$class_player.html#a0c8edc7f355f5546770c76321b9bd3a0" title="Player::setIActivePawns" alt="" coords="1000,284,1163,311"/>
+<area shape="rect" id="node11" href="$class_player.html#a854e5167504baf67ebba071cd43faea5" title="Player::setIFinishPosition" alt="" coords="996,5,1167,32"/>
+<area shape="rect" id="node12" href="$class_player.html#a3d73ba6d3b864629f5ce87af51260a74" title="Player::setIDiceRoll" alt="" coords="1013,385,1149,412"/>
+<area shape="rect" id="node17" href="$class_u_i.html#a0698aff0751a25b5ef3db134d360a768" title="Event debouncer. " alt="" coords="815,385,913,412"/>
+<area shape="rect" id="node18" href="$class_button.html#a636b3ea9e562ce3522ea9e1cdb449672" title="Button::isClicked" alt="" coords="803,537,925,564"/>
+<area shape="rect" id="node20" href="$class_button.html#a2a379b86a8ad82883ae26cbb7f601cbb" title="Button::setTexture" alt="" coords="799,487,929,513"/>
+<area shape="rect" id="node23" href="$class_texture.html#ac8a67c44e92902ae5027ae2886ad5f52" title="Texture::render" alt="" coords="589,791,698,817"/>
+<area shape="rect" id="node24" href="$class_sprite.html#a61e953e2dbe43f44653d984168b9c5b2" title="Sprite::render" alt="" coords="371,841,471,868"/>
+<area shape="rect" id="node26" href="$class_u_i.html#af43a4a8200a17b8329ee89c41c72fb16" title="Render method. " alt="" coords="382,740,461,767"/>
+<area shape="rect" id="node27" href="$class_player.html#a6bc14156fdb011a4100acd869413eaed" title="Player::getIFinishPosition" alt="" coords="336,892,507,919"/>
+<area shape="rect" id="node28" href="$class_player.html#a79b04f1e3752f31650da639b9e61cbcf" title="Player::getEColor" alt="" coords="359,943,483,969"/>
+<area shape="rect" id="node29" href="$class_player.html#aae2cf0efdf56a0bcb830b5155ce6cd5a" title="Player::getIDiceRoll" alt="" coords="353,993,489,1020"/>
+<area shape="rect" id="node30" href="$class_recovery.html#acfaa7eb171ec6e42439296568186a71c" title="puts data in the same file and deletes the previous data " alt="" coords="352,1044,491,1071"/>
+<area shape="rect" id="node31" href="$class_player.html#a1fc6b9afae99b5f8eed399026cd576a9" title="Player::getIActivePawns" alt="" coords="340,1095,503,1121"/>
+<area shape="rect" id="node32" href="$class_pawn.html#a554865157068bf1bcdd9e587d9a12acc" title="Pawn::setBIdle" alt="" coords="367,1145,476,1172"/>
+<area shape="rect" id="node34" href="$class_pawn.html#aaf1b0b73baaf231703a64b37586da35f" title="Pawn::getEColor" alt="" coords="362,1196,481,1223"/>
+<area shape="rect" id="node35" href="$class_pawn.html#a789e7460564805473b97e298e7d23dfb" title="setters &amp; getters " alt="" coords="353,1247,490,1273"/>
+<area shape="rect" id="node36" href="$class_pawn.html#aaadc8eb99387c7c7c9e7292e3f054bd2" title="Pawn::getIYPosition" alt="" coords="352,1297,491,1324"/>
+<area shape="rect" id="node37" href="$class_pawn.html#a9c913b853cb3dc02600d931a539bd1e0" title="Pawn::setBFinished" alt="" coords="352,1348,491,1375"/>
+<area shape="rect" id="node38" href="$class_pawn.html#a8a8162e42531e2d1b6adc1024a6d86aa" title="Pawn::setIXPosition" alt="" coords="353,335,490,361"/>
+<area shape="rect" id="node39" href="$class_pawn.html#ada5cc0cfda198632d0e90b73a1689af5" title="Pawn::setIYPosition" alt="" coords="352,385,491,412"/>
+<area shape="rect" id="node40" href="$class_player.html#aec15a621c53faf436de3e8d686917747" title="setters and getters " alt="" coords="365,436,478,463"/>
+<area shape="rect" id="node41" href="$class_button.html#a2830f27083aea9b757f71a9d8c0cf7f5" title="Button::setSize" alt="" coords="365,487,477,513"/>
+<area shape="rect" id="node42" href="$class_button.html#a04619537f943e2aca59a4ea3c60eaad0" title="Button::setLocation" alt="" coords="354,537,489,564"/>
+<area shape="rect" id="node25" href="$class_texture.html#a2c2b502138a1a1786c4bf74016620885" title="Get image dimensions. " alt="" coords="581,841,706,868"/>
+<area shape="rect" id="node33" href="$class_sprite.html#adda63532ea6259f829452c668fdecba5" title="Sprite::setAnimationFrame" alt="" coords="555,1145,732,1172"/>
+</map>

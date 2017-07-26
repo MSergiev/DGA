@@ -1,0 +1,8 @@
+<map id="Recovery::Print" name="Recovery::Print">
+<area shape="rect" id="node2" href="$class_game.html#ab684b380c7d3f3577e2fb80006415297" title="Game data initializing function. " alt="" coords="164,21,281,48"/>
+<area shape="rect" id="node3" href="$class_game.html#ae7b37f14614960680b9648cd60cb541e" title="Event handler. " alt="" coords="329,21,468,48"/>
+<area shape="rect" id="node4" href="$class_game.html#a7ad92b77b596d7882a7ae76eb18b5e6c" title="Game loop. " alt="" coords="669,21,758,48"/>
+<area shape="rect" id="node6" href="$class_game.html#a15ddd769261d923827a3cdf41499c843" title="Render assets. " alt="" coords="516,21,617,48"/>
+<area shape="rect" id="node7" href="$main_8cpp.html#a093e27653d363c5a8cacd9a8d61b3c80" title="eventHandler" alt="" coords="665,72,761,99"/>
+<area shape="rect" id="node5" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="809,47,860,73"/>
+</map>

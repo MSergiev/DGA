@@ -1,0 +1,25 @@
+<map id="Shared.h" name="Shared.h">
+<area shape="rect" id="node2" href="$_u_i_8h.html" title="UI.h" alt="" coords="249,155,295,181"/>
+<area shape="rect" id="node5" href="$_game_8h.html" title="Game.h" alt="" coords="419,304,487,331"/>
+<area shape="rect" id="node15" href="$_dice_8h.html" title="Dice.h" alt="" coords="504,80,563,107"/>
+<area shape="rect" id="node17" href="$_pawn_8h.html" title="Pawn.h" alt="" coords="601,80,666,107"/>
+<area shape="rect" id="node19" href="$_recovery_8h.html" title="Recovery.h" alt="" coords="778,229,865,256"/>
+<area shape="rect" id="node23" href="$_s_d_l___manager_8h.html" title="SDL_Manager.h" alt="" coords="851,80,965,107"/>
+<area shape="rect" id="node3" href="$_controls_8h.html" title="Controls.h" alt="" coords="89,229,170,256"/>
+<area shape="rect" id="node8" href="$_title_screen_8h.html" title="TitleScreen.h" alt="" coords="272,229,371,256"/>
+<area shape="rect" id="node10" href="$_win_screen_8h.html" title="WinScreen.h" alt="" coords="497,229,594,256"/>
+<area shape="rect" id="node12" href="$_info_8h.html" title="Info.h" alt="" coords="195,229,248,256"/>
+<area shape="rect" id="node14" href="$_u_i_8cpp.html" title="UI.cpp" alt="" coords="5,229,64,256"/>
+<area shape="rect" id="node4" href="$_controls_8cpp.html" title="Controls.cpp" alt="" coords="69,304,163,331"/>
+<area shape="rect" id="node6" href="$_game_8cpp.html" title="Game.cpp" alt="" coords="412,379,495,405"/>
+<area shape="rect" id="node7" href="$main_8cpp.html" title="main.cpp" alt="" coords="745,379,820,405"/>
+<area shape="rect" id="node9" href="$_title_screen_8cpp.html" title="TitleScreen.cpp" alt="" coords="279,304,391,331"/>
+<area shape="rect" id="node11" href="$_win_screen_8cpp.html" title="WinScreen.cpp" alt="" coords="511,304,622,331"/>
+<area shape="rect" id="node13" href="$_info_8cpp.html" title="Info.cpp" alt="" coords="188,304,255,331"/>
+<area shape="rect" id="node16" href="$_dice_8cpp.html" title="Dice.cpp" alt="" coords="497,155,570,181"/>
+<area shape="rect" id="node18" href="$_player_8h.html" title="Player.h" alt="" coords="697,155,767,181"/>
+<area shape="rect" id="node22" href="$_pawn_8cpp.html" title="Pawn.cpp" alt="" coords="594,155,673,181"/>
+<area shape="rect" id="node21" href="$_player_8cpp.html" title="Player.cpp" alt="" coords="670,229,754,256"/>
+<area shape="rect" id="node20" href="$_recovery_8cpp.html" title="Recovery.cpp" alt="" coords="771,304,871,331"/>
+<area shape="rect" id="node24" href="$_s_d_l___manager_8cpp.html" title="SDL_Manager.cpp" alt="" coords="843,155,973,181"/>
+</map>

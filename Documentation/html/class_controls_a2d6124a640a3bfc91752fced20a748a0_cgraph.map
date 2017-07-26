@@ -1,0 +1,4 @@
+<map id="Controls::fadeOut" name="Controls::fadeOut">
+<area shape="rect" id="node2" href="$class_button.html#aedcaf68744faa1e0278c5f7f2d2aed55" title="Button::fadeOut" alt="" coords="176,5,289,32"/>
+<area shape="rect" id="node3" href="$class_texture.html#a378676fa1b2424b809c9cfe2d9030b7a" title="Texture::setAlpha" alt="" coords="337,5,461,32"/>
+</map>

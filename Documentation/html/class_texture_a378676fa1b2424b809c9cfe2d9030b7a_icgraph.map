@@ -1,0 +1,16 @@
+<map id="Texture::setAlpha" name="Texture::setAlpha">
+<area shape="rect" id="node2" href="$class_button.html#acf89b2237e47df60436188ad72b1f6c1" title="Button::fadeIn" alt="" coords="183,132,285,159"/>
+<area shape="rect" id="node11" href="$class_button.html#aedcaf68744faa1e0278c5f7f2d2aed55" title="Button::fadeOut" alt="" coords="177,284,291,311"/>
+<area shape="rect" id="node3" href="$class_button.html#add4daea65a908027aa5a1593305b9656" title="Button::render" alt="" coords="357,208,461,235"/>
+<area shape="rect" id="node7" href="$class_controls.html#ad24051d19aa4067b4d1de22213d034d1" title="Button fade in. " alt="" coords="353,5,465,32"/>
+<area shape="rect" id="node8" href="$class_info.html#a11ecf7f9cb4bea19363198f94fa3853e" title="Button fade in. " alt="" coords="367,56,451,83"/>
+<area shape="rect" id="node9" href="$class_title_screen.html#adf2cb8b6797b0fe54e45fe7bbc71c6d8" title="Button fade in. " alt="" coords="344,107,473,133"/>
+<area shape="rect" id="node10" href="$class_win_screen.html#af7926ce6f4984aee3d9d489ba0604ab7" title="Button fade in. " alt="" coords="345,157,473,184"/>
+<area shape="rect" id="node4" href="$class_controls.html#a4a0443c1da74f4ccc56c3eb0809aee14" title="Render method. " alt="" coords="535,157,649,184"/>
+<area shape="rect" id="node5" href="$class_title_screen.html#a790bebb26543d8a9ce45093020e5dcee" title="Render method. " alt="" coords="527,208,657,235"/>
+<area shape="rect" id="node6" href="$class_win_screen.html#aa9cbc37bc26fce5bfb01883c617eb08a" title="Render method. " alt="" coords="527,259,657,285"/>
+<area shape="rect" id="node12" href="$class_controls.html#a2d6124a640a3bfc91752fced20a748a0" title="Button fade out. " alt="" coords="347,259,470,285"/>
+<area shape="rect" id="node13" href="$class_info.html#a6fd38e38940317341717b533ebd43634" title="Button fade out. " alt="" coords="361,309,456,336"/>
+<area shape="rect" id="node14" href="$class_title_screen.html#a0c98e80ae9866cc84ac92be588291862" title="Button fade out. " alt="" coords="339,360,479,387"/>
+<area shape="rect" id="node15" href="$class_win_screen.html#a4d7b9a1e8f8d589d20af7e9e26579bf5" title="Button fade out. " alt="" coords="339,411,478,437"/>
+</map>

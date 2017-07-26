@@ -1,0 +1,13 @@
+<map id="Game::initGame" name="Game::initGame">
+<area shape="rect" id="node2" href="$class_recovery.html#a7014f7dee99148d30257554b0af3cf20" title="returns deque with all the data from the file " alt="" coords="171,157,339,184"/>
+<area shape="rect" id="node10" href="$class_recovery.html#a35b8f963ef54cfe64715a7635080fbcc" title="prints the data " alt="" coords="199,208,310,235"/>
+<area shape="rect" id="node11" href="$class_sound.html#a8d80cc88450b882c5ae3421e5c6122ab" title="Sound::music" alt="" coords="203,259,306,285"/>
+<area shape="rect" id="node12" href="$class_texture.html#a6363df95fd8348aa7c7bd10bab97dd43" title="Texture::load" alt="" coords="206,309,303,336"/>
+<area shape="rect" id="node3" href="$class_player.html#a242dce823208b1ae64b50d930388b118" title="Player::setEColor" alt="" coords="410,5,534,32"/>
+<area shape="rect" id="node4" href="$class_player.html#a7512c4fc800f3f87d2d1741638fa7efd" title="Player::setISteps" alt="" coords="411,56,533,83"/>
+<area shape="rect" id="node5" href="$class_player.html#af7e0bf1fbb4e137735d981694ba6b182" title="Player::setITaken" alt="" coords="411,107,533,133"/>
+<area shape="rect" id="node6" href="$class_player.html#a47c78c33949f6a24a3df85a29f261c8a" title="Player::setILost" alt="" coords="415,157,529,184"/>
+<area shape="rect" id="node7" href="$class_player.html#a0c8edc7f355f5546770c76321b9bd3a0" title="Player::setIActivePawns" alt="" coords="391,208,553,235"/>
+<area shape="rect" id="node8" href="$class_player.html#a854e5167504baf67ebba071cd43faea5" title="Player::setIFinishPosition" alt="" coords="387,259,557,285"/>
+<area shape="rect" id="node9" href="$class_player.html#a3d73ba6d3b864629f5ce87af51260a74" title="Player::setIDiceRoll" alt="" coords="404,309,540,336"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="UI::debounce" name="UI::debounce">
+<area shape="rect" id="node2" href="$class_controls.html#a74caa6dbdc7ee35dd9b713c1840d1401" title="Controls::eventHandler" alt="" coords="161,21,313,48"/>
+<area shape="rect" id="node8" href="$class_info.html#a050d0e21185feef40167ddc4067f38fd" title="Info::eventHandler" alt="" coords="175,72,299,99"/>
+<area shape="rect" id="node9" href="$class_title_screen.html#a544726a69e942079d1475d60376e32b8" title="TitleScreen::eventHandler" alt="" coords="152,123,321,149"/>
+<area shape="rect" id="node10" href="$class_win_screen.html#ab4740b911bc214273d65ad6f789ab0d2" title="WinScreen::eventHandler" alt="" coords="153,173,321,200"/>
+<area shape="rect" id="node3" href="$class_game.html#ae7b37f14614960680b9648cd60cb541e" title="Event handler. " alt="" coords="369,21,508,48"/>
+<area shape="rect" id="node4" href="$class_game.html#a7ad92b77b596d7882a7ae76eb18b5e6c" title="Game loop. " alt="" coords="709,21,798,48"/>
+<area shape="rect" id="node6" href="$class_game.html#a15ddd769261d923827a3cdf41499c843" title="Render assets. " alt="" coords="556,21,657,48"/>
+<area shape="rect" id="node7" href="$main_8cpp.html#a093e27653d363c5a8cacd9a8d61b3c80" title="eventHandler" alt="" coords="705,72,801,99"/>
+<area shape="rect" id="node5" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="849,47,900,73"/>
+</map>

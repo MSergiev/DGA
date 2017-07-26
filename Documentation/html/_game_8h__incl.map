@@ -1,0 +1,16 @@
+<map id="Game.h" name="Game.h">
+<area shape="rect" id="node6" href="$_shared_8h.html" title="Shared.h" alt="" coords="777,304,852,331"/>
+<area shape="rect" id="node8" href="$_player_8h.html" title="Player.h" alt="" coords="710,155,781,181"/>
+<area shape="rect" id="node16" href="$_sound_8h.html" title="Sound.h" alt="" coords="145,304,215,331"/>
+<area shape="rect" id="node17" href="$_dice_8h.html" title="Dice.h" alt="" coords="363,229,421,256"/>
+<area shape="rect" id="node20" href="$_button_8h.html" title="Button.h" alt="" coords="253,229,323,256"/>
+<area shape="rect" id="node21" href="$_title_screen_8h.html" title="TitleScreen.h" alt="" coords="715,80,813,107"/>
+<area shape="rect" id="node23" href="$_win_screen_8h.html" title="WinScreen.h" alt="" coords="889,80,986,107"/>
+<area shape="rect" id="node27" href="$_info_8h.html" title="Info.h" alt="" coords="531,80,584,107"/>
+<area shape="rect" id="node28" href="$_controls_8h.html" title="Controls.h" alt="" coords="609,80,690,107"/>
+<area shape="rect" id="node29" href="$_recovery_8h.html" title="Recovery.h" alt="" coords="1062,80,1149,107"/>
+<area shape="rect" id="node9" href="$_pawn_8h.html" title="Pawn.h" alt="" coords="637,229,702,256"/>
+<area shape="rect" id="node10" href="$_sprite_8h.html" title="Sprite.h" alt="" coords="636,304,703,331"/>
+<area shape="rect" id="node11" href="$_texture_8h.html" title="Texture.h" alt="" coords="430,379,506,405"/>
+<area shape="rect" id="node22" href="$_u_i_8h.html" title="UI.h" alt="" coords="631,155,676,181"/>
+</map>

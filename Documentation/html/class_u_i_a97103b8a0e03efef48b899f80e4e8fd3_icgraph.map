@@ -1,0 +1,7 @@
+<map id="UI::eventHandler" name="UI::eventHandler">
+<area shape="rect" id="node2" href="$class_game.html#ae7b37f14614960680b9648cd60cb541e" title="Event handler. " alt="" coords="169,21,308,48"/>
+<area shape="rect" id="node3" href="$class_game.html#a7ad92b77b596d7882a7ae76eb18b5e6c" title="Game loop. " alt="" coords="509,21,598,48"/>
+<area shape="rect" id="node5" href="$class_game.html#a15ddd769261d923827a3cdf41499c843" title="Render assets. " alt="" coords="356,21,457,48"/>
+<area shape="rect" id="node6" href="$main_8cpp.html#a093e27653d363c5a8cacd9a8d61b3c80" title="eventHandler" alt="" coords="505,72,601,99"/>
+<area shape="rect" id="node4" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="649,47,700,73"/>
+</map>

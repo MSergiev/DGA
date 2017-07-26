@@ -1,0 +1,11 @@
+<map id="WinScreen::render" name="WinScreen::render">
+<area shape="rect" id="node2" href="$class_button.html#add4daea65a908027aa5a1593305b9656" title="Button::render" alt="" coords="193,119,297,145"/>
+<area shape="rect" id="node6" href="$class_texture.html#ac8a67c44e92902ae5027ae2886ad5f52" title="Texture::render" alt="" coords="364,208,473,235"/>
+<area shape="rect" id="node9" href="$class_texture.html#ab57ecc7ec9ab52c8ce05ebe4f760270b" title="Texture::textLoad" alt="" coords="184,245,307,272"/>
+<area shape="rect" id="node10" href="$class_u_i.html#abb4cb9c0c4be941549501d7d0d086557" title="Get class font. " alt="" coords="202,296,289,323"/>
+<area shape="rect" id="node3" href="$class_button.html#acf89b2237e47df60436188ad72b1f6c1" title="Button::fadeIn" alt="" coords="367,5,470,32"/>
+<area shape="rect" id="node5" href="$class_button.html#aedcaf68744faa1e0278c5f7f2d2aed55" title="Button::fadeOut" alt="" coords="362,56,475,83"/>
+<area shape="rect" id="node7" href="$class_texture.html#a2c2b502138a1a1786c4bf74016620885" title="Get image dimensions. " alt="" coords="356,107,481,133"/>
+<area shape="rect" id="node8" href="$class_texture.html#a23c3c1315267a5521d824982bb8d208c" title="Texture::getHeight" alt="" coords="355,157,483,184"/>
+<area shape="rect" id="node4" href="$class_texture.html#a378676fa1b2424b809c9cfe2d9030b7a" title="Texture::setAlpha" alt="" coords="531,31,655,57"/>
+</map>

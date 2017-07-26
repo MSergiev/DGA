@@ -1,0 +1,10 @@
+<map id="Recovery::ReadFromXML" name="Recovery::ReadFromXML">
+<area shape="rect" id="node2" href="$class_game.html#a6f3a33940524b6ba9d83f627ccb14bbf" title="Game object initializing function. " alt="" coords="239,11,321,37"/>
+<area shape="rect" id="node5" href="$class_game.html#ab684b380c7d3f3577e2fb80006415297" title="Game data initializing function. " alt="" coords="221,87,339,113"/>
+<area shape="rect" id="node3" href="$main_8cpp.html#a02fd73d861ef2e4aabb38c0c9ff82947" title="init" alt="" coords="748,5,787,32"/>
+<area shape="rect" id="node4" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="860,81,911,108"/>
+<area shape="rect" id="node6" href="$class_game.html#ae7b37f14614960680b9648cd60cb541e" title="Event handler. " alt="" coords="387,93,525,120"/>
+<area shape="rect" id="node7" href="$class_game.html#a7ad92b77b596d7882a7ae76eb18b5e6c" title="Game loop. " alt="" coords="723,81,812,108"/>
+<area shape="rect" id="node8" href="$class_game.html#a15ddd769261d923827a3cdf41499c843" title="Render assets. " alt="" coords="573,100,675,127"/>
+<area shape="rect" id="node9" href="$main_8cpp.html#a093e27653d363c5a8cacd9a8d61b3c80" title="eventHandler" alt="" coords="576,151,672,177"/>
+</map>

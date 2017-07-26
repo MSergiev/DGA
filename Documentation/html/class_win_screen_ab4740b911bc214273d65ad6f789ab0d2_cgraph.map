@@ -1,0 +1,5 @@
+<map id="WinScreen::eventHandler" name="WinScreen::eventHandler">
+<area shape="rect" id="node2" href="$class_u_i.html#a0698aff0751a25b5ef3db134d360a768" title="Event debouncer. " alt="" coords="233,5,331,32"/>
+<area shape="rect" id="node3" href="$class_button.html#a636b3ea9e562ce3522ea9e1cdb449672" title="Button::isClicked" alt="" coords="221,56,343,83"/>
+<area shape="rect" id="node4" href="$class_sound.html#a83e49d6061b559052aba4dc8f3394af1" title="Sound::play" alt="" coords="391,56,481,83"/>
+</map>

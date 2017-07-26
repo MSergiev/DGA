@@ -1,0 +1,9 @@
+<map id="TitleScreen::render" name="TitleScreen::render">
+<area shape="rect" id="node2" href="$class_button.html#add4daea65a908027aa5a1593305b9656" title="Button::render" alt="" coords="184,107,288,133"/>
+<area shape="rect" id="node3" href="$class_button.html#acf89b2237e47df60436188ad72b1f6c1" title="Button::fadeIn" alt="" coords="349,5,451,32"/>
+<area shape="rect" id="node5" href="$class_button.html#aedcaf68744faa1e0278c5f7f2d2aed55" title="Button::fadeOut" alt="" coords="343,56,457,83"/>
+<area shape="rect" id="node6" href="$class_texture.html#ac8a67c44e92902ae5027ae2886ad5f52" title="Texture::render" alt="" coords="345,107,455,133"/>
+<area shape="rect" id="node7" href="$class_texture.html#a2c2b502138a1a1786c4bf74016620885" title="Get image dimensions. " alt="" coords="337,157,463,184"/>
+<area shape="rect" id="node8" href="$class_texture.html#a23c3c1315267a5521d824982bb8d208c" title="Texture::getHeight" alt="" coords="336,208,464,235"/>
+<area shape="rect" id="node4" href="$class_texture.html#a378676fa1b2424b809c9cfe2d9030b7a" title="Texture::setAlpha" alt="" coords="512,31,636,57"/>
+</map>

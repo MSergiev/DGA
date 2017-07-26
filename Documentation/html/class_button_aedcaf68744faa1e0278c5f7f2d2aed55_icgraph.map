@@ -1,0 +1,10 @@
+<map id="Button::fadeOut" name="Button::fadeOut">
+<area shape="rect" id="node2" href="$class_button.html#add4daea65a908027aa5a1593305b9656" title="Button::render" alt="" coords="185,56,289,83"/>
+<area shape="rect" id="node6" href="$class_controls.html#a2d6124a640a3bfc91752fced20a748a0" title="Button fade out. " alt="" coords="175,107,298,133"/>
+<area shape="rect" id="node7" href="$class_info.html#a6fd38e38940317341717b533ebd43634" title="Button fade out. " alt="" coords="189,157,284,184"/>
+<area shape="rect" id="node8" href="$class_title_screen.html#a0c98e80ae9866cc84ac92be588291862" title="Button fade out. " alt="" coords="167,208,307,235"/>
+<area shape="rect" id="node9" href="$class_win_screen.html#a4d7b9a1e8f8d589d20af7e9e26579bf5" title="Button fade out. " alt="" coords="167,259,306,285"/>
+<area shape="rect" id="node3" href="$class_controls.html#a4a0443c1da74f4ccc56c3eb0809aee14" title="Render method. " alt="" coords="363,5,477,32"/>
+<area shape="rect" id="node4" href="$class_title_screen.html#a790bebb26543d8a9ce45093020e5dcee" title="Render method. " alt="" coords="355,56,485,83"/>
+<area shape="rect" id="node5" href="$class_win_screen.html#aa9cbc37bc26fce5bfb01883c617eb08a" title="Render method. " alt="" coords="355,107,485,133"/>
+</map>

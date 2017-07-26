@@ -1,0 +1,8 @@
+<map id="Sprite::setAnimationFrame" name="Sprite::setAnimationFrame">
+<area shape="rect" id="node2" href="$class_pawn.html#a08e638f05312bfdbd15203c3c3b57a04" title="Pawn::setEColor" alt="" coords="231,5,349,32"/>
+<area shape="rect" id="node4" href="$class_pawn.html#a554865157068bf1bcdd9e587d9a12acc" title="Pawn::setBIdle" alt="" coords="235,56,345,83"/>
+<area shape="rect" id="node3" href="$class_pawn.html#a4343c2e2f352761837b105851f1c9cd7" title="Pawn::Pawn" alt="" coords="401,5,495,32"/>
+<area shape="rect" id="node5" href="$class_game.html#a15ddd769261d923827a3cdf41499c843" title="Render assets. " alt="" coords="397,56,499,83"/>
+<area shape="rect" id="node6" href="$class_game.html#a7ad92b77b596d7882a7ae76eb18b5e6c" title="Game loop. " alt="" coords="547,56,636,83"/>
+<area shape="rect" id="node7" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="684,56,735,83"/>
+</map>
