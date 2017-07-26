@@ -35,11 +35,15 @@ private:
 	//Pawn final square position
 	int m_iFinished;
 	//Pawn is idle flag
+	// the flag used to say if the pawn walks or sits
 	bool m_bIdle;
 	Colors m_eColor;
 	
 	///Sprite object pointer
 	Sprite mPlayerSprite;
+
+	// method that set the right picture of the pawn
+	void setAnimationFrame();
 
 public:
 	Pawn(Colors c);
