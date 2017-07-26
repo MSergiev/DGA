@@ -63,15 +63,19 @@ Colors Pawn::getEColor() const
 	return m_eColor;
 }
 
+void Pawn::setAnimationFrame()
+{
+	//Initialize frame dimensions
+	SDL_Rect frame = { 0, (m_eColor-1)*SPRITE_SIZE*6+m_bIdle*3*SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE };
+	//Set sprite animation frame
+	mPlayerSprite.setAnimationFrame(frame);
+}
 
 void Pawn::setEColor(Colors eColor)
 {
-	//Initialize frame dimensions
-	SDL_Rect frame = { 0, (eColor-1)*SPRITE_SIZE*6+m_bIdle*3*SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE };
-	//Set sprite animation frame
-	mPlayerSprite.setAnimationFrame(frame);
 	//mPlayerSprite = new Sprite(frame, NUM_OF_FRAMES, ANIMATION_DELAY);
 	m_eColor = eColor;
+	setAnimationFrame();
 }
 
 void Pawn::setIXPosition(int iXPosition)
@@ -93,8 +97,5 @@ void Pawn::setIFinished(int iFinished)
 void Pawn::setBIdle(bool bIdle)
 {
 	m_bIdle = bIdle;
-	//Initialize frame dimensions
-	SDL_Rect frame = { 0, (m_eColor-1)*SPRITE_SIZE*6+m_bIdle*3*SPRITE_SIZE, SPRITE_SIZE, SPRITE_SIZE };
-	//Set sprite animation frame
-	mPlayerSprite.setAnimationFrame(frame);
+	setAnimationFrame();
 }

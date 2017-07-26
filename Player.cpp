@@ -100,11 +100,13 @@ void Player::Render(vector<pair<int, int> > pos)
 
 void Player::Print()
 {
-	cout << "Color: " << getEColor() << endl << "Steps: "
-			<< getISteps() << endl << "Taken: " << getITaken() << endl
-			<< "Lost: " << getILost() << endl << "Active: "
-			<< getIActivePawns() << endl << "Roll: " << getIDiceRoll()
-			<< endl << "Pawn positions:" << endl;
+	cout << "Color: " << getEColor() << endl
+			<< "Steps: " << getISteps() << endl
+			<< "Taken: " << getITaken() << endl
+			<< "Lost: " << getILost() << endl
+			<< "Active: " << getIActivePawns() << endl
+			<< "Roll: " << getIDiceRoll() << endl
+			<< "Pawn positions:" << endl;
 
 	// for every pawn
 	for (unsigned i = 0; i < m_vPawns.size(); i++)
