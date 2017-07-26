@@ -1,6 +1,0 @@
-<map id="UI::loadFont" name="UI::loadFont">
-<area shape="rect" id="node2" href="$class_title_screen.html#a48a5634207165ef0d33ef3c90aa15db8" title="TitleScreen::init" alt="" coords="145,5,257,32"/>
-<area shape="rect" id="node3" href="$class_game.html#a6f3a33940524b6ba9d83f627ccb14bbf" title="Game object initializing function. " alt="" coords="305,5,388,32"/>
-<area shape="rect" id="node4" href="$main_8cpp.html#aee8048628ff2b5c026c9e15acdcaacb8" title="init" alt="" coords="436,5,475,32"/>
-<area shape="rect" id="node5" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="523,5,573,32"/>
-</map>

@@ -1,8 +1,0 @@
-<map id="WinScreen::render" name="WinScreen::render">
-<area shape="rect" id="node2" href="$class_button.html#add4daea65a908027aa5a1593305b9656" title="Button::render" alt="" coords="193,56,297,83"/>
-<area shape="rect" id="node3" href="$class_texture.html#a2b08b7738b271118b3a4f715d6ebb3d5" title="Texture::render" alt="" coords="364,5,473,32"/>
-<area shape="rect" id="node6" href="$class_texture.html#ab57ecc7ec9ab52c8ce05ebe4f760270b" title="Texture::textLoad" alt="" coords="184,107,307,133"/>
-<area shape="rect" id="node7" href="$class_u_i.html#abb4cb9c0c4be941549501d7d0d086557" title="Get class font. " alt="" coords="202,157,289,184"/>
-<area shape="rect" id="node4" href="$class_texture.html#a2c2b502138a1a1786c4bf74016620885" title="Get image dimensions. " alt="" coords="356,56,481,83"/>
-<area shape="rect" id="node5" href="$class_texture.html#a23c3c1315267a5521d824982bb8d208c" title="Texture::getHeight" alt="" coords="355,107,483,133"/>
-</map>
