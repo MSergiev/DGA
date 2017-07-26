@@ -94,28 +94,6 @@ void Player::Render(vector<pair<int, int> > pos)
 
 			//Render pawn
 			it->second[i]->render(coords.first, coords.second);
-			/*
-			if (i < 3)
-			{
-				it->second[i]->render(
-						it->first.first + i * SPRITE_SIZE * scale,
-						it->first.second - 15 + i * SPRITE_SIZE * scale);
-			} else
-			{
-				if (i == 3)
-				{
-					it->second[i]->render(
-							it->first.first,
-							it->first.second
-									+ SPRITE_SIZE * scale);
-				}
-				if (i == 4)
-				{
-					it->second[i]->render(
-							it->first.first + 2 * SPRITE_SIZE * scale,
-							it->first.second - SPRITE_SIZE * scale);
-				}
-			}*/
 		}
 	}
 }

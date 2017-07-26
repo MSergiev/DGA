@@ -303,8 +303,19 @@ void Game::renderSprite(){
         vector<pair<int,int> > pos;
         //Traverse current player pawns
         for(unsigned j = 0; j < mTurnOrder[i]->m_vPawns.size(); ++j){
-                //Get pawn screen coordinates
-                pos.push_back(getCoords(mTurnOrder[i]->m_vPawns[j]->getIXPosition(), mTurnOrder[i]->m_vPawns[j]->getIYPosition()));
+                //If pawn is finished
+                if(mTurnOrder[i]->m_vPawns[j]->getBFinished()){
+					//Traverse player final vector
+					for(unsigned k = 0; i < mBoardVector[FINAL_SQUARES[mTurnOrder[i]->getEColor()-1].first][FINAL_SQUARES[mTurnOrder[i]->getEColor()-1].second].size(); ++k){
+						//If final pawn is the same as the current pawn
+						if(mBoardVector[FINAL_SQUARES[mTurnOrder[i]->getEColor()-1].first][FINAL_SQUARES[mTurnOrder[i]->getEColor()-1].second][k]==mTurnOrder[i]->m_vPawns[j]){
+							//Get final screen coordinates
+							pos.push_back(getFinalCoords(mTurnOrder[i]->getEColor(), k));
+						}
+					}
+				}	
+				//Get screen coordinates
+				else pos.push_back(getCoords(mTurnOrder[i]->m_vPawns[j]->getIXPosition(), mTurnOrder[i]->m_vPawns[j]->getIYPosition()));
         }
         //Render pawns
         mTurnOrder[i]->Render(pos);
@@ -825,7 +836,7 @@ void Game::activatePawn(Player * p){
 
 
 //Get world coordinates from array index
-pair<int, int> Game::getCoords(int pX, int pY){
+pair<int,int> Game::getCoords(int pX, int pY){
     
 #ifdef DEBUG
 	//cout << "GetCoords called with " << c << " " << p <<endl;
@@ -835,7 +846,10 @@ pair<int, int> Game::getCoords(int pX, int pY){
 	return pair<int,int> {pX*SQUARE_SIZE+X_OFF, pY*SQUARE_SIZE+Y_OFF};	
 }
 
-
+//Get screen coordinates for final vector
+pair<int,int> Game::getFinalCoords(Colors c, int pos){
+	return pair<int,int> {FINAL_SQUARES[c-1].first+15*pos, FINAL_SQUARES[c-1].second};
+}
 
 
 //Determine if board square is active

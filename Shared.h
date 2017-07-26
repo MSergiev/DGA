@@ -43,7 +43,7 @@ extern bool quit;
 
 ///Win screen data spacing
 #define WIN_X_OFF 135
-#define WIN_Y_OFF 325
+#define WIN_Y_OFF 335
 #define WIN_X_DATA 130
 #define WIN_Y_DATA 50
 #define WIN_SHADOW_OFF 4
@@ -168,9 +168,9 @@ const pair<int,int> SAFE_SQUARES[PLAYERS][PAWNS]{
 
 ///Final squares on board
 const pair<int,int> FINAL_SQUARES[PLAYERS]{
-	{7,6}, ///YELLOW
+	{6,6}, ///YELLOW
 	{6,7}, ///RED
-	{7,8}  ///BLUE
+	{6,8}  ///BLUE
 };
 
 ///Base squares on board
@@ -257,8 +257,8 @@ const pair<int,int> DICE_POS[]{
 #define TITLE_START 0b100
 #define TITLE_CONTINUE 0b010
 #define TITLE_QUIT 0b001
-#define WIN_RESTART 0b01
-#define WIN_QUIT 0b10
+#define WIN_RESTART 0b10
+#define WIN_QUIT 0b01
 #define CONTROLS_SOUND 0b100
 #define CONTROLS_RULES 0b010
 #define CONTROLS_QUIT 0b001
