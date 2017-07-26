@@ -1,0 +1,9 @@
+<map id="Recovery::ReadFromXML" name="Recovery::ReadFromXML">
+<area shape="rect" id="node2" href="$class_player.html#a242dce823208b1ae64b50d930388b118" title="Player::setEColor" alt="" coords="245,5,369,32"/>
+<area shape="rect" id="node3" href="$class_player.html#a7512c4fc800f3f87d2d1741638fa7efd" title="Player::setISteps" alt="" coords="245,56,368,83"/>
+<area shape="rect" id="node4" href="$class_player.html#af7e0bf1fbb4e137735d981694ba6b182" title="Player::setITaken" alt="" coords="245,107,368,133"/>
+<area shape="rect" id="node5" href="$class_player.html#a47c78c33949f6a24a3df85a29f261c8a" title="Player::setILost" alt="" coords="250,157,363,184"/>
+<area shape="rect" id="node6" href="$class_player.html#a0c8edc7f355f5546770c76321b9bd3a0" title="Player::setIActivePawns" alt="" coords="225,208,388,235"/>
+<area shape="rect" id="node7" href="$class_player.html#a854e5167504baf67ebba071cd43faea5" title="Player::setIFinishPosition" alt="" coords="221,259,392,285"/>
+<area shape="rect" id="node8" href="$class_player.html#a3d73ba6d3b864629f5ce87af51260a74" title="Player::setIDiceRoll" alt="" coords="239,309,375,336"/>
+</map>

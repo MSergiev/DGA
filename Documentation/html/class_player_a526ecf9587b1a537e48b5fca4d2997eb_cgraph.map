@@ -1,0 +1,8 @@
+<map id="Player::Print" name="Player::Print">
+<area shape="rect" id="node2" href="$class_player.html#a79b04f1e3752f31650da639b9e61cbcf" title="Player::getEColor" alt="" coords="167,5,291,32"/>
+<area shape="rect" id="node3" href="$class_player.html#af3177dadb95d7f4713357da2ee750736" title="Player::getISteps" alt="" coords="168,56,291,83"/>
+<area shape="rect" id="node4" href="$class_player.html#afadc1013a3b98f884f08b28a5ef0f7e2" title="Player::getITaken" alt="" coords="168,107,291,133"/>
+<area shape="rect" id="node5" href="$class_player.html#aec15a621c53faf436de3e8d686917747" title="setters and getters " alt="" coords="173,157,286,184"/>
+<area shape="rect" id="node6" href="$class_player.html#a1fc6b9afae99b5f8eed399026cd576a9" title="Player::getIActivePawns" alt="" coords="148,208,311,235"/>
+<area shape="rect" id="node7" href="$class_player.html#aae2cf0efdf56a0bcb830b5155ce6cd5a" title="Player::getIDiceRoll" alt="" coords="161,259,297,285"/>
+</map>

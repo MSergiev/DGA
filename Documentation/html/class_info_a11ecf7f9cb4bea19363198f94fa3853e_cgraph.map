@@ -1,0 +1,4 @@
+<map id="Info::fadeIn" name="Info::fadeIn">
+<area shape="rect" id="node2" href="$class_button.html#acf89b2237e47df60436188ad72b1f6c1" title="Button::fadeIn" alt="" coords="137,5,240,32"/>
+<area shape="rect" id="node3" href="$class_texture.html#a378676fa1b2424b809c9cfe2d9030b7a" title="Texture::setAlpha" alt="" coords="288,5,412,32"/>
+</map>

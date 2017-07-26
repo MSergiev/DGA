@@ -1,0 +1,9 @@
+<map id="TitleScreen::init" name="TitleScreen::init">
+<area shape="rect" id="node2" href="$class_u_i.html#a7a27eeeaca7f8589a5a6b08e736e4868" title="UI::loadBackground" alt="" coords="165,5,300,32"/>
+<area shape="rect" id="node4" href="$class_u_i.html#aff27d0ca7644ae3d88929a07c0419ef5" title="UI::loadFont" alt="" coords="187,56,279,83"/>
+<area shape="rect" id="node5" href="$class_button.html#a2a379b86a8ad82883ae26cbb7f601cbb" title="Button::setTexture" alt="" coords="168,107,297,133"/>
+<area shape="rect" id="node6" href="$class_button.html#a2830f27083aea9b757f71a9d8c0cf7f5" title="Button::setSize" alt="" coords="177,157,289,184"/>
+<area shape="rect" id="node7" href="$class_button.html#accf4057df0b04b3ae6fe3ae2062aeac3" title="Button::setSFX" alt="" coords="177,208,288,235"/>
+<area shape="rect" id="node8" href="$class_button.html#a04619537f943e2aca59a4ea3c60eaad0" title="Button::setLocation" alt="" coords="165,259,300,285"/>
+<area shape="rect" id="node3" href="$class_texture.html#a6363df95fd8348aa7c7bd10bab97dd43" title="Texture::load" alt="" coords="348,56,445,83"/>
+</map>

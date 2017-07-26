@@ -1,0 +1,1 @@
+g++ -o ludo.exe main.cpp SDL_Manager.cpp Game.cpp Recovery.cpp Texture.cpp Sprite.cpp Sound.cpp Dice.cpp Player.cpp Pawn.cpp Button.cpp UI.cpp TitleScreen.cpp WinScreen.cpp Info.cpp Controls.cpp pugixml.cpp -IC:\MinGW\include\SDL2 -LC:\MinGW\lib -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf -Wall

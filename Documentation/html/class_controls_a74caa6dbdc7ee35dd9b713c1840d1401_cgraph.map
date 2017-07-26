@@ -1,0 +1,7 @@
+<map id="Controls::eventHandler" name="Controls::eventHandler">
+<area shape="rect" id="node2" href="$class_u_i.html#a0698aff0751a25b5ef3db134d360a768" title="Event debouncer. " alt="" coords="221,5,319,32"/>
+<area shape="rect" id="node3" href="$class_button.html#a636b3ea9e562ce3522ea9e1cdb449672" title="Button::isClicked" alt="" coords="209,56,331,83"/>
+<area shape="rect" id="node5" href="$class_button.html#a2a379b86a8ad82883ae26cbb7f601cbb" title="Button::setTexture" alt="" coords="205,107,335,133"/>
+<area shape="rect" id="node4" href="$class_sound.html#a83e49d6061b559052aba4dc8f3394af1" title="Sound::play" alt="" coords="386,56,477,83"/>
+<area shape="rect" id="node6" href="$class_texture.html#a6363df95fd8348aa7c7bd10bab97dd43" title="Texture::load" alt="" coords="383,107,480,133"/>
+</map>

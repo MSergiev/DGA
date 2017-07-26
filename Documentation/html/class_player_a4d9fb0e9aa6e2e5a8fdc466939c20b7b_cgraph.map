@@ -1,0 +1,6 @@
+<map id="Player::Player" name="Player::Player">
+<area shape="rect" id="node2" href="$class_player.html#a0c8edc7f355f5546770c76321b9bd3a0" title="Player::setIActivePawns" alt="" coords="161,5,324,32"/>
+<area shape="rect" id="node3" href="$class_player.html#a3d73ba6d3b864629f5ce87af51260a74" title="Player::setIDiceRoll" alt="" coords="175,56,311,83"/>
+<area shape="rect" id="node4" href="$class_player.html#a854e5167504baf67ebba071cd43faea5" title="Player::setIFinishPosition" alt="" coords="157,107,328,133"/>
+<area shape="rect" id="node5" href="$class_player.html#a242dce823208b1ae64b50d930388b118" title="Player::setEColor" alt="" coords="181,157,305,184"/>
+</map>

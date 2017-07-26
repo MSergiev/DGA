@@ -1,0 +1,23 @@
+<map id="Game::init" name="Game::init">
+<area shape="rect" id="node2" href="$class_texture.html#a6363df95fd8348aa7c7bd10bab97dd43" title="Texture::load" alt="" coords="571,28,668,54"/>
+<area shape="rect" id="node3" href="$class_title_screen.html#a48a5634207165ef0d33ef3c90aa15db8" title="TitleScreen::init" alt="" coords="164,129,276,156"/>
+<area shape="rect" id="node10" href="$class_u_i.html#a5089c13e453888a2455dfe3d94821ee6" title="UI::setFont" alt="" coords="177,332,263,358"/>
+<area shape="rect" id="node11" href="$class_win_screen.html#a89726940a71a00edf9df0d02a769076f" title="WinScreen::init" alt="" coords="165,180,275,206"/>
+<area shape="rect" id="node12" href="$class_info.html#ae3b89f966611fd4e6e5b882a605d4f0f" title="Info::init" alt="" coords="187,281,253,308"/>
+<area shape="rect" id="node13" href="$class_controls.html#ac67381fdeb079095e9b28314e6b38a4b" title="UI initializing method. " alt="" coords="173,230,267,257"/>
+<area shape="rect" id="node14" href="$class_recovery.html#a7014f7dee99148d30257554b0af3cf20" title="returns deque with all the data from the file " alt="" coords="136,433,304,460"/>
+<area shape="rect" id="node22" href="$class_title_screen.html#abfe408c8faa7cfee29899412aa39d5db" title="TitleScreen::setContinue" alt="" coords="138,484,302,510"/>
+<area shape="rect" id="node4" href="$class_u_i.html#a7a27eeeaca7f8589a5a6b08e736e4868" title="UI::loadBackground" alt="" coords="370,28,505,54"/>
+<area shape="rect" id="node5" href="$class_u_i.html#aff27d0ca7644ae3d88929a07c0419ef5" title="UI::loadFont" alt="" coords="391,78,483,105"/>
+<area shape="rect" id="node6" href="$class_button.html#a2a379b86a8ad82883ae26cbb7f601cbb" title="Button::setTexture" alt="" coords="373,129,502,156"/>
+<area shape="rect" id="node7" href="$class_button.html#a2830f27083aea9b757f71a9d8c0cf7f5" title="Button::setSize" alt="" coords="381,180,493,206"/>
+<area shape="rect" id="node8" href="$class_button.html#accf4057df0b04b3ae6fe3ae2062aeac3" title="Button::setSFX" alt="" coords="382,230,493,257"/>
+<area shape="rect" id="node9" href="$class_button.html#a04619537f943e2aca59a4ea3c60eaad0" title="Button::setLocation" alt="" coords="370,281,505,308"/>
+<area shape="rect" id="node15" href="$class_player.html#a242dce823208b1ae64b50d930388b118" title="Player::setEColor" alt="" coords="375,332,499,358"/>
+<area shape="rect" id="node16" href="$class_player.html#a7512c4fc800f3f87d2d1741638fa7efd" title="Player::setISteps" alt="" coords="376,382,499,409"/>
+<area shape="rect" id="node17" href="$class_player.html#af7e0bf1fbb4e137735d981694ba6b182" title="Player::setITaken" alt="" coords="376,433,499,460"/>
+<area shape="rect" id="node18" href="$class_player.html#a47c78c33949f6a24a3df85a29f261c8a" title="Player::setILost" alt="" coords="381,484,494,510"/>
+<area shape="rect" id="node19" href="$class_player.html#a0c8edc7f355f5546770c76321b9bd3a0" title="Player::setIActivePawns" alt="" coords="356,534,519,561"/>
+<area shape="rect" id="node20" href="$class_player.html#a854e5167504baf67ebba071cd43faea5" title="Player::setIFinishPosition" alt="" coords="352,585,523,612"/>
+<area shape="rect" id="node21" href="$class_player.html#a3d73ba6d3b864629f5ce87af51260a74" title="Player::setIDiceRoll" alt="" coords="369,636,505,662"/>
+</map>

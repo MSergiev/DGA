@@ -1,0 +1,4 @@
+<map id="Sprite::Sprite" name="Sprite::Sprite">
+<area shape="rect" id="node2" href="$class_sprite.html#a62627f3bbd3d1c0d0b331fa90b11c54f" title="Sprite::setNumOfFrames" alt="" coords="155,5,322,32"/>
+<area shape="rect" id="node3" href="$class_sprite.html#ac351b68e6755a8c78bf6fa7bbce5393b" title="Sprite::setAnimationDelay" alt="" coords="152,56,325,83"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="Pawn::Pawn" name="Pawn::Pawn">
+<area shape="rect" id="node2" href="$class_pawn.html#a08e638f05312bfdbd15203c3c3b57a04" title="Pawn::setEColor" alt="" coords="158,5,277,32"/>
+<area shape="rect" id="node4" href="$class_pawn.html#a8a8162e42531e2d1b6adc1024a6d86aa" title="Pawn::setIXPosition" alt="" coords="149,56,286,83"/>
+<area shape="rect" id="node5" href="$class_pawn.html#ada5cc0cfda198632d0e90b73a1689af5" title="Pawn::setIYPosition" alt="" coords="148,107,287,133"/>
+<area shape="rect" id="node6" href="$class_pawn.html#a9c913b853cb3dc02600d931a539bd1e0" title="Pawn::setBFinished" alt="" coords="148,157,287,184"/>
+<area shape="rect" id="node7" href="$class_pawn.html#a051d1e3e2975de20f77c4594d45fed66" title="Pawn::setDScale" alt="" coords="156,208,279,235"/>
+<area shape="rect" id="node8" href="$class_pawn.html#a554865157068bf1bcdd9e587d9a12acc" title="Pawn::setBIdle" alt="" coords="163,259,272,285"/>
+<area shape="rect" id="node9" href="$class_texture.html#a6363df95fd8348aa7c7bd10bab97dd43" title="Texture::load" alt="" coords="169,309,266,336"/>
+<area shape="rect" id="node3" href="$class_sprite.html#adda63532ea6259f829452c668fdecba5" title="Sprite::setAnimationFrame" alt="" coords="335,132,512,159"/>
+</map>

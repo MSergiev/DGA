@@ -58,8 +58,12 @@ bool Sound::load(){
 			success = false;
 		}
 	}
-	mus[0] = Mix_LoadMUS("./BGM/menuS.mp3");
 
+	mus[0] = Mix_LoadMUS("./BGM/menuS.mp3");
+	mus[1] = Mix_LoadMUS("./BGM/ambient.wav");
+	mus[2] = Mix_LoadMUS("./BGM/electric.wav");
+	mus[3] = Mix_LoadMUS("./BGM/rock.wav");
+	
 	//gives error if  the the music is NOT loaded correctly.
 	for(int i = 0; i < BGM_NUM; ++i){
 			if(mus[i]==NULL){
@@ -177,12 +181,20 @@ void Sound::music(MUSIC music){
 		if(Mix_PlayingMusic()){
 			Mix_ResumeMusic();
 		}else {
+		Mix_VolumeMusic(64);
 		switch(music){
 			case menuS:
 				Mix_PlayMusic(mus[0], -1);
 				break;
-
-	
+			case ambient:
+				Mix_PlayMusic(mus[1], -1);
+				break;
+			case electric:
+				Mix_PlayMusic(mus[2], -1);
+				break;
+			case rock:
+				Mix_PlayMusic(mus[3], -1);
+				break;
 		}
 		}
 	}

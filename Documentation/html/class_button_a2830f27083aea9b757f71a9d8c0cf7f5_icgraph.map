@@ -1,0 +1,11 @@
+<map id="Button::setSize" name="Button::setSize">
+<area shape="rect" id="node2" href="$class_controls.html#ac67381fdeb079095e9b28314e6b38a4b" title="UI initializing method. " alt="" coords="174,5,269,32"/>
+<area shape="rect" id="node6" href="$class_game.html#a15ddd769261d923827a3cdf41499c843" title="Render assets. " alt="" coords="325,201,427,228"/>
+<area shape="rect" id="node8" href="$class_info.html#ae3b89f966611fd4e6e5b882a605d4f0f" title="Info::init" alt="" coords="188,56,255,83"/>
+<area shape="rect" id="node9" href="$class_title_screen.html#a48a5634207165ef0d33ef3c90aa15db8" title="TitleScreen::init" alt="" coords="165,107,277,133"/>
+<area shape="rect" id="node10" href="$class_win_screen.html#a89726940a71a00edf9df0d02a769076f" title="WinScreen::init" alt="" coords="166,157,277,184"/>
+<area shape="rect" id="node3" href="$class_game.html#a6f3a33940524b6ba9d83f627ccb14bbf" title="Game object initializing function. " alt="" coords="335,107,417,133"/>
+<area shape="rect" id="node4" href="$main_8cpp.html#a02fd73d861ef2e4aabb38c0c9ff82947" title="init" alt="" coords="500,132,539,159"/>
+<area shape="rect" id="node5" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="612,164,663,191"/>
+<area shape="rect" id="node7" href="$class_game.html#a7ad92b77b596d7882a7ae76eb18b5e6c" title="Game loop. " alt="" coords="475,195,564,221"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="UI::loadBackground" name="UI::loadBackground">
+<area shape="rect" id="node2" href="$class_title_screen.html#a48a5634207165ef0d33ef3c90aa15db8" title="TitleScreen::init" alt="" coords="188,5,300,32"/>
+<area shape="rect" id="node3" href="$class_game.html#a6f3a33940524b6ba9d83f627ccb14bbf" title="Game object initializing function. " alt="" coords="348,5,431,32"/>
+<area shape="rect" id="node4" href="$main_8cpp.html#a02fd73d861ef2e4aabb38c0c9ff82947" title="init" alt="" coords="479,5,517,32"/>
+<area shape="rect" id="node5" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="565,5,616,32"/>
+</map>
