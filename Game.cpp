@@ -98,9 +98,6 @@ void Game::init(){
 	mbIgnoreRecovery = !(Recovery::ReadFromXML().size()>0);
 	mTitleScreen.setContinue(!mbIgnoreRecovery);
 
-	//Set active UI
-	mActiveUI = &mTitleScreen;
-
 	//Set current screen
 	transition(TITLE);
 }
@@ -131,8 +128,15 @@ void Game::initGame(){
 	//Set player data
 		for(unsigned i = 0; i < mTurnOrder.size(); ++i){
 			for(unsigned j = 0; j < mTurnOrder[i]->m_vPawns.size(); ++j){
-				//Place pawns on board
-				mBoardVector[mTurnOrder[i]->m_vPawns[j]->getIXPosition()][mTurnOrder[i]->m_vPawns[j]->getIYPosition()].push_back(mTurnOrder[i]->m_vPawns[j]);
+				//If current pawn has finished
+				if(mTurnOrder[i]->m_vPawns[j]->getIFinished()>=0){
+					//Delete pawn placeholder
+					delete mBoardVector[mTurnOrder[i]->m_vPawns[j]->getIXPosition()][mTurnOrder[i]->m_vPawns[j]->getIYPosition()][mTurnOrder[i]->m_vPawns[j]->getIFinished()];
+					//Place new pawn
+					mBoardVector[mTurnOrder[i]->m_vPawns[j]->getIXPosition()][mTurnOrder[i]->m_vPawns[j]->getIYPosition()][mTurnOrder[i]->m_vPawns[j]->getIFinished()] = mTurnOrder[i]->m_vPawns[j];
+				} 
+				//If current pawn is on the active field
+				else mBoardVector[mTurnOrder[i]->m_vPawns[j]->getIXPosition()][mTurnOrder[i]->m_vPawns[j]->getIYPosition()].push_back(mTurnOrder[i]->m_vPawns[j]);
 			}
 			mDice[mTurnOrder[i]->getEColor()-1]->setDiceResult(mTurnOrder[i]->getIDiceRoll());
 			mDice[i]->setDiceResult(mTurnOrder[i]->getIDiceRoll());
@@ -161,11 +165,18 @@ void Game::initGame(){
 void Game::eventHandler(){	
 
 	//Keyboard scroll
-	if(mEvent.key.keysym.sym == SDLK_2) transition(RULES1,1);
-	if(mEvent.key.keysym.sym == SDLK_3) transition(RULES2,1);
-	if(mEvent.key.keysym.sym == SDLK_4) transition(TITLE,1);
-	if(mEvent.key.keysym.sym == SDLK_5) transition(GAME,1);
-	if(mEvent.key.keysym.sym == SDLK_6) transition(WIN,1);
+	if(mEvent.key.keysym.sym == SDLK_1){ mbRoll=0; mDice[mTurnOrder.front()->getEColor()-1]->setDiceResult(1); };
+	if(mEvent.key.keysym.sym == SDLK_2){ mbRoll=0; mDice[mTurnOrder.front()->getEColor()-1]->setDiceResult(2); };
+	if(mEvent.key.keysym.sym == SDLK_3){ mbRoll=0; mDice[mTurnOrder.front()->getEColor()-1]->setDiceResult(3); };
+	if(mEvent.key.keysym.sym == SDLK_4){ mbRoll=0; mDice[mTurnOrder.front()->getEColor()-1]->setDiceResult(4); };
+	if(mEvent.key.keysym.sym == SDLK_5){ mbRoll=0; mDice[mTurnOrder.front()->getEColor()-1]->setDiceResult(5); };
+	if(mEvent.key.keysym.sym == SDLK_6){ mbRoll=0; mDice[mTurnOrder.front()->getEColor()-1]->setDiceResult(6); };
+	
+	if(mEvent.key.keysym.sym == SDLK_q) transition(RULES2,1);
+	if(mEvent.key.keysym.sym == SDLK_w) transition(RULES1,1);
+	if(mEvent.key.keysym.sym == SDLK_e) transition(TITLE,1);
+	if(mEvent.key.keysym.sym == SDLK_r) transition(GAME,1);
+	if(mEvent.key.keysym.sym == SDLK_t) transition(WIN,1);
 
 
 	if(mEvent.key.keysym.sym == SDLK_LEFT)miCameraX+=10;
@@ -188,15 +199,14 @@ void Game::eventHandler(){
 		   }
 			//If on second screen
 		   	else {
-			transition(RULES1,1);
+			transition(RULES1);
 		   }
 		}
 		//If next is clicked
 		else if(rulesState&RULES_NEXT) {
 			//If on first screen
 		   	if(meScreen == RULES1){	
-				//If animated
-				transition(RULES2,1);
+				transition(RULES2);
 		   }
 			//If on second screen
 		   	else {
@@ -266,6 +276,12 @@ void Game::eventHandler(){
 
 
 
+
+
+
+
+
+
 //Render all assets
 void Game::render(){
 
@@ -304,12 +320,12 @@ void Game::renderSprite(){
         //Traverse current player pawns
         for(unsigned j = 0; j < mTurnOrder[i]->m_vPawns.size(); ++j){
                 //If pawn is finished
-                if(mTurnOrder[i]->m_vPawns[j]->getIFinished()){
+				//cout << "Pawn finish state: " << mTurnOrder[i]->m_vPawns[j]->getIFinished() << endl;
+                if(mTurnOrder[i]->m_vPawns[j]->getIFinished()>=0){
 					//Traverse player final vector
 					for(unsigned k = 0; i < mBoardVector[FINAL_SQUARES[mTurnOrder[i]->getEColor()-1].first][FINAL_SQUARES[mTurnOrder[i]->getEColor()-1].second].size(); ++k){
 						//If final pawn is the same as the current pawn
 						if(mBoardVector[FINAL_SQUARES[mTurnOrder[i]->getEColor()-1].first][FINAL_SQUARES[mTurnOrder[i]->getEColor()-1].second][k]==mTurnOrder[i]->m_vPawns[j]){
-							cout << "Found" << endl;
 							//Get final screen coordinates
 							pos.push_back(getFinalCoords(mTurnOrder[i]->getEColor(), k));
 							break;
@@ -369,7 +385,7 @@ void Game::turn(Player* p){
 	cout << "Player " << p->getEColor() << " rolled " << p->getIDiceRoll() << endl;
 #endif
                 //Set player roll
-				mDice[mTurnOrder.front()->getEColor()-1]->setDiceResult(5);
+				//mDice[mTurnOrder.front()->getEColor()-1]->setDiceResult(5);
                 p->setIDiceRoll(mDice[p->getEColor()-1]->getDiceResult());
         
                 //Save recovery data
@@ -581,7 +597,7 @@ void Game::movePawn(Pawn * p, int with){
 #endif
 
 	//If pawn has finished
-	if(p->getIFinished()>0) return;
+	if(p->getIFinished()>=0) return;
 	//Use safe zone directions flag
 	bool useSafe = 0;
 	//Is on final square flag
@@ -589,16 +605,12 @@ void Game::movePawn(Pawn * p, int with){
 
 	//New pawn position container
 	pair<int,int> newPos = {p->getIXPosition(), p->getIYPosition()};
-	//Remaining moves
-	int remainder = 0;
 	//Calculate new position
 	for(int i = 0; i < with; ++i){
 
 		//If final square is reached
 		if(isFinal(newPos.first, newPos.second, p->getEColor())){
 			cout << "Final square" << endl;
-			//Get remaining moves
-			remainder = with-i;
 			finished = 1;
 			break;
 		}
@@ -629,16 +641,16 @@ void Game::movePawn(Pawn * p, int with){
 	//If on final squares
    	else if(finished){
 		//If final space is occupied
-		if(mBoardVector[FINAL_SQUARES[p->getEColor()-1].first][FINAL_SQUARES[p->getEColor()-1].second][remainder-1]->getEColor()!=NONE)
+		if(mBoardVector[FINAL_SQUARES[p->getEColor()-1].first][FINAL_SQUARES[p->getEColor()-1].second][miRemaining]->getEColor()!=NONE)
 			return;
 		//If final space is unoccupied
 		else{
 			//Delete pawn placeholder
-			delete mBoardVector[FINAL_SQUARES[p->getEColor()-1].first][FINAL_SQUARES[p->getEColor()-1].second][remainder-1];
+			delete mBoardVector[FINAL_SQUARES[p->getEColor()-1].first][FINAL_SQUARES[p->getEColor()-1].second][miRemaining];
 			//Set pawn finish position
-			p->setIFinished(remainder-1);
+			p->setIFinished(miRemaining);
 			//Place pawn in final vector
-			mBoardVector[FINAL_SQUARES[p->getEColor()-1].first][FINAL_SQUARES[p->getEColor()-1].second][remainder-1] = p;	
+			mBoardVector[FINAL_SQUARES[p->getEColor()-1].first][FINAL_SQUARES[p->getEColor()-1].second][miRemaining] = p;	
 			//Decrease player active counter
 			mTurnOrder.front()->setIActivePawns(mTurnOrder.front()->getIActivePawns()-1);
 			//Lower move flag
@@ -646,7 +658,7 @@ void Game::movePawn(Pawn * p, int with){
 			miRemaining = 0;
 
 #ifdef DEBUG
-			cout << "Pawn finished" << endl;
+			cout << "Pawn finished with " << p->getIFinished() << " remaining" << endl;
 #endif
 		}
 	}
@@ -662,7 +674,7 @@ void Game::movePawn(Pawn * p, int with){
 	p->setIXPosition(newPos.first);
 	p->setIYPosition(newPos.second);
 	//Add roll to player step count
-	mTurnOrder.front()->setISteps(mTurnOrder.front()->getISteps()+(with-remainder));
+	mTurnOrder.front()->setISteps(mTurnOrder.front()->getISteps()+with);
 	//Set as new moving pawn
 	if(mbMove) mMovingPawn = mBoardVector[newPos.first][newPos.second].back();
 
@@ -856,11 +868,13 @@ pair<int,int> Game::getCoords(int pX, int pY){
 //Get screen coordinates for final vector
 pair<int,int> Game::getFinalCoords(Colors c, int pos){ 
 #ifdef DEBUG
-	cout << "GetFnalCoords called with " << c << " " << pos <<endl;
+	//cout << "GetFnalCoords called with " << c << " " << pos <<endl;
 #endif
 	//Coordinate holder
 	pair<int,int> coords = getCoords(FINAL_SQUARES[c-1].first, FINAL_SQUARES[c-1].second);
-	coords.first+=15*pos;
+	if(c==YELLOW || c==BLUE) coords.first-=SQUARE_SIZE;
+	coords.first+=(pos)*SQUARE_SIZE*0.65;
+	coords.second+=10;
 	return coords;
 }
 
@@ -905,7 +919,7 @@ bool Game::isEntry(int pX, int pY, Colors c){
 //Determine if player has finished
 bool Game::hasFinished(Player* p){
 	for(unsigned i = 0; i < p->m_vPawns.size(); ++i)
-		if(!p->m_vPawns[i]->getIFinished()) return 0;
+		if(p->m_vPawns[i]->getIFinished()<0) return 0;
 	return 1;
 }
 
@@ -969,7 +983,6 @@ void Game::transition(Screens to, bool instant){
 		mbTransition = 0;
 		//Switch UI
 		switchUI();
-		
 	}
 }
 
