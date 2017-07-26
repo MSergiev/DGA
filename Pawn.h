@@ -32,8 +32,8 @@ private:
 	//Flag if pawn is on the final field
 	//Scale factor
 	double m_dScale;
-	//Pawn is on final square flag
-	bool m_bFinished;
+	//Pawn final square position
+	int m_iFinished;
 	//Pawn is idle flag
 	bool m_bIdle;
 	Colors m_eColor;
@@ -61,8 +61,8 @@ public:
 	double getDScale() const;
 	void setDScale(double dScale);
 	
-	bool getBFinished() const;
-	void setBFinished(bool bFinished);
+	int getIFinished() const;
+	void setIFinished(int iFinished);
 
 	bool getBIdle() const;
 	void setBIdle(bool bIdle);
