@@ -116,7 +116,6 @@ void Game::initGame(){
 	for(int i = 0; i < BOARD_HEIGHT; ++i){
 		for(int j = 0; j < BOARD_WIDTH; ++j){
 			while(mBoardVector[i][j].size()){
-				delete mBoardVector[i][j].back();
 				mBoardVector[i][j].pop_back();
 			}
 		}
@@ -142,15 +141,17 @@ void Game::initGame(){
 		for(unsigned i = 0; i < mTurnOrder.size(); ++i){
 			for(unsigned j = 0; j < mTurnOrder[i]->m_vPawns.size(); ++j){
 				//If current pawn has finished
-				if(mTurnOrder[i]->m_vPawns[j]->getIFinished()>=0){
+				if(mTurnOrder[i]->m_vPawns[j]->getIPosition()>(BOARD_LENGTH+5)){
+					cout << (mTurnOrder[i]->m_vPawns[j]->getIPosition()-(BOARD_LENGTH+5)-1) << endl;
 					//Delete pawn placeholder
-					delete mBoardVector[mTurnOrder[i]->m_vPawns[j]->getIXPosition()][mTurnOrder[i]->m_vPawns[j]->getIYPosition()][mTurnOrder[i]->m_vPawns[j]->getIFinished()];
+					delete mBoardVector[mTurnOrder[i]->m_vPawns[j]->getIXPosition()][mTurnOrder[i]->m_vPawns[j]->getIYPosition()][mTurnOrder[i]->m_vPawns[j]->getIPosition()-(BOARD_LENGTH+5)-1];
 					//Place new pawn
-					mBoardVector[mTurnOrder[i]->m_vPawns[j]->getIXPosition()][mTurnOrder[i]->m_vPawns[j]->getIYPosition()][mTurnOrder[i]->m_vPawns[j]->getIFinished()] = mTurnOrder[i]->m_vPawns[j];
+					mBoardVector[mTurnOrder[i]->m_vPawns[j]->getIXPosition()][mTurnOrder[i]->m_vPawns[j]->getIYPosition()][mTurnOrder[i]->m_vPawns[j]->getIPosition()-(BOARD_LENGTH+5)-1] = mTurnOrder[i]->m_vPawns[j];
 				} 
 				//If current pawn is on the active field
 				else mBoardVector[mTurnOrder[i]->m_vPawns[j]->getIXPosition()][mTurnOrder[i]->m_vPawns[j]->getIYPosition()].push_back(mTurnOrder[i]->m_vPawns[j]);
 			}
+			//Set dice data
 			mDice[mTurnOrder[i]->getEColor()-1]->setDiceResult(mTurnOrder[i]->getIDiceRoll());
 			mDice[i]->setDiceResult(mTurnOrder[i]->getIDiceRoll());
 		}
@@ -332,8 +333,7 @@ void Game::renderSprite(){
         //Traverse current player pawns
         for(unsigned j = 0; j < mTurnOrder[i]->m_vPawns.size(); ++j){
                 //If pawn is finished
-				//cout << "Pawn finish state: " << mTurnOrder[i]->m_vPawns[j]->getIFinished() << endl;
-                if(mTurnOrder[i]->m_vPawns[j]->getIFinished()>=0){
+                if(mTurnOrder[i]->m_vPawns[j]->getIPosition()>(BOARD_LENGTH+5)){
 					//Traverse player final vector
 					for(unsigned k = 0; i < mBoardVector[FINAL_SQUARES[mTurnOrder[i]->getEColor()-1].first][FINAL_SQUARES[mTurnOrder[i]->getEColor()-1].second].size(); ++k){
 						//If final pawn is the same as the current pawn
@@ -394,7 +394,7 @@ void Game::turn(Player* p){
 			//If no pawn is moving
 			if(!mbMove){
 #ifdef DEBUG
-	cout << "Player " << p->getEColor() << " rolled " << p->getIDiceRoll() << endl;
+//	cout << "Player " << p->getEColor() << " rolled " << p->getIDiceRoll() << endl;
 #endif
                 //Set player roll
                 p->setIDiceRoll(mDice[p->getEColor()-1]->getDiceResult());
@@ -403,7 +403,7 @@ void Game::turn(Player* p){
                 Recovery::WriteXML(mTurnOrder, 1);
                 
                 //If player has no active pawns
-                if(p->getIActivePawns()==0){
+				if(p->getIActivePawns()==0){
                     //If roll is a 6
                     if(p->getIDiceRoll()==6){
                         //Add an active pawn
@@ -416,15 +416,18 @@ void Game::turn(Player* p){
                     for(unsigned i = 0; i < p->m_vPawns.size(); ++i){
                         //If pawn is on the board
                         if(MOVEABLE_SQUARES[p->m_vPawns[i]->getIYPosition()][p->m_vPawns[i]->getIXPosition()]){
-                            cout << "Selected pawn: " << p->m_vPawns[i]->getEColor() << endl;
-							//Raise movement flag
-                            mbMove = 1;
-							//Assign moving pawn
-                            mMovingPawn = p->m_vPawns[i];
-							//Set pawn as active
-							mMovingPawn->setBIdle(0);
-							//Assign remaining moves
-							miRemaining = p->getIDiceRoll();
+                            //If move is valid
+							if(isValid(p->m_vPawns[i])){
+								cout << "Selected pawn: " << p->m_vPawns[i]->getEColor() << endl;
+								//Raise movement flag
+						        mbMove = 1;
+								//Assign moving pawn
+								mMovingPawn = p->m_vPawns[i];
+								//Set pawn as active
+								mMovingPawn->setBIdle(0);
+								//Assign remaining moves
+								miRemaining = p->getIDiceRoll();
+							}
                             break;	
                         }
                     }
@@ -470,14 +473,17 @@ void Game::turn(Player* p){
                     else if(isBase(choice.first, choice.second, p->getEColor())) activatePawn(p);
                     //If field is selected
                     else {
-						//Raise movement flag
-                        mbMove = 1;
-						//Assign moving pawn
-                        mMovingPawn = mBoardVector[choice.first][choice.second].back();
-						//Set pawn as active
-						mMovingPawn->setBIdle(0);
-						//Assign remaining moves
-						miRemaining = p->getIDiceRoll();
+						//If move is valid
+						if(isValid(mBoardVector[choice.first][choice.second].back())){
+							//Raise movement flag
+							mbMove = 1;
+							//Assign moving pawn
+							mMovingPawn = mBoardVector[choice.first][choice.second].back();
+							//Set pawn as active
+							mMovingPawn->setBIdle(0);
+							//Assign remaining moves
+							miRemaining = p->getIDiceRoll();
+						}
                     }
                 }
             }
@@ -529,7 +535,7 @@ void Game::turn(Player* p){
 					//Raise roll flag for next turn
 					mbRoll = 1;
 #ifdef DEBUG
-		cout << "Active: " << endl;
+	/*	cout << "Active: " << endl;
 		for(unsigned i = 0; i < BOARD_HEIGHT; ++i){
 			for(unsigned j = 0; j < BOARD_WIDTH; ++j){
 				cout << mBoardVector[j][i].size() << " ";
@@ -537,6 +543,7 @@ void Game::turn(Player* p){
 			cout << endl;
 		}
 		cout << endl;
+		*/
 #endif
 				}
 			}
@@ -609,66 +616,65 @@ void Game::diceRoll(){
 
 
 //Pawn movement
-void Game::movePawn(Pawn * p, int with){
+void Game::movePawn(Pawn* p, int with){
 #ifdef DEBUG
 	cout << "MovePawn called with " << p->getEColor() << " " << with << endl;
 #endif
-
+	
 	//If pawn has finished
-	if(p->getIFinished()>=0) return;
+	if(p->getIPosition()>(BOARD_LENGTH+5)) return;
 	//Use safe zone directions flag
 	bool useSafe = 0;
 	//Is on final square flag
 	bool finished = 0;
 
 	//New pawn position container
-	pair<int,int> newPos = {p->getIXPosition(), p->getIYPosition()};
+	pair<int,int> newCoords = {p->getIXPosition(), p->getIYPosition()};
 	//Calculate new position
 	for(int i = 0; i < with; ++i){
-
-		//If final square is reached
-		if(isFinal(newPos.first, newPos.second, p->getEColor())){
-			cout << "Final square" << endl;
-			finished = 1;
-			break;
-		}
 		//If entry point is reached
-		else if(isEntry(newPos.first, newPos.second, p->getEColor())){
+		if(isEntry(newCoords.first, newCoords.second, p->getEColor())){
 			cout << "Safe zone entry" << endl;
 			useSafe = 1;
 		}
-
 		//Temporary coordinate holder
-		pair<int,int> tmp = newPos;
+		pair<int,int> tmp = newCoords;
 		//If on safe squares
 		if(useSafe){
 			tmp.first+=NEXT_SAFE[p->getEColor()-1].first;
 			tmp.second+=NEXT_SAFE[p->getEColor()-1].second;
 		}
 		//If on active squares
-   	else {
-			tmp.first+=NEXT_SQUARE[newPos.second][newPos.first].first;
-			tmp.second+=NEXT_SQUARE[newPos.second][newPos.first].second;
+		else {
+			tmp.first+=NEXT_SQUARE[newCoords.second][newCoords.first].first;
+			tmp.second+=NEXT_SQUARE[newCoords.second][newCoords.first].second;
 		}
 		//Assign new coordinates
-		newPos.first = tmp.first;
-		newPos.second = tmp.second;	
+		newCoords.first = tmp.first;
+		newCoords.second = tmp.second;
+
+		//If final square is reached
+		if(isFinal(newCoords.first, newCoords.second, p->getEColor())){
+			cout << "Final square" << endl;
+			finished = 1;
+			break;
+		}
 	}
 	//If on active squares
-	if(!useSafe && !finished && !miRemaining) collision(p,newPos.first, newPos.second);
+	if(!useSafe && !finished && !miRemaining) collision(p,newCoords.first, newCoords.second);
 	//If on final squares
    	else if(finished){
 		//If final space is occupied
-		if(mBoardVector[FINAL_SQUARES[p->getEColor()-1].first][FINAL_SQUARES[p->getEColor()-1].second][miRemaining+1]->getEColor()!=NONE)
+		if(mBoardVector[FINAL_SQUARES[p->getEColor()-1].first][FINAL_SQUARES[p->getEColor()-1].second][miRemaining]->getEColor()!=NONE)
 			return;
 		//If final space is unoccupied
 		else{
 			//Delete pawn placeholder
-			delete mBoardVector[FINAL_SQUARES[p->getEColor()-1].first][FINAL_SQUARES[p->getEColor()-1].second][miRemaining+1];
+			delete mBoardVector[FINAL_SQUARES[p->getEColor()-1].first][FINAL_SQUARES[p->getEColor()-1].second][miRemaining];
 			//Set pawn finish position
-			p->setIFinished(miRemaining+1);
+			p->setIPosition(p->getIPosition()+miRemaining);
 			//Place pawn in final vector
-			mBoardVector[FINAL_SQUARES[p->getEColor()-1].first][FINAL_SQUARES[p->getEColor()-1].second][miRemaining+1] = p;	
+			mBoardVector[FINAL_SQUARES[p->getEColor()-1].first][FINAL_SQUARES[p->getEColor()-1].second][miRemaining] = p;	
 			//Decrease player active counter
 			mTurnOrder.front()->setIActivePawns(mTurnOrder.front()->getIActivePawns()-1);
 			//Lower move flag
@@ -676,28 +682,29 @@ void Game::movePawn(Pawn * p, int with){
 			miRemaining = 0;
 
 #ifdef DEBUG
-			cout << "Pawn finished with " << p->getIFinished() << " remaining" << endl;
+			cout << "Pawn finished at " << (p->getIPosition()) << endl;
 #endif
 		}
 	}
 #ifdef DEBUG
-	cout << "Setting position at (" << newPos.first << ", " << newPos.second << ")" << endl;
+	cout << "Setting position at (" << newCoords.first << ", " << newCoords.second << ")" << endl;
 #endif
 	
 	//Place pawn in new location
-	if(!finished) mBoardVector[newPos.first][newPos.second].push_back(p);
+	if(!finished) mBoardVector[newCoords.first][newCoords.second].push_back(p);
 	//Remove pawn from old location
 	mBoardVector[p->getIXPosition()][p->getIYPosition()].pop_back();
 	//Set pawn position
-	p->setIXPosition(newPos.first);
-	p->setIYPosition(newPos.second);
+	p->setIXPosition(newCoords.first);
+	p->setIYPosition(newCoords.second);
+	p->setIPosition(p->getIPosition()+with);
 	//Add roll to player step count
 	mTurnOrder.front()->setISteps(mTurnOrder.front()->getISteps()+with);
 	//Set as new moving pawn
-	if(mbMove) mMovingPawn = mBoardVector[newPos.first][newPos.second].back();
+	if(mbMove) mMovingPawn = mBoardVector[newCoords.first][newCoords.second].back();
 
 #ifdef DEBUG		
-	cout << "Moved to (" << newPos.first << ", " << newPos.second << ")" << endl;
+	cout << "Moved to (" << newCoords.first << ", " << newCoords.second << ")" << endl;
 #endif	
 
 		//Play SFX
@@ -737,6 +744,7 @@ void Game::collision(Pawn * p, int pX, int pY){
 				//Set pawn position
 				mBoardVector[pX][pY].back()->setIXPosition(base.first);
 				mBoardVector[pX][pY].back()->setIYPosition(base.second);
+				mBoardVector[pX][pY].back()->setIPosition(0);
 				//Place pawn on base square
 				mBoardVector[base.first][base.second].push_back(mBoardVector[pX][pY].back());
 				//Remove pawn from active board
@@ -857,6 +865,7 @@ void Game::activatePawn(Player * p){
 			//Place pawn location on start position
 			p->m_vPawns[i]->setIXPosition(START_SQUARES[p->getEColor()-1].first);
 			p->m_vPawns[i]->setIYPosition(START_SQUARES[p->getEColor()-1].second);
+			p->m_vPawns[i]->setIPosition(1);
 			//Place pawn on game board
 			mBoardVector[START_SQUARES[p->getEColor()-1].first][START_SQUARES[p->getEColor()-1].second].push_back(p->m_vPawns[i]);
 			//Increment player active counter
@@ -934,10 +943,23 @@ bool Game::isEntry(int pX, int pY, Colors c){
 	return (pX==ENTRY_SQUARES[c-1].first && pY==ENTRY_SQUARES[c-1].second);
 }
 
+//Determine if pawn move is valid
+bool Game::isValid(Pawn* p){
+	//If roll is out of bounds
+	if(p->getIPosition()+mTurnOrder.front()->getIDiceRoll()>(BOARD_LENGTH+10)){ cout << "Over" << endl; return 0; }
+	//If final position is occupied
+	if(p->getIPosition()+mTurnOrder.front()->getIDiceRoll()>(BOARD_LENGTH+5)){
+		cout << "In final vector pos: " << ((p->getIPosition()+mTurnOrder.front()->getIDiceRoll())-(BOARD_LENGTH+5)-1) << endl;
+		if(mBoardVector[FINAL_SQUARES[p->getEColor()-1].first][FINAL_SQUARES[p->getEColor()-1].second]
+			[(p->getIPosition()+mTurnOrder.front()->getIDiceRoll())-(BOARD_LENGTH+5)-1]->getEColor()!=NONE){ cout << "Occupied" << endl; return 0; }
+	}
+	return 1;
+}
+
 //Determine if player has finished
 bool Game::hasFinished(Player* p){
 	for(unsigned i = 0; i < p->m_vPawns.size(); ++i)
-		if(p->m_vPawns[i]->getIFinished()<0) return 0;
+		if(p->m_vPawns[i]->getIPosition()<=(BOARD_LENGTH+5)) return 0;
 	return 1;
 }
 

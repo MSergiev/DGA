@@ -11,9 +11,9 @@ Pawn::Pawn(Colors c)
 		:mPlayerSprite(SDL_Rect {0,0,SPRITE_SIZE, SPRITE_SIZE}, PAWN_FRAMES, 20)
 {
 	setEColor(c);
+	setIPosition(0);
 	setIXPosition(-1);
 	setIYPosition(-1);
-	setIFinished(-1);
 	setDScale(1);
 	setBIdle(1);
 	mPlayerSprite.load(PAWN_PATH);
@@ -43,9 +43,9 @@ int Pawn::getIYPosition() const
 	return m_iYPosition;
 }
 
-int Pawn::getIFinished() const
+int Pawn::getIPosition() const
 {
-	return m_iFinished;
+	return m_iPosition;
 }
 
 bool Pawn::getBIdle() const
@@ -73,7 +73,6 @@ void Pawn::setAnimationFrame()
 
 void Pawn::setEColor(Colors eColor)
 {
-	//mPlayerSprite = new Sprite(frame, NUM_OF_FRAMES, ANIMATION_DELAY);
 	m_eColor = eColor;
 	setAnimationFrame();
 }
@@ -86,13 +85,13 @@ void Pawn::setIYPosition(int iYPosition)
 {
 	m_iYPosition = iYPosition;
 }
+void Pawn::setIPosition(int iPosition)
+{
+	m_iPosition = iPosition;
+}
 void Pawn::setDScale(double dScale)
 {
 	m_dScale = dScale;
-}
-void Pawn::setIFinished(int iFinished)
-{
-	m_iFinished = iFinished;
 }
 void Pawn::setBIdle(bool bIdle)
 {

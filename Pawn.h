@@ -33,10 +33,13 @@ private:
 	//Scale factor
 	double m_dScale;
 	//Pawn final square position
-	int m_iFinished;
+	//int m_iFinished;
 	//Pawn is idle flag
 	// the flag used to say if the pawn walks or sits
 	bool m_bIdle;
+	// relative to start position
+	int m_iPosition;
+	// pawn color
 	Colors m_eColor;
 	
 	///Sprite object pointer
@@ -62,11 +65,14 @@ public:
 	int getIYPosition() const;
 	void setIYPosition(int iYPosition);
 
+	int getIPosition() const;
+	void setIPosition(int iPosition);
+	
 	double getDScale() const;
 	void setDScale(double dScale);
 	
-	int getIFinished() const;
-	void setIFinished(int iFinished);
+	//int getIFinished() const;
+	//void setIFinished(int iFinished);
 
 	bool getBIdle() const;
 	void setBIdle(bool bIdle);
