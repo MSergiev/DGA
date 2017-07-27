@@ -417,7 +417,7 @@ void Game::turn(Player* p){
                         //If pawn is on the board
                         if(MOVEABLE_SQUARES[p->m_vPawns[i]->getIYPosition()][p->m_vPawns[i]->getIXPosition()]){
                             cout << "Selected pawn: " << p->m_vPawns[i]->getEColor() << endl;
-                            //Raise movement flag
+							//Raise movement flag
                             mbMove = 1;
 							//Assign moving pawn
                             mMovingPawn = p->m_vPawns[i];
@@ -563,9 +563,9 @@ void Game::determineTurnOrder(){
 	//Refresh RNG seed
 	srand(time(0));
 	//Clear old data if existing
-	for(unsigned i = 0; i < mTurnOrder.size(); ++i){
-		delete mTurnOrder.front();
-		mTurnOrder.pop_front();
+	while(mTurnOrder.size()){
+		delete mTurnOrder.back();
+		mTurnOrder.pop_back();
 	}
 	//Temporary vector of colors to choose from
 	vector<Colors> order = {RED, BLUE, YELLOW};

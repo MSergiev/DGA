@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<Game Rolled="false">
+	<Player>
+		<Color>2</Color>
+		<Steps>52</Steps>
+		<Taken>1</Taken>
+		<Lost>1</Lost>
+		<Active>0</Active>
+		<Finished>1</Finished>
+		<LastDiceRoll>1</LastDiceRoll>
+		<Pawns>
+			<Pawn PosX="6" PosY="7" Finish="0" />
+			<Pawn PosX="6" PosY="7" Finish="1" />
+			<Pawn PosX="6" PosY="7" Finish="2" />
+			<Pawn PosX="6" PosY="7" Finish="3" />
+			<Pawn PosX="6" PosY="7" Finish="4" />
+		</Pawns>
+	</Player>
+	<Player>
+		<Color>1</Color>
+		<Steps>57</Steps>
+		<Taken>2</Taken>
+		<Lost>2</Lost>
+		<Active>1</Active>
+		<Finished>0</Finished>
+		<LastDiceRoll>5</LastDiceRoll>
+		<Pawns>
+			<Pawn PosX="7" PosY="6" Finish="0" />
+			<Pawn PosX="7" PosY="6" Finish="1" />
+			<Pawn PosX="3" PosY="0" Finish="-1" />
+			<Pawn PosX="1" PosY="1" Finish="-1" />
+			<Pawn PosX="3" PosY="1" Finish="-1" />
+		</Pawns>
+	</Player>
+	<Player>
+		<Color>3</Color>
+		<Steps>52</Steps>
+		<Taken>2</Taken>
+		<Lost>1</Lost>
+		<Active>1</Active>
+		<Finished>0</Finished>
+		<LastDiceRoll>5</LastDiceRoll>
+		<Pawns>
+			<Pawn PosX="7" PosY="8" Finish="0" />
+			<Pawn PosX="7" PosY="8" Finish="1" />
+			<Pawn PosX="7" PosY="8" Finish="2" />
+			<Pawn PosX="7" PosY="8" Finish="3" />
+			<Pawn PosX="7" PosY="9" Finish="-1" />
+		</Pawns>
+	</Player>
+</Game>

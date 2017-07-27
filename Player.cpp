@@ -17,12 +17,12 @@ Player::Player(Colors color)
 
 Player::~Player()
 {
-	for (unsigned int i = 0; i < m_vPawns.size(); i++)
+	while(m_vPawns.size()>0)
 	{
 		// delete all the pawns in the vector
 		// the vector is made with dynamically allocated memory
-		delete m_vPawns[i];
-		m_vPawns[i] = NULL;
+		delete m_vPawns.back();
+		m_vPawns.pop_back();
 	}
 }
 
