@@ -1016,8 +1016,10 @@ void Game::transition(Screens to, bool instant){
 	miCurrentDistance+=10;
 
 	//If destination is reached
-	if(miCurrentDistance==miDestinationDistance){
+	if(miCurrentDistance>=miDestinationDistance){
 		cout << "Transition end" << endl;
+		miCameraX = SCREEN_COORDS[meScreen].first;
+		miCameraY = SCREEN_COORDS[meScreen].second;
 		cout << "New camera: (" << miCameraX << ", " << miCameraY << ")" << endl;
 		//Lower transition flag
 		mbTransition = 0;
