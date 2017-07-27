@@ -44,8 +44,8 @@ private:
     SDL_Event mEvent;
 
 	///Camera coordinates
-	int miCameraX;
-	int miCameraY;
+	float miCameraX;
+	float miCameraY;
 
     ///Game state flags
 	bool mbRunning;
