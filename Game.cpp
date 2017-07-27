@@ -116,7 +116,6 @@ void Game::initGame(){
 	for(int i = 0; i < BOARD_HEIGHT; ++i){
 		for(int j = 0; j < BOARD_WIDTH; ++j){
 			while(mBoardVector[i][j].size()){
-				delete mBoardVector[i][j].back();
 				mBoardVector[i][j].pop_back();
 			}
 		}
