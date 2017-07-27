@@ -66,7 +66,7 @@ void Player::Render(vector<pair<int, int> > pos)
 		{
 			//Scale factor
 			float scale;
-			if(it->second.size()>1 || it->second.front()->getIFinished()>=0) scale = 0.6;
+			if(it->second.size()>1 || it->second.front()->getIPosition()>(BOARD_LENGTH+5)) scale = 0.6;
 			else scale = 1;
 			//Set pawn scale
 			it->second[i]->setDScale(scale);

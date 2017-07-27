@@ -50,9 +50,6 @@ void TitleScreen::fadeOut(){
 }
 //initializes the  buttons size and position
 void TitleScreen::init() {
-	loadBackground(TITLE_PATH);
-	UI::loadFont(FONT_PATH,FONT_SIZE);
-
 	StartButton.setTexture(START_PATH);
 	ContinueButton.setTexture(CONTINUE_PATH);
 	QuitButton.setTexture(QUIT_PATH);

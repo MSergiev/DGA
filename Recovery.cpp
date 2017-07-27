@@ -75,12 +75,12 @@ deque<Player*> Recovery::ReadFromXML()
 				pawn.next_sibling())
 		{
 			// put the data in the vector in the correct order
+			person->m_vPawns[count]->setIPosition(
+					pawn.attribute("Pos").as_int());
 			person->m_vPawns[count]->setIXPosition(
 					pawn.attribute("PosX").as_int());
 			person->m_vPawns[count]->setIYPosition(
 					pawn.attribute("PosY").as_int());
-			person->m_vPawns[count]->setIFinished(
-					pawn.attribute("Finish").as_int());
 			// increment the helper variable
 			count++;
 		}
@@ -164,12 +164,12 @@ void Recovery::WriteXML(deque<Player*> players, bool rolled)
 			// make a node pawn
 			pugi::xml_node pawn = pawns.append_child("Pawn");
 			// add attribute and give it value of the position of the pawn
+			pawn.append_attribute("Pos") =
+					players[i]->m_vPawns[j]->getIPosition();
 			pawn.append_attribute("PosX") =
 					players[i]->m_vPawns[j]->getIXPosition();
 			pawn.append_attribute("PosY") =
 					players[i]->m_vPawns[j]->getIYPosition();
-			pawn.append_attribute("Finish") =
-					players[i]->m_vPawns[j]->getIFinished();
 		}
 
 	}

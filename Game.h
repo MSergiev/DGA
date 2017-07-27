@@ -29,6 +29,7 @@ using std::vector;
 using std::deque;
 #include <algorithm>
 using std::random_shuffle;
+#include <cmath>
 
 //Game screen enum
 enum Screens{
@@ -258,6 +259,11 @@ private:
 	///int pY - Y index
 	///Colors c - player color
 	bool isEntry(int pX, int pY, Colors c);
+
+	///Determine if pawn move is valid
+	///Args:
+	///Pawn p* - target pawn
+	bool isValid(Pawn* p);
 
 	///Determine if player has finished
 	///Args:
