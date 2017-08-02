@@ -18,6 +18,7 @@
 #include "Info.h"
 #include "Controls.h"
 #include "Recovery.h"
+#include "Volume.h"
 
 ///Misc library inclusion
 #include <iostream>
@@ -84,21 +85,16 @@ private:
     ///Dice objects array
 	vector<Dice*> mDice;
 
-    ///Title screen object
+    ///UI objects
     TitleScreen mTitleScreen;
-
-    ///Win screen object
     WinScreen mWinScreen;
-
-	///Rules screen
 	Info mInfoScreen;
+	Controls mControls;
+	Volume mVolume;
 
 	///Active UI pointer
 	UI* mActiveUI;
-
-	///UI controls object
-	Controls mControls;
-
+	
     ///Active board layout (top row leftmost square considered 0)
 	vector<Pawn*> mBoardVector[BOARD_HEIGHT][BOARD_WIDTH];
 

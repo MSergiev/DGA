@@ -7,13 +7,15 @@
 #include "Sound.h"
 
 class Button {
+	
 public:
+
 	///Constructor
 	///Args:
 	///int x - top left X coordinate (not required)
 	///int y - top left Y coordinatee (not required)
-	///int w = button widthe (not required)
-	///int h = button heighte (not required)
+	///int w = button width (not required)
+	///int h = button height (not required)
 	Button(int x = 0, int y = 0, int w = 10, int h = 10);
 
 	///Assign label font
@@ -30,8 +32,8 @@ public:
 
 	///Size setter
 	///Args:
-	///int w = button width
-	///int h = button height
+	///int w - button width
+	///int h - button height
 	void setSize(int w, int h);
 
 	///Location setter
@@ -76,11 +78,7 @@ public:
 	bool isOver(SDL_Event& e);
 	
 	///Render button
-	///Args:
 	void render();
-
-	///Resource releasing method
-	void free();
 
 	///Destructor
 	~Button();
