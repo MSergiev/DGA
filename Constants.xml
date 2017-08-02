@@ -1,0 +1,439 @@
+<constants>
+
+	<sizes>
+		<FIELD_WIDTH>2412</FIELD_WIDTH>
+		<FIELD_HEIGHT>1608</FIELD_HEIGHT>
+		<BOARD_LENGTH>46</BOARD_LENGTH>
+		<BOARD_WIDTH>15</BOARD_WIDTH>
+		<BOARD_HEIGHT>15</BOARD_HEIGHT>
+		<SQUARE_SIZE>48</SQUARE_SIZE>
+		<BUTTON_WIDTH>200</BUTTON_WIDTH>
+		<BUTTON_HEIGHT>54</BUTTON_HEIGHT>
+		<RULES_WIDTH>100</RULES_WIDTH>
+		<RULES_HEIGHT>100</RULES_HEIGHT>
+		<FONT_SIZE>20</FONT_SIZE>
+	</sizes>
+
+	<game>
+		<PLAYERS>3</PLAYERS>
+		<PAWNS>5</PAWNS>
+		<PLAYER_DATA>5</PLAYER_DATA>
+	</game>
+
+	<animation>
+		<PAWN_FRAMES>20</PAWN_FRAMES>
+		<SPRITE_SCALE>
+			<one>1</one>
+			<two>0.5</two>
+			<three>0.5</three>
+			<four>0.5</four>
+			<five>0.5</five>
+		</SPRITE_SCALE>
+	</animation>
+
+	<spacing>
+		<WIN_X_OFF>135</WIN_X_OFF>
+		<WIN_Y_OFF>335</WIN_Y_OFF>
+		<WIN_X_DATA>130</WIN_X_DATA>
+		<WIN_Y_DATA>50</WIN_Y_DATA>
+		<WIN_SHADOW_OFF>4</WIN_SHADOW_OFF>
+		<VERT_OFFSET>100</VERT_OFFSET>
+	</spacing>
+
+	<drawnColors>
+		<C_WHITE r="255" b="255" g="255" a="255"></C_WHITE>
+		<C_BLACK r="0" b="0" g="0" a="255"></C_BLACK>
+		<C_RED r="255" b="0" g="0" a="255"></C_RED>
+		<C_BLUE r="0" b="255" g="0" a="255"></C_BLUE>
+		<C_GREEN r="0" b="0" g="255" a="255"></C_GREEN>
+		<C_YELLOW r="255" b="255" g="0" a="255"></C_YELLOW>
+	</drawnColors>
+
+	<enumColors>
+		<NONE>0</NONE>
+		<YELLOW>1</YELLOW>
+		<RED>2</RED>
+		<BLUE>3</BLUE>
+	</enumColors>
+
+	<START_POS>
+		<YELLOW>0</YELLOW>
+		<RED>14</RED>
+		<BLUE>28</BLUE>
+	</START_POS>
+
+	<IDLE_POS>
+		<YELLOW>
+			<x>279</x>
+			<y>40</y>
+		</YELLOW>
+		<RED>
+			<x>39</x>
+			<y>474</y>
+		</RED>
+		<BLUE>
+			<x>475</x>
+			<y>713</y>
+		</BLUE>
+	</IDLE_POS>
+
+	<coordinates>
+		<ZERO_X_POS>329</ZERO_X_POS>
+		<ZERO_Y_POS>40</ZERO_Y_POS>
+		<ZERO_X_INDEX>6</ZERO_X_INDEX>
+		<ZERO_Y_INDEX>0</ZERO_Y_INDEX>
+		<X_OFF>60</X_OFF>
+		<Y_OFF>40</Y_OFF>
+	</coordinates>
+
+	<MOVEABLE_SQUARES row="BOARD_WIDTH" col="BOARD_HEIGHT">
+		{0,0,0,0,0,0,1,1,1,0,0,0,0,0,0},
+		{0,0,0,0,0,0,1,1,1,0,0,0,0,0,0},
+		{0,0,0,0,0,0,1,1,1,0,0,0,0,0,0},
+		{0,0,0,0,0,0,1,1,1,0,0,0,0,0,0},
+		{0,0,0,0,0,0,1,1,1,0,0,0,0,0,0},
+		{0,0,0,0,0,1,1,1,1,1,0,0,0,0,0},
+		{1,1,1,1,1,1,0,0,0,1,0,0,0,0,0},
+		{1,1,1,1,1,1,0,0,0,1,0,0,0,0,0},
+		{1,1,1,1,1,1,0,0,0,1,0,0,0,0,0},
+		{0,0,0,0,0,1,1,1,1,1,0,0,0,0,0},
+		{0,0,0,0,0,0,1,1,1,0,0,0,0,0,0},
+		{0,0,0,0,0,0,1,1,1,0,0,0,0,0,0},
+		{0,0,0,0,0,0,1,1,1,0,0,0,0,0,0},
+		{0,0,0,0,0,0,1,1,1,0,0,0,0,0,0},
+		{0,0,0,0,0,0,1,1,1,0,0,0,0,0,0}
+	</MOVEABLE_SQUARES>
+
+	<NEXT_SAFE>
+		<YELLOW>
+			<x>0</x>
+			<y>1</y>
+		</YELLOW>
+		<RED>
+			<x>1</x>
+			<y>0</y>
+		</RED>
+		<BLUE>
+			<x>0</x>
+			<y>-1</y>
+		</BLUE>
+	</NEXT_SAFE>
+
+	<SAFE_SQUARES row="PLAYERS" col="PAWNS">
+		<YELLOW>
+			<first>
+				<x>7</x>
+				<y>1</y>
+			</first>
+			<second>
+				<x>7</x>
+				<y>2</y>
+			</second>
+			<third>
+				<x>7</x>
+				<y>3</y>
+			</third>
+			<fourth>
+				<x>7</x>
+				<y>4</y>
+			</fourth>
+			<fifth>
+				<x>7</x>
+				<y>5</y>
+			</fifth>
+		</YELLOW>
+
+		<RED>
+			<first>
+				<x>1</x>
+				<y>7</y>
+			</first>
+			<second>
+				<x>2</x>
+				<y>7</y>
+			</second>
+			<third>
+				<x>3</x>
+				<y>7</y>
+			</third>
+			<fourth>
+				<x>4</x>
+				<y>7</y>
+			</fourth>
+			<fifth>
+				<x>5</x>
+				<y>7</y>
+			</fifth>
+		</RED>
+
+		<BLUE>
+			<first>
+				<x>7</x>
+				<y>9</y>
+			</first>
+			<second>
+				<x>7</x>
+				<y>10</y>
+			</second>
+			<third>
+				<x>7</x>
+				<y>11</y>
+			</third>
+			<fourth>
+				<x>7</x>
+				<y>12</y>
+			</fourth>
+			<fifth>
+				<x>7</x>
+				<y>13</y>
+			</fifth>
+		</BLUE>
+	</SAFE_SQUARES>
+
+	<BASE_SQUARES row="PLAYERS" col="PAWNS">
+		<YELLOW>
+			<first>
+				<x>1</x>
+				<y>0</y>
+			</first>
+			<second>
+				<x>2</x>
+				<y>0</y>
+			</second>
+			<third>
+				<x>3</x>
+				<y>0</y>
+			</third>
+			<fourth>
+				<x>1</x>
+				<y>1</y>
+			</fourth>
+			<fifth>
+				<x>3</x>
+				<y>1</y>
+			</fifth>
+		</YELLOW>
+
+		<RED>
+			<first>
+				<x>0</x>
+				<y>11</y>
+			</first>
+			<second>
+				<x>0</x>
+				<y>12</y>
+			</second>
+			<third>
+				<x>0</x>
+				<y>13</y>
+			</third>
+			<fourth>
+				<x>1</x>
+				<y>11</y>
+			</fourth>
+			<fifth>
+				<x>1</x>
+				<y>13</y>
+			</fifth>
+		</RED>
+
+		<BLUE>
+			<first>
+				<x>11</x>
+				<y>13</y>
+			</first>
+			<second>
+				<x>13</x>
+				<y>13</y>
+			</second>
+			<third>
+				<x>11</x>
+				<y>14</y>
+			</third>
+			<fourth>
+				<x>12</x>
+				<y>14</y>
+			</fourth>
+			<fifth>
+				<x>13</x>
+				<y>14</y>
+			</fifth>
+		</BLUE>
+	</BASE_SQUARES>
+
+	<FINAL_SQUARES row="PLAYERS">
+		<YELLOW>
+			<x>7</x>
+			<y>6</y>
+		</YELLOW>
+		<RED>
+			<x>6</x>
+			<y>7</y>
+		</RED>
+		<BLUE>
+			<x>7</x>
+			<y>8</y>
+		</BLUE>
+	</FINAL_SQUARES>
+
+	<START_SQUARES row="PLAYERS">
+		<YELLOW>
+			<x>6</x>
+			<y>0</y>
+		</YELLOW>
+		<RED>
+			<x>0</x>
+			<y>8</y>
+		</RED>
+		<BLUE>
+			<x>8</x>
+			<y>14</y>
+		</BLUE>
+	</START_SQUARES>
+
+	<ENTRY_SQUARES row="PLAYERS">
+		<YELLOW>
+			<x>7</x>
+			<y>0</y>
+		</YELLOW>
+		<RED>
+			<x>0</x>
+			<y>7</y>
+		</RED>
+		<BLUE>
+			<x>7</x>
+			<y>14</y>
+		</BLUE>
+	</ENTRY_SQUARES>
+
+	<PAWN_LAYOUT>
+		<one>
+			<x>1</x>
+			<y>1</y>
+		</one>
+		<two>
+			<x>0</x>
+			<y>0</y>
+		</two>
+		<three>
+			<x>2</x>
+			<y>0</y>
+		</three>
+		<four>
+			<x>0</x>
+			<y>2</y>
+		</four>
+		<five>
+			<x>2</x>
+			<y>2</y>
+		</five>
+	</PAWN_LAYOUT>
+
+	<DICE_POS>
+		<YELLOW>
+			<x>115</x>
+			<y>153</y>
+		</YELLOW>
+		<RED>
+			<x>186</x>
+			<y>565</y>
+		</RED>
+		<BLUE>
+			<x>598</x>
+			<y>491</y>
+		</BLUE>
+	</DICE_POS>
+
+	<SCREEN_COORDS>
+		<BLANK>
+			<x>0</x>
+			<y>0</y>
+		</BLANK>
+		<RULES1>
+			<x>-800</x>
+			<y>0</y>
+		</RULES1>
+		<RULES2>
+			<x>-1600</x>
+			<y>0</y>
+		</RULES2>
+		<TITLE>
+			<x>0</x>
+			<y>-800</y>
+		</TITLE>
+		<GAME>
+			<x>-800</x>
+			<y>-800</y>
+		</GAME>
+		<WIN>
+			<x>-1600</x>
+			<y>-800</y>
+		</WIN>
+	</SCREEN_COORDS>
+
+	<UI_CONSTANTS>
+		<TITLE_START>0b100</TITLE_START>
+		<TITLE_CONTINUE>0b010</TITLE_CONTINUE>
+		<TITLE_QUIT>0b001</TITLE_QUIT>
+		<WIN_RESTART>0b10</WIN_RESTART>
+		<WIN_QUIT>0b01</WIN_QUIT>
+		<CONTROLS_SOUND>0b100</CONTROLS_SOUND>
+		<CONTROLS_RULES>0b010</CONTROLS_RULES>
+		<CONTROLS_QUIT>0b001</CONTROLS_QUIT>
+		<RULES_BACK>0b01</RULES_BACK>
+		<RULES_NEXT>0b10</RULES_NEXT>
+
+		<FADE_FACTOR>10</FADE_FACTOR>
+	</UI_CONSTANTS>
+
+	<UI_ELEMENTS_PATHS>
+		<START_PATH>./GFX/button_start.png</START_PATH>
+		<RESTART_PATH>./GFX/button_restart.png</RESTART_PATH>
+		<CONTINUE_PATH>./GFX/button_continue.png</CONTINUE_PATH>
+		<QUIT_PATH>./GFX/button_quit.png</QUIT_PATH>
+		<SOUND_ON_PATH>./GFX/button_sound_on.png</SOUND_ON_PATH>
+		<SOUND_OFF_PATH>./GFX/button_sound_off.png</SOUND_OFF_PATH>
+		<RULES_PATH>./GFX/button_rules.png</RULES_PATH>
+	</UI_ELEMENTS_PATHS>
+
+	<BASIC_PATHS>
+		<FONT_PATH>./GFX/font.ttf</FONT_PATH>
+		<PAWN_PATH>./GFX/bomb.png</PAWN_PATH>
+		<DICE_PATH>./GFX/dice.png</DICE_PATH>
+		<BOARD_PATH>./GFX/board.png</BOARD_PATH>
+		<SCROLLABLE_PATH>./GFX/scrollable.png</SCROLLABLE_PATH>
+		<WIN_PATH>./GFX/win.png</WIN_PATH>
+		<TITLE_PATH>./GFX/title.png</TITLE_PATH>
+		<HIGHLIGHTER_PATH>./GFX/highlight.png</HIGHLIGHTER_PATH>
+	</BASIC_PATHS>
+
+	<defines>
+		<BMG>menuS</BMG>
+		<BUTTON_SFX>click</BUTTON_SFX>
+		<ON_MOVE>typing</ON_MOVE>
+		<ON_COLLISION>explosion</ON_COLLISION>
+		<ON_ACTIVATION>jump</ON_ACTIVATION>
+		<ON_ROLL>DiceRoll</ON_ROLL>
+		<ON_SIX>orchHit</ON_SIX>
+		<ON_DICE>ding</ON_DICE>
+		<MOVEMENT_DELAY>400</MOVEMENT_DELAY>
+	</defines>
+
+	<Explosion_FX_DATA>
+		<EXPLODE_PATH>./GFX/explode.png</EXPLODE_PATH>
+		<EXPLODE_WIDTH>50</EXPLODE_WIDTH>
+		<EXPLODE_HEIGHT>105</EXPLODE_HEIGHT>
+		<EXPLODE_FRAMES>9</EXPLODE_FRAMES>
+		<EXPLODE_DELAY>100</EXPLODE_DELAY>
+	</Explosion_FX_DATA>
+
+	<Shockwave_FX_DATA>
+		<SHOCK_PATH>./GFX/shockwave.png</SHOCK_PATH>
+		<SHOCK_WIDTH>327</SHOCK_WIDTH>
+		<SHOCK_HEIGHT>304</SHOCK_HEIGHT>
+		<SHOCK_FRAMES>5</SHOCK_FRAMES>
+		<SHOCK_DELAY>50</SHOCK_DELAY>
+	</Shockwave_FX_DATA>
+
+
+</constants>
