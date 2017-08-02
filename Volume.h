@@ -1,14 +1,15 @@
-#ifndef CONTROLS_H
-#define CONTROLS_H
+#ifndef VOLUME_H
+#define VOLUME_H
 
 #include "UI.h"
+#include "Slider.h"
 
-class Controls: public UI {
+class Volume: public UI {
 
 public:
 
 	///Constructor
-	Controls();
+	Volume();
 
 	///UI initializing method
 	void init();
@@ -21,24 +22,19 @@ public:
 	///Render method
 	virtual void render();
 
-	///Button fade in
+	///Sliders fade in
 	virtual void fadeIn();
 
-	///Button fade out
+	///Sliders fade out
 	virtual void fadeOut();
 
 	///Destructor
-	virtual ~Controls();
+	virtual ~Volume();
 
 private:
 	
-	///Sound state
-	bool mbSoundState = 1;
-
-	///Button objects
-	Button mSoundButton;
-	Button mRulesButton;
-	Button mQuitButton;
+	///Slider objects
+	Slider mSFX, mBGM;
 };
 
 #endif

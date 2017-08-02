@@ -93,6 +93,7 @@ void Game::init(){
     mWinScreen.init();
 	mInfoScreen.init();
 	mControls.init();
+	mVolume.init();
 
 	//Draw continue on title screen if recovery is available	
 	mbIgnoreRecovery = !(Recovery::ReadFromXML().size()>0);
@@ -249,13 +250,18 @@ void Game::eventHandler(){
 	     //If exit button is clicked
 	     else if(winState & WIN_QUIT){ quit = 1; }
 	}
-		
+	
+	//If on volume screen
+	else if(dynamic_cast<Volume*>(mActiveUI)){
+	     mActiveUI->eventHandler(mEvent);
+	}	
 	//If on game screen
 	else if(dynamic_cast<Controls*>(mActiveUI)){
 		//Get current button states
 		int controlsState = mControls.eventHandler(mEvent);
 		//If sound button is clicked
-		if(controlsState & CONTROLS_SOUND){ Sound::mute=!Sound::mute; Sound::mute?Sound::pause():Sound::music(BGM);	}
+		//if(controlsState & CONTROLS_SOUND){ Sound::mute=!Sound::mute; Sound::mute?Sound::pause():Sound::music(BGM);	}
+		if(controlsState & CONTROLS_SOUND){ mActiveUI = &mVolume;	}
 		//If rules button is clicked
 		else if(controlsState & CONTROLS_RULES){ transition(RULES1); mbRunning = 0; }
 		//If quit button is clicked

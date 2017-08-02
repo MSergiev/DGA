@@ -72,4 +72,5 @@ void Controls::render(){
 	mQuitButton.render();
 }
 
+//Destructor
 Controls::~Controls(){}
