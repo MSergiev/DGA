@@ -1,3 +1,5 @@
+<!DOCTYPE constants SYSTEM "DTD.dtd">
+
 <constants>
 
 	<sizes>
@@ -538,7 +540,6 @@
 		</BLUE>
 	</IDLE_POS>
 
-
 	<NEXT_SAFE>
 		<YELLOW>
 			<x>0</x>
@@ -869,6 +870,5 @@
 		<SHOCK_FRAMES>5</SHOCK_FRAMES>
 		<SHOCK_DELAY>50</SHOCK_DELAY>
 	</Shockwave_FX_DATA>
-
 
 </constants>
