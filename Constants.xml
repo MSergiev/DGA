@@ -66,72 +66,455 @@
 	</coordinates>
 
 	<MOVEABLE_SQUARES row="BOARD_WIDTH" col="BOARD_HEIGHT">
-		<FI_ROW row=   "0,0,0,0,0,0,1,1,1,0,0,0,0,0,0" ></FI_ROW>
-		<SE_ROW row=   "0,0,0,0,0,0,1,1,1,0,0,0,0,0,0" ></SE_ROW>
-		<TH_ROW row=   "0,0,0,0,0,0,1,1,1,0,0,0,0,0,0" ></TH_ROW>
-		<FO_ROW row=   "0,0,0,0,0,0,1,1,1,0,0,0,0,0,0" ></FO_ROW>
-		<FIF_ROW row=  "0,0,0,0,0,0,1,1,1,0,0,0,0,0,0" ></FIF_ROW>
-		<SI_ROW row=   "0,0,0,0,0,1,1,1,1,1,0,0,0,0,0" ></SI_ROW>
-		<SEV_ROW row=  "1,1,1,1,1,1,0,0,0,1,0,0,0,0,0" ></SEV_ROW>
-		<E_ROW row=    "1,1,1,1,1,1,0,0,0,1,0,0,0,0,0" ></E_ROW>
-		<N_ROW row=    "1,1,1,1,1,1,0,0,0,1,0,0,0,0,0" ></N_ROW>
-		<TE_ROW row=   "0,0,0,0,0,1,1,1,1,1,0,0,0,0,0" ></TE_ROW>
-		<EL_ROW row=   "0,0,0,0,0,0,1,1,1,0,0,0,0,0,0" ></EL_ROW>
-		<TW_ROW row=   "0,0,0,0,0,0,1,1,1,0,0,0,0,0,0" ></TW_ROW>
-		<THR_ROW row=  "0,0,0,0,0,0,1,1,1,0,0,0,0,0,0" ></THR_ROW>
-		<F_ROW row=    "0,0,0,0,0,0,1,1,1,0,0,0,0,0,0" ></F_ROW>
-		<FIFT_ROW row= "0,0,0,0,0,0,1,1,1,0,0,0,0,0,0" ></FIFT_ROW>
+		<ROW a = "0" r = "0" ra = "0" y = "0" e = "0" ll = "0"
+			 em = "1" me = "1" n = "1" t = "0" s = "0" at = "0" 
+			 ri = "0" b = "0 " uts = "0" ></ROW>
+		<ROW a = "0" r = "0" ra = "0" y = "0" e = "0" ll = "0"
+			 em = "1" me = "1" n = "1" t = "0" s = "0" at = "0" 
+			 ri = "0" b = "0 " uts = "0" ></ROW>
+		<ROW a = "0" r = "0" ra = "0" y = "0" e = "0" ll = "0"
+			 em = "1" me = "1" n = "1" t = "0" s = "0" at = "0" 
+			 ri = "0" b = "0 " uts = "0" ></ROW>
+		<ROW a = "0" r = "0" ra = "0" y = "0" e = "0" ll = "0"
+			 em = "1" me = "1" n = "1" t = "0" s = "0" at = "0" 
+			 ri = "0" b = "0 " uts = "0" ></ROW>
+		<ROW a = "0" r = "0" ra = "0" y = "0" e = "0" ll = "0"
+			 em = "1" me = "1" n = "1" t = "0" s = "0" at = "0" 
+			 ri = "0" b = "0 " uts = "0" ></ROW>
+			 
+		<ROW a = "0" r = "0" ra = "0" y = "0" e = "0" ll = "1"
+			 em = "1" me = "1" n = "1" t = "1" s = "0" at = "0" 
+			 ri = "0" b = "0 " uts = "0" ></ROW>
+		<ROW a = "1" r = "1" ra = "1" y = "1" e = "1" ll = "1"
+			 em = "0" me = "0" n = "0" t = "1" s = "0" at = "0" 
+			 ri = "0" b = "0 " uts = "0" ></ROW>
+		<ROW a = "1" r = "1" ra = "1" y = "1" e = "1" ll = "1"
+			 em = "0" me = "0" n = "0" t = "1" s = "0" at = "0" 
+			 ri = "0" b = "0 " uts = "0" ></ROW>
+		<ROW a = "1" r = "1" ra = "1" y = "1" e = "1" ll = "1"
+			 em = "0" me = "0" n = "0" t = "1" s = "0" at = "0" 
+			 ri = "0" b = "0 " uts = "0" ></ROW>
+		<ROW a = "0" r = "0" ra = "0" y = "0" e = "0" ll = "1"
+			 em = "1" me = "1" n = "1" t = "1" s = "0" at = "0" 
+			 ri = "0" b = "0 " uts = "0" ></ROW>
+
+		<ROW a = "0" r = "0" ra = "0" y = "0" e = "0" ll = "0"
+			 em = "1" me = "1" n = "1" t = "0" s = "0" at = "0" 
+			 ri = "0" b = "0 " uts = "0" ></ROW>
+		<ROW a = "0" r = "0" ra = "0" y = "0" e = "0" ll = "0"
+			 em = "1" me = "1" n = "1" t = "0" s = "0" at = "0" 
+			 ri = "0" b = "0 " uts = "0" ></ROW>
+		<ROW a = "0" r = "0" ra = "0" y = "0" e = "0" ll = "0"
+			 em = "1" me = "1" n = "1" t = "0" s = "0" at = "0" 
+			 ri = "0" b = "0 " uts = "0" ></ROW>
+		<ROW a = "0" r = "0" ra = "0" y = "0" e = "0" ll = "0"
+			 em = "1" me = "1" n = "1" t = "0" s = "0" at = "0" 
+			 ri = "0" b = "0 " uts = "0" ></ROW>
+		<ROW a = "0" r = "0" ra = "0" y = "0" e = "0" ll = "0"
+			 em = "1" me = "1" n = "1" t = "0" s = "0" at = "0" 
+			 ri = "0" b = "0 " uts = "0" ></ROW>
+			 
 	</MOVEABLE_SQUARES>
 
 	<NEXT_SQUARE row="BOARD_WIDTH" col="BOARD_HEIGHT">
-		<FI_ROW
-			row="{ 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0 ,0}, { 0, 0}, { 0, 1}, {-1, 0}, {-1, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}"></FI_ROW>
-		<SE_ROW
-			row="{ 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 1}, { 0, 1}, { 0,-1}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}	"></SE_ROW>
-		<TH_ROW
-			row="{ 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 1}, { 0, 1}, { 0,-1}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}"></TH_ROW>
-		<FO_ROW
-			row="{ 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 1}, { 0, 1}, { 0,-1}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}"></FO_ROW>
-		<FIF_ROW
-			row="{ 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 1}, { 0, 1}, { 0,-1}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}"></FIF_ROW>
-		<SI_ROW
-			row="{ 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 1}, {-1, 0}, { 0, 1}, { 0,-1}, {-1, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}"></SI_ROW>
-		<SEV_ROW
-			row="{ 0, 1}, {-1, 0}, {-1, 0}, {-1, 0}, {-1, 0}, {-1, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0,-1}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}"></SEV_ROW>
-		<E_ROW
-			row="{ 0, 1}, { 1, 0}, { 1, 0}, { 1, 0}, { 1, 0}, { 1, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0,-1}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}"></E_ROW>
-		<N_ROW
-			row="{ 1, 0}, { 1, 0}, { 1, 0}, { 1, 0}, { 1, 0}, { 0, 1}, { 0, 0}, { 0, 0}, { 0, 0}, { 0,-1}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}"></N_ROW>
-		<TE_ROW
-			row="{ 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 1, 0}, { 0, 1}, { 0,-1}, { 1, 0}, { 0,-1}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}"></TE_ROW>
-		<EL_ROW
-			row="{ 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 1}, { 0,-1}, { 0,-1}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}"></EL_ROW>
-		<TW_ROW
-			row="{ 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 1}, { 0,-1}, { 0,-1}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}"></TW_ROW>
-		<THR_ROW
-			row="{ 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 1}, { 0,-1}, { 0,-1}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}"></THR_ROW>
-		<F_ROW
-			row="{ 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 1}, { 0,-1}, { 0,-1}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}"></F_ROW>
-		<FIFT_ROW
-			row="{ 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 0, 0}, { 1, 0}, { 1, 0}, { 0,-1}, { 0, 0}, { 0, 0}, { 0 ,0}, { 0, 0}, { 0, 0}, { 0, 0}"></FIFT_ROW>
+		<ROW>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+
+			<PAIR first = "0" second= "1"></PAIR>
+			<PAIR first = "-1" second= "0"></PAIR>
+			<PAIR first = "-1" second= "0"></PAIR>
+
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+		</ROW>
+		
+		<ROW>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+
+			<PAIR first = "0" second= "1"></PAIR>
+			<PAIR first = "0" second= "1"></PAIR>
+			<PAIR first = "0" second= "-1"></PAIR>
+
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+		</ROW>
+		
+		<ROW>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+
+			<PAIR first = "0" second= "1"></PAIR>
+			<PAIR first = "0" second= "1"></PAIR>
+			<PAIR first = "0" second= "-1"></PAIR>
+
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+		</ROW>
+		
+		<ROW>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+
+			<PAIR first = "0" second= "1"></PAIR>
+			<PAIR first = "0" second= "1"></PAIR>
+			<PAIR first = "0" second= "-1"></PAIR>
+
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+		</ROW>
+		
+		<ROW>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+
+			<PAIR first = "0" second= "1"></PAIR>
+			<PAIR first = "0" second= "1"></PAIR>
+			<PAIR first = "0" second= "-1"></PAIR>
+
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+		</ROW>
+		
+		<ROW>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+
+			<PAIR first = "0" second= "1"></PAIR>
+			<PAIR first = "-1" second= "0"></PAIR>
+			<PAIR first = "0" second= "1"></PAIR>
+			<PAIR first = "0" second= "-1"></PAIR>
+			<PAIR first = "-1" second= "0"></PAIR>
+
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+		</ROW>
+		
+		<ROW>
+			<PAIR first = "0" second= "1"></PAIR>
+
+			<PAIR first = "-1" second= "0"></PAIR>			
+			<PAIR first = "-1" second= "0"></PAIR>
+			<PAIR first = "-1" second= "0"></PAIR>
+			<PAIR first = "-1" second= "0"></PAIR>
+			<PAIR first = "-1" second= "0"></PAIR>
+
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+
+			<PAIR first = "0" second= "-1"></PAIR>
+
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+		</ROW>
+		
+		<ROW>
+			<PAIR first = "0" second= "1"></PAIR>
+
+			<PAIR first = "1" second= "0"></PAIR>			
+			<PAIR first = "1" second= "0"></PAIR>
+			<PAIR first = "1" second= "0"></PAIR>
+			<PAIR first = "1" second= "0"></PAIR>
+			<PAIR first = "1" second= "0"></PAIR>
+
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+
+			<PAIR first = "0" second= "-1"></PAIR>
+
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+		</ROW>
+				
+		<ROW>
+			<PAIR first = "1" second= "0"></PAIR>
+			<PAIR first = "1" second= "0"></PAIR>			
+			<PAIR first = "1" second= "0"></PAIR>
+			<PAIR first = "1" second= "0"></PAIR>
+			<PAIR first = "1" second= "0"></PAIR>
+
+			<PAIR first = "0" second= "1"></PAIR>
+
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+
+			<PAIR first = "0" second= "-1"></PAIR>
+
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+		</ROW>
+		
+		<ROW>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+
+			<PAIR first = "1" second= "0"></PAIR>
+			<PAIR first = "0" second= "1"></PAIR>
+			<PAIR first = "0" second= "-1"></PAIR>
+			<PAIR first = "1" second= "0"></PAIR>
+			<PAIR first = "0" second= "-1"></PAIR>
+
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+		</ROW>
+		
+		<ROW>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+
+			<PAIR first = "0" second= "1"></PAIR>
+			<PAIR first = "0" second= "-1"></PAIR>
+			<PAIR first = "0" second= "-1"></PAIR>
+
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+		</ROW>
+		
+		<ROW>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+
+			<PAIR first = "0" second= "1"></PAIR>
+			<PAIR first = "0" second= "-1"></PAIR>
+			<PAIR first = "0" second= "-1"></PAIR>
+
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+		</ROW>
+		
+		<ROW>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+
+			<PAIR first = "0" second= "1"></PAIR>
+			<PAIR first = "0" second= "-1"></PAIR>
+			<PAIR first = "0" second= "-1"></PAIR>
+
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+		</ROW>
+		
+		<ROW>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+
+			<PAIR first = "0" second= "1"></PAIR>
+			<PAIR first = "0" second= "-1"></PAIR>
+			<PAIR first = "0" second= "-1"></PAIR>
+
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+		</ROW>
+		
+		<ROW>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+
+			<PAIR first = "1" second= "0"></PAIR>
+			<PAIR first = "1" second= "0"></PAIR>
+			<PAIR first = "0" second= "-1"></PAIR>
+
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+			<PAIR first = "0" second= "0"></PAIR>
+		</ROW>
 	</NEXT_SQUARE>
 
 	<ACTIVE_SQUARES>
-		<FI_ROW row=   "{6,0}, {7,0}, {8,0}" ></FI_ROW>
-		<SE_ROW row=   "{6,1}, {8,1}" ></SE_ROW>
-		<TH_ROW row=   "{6,2}, {8,2}" ></TH_ROW>
-		<FO_ROW row=   "{6,3}, {8,3}" ></FO_ROW>
-		<FIF_ROW row=  "{6,4}, {8,4}" ></FIF_ROW>
-		<SI_ROW row=   "{5,5}, {6,5}, {8,5}, {9,5}" ></SI_ROW>
-		<SEV_ROW row=  "{0,6}, {1,6}, {2,6}, {3,6}, {4,6}, {5,6}, {9,6}" ></SEV_ROW>
-		<E_ROW row=    "{0,7}, {9,7}" ></E_ROW>
-		<N_ROW row=    "{0,8}, {1,8}, {2,7}, {3,8}, {4,8}, {5,8}, {8,8}" ></N_ROW>
-		<TE_ROW row=   "{5,9}, {6,9}, {8,9}, {9,9}" ></TE_ROW>
-		<EL_ROW row=   "{6,10}, {8,10}" ></EL_ROW>
-		<TW_ROW row=   "{6,11}, {8,11}" ></TW_ROW>
-		<THR_ROW row=  "{6,12},	{8,12}" ></THR_ROW>
-		<F_ROW row=    "{6,13}, {8,13}" ></F_ROW>
-		<FIFT_ROW row= "{6,14}, {7,14}, {8,14}" ></FIFT_ROW>
+		<ROW>
+			<PAIR first = "6" second= "0"></PAIR>
+			<PAIR first = "7" second= "0"></PAIR>
+			<PAIR first = "8" second= "0"></PAIR>
+		</ROW>
+		
+		<ROW>
+			<PAIR first = "6" second= "1"></PAIR>
+			<PAIR first = "8" second= "1"></PAIR>
+		</ROW>
+		
+		<ROW>
+			<PAIR first = "6" second= "2"></PAIR>
+			<PAIR first = "8" second= "2"></PAIR>
+		</ROW>
+		
+		<ROW>
+			<PAIR first = "6" second= "3"></PAIR>
+			<PAIR first = "8" second= "3"></PAIR>
+		</ROW>
+		
+		<ROW>
+			<PAIR first = "6" second= "4"></PAIR>
+			<PAIR first = "8" second= "4"></PAIR>
+		</ROW> 
+		
+		<ROW>
+			<PAIR first = "5" second= "5"></PAIR>
+			<PAIR first = "6" second= "5"></PAIR>
+			<PAIR first = "8" second= "5"></PAIR>
+			<PAIR first = "9" second= "5"></PAIR>
+		</ROW>
+		
+		<ROW>
+			<PAIR first = "0" second= "6"></PAIR>
+			<PAIR first = "1" second= "6"></PAIR>
+			<PAIR first = "2" second= "6"></PAIR>
+			<PAIR first = "3" second= "6"></PAIR>
+			<PAIR first = "4" second= "6"></PAIR>
+			<PAIR first = "5" second= "6"></PAIR>
+			<PAIR first = "9" second= "6"></PAIR>
+		</ROW>
+		
+		<ROW>
+			<PAIR first = "0" second= "7"></PAIR>
+			<PAIR first = "9" second= "7"></PAIR>
+		</ROW> 
+		
+		<ROW>
+			<PAIR first = "0" second= "8"></PAIR>
+			<PAIR first = "1" second= "8"></PAIR>
+			<PAIR first = "2" second= "7"></PAIR>
+			<PAIR first = "3" second= "8"></PAIR>
+			<PAIR first = "4" second= "8"></PAIR>
+			<PAIR first = "5" second= "8"></PAIR>
+			<PAIR first = "8" second= "8"></PAIR>
+		</ROW>
+
+		<ROW>
+			<PAIR first = "5" second= "9"></PAIR>
+			<PAIR first = "6" second= "9"></PAIR>
+			<PAIR first = "8" second= "9"></PAIR>
+			<PAIR first = "9" second= "9"></PAIR>
+		</ROW>
+
+		<ROW>
+			<PAIR first = "6" second= "10"></PAIR>
+			<PAIR first = "8" second= "10"></PAIR>
+		</ROW>
+		
+		<ROW>
+			<PAIR first = "6" second= "11"></PAIR>
+			<PAIR first = "8" second= "11"></PAIR>
+		</ROW>
+		
+		<ROW>
+			<PAIR first = "6" second= "12"></PAIR>
+			<PAIR first = "8" second= "12"></PAIR>
+		</ROW>
+		
+		<ROW>
+			<PAIR first = "6" second= "13"></PAIR>
+			<PAIR first = "8" second= "13"></PAIR>
+		</ROW>
+		
+		<ROW>
+			<PAIR first = "6" second= "14"></PAIR>
+			<PAIR first = "7" second= "14"></PAIR>
+			<PAIR first = "8" second= "14"></PAIR>
+		</ROW>
 	</ACTIVE_SQUARES>
 
 	<START_POS>
