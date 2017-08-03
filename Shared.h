@@ -41,6 +41,12 @@ extern bool quit;
 #define BUTTON_WIDTH 200
 #define BUTTON_HEIGHT 54
 
+//UI slider size
+#define SLIDER_WIDTH 315
+#define SLIDER_HEIGHT 83
+#define KNOB_WIDTH 20
+#define KNOB_HEIGHT 83
+
 ///Win screen data spacing
 #define WIN_X_OFF 135
 #define WIN_Y_OFF 335
@@ -96,7 +102,7 @@ const pair<int,int> IDLE_POS[5]{
 #define Y_OFF 40
 
 ///Active board
-const bool MOVEABLE_SQUARES[BOARD_HEIGHT][BOARD_HEIGHT]{
+const bool MOVEABLE_SQUARES[BOARD_HEIGHT][BOARD_WIDTH]{
 	{0,0,0,0,0,0,1,1,1,0,0,0,0,0,0},
 	{0,0,0,0,0,0,1,1,1,0,0,0,0,0,0},
 	{0,0,0,0,0,0,1,1,1,0,0,0,0,0,0},
@@ -279,6 +285,10 @@ const pair<int,int> DICE_POS[]{
 #define SOUND_ON_PATH "./GFX/button_sound_on.png"
 #define SOUND_OFF_PATH "./GFX/button_sound_off.png"
 #define RULES_PATH "./GFX/button_rules.png"
+#define SFX_SLIDER_PATH "./GFX/sound_sfx.png"
+#define BGM_SLIDER_PATH "./GFX/sound_bgm.png"
+#define SLIDER_KNOB_PATH "./GFX/slider_knob.png"
+
 
 ///Square highlighter path
 #define HIGHLIGHTER_PATH "./GFX/highlight.png"

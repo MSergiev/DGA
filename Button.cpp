@@ -137,14 +137,6 @@ void Button::render(){
 	mLabel.render(((mButtonBase.w-mLabel.getWidth())/2)+mButtonBase.x, ((mButtonBase.h-mLabel.getHeight())/2)+mButtonBase.y);
 }
 
-//Resource releasing method
-void Button::free(){
-	//Release label texture
-	mLabel.free();
-	//Release button texture
-	mTexture.free();
-}
-
 //Destructor
 Button::~Button(){
 }
