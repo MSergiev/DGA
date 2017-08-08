@@ -3,11 +3,18 @@
 #ifndef SHARED_H
 #define SHARED_H
 
-#include "Initialization.h"
+//#include "Initialization.h"
 
+#include <iostream>
 #include <string>
 using std::string;
 using std::pair;
+using std::cout;
+
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_mixer.h>
 
 ///Quit flag
 extern bool quit;
@@ -332,91 +339,91 @@ extern bool quit;
 ///Debug mode
 #define DEBUG
 
-Initialization initData;
-static int WIDTH = initData.getWidth();
-static int HEIGHT = initData.getHeight();
-static int FIELD_WIDTH = initData.getFw();
-static int FIELD_HEIGHT = initData.getFieldHeight();
-static int BOARD_LENGTH = initData.getBoardLength();
-static int BOARD_WIDTH = initData.getBoardWidth();
-static int BOARD_HEIGHT = initData.getBoardHeight();
-static int SQUARE_SIZE = initData.getSquareSize();
-static int BUTTON_WIDTH = initData.getButtonWidth();
-static int BUTTON_HEIGHT = initData.getButtonHeight();
-static int FONT_SIZE = initData.getFontSize();
-static int RULES_WIDTH = initData.getRulesWidth();
-static int RULES_HEIGHT = initData.getHeight();
+//Initialization initData;
+extern int WIDTH;
+extern int HEIGHT;
+extern int FIELD_WIDTH;
+extern int FIELD_HEIGHT;
+extern int BOARD_LENGTH;
+extern int BOARD_WIDTH;
+extern int BOARD_HEIGHT;
+extern int SQUARE_SIZE;
+extern int BUTTON_WIDTH;
+extern int BUTTON_HEIGHT;
+extern int FONT_SIZE;
+extern int RULES_WIDTH;
+extern int RULES_HEIGHT;
 
-static int PLAYERS;
-static int PAWNS;
-static int PLAYER_DATA;
-static int MOVEMENT_DELAY;
+extern int PLAYERS;
+extern int PAWNS;
+extern int PLAYER_DATA;
+extern int MOVEMENT_DELAY;
 
-static int PAWN_FRAMES;/*
-static float SPRITE_SCALE[PLAYER_DATA];*/
+extern int PAWN_FRAMES;
+//extern float SPRITE_SCALE[PLAYER_DATA];
 
-static int WIN_X_OFF;
-static int WIN_Y_OFF;
-static int WIN_X_DATA;
-static int WIN_Y_DATA;
-static int WIN_SHADOW_OFF;
-static int VERT_OFFSET;
+extern int WIN_X_OFF;
+extern int WIN_Y_OFF;
+extern int WIN_X_DATA;
+extern int WIN_Y_DATA;
+extern int WIN_SHADOW_OFF;
+extern int VERT_OFFSET;
 
-static SDL_Color C_WHITE;
-static SDL_Color C_BLACK;
-static SDL_Color C_RED;
-static SDL_Color C_BLUE;
-static SDL_Color C_GREEN;
-static SDL_Color C_YELLOW;
+extern SDL_Color C_WHITE;
+extern SDL_Color C_BLACK;
+extern SDL_Color C_RED;
+extern SDL_Color C_BLUE;
+extern SDL_Color C_GREEN;
+extern SDL_Color C_YELLOW;
 
 enum Colors
 {
-	NONE = 0, YELLOW, RED, BLUE
+	NONE=0, YELLOW, RED, BLUE
 };
 
-static int ZERO_X_POS;
-static int ZERO_Y_POS;
-static int ZERO_X_INDEX;
-static int ZERO_Y_INDEX;
-static int X_OFF;
-static int Y_OFF;
+extern int ZERO_X_POS;
+extern int ZERO_Y_POS;
+extern int ZERO_X_INDEX;
+extern int ZERO_Y_INDEX;
+extern int X_OFF;
+extern int Y_OFF;
 /*
 
-unsigned START_POS[PLAYERS] { };
-const pair<int, int> IDLE_POS[5] { };
-bool MOVEABLE_SQUARES[BOARD_HEIGHT][BOARD_WIDTH] {
+ unsigned START_POS[PLAYERS] { };
+ const pair<int, int> IDLE_POS[5] { };
+ bool MOVEABLE_SQUARES[BOARD_HEIGHT][BOARD_WIDTH] {
 
-};
-pair<int, int> NEXT_SQUARE[BOARD_HEIGHT][BOARD_WIDTH] {
+ };
+ pair<int, int> NEXT_SQUARE[BOARD_HEIGHT][BOARD_WIDTH] {
 
-};
-pair<int, int> NEXT_SAFE[3] { };
-pair<int, int> ACTIVE_SQUARES[BOARD_LENGTH] { };
-pair<int, int> SAFE_SQUARES[BOARD_HEIGHT][BOARD_WIDTH] { };
-pair<int, int> FINAL_SQUARES[PLAYERS] { };
-pair<int, int> BASE_SQUARES[BOARD_HEIGHT][BOARD_WIDTH] { };
-pair<int, int> START_SQUARES[PLAYERS] { };
-pair<int, int> ENTRY_SQUARES[PLAYERS] { };
-pair<int, int> PAWN_LAYOUT[] { };
-pair<int, int> SCREEN_COORDS[] { };
-pair<int, int> DICE_POS[PLAYERS] { };
-*/
+ };
+ pair<int, int> NEXT_SAFE[3] { };
+ pair<int, int> ACTIVE_SQUARES[BOARD_LENGTH] { };
+ pair<int, int> SAFE_SQUARES[BOARD_HEIGHT][BOARD_WIDTH] { };
+ pair<int, int> FINAL_SQUARES[PLAYERS] { };
+ pair<int, int> BASE_SQUARES[BOARD_HEIGHT][BOARD_WIDTH] { };
+ pair<int, int> START_SQUARES[PLAYERS] { };
+ pair<int, int> ENTRY_SQUARES[PLAYERS] { };
+ pair<int, int> PAWN_LAYOUT[] { };
+ pair<int, int> SCREEN_COORDS[] { };
+ pair<int, int> DICE_POS[PLAYERS] { };
+ */
 
-static int TITLE_START;
-static int TITLE_CONTINUE;
-static int TITLE_QUIT;
-static int WIN_RESTART;
-static int WIN_QUIT;
-static int CONTROLS_SOUND;
-static int CONTROLS_RULES;
-static int CONTROLS_QUIT;
-static int RULES_BACK;
-static int RULES_NEXT;
-static int FADE_FACTOR;
-static int SLIDER_WIDTH;
-static int SLIDER_HEIGHT;
-static int KNOB_WIDTH;
-static int KNOB_HEIGHT;
+extern int TITLE_START;
+extern int TITLE_CONTINUE;
+extern int TITLE_QUIT;
+extern int WIN_RESTART;
+extern int WIN_QUIT;
+extern int CONTROLS_SOUND;
+extern int CONTROLS_RULES;
+extern int CONTROLS_QUIT;
+extern int RULES_BACK;
+extern int RULES_NEXT;
+extern int FADE_FACTOR;
+extern int SLIDER_WIDTH;
+extern int SLIDER_HEIGHT;
+extern int KNOB_WIDTH;
+extern int KNOB_HEIGHT;
 
 static string FONT_PATH;
 static string PAWN_PATH;
