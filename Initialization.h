@@ -44,6 +44,7 @@ public:
 	int MOVEMENT_DELAY;
 
 	int PAWN_FRAMES;
+	float SPRITE_SCALE[];
 
 	int WIN_X_OFF;
 	int WIN_Y_OFF;
@@ -52,19 +53,24 @@ public:
 	int WIN_SHADOW_OFF;
 	int VERT_OFFSET;
 
-	SDL_Color C_WHITE;
-	SDL_Color C_BLACK;
-	SDL_Color C_RED;
-	SDL_Color C_BLUE;
-	SDL_Color C_GREEN;
-	SDL_Color C_YELLOW;
-
 	int ZERO_X_POS;
 	int ZERO_Y_POS;
 	int ZERO_X_INDEX;
 	int ZERO_Y_INDEX;
 	int X_OFF;
 	int Y_OFF;
+
+	//pair<int, int> BASE_SQUARES[][];
+
+	unsigned START_POS[];
+
+	pair<int, int> IDLE_POS[];
+	pair<int, int> FINAL_SQUARES[];
+	pair<int, int> START_SQUARES[];
+	pair<int, int> ENTRY_SQUARES[];
+	pair<int, int> PAWN_LAYOUT[];
+	pair<int, int> SCREEN_COORDS[];
+	pair<int, int> DICE_POS[];
 
 	int TITLE_START;
 	int TITLE_CONTINUE;
@@ -124,14 +130,26 @@ private:
 	void InitGame(pugi::xml_node &);
 	void InitAnimation(pugi::xml_node &);
 	void InitSpacing(pugi::xml_node &);
-	void InitDrawnColors(pugi::xml_node &);
 	void InitCoordinates(pugi::xml_node&);
-	void InitEnumColors(pugi::xml_node &);
 	void InitUI_CONSTANTS(pugi::xml_node &);
+
 	void InitUI_ELEMENTS_PATHS(pugi::xml_node &);
 	void InitBASIC_PATHS(pugi::xml_node &);
+
 	void InitExplosion_FX_DATA(pugi::xml_node &);
 	void InitShockwave_FX_DATA(pugi::xml_node &);
+
+	void InitDicePos(pugi::xml_node &);
+	void InitSCREEN_COORDS(pugi::xml_node&);
+	void InitPAWN_LAYOUT(pugi::xml_node&);
+	void InitENTRY_SQUARES(pugi::xml_node&);
+	void InitSTART_SQUARES(pugi::xml_node&);
+	void InitFINAL_SQUARES(pugi::xml_node& constants);
+	void InitIDLE_POS(pugi::xml_node& constants);
+
+	void InitSTART_POS(pugi::xml_node& constants);
+
+	void InitBASE_SQUARES(pugi::xml_node& constants);
 
 public:
 	Initialization();
@@ -185,18 +203,6 @@ public:
 	void setWinYData(int winYData);
 
 	void setWinYOff(int winYOff);
-
-	void setBlack(SDL_Color black);
-
-	void setBlue(SDL_Color blue);
-
-	void setGreen(SDL_Color green);
-
-	void setRed(SDL_Color red);
-
-	void setWhite(SDL_Color white);
-
-	void setYellow(SDL_Color yellow);
 
 	void setYOff(int off);
 

@@ -52,11 +52,26 @@ void Initialization::InitAnimation(pugi::xml_node& constants)
 	// animation
 	pugi::xml_node animation = constants.child("animation");
 	setPawnFrames(animation.child("PAWN_FRAMES").text().as_int());
+	int i = 0;
+	pugi::xml_node SCALE = animation.child("SPRITE_SCALE");
+
+	for (pugi::xml_node number = SCALE.child("one"); number; number =
+			number.next_sibling())
+	{
+		SPRITE_SCALE[i] = number.text().as_float();
+		i++;
+	}
+
+	cout << "DEBUG: SPRITE_SCALE" << endl;
+	for (int j = 0; j < 5; j++)
+	{
+		cout << SPRITE_SCALE[j] << endl;
+	}
 }
 
 void Initialization::InitSpacing(pugi::xml_node& constants)
 {
-	// spacing
+// spacing
 	pugi::xml_node spacing = constants.child("spacing");
 	setWinXOff(spacing.child("WIN_X_OFF").text().as_int());
 	setWinYOff(spacing.child("WIN_Y_OFF").text().as_int());
@@ -66,39 +81,9 @@ void Initialization::InitSpacing(pugi::xml_node& constants)
 	setVertOffset(spacing.child("VERT_OFFSET").text().as_int());
 }
 
-void Initialization::InitDrawnColors(pugi::xml_node& constants)
-{
-	// drawnColors
-	pugi::xml_node drawnColors = constants.child("drawnColors");
-	pugi::xml_node c_white = drawnColors.child("C_WHITE");
-	pugi::xml_attribute_iterator ait = c_white.attributes_begin();
-	//setWhite();
-
-	pugi::xml_node c_black = drawnColors.child("C_BLACK");
-	pugi::xml_attribute_iterator a = c_black.attributes_begin();
-
-	pugi::xml_node C_RED = drawnColors.child("C_RED");
-	pugi::xml_attribute_iterator ai = C_RED.attributes_begin();
-
-	pugi::xml_node C_BLUE = drawnColors.child("C_BLUE");
-	pugi::xml_attribute_iterator t = C_BLUE.attributes_begin();
-
-	pugi::xml_node C_GREEN = drawnColors.child("C_GREEN");
-	pugi::xml_attribute_iterator aitr = C_GREEN.attributes_begin();
-
-	pugi::xml_node C_YELLOW = drawnColors.child("C_YELLOW");
-	pugi::xml_attribute_iterator aitri = C_YELLOW.attributes_begin();
-}
-
-void Initialization::InitEnumColors(pugi::xml_node& constants)
-{
-
-	//enumColors
-}
-
 void Initialization::InitCoordinates(pugi::xml_node& constants)
 {
-	// coordinates
+// coordinates
 	pugi::xml_node coordinates = constants.child("coordinates");
 	setZeroXPos(coordinates.child("ZERO_X_POS").text().as_int());
 	setZeroYPos(coordinates.child("ZERO_Y_POS").text().as_int());
@@ -108,10 +93,183 @@ void Initialization::InitCoordinates(pugi::xml_node& constants)
 	setYOff(coordinates.child("Y_OFF").text().as_int());
 }
 
+void Initialization::InitBASE_SQUARES(pugi::xml_node& constants)
+{
+
+}
+
+void Initialization::InitSTART_POS(pugi::xml_node& constants)
+{
+	//START_POS
+	pugi::xml_node POS = constants.child("START_POS");
+	int i = 0;
+
+	for (pugi::xml_node number = POS.child("YELLOW"); number; number =
+			number.next_sibling())
+	{
+		START_POS[i] = number.text().as_int();
+		i++;
+	}
+
+	cout << "DEBUG: START_POS" << endl;
+	for (int j = 0; j < 3; j++)
+	{
+		cout << START_POS[j] << endl;
+	}
+}
+
+void Initialization::InitIDLE_POS(pugi::xml_node& constants)
+{
+	//IDLE_POS
+	pugi::xml_node POS = constants.child("IDLE_POS");
+
+	int i = 0;
+	for (pugi::xml_node YELLOW = POS.child("YELLOW"); YELLOW; YELLOW =
+			YELLOW.next_sibling())
+	{
+		IDLE_POS[i].first = YELLOW.child("x").text().as_int();
+		IDLE_POS[i].second = YELLOW.child("y").text().as_int();
+		i++;
+	}
+	cout << "DEBUG: IDLE_POS" << endl;
+	for (int j = 0; j < 3; j++)
+	{
+		cout << IDLE_POS[j].first << " " << IDLE_POS[j].second
+				<< endl;
+	}
+}
+
+void Initialization::InitFINAL_SQUARES(pugi::xml_node& constants)
+{
+	//FINAL_SQUARES
+	pugi::xml_node SQUARES = constants.child("FINAL_SQUARES");
+
+	int i = 0;
+	for (pugi::xml_node YELLOW = SQUARES.child("YELLOW"); YELLOW;
+			YELLOW = YELLOW.next_sibling())
+	{
+		FINAL_SQUARES[i].first = YELLOW.child("x").text().as_int();
+		FINAL_SQUARES[i].second = YELLOW.child("y").text().as_int();
+		i++;
+	}
+	cout << "DEBUG: FINAL_SQUARES" << endl;
+	for (int j = 0; j < 3; j++)
+	{
+		cout << FINAL_SQUARES[j].first << " "
+				<< FINAL_SQUARES[j].second << endl;
+	}
+}
+
+void Initialization::InitSTART_SQUARES(pugi::xml_node& constants)
+{
+	//START_SQUARES
+	pugi::xml_node SQUARES = constants.child("START_SQUARES");
+
+	int i = 0;
+	for (pugi::xml_node YELLOW = SQUARES.child("YELLOW"); YELLOW;
+			YELLOW = YELLOW.next_sibling())
+	{
+		START_SQUARES[i].first = YELLOW.child("x").text().as_int();
+		START_SQUARES[i].second = YELLOW.child("y").text().as_int();
+		i++;
+	}
+	cout << "DEBUG: START_SQUARES" << endl;
+	for (int j = 0; j < 3; j++)
+	{
+		cout << START_SQUARES[j].first << " "
+				<< START_SQUARES[j].second << endl;
+	}
+}
+
+void Initialization::InitENTRY_SQUARES(pugi::xml_node& constants)
+{
+	//ENTRY_SQUARES
+	pugi::xml_node SQUARES = constants.child("ENTRY_SQUARES");
+
+	int i = 0;
+	for (pugi::xml_node YELLOW = SQUARES.child("YELLOW"); YELLOW;
+			YELLOW = YELLOW.next_sibling())
+	{
+		ENTRY_SQUARES[i].first = YELLOW.child("x").text().as_int();
+		ENTRY_SQUARES[i].second = YELLOW.child("y").text().as_int();
+		i++;
+	}
+	cout << "DEBUG: ENTRY_SQUARES" << endl;
+	for (int j = 0; j < 3; j++)
+	{
+		cout << ENTRY_SQUARES[j].first << " "
+				<< ENTRY_SQUARES[j].second << endl;
+	}
+}
+
+void Initialization::InitPAWN_LAYOUT(pugi::xml_node& constants)
+{
+	// PAWN_LAYOUT
+	pugi::xml_node LAYOUT = constants.child("PAWN_LAYOUT");
+
+	int i = 0;
+	for (pugi::xml_node one = LAYOUT.child("one"); one;
+			one = one.next_sibling())
+	{
+		PAWN_LAYOUT[i].first = one.child("x").text().as_int();
+		PAWN_LAYOUT[i].second = one.child("y").text().as_int();
+		i++;
+	}
+	cout << "DEBUG: PAWN_LAYOUT" << endl;
+	for (int j = 0; j < 5; j++)
+	{
+		cout << PAWN_LAYOUT[j].first << " " << PAWN_LAYOUT[j].second
+				<< endl;
+	}
+}
+
+void Initialization::InitSCREEN_COORDS(pugi::xml_node& constants)
+{
+	// SCREEN_COORDS
+	pugi::xml_node COORDS = constants.child("SCREEN_COORDS");
+
+	int i = 0;
+	for (pugi::xml_node BLANK = COORDS.child("BLANK"); BLANK; BLANK =
+			BLANK.next_sibling())
+	{
+
+		SCREEN_COORDS[i].first = BLANK.child("x").text().as_int();
+		SCREEN_COORDS[i].second = BLANK.child("y").text().as_int();
+		i++;
+	}
+	cout << "DEBUG: SCREEN_COORDS" << endl;
+	for (int j = 0; j < 6; j++)
+	{
+		cout << SCREEN_COORDS[j].first << " "
+				<< SCREEN_COORDS[j].second << endl;
+	}
+}
+
+void Initialization::InitDicePos(pugi::xml_node& constants)
+{
+	// DICE_POS
+	pugi::xml_node POS = constants.child("DICE_POS");
+
+	int i = 0;
+	for (pugi::xml_node YELLOW = POS.child("YELLOW"); YELLOW; YELLOW =
+			YELLOW.next_sibling())
+	{
+		DICE_POS[i].first = YELLOW.child("x").text().as_int();
+		DICE_POS[i].second = YELLOW.child("y").text().as_int();
+		i++;
+	}
+	cout << "DEBUG: DICE_POS" << endl;
+	for (int j = 0; j < 3; j++)
+	{
+		cout << DICE_POS[j].first << " " << DICE_POS[j].second
+				<< endl;
+	}
+}
+
 void Initialization::InitUI_CONSTANTS(pugi::xml_node& constants)
 {
 
-	//UI_CONSTANTS
+//UI_CONSTANTS
 	pugi::xml_node UI_CONSTANTS = constants.child("UI_CONSTANTS");
 	setTitleStart(UI_CONSTANTS.child("TITLE_START").text().as_int());
 	setTitleContinue(
@@ -139,7 +297,7 @@ void Initialization::InitUI_CONSTANTS(pugi::xml_node& constants)
 void Initialization::InitUI_ELEMENTS_PATHS(pugi::xml_node& constants)
 {
 
-	// UI_ELEMENTS_PATHS
+// UI_ELEMENTS_PATHS
 	pugi::xml_node UI_ELEMENTS_PATHS = constants.child(
 			"UI_CONSTANTS");
 	setRestartPath(
@@ -164,7 +322,7 @@ void Initialization::InitUI_ELEMENTS_PATHS(pugi::xml_node& constants)
 
 void Initialization::InitBASIC_PATHS(pugi::xml_node& constants)
 {
-	//BASIC_PATHS
+//BASIC_PATHS
 	pugi::xml_node BASIC_PATHS = constants.child("BASIC_PATHS");
 	setFontPath(BASIC_PATHS.child("FONT_PATH").text().as_string());
 	setPawnPath(BASIC_PATHS.child("PAWN_PATH").text().as_string());
@@ -181,7 +339,7 @@ void Initialization::InitBASIC_PATHS(pugi::xml_node& constants)
 
 void Initialization::InitExplosion_FX_DATA(pugi::xml_node& constants)
 {
-	//Explosion_FX_DATA
+//Explosion_FX_DATA
 	pugi::xml_node Explosion_FX_DATA = constants.child(
 			"Explosion_FX_DATA");
 	setExplodePath(
@@ -198,7 +356,7 @@ void Initialization::InitExplosion_FX_DATA(pugi::xml_node& constants)
 
 void Initialization::InitShockwave_FX_DATA(pugi::xml_node& constants)
 {
-	//Shockwave_FX_DATA
+//Shockwave_FX_DATA
 	pugi::xml_node Shockwave_FX_DATA = constants.child(
 			"Shockwave_FX_DATA");
 	setShockPath(
@@ -217,7 +375,8 @@ void Initialization::InitializeData()
 {
 	pugi::xml_document doc;
 	pugi::xml_parse_result res = doc.load_file("Constants.xml");
-	// checking if the file is loaded
+
+// checking if the file is loaded
 	if (!res)
 	{
 		// show what is the problem
@@ -232,9 +391,16 @@ void Initialization::InitializeData()
 	InitGame(constants);
 	InitAnimation(constants);
 	InitSpacing(constants);
-	InitDrawnColors(constants);
 	InitCoordinates(constants);
-	InitEnumColors(constants);
+
+	InitSTART_POS(constants);
+	InitIDLE_POS(constants);
+	InitFINAL_SQUARES(constants);
+	InitSTART_SQUARES(constants);
+	InitENTRY_SQUARES(constants);
+	InitPAWN_LAYOUT(constants);
+	InitSCREEN_COORDS(constants);
+	InitDicePos(constants);
 	InitUI_CONSTANTS(constants);
 	InitUI_ELEMENTS_PATHS(constants);
 	InitBASIC_PATHS(constants);
@@ -343,31 +509,6 @@ void Initialization::setWinXOff(int winXOff)
 void Initialization::setWinYData(int winYData)
 {
 	WIN_Y_DATA = winYData;
-}
-
-void Initialization::setBlack(SDL_Color black)
-{
-	C_BLACK = black;
-}
-
-void Initialization::setBlue(SDL_Color blue)
-{
-	C_BLUE = blue;
-}
-
-void Initialization::setGreen(SDL_Color green)
-{
-	C_GREEN = green;
-}
-
-void Initialization::setRed(SDL_Color red)
-{
-	C_RED = red;
-}
-
-void Initialization::setWhite(SDL_Color white)
-{
-	C_WHITE = white;
 }
 
 void Initialization::setXOff(int off)
@@ -611,11 +752,6 @@ void Initialization::setWinRestart(int winRestart)
 void Initialization::setZeroYPos(int zeroYPos)
 {
 	ZERO_Y_POS = zeroYPos;
-}
-
-void Initialization::setYellow(SDL_Color yellow)
-{
-	C_YELLOW = yellow;
 }
 
 void Initialization::setWinYOff(int winYOff)

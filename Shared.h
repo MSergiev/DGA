@@ -3,8 +3,6 @@
 #ifndef SHARED_H
 #define SHARED_H
 
-//#include "Initialization.h"
-
 #include <iostream>
 #include <string>
 using std::string;
@@ -339,7 +337,30 @@ extern bool quit;
 ///Debug mode
 #define DEBUG
 
-//Initialization initData;
+///BGM
+#define BGM menuS
+
+///SFX
+#define BUTTON_SFX click
+#define ON_MOVE typing
+#define ON_COLLISION explosion
+#define ON_ACTIVATION jump
+#define ON_ROLL DiceRoll
+#define ON_SIX orchHit
+#define ON_DICE ding
+
+#define C_WHITE {255,255,255,255}
+#define C_BLACK {0,0,0,255}
+#define C_RED {255,0,0,255}
+#define C_BLUE {0,255,0,255}
+#define C_GREEN {0,0,255,255}
+#define C_YELLOW {255,255,0,255}
+
+enum Colors
+{
+	NONE = 0, YELLOW, RED, BLUE
+};
+
 extern int WIDTH;
 extern int HEIGHT;
 extern int FIELD_WIDTH;
@@ -360,7 +381,7 @@ extern int PLAYER_DATA;
 extern int MOVEMENT_DELAY;
 
 extern int PAWN_FRAMES;
-//extern float SPRITE_SCALE[PLAYER_DATA];
+extern float SPRITE_SCALE[];
 
 extern int WIN_X_OFF;
 extern int WIN_Y_OFF;
@@ -368,18 +389,6 @@ extern int WIN_X_DATA;
 extern int WIN_Y_DATA;
 extern int WIN_SHADOW_OFF;
 extern int VERT_OFFSET;
-
-extern SDL_Color C_WHITE;
-extern SDL_Color C_BLACK;
-extern SDL_Color C_RED;
-extern SDL_Color C_BLUE;
-extern SDL_Color C_GREEN;
-extern SDL_Color C_YELLOW;
-
-enum Colors
-{
-	NONE=0, YELLOW, RED, BLUE
-};
 
 extern int ZERO_X_POS;
 extern int ZERO_Y_POS;
@@ -389,8 +398,8 @@ extern int X_OFF;
 extern int Y_OFF;
 /*
 
- unsigned START_POS[PLAYERS] { };
- const pair<int, int> IDLE_POS[5] { };
+
+
  bool MOVEABLE_SQUARES[BOARD_HEIGHT][BOARD_WIDTH] {
 
  };
@@ -399,15 +408,16 @@ extern int Y_OFF;
  };
  pair<int, int> NEXT_SAFE[3] { };
  pair<int, int> ACTIVE_SQUARES[BOARD_LENGTH] { };
- pair<int, int> SAFE_SQUARES[BOARD_HEIGHT][BOARD_WIDTH] { };
- pair<int, int> FINAL_SQUARES[PLAYERS] { };
- pair<int, int> BASE_SQUARES[BOARD_HEIGHT][BOARD_WIDTH] { };
- pair<int, int> START_SQUARES[PLAYERS] { };
- pair<int, int> ENTRY_SQUARES[PLAYERS] { };
- pair<int, int> PAWN_LAYOUT[] { };
- pair<int, int> SCREEN_COORDS[] { };
- pair<int, int> DICE_POS[PLAYERS] { };
- */
+ pair<int, int> SAFE_SQUARES[BOARD_HEIGHT][BOARD_WIDTH] { };*/
+//extern pair<int, int> BASE_SQUARES[][];
+extern unsigned START_POS[];
+extern pair<int, int> IDLE_POS[];
+extern pair<int, int> FINAL_SQUARES[];
+extern pair<int, int> START_SQUARES[];
+extern pair<int, int> ENTRY_SQUARES[];
+extern pair<int, int> PAWN_LAYOUT[];
+extern pair<int, int> SCREEN_COORDS[];
+extern pair<int, int> DICE_POS[];
 
 extern int TITLE_START;
 extern int TITLE_CONTINUE;
