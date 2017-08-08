@@ -93,9 +93,63 @@ void Initialization::InitCoordinates(pugi::xml_node& constants)
 	setYOff(coordinates.child("Y_OFF").text().as_int());
 }
 
-void Initialization::InitBASE_SQUARES(pugi::xml_node& constants)
+void Initialization::InitNEXT_SQUARE(pugi::xml_node& constants)
 {
+	//NEXT_SQUARE
+	pugi::xml_node ACTIVE = constants.child("NEXT_SQUARE");
 
+	int i = 0;
+	int j = 0;
+	for (pugi::xml_node ROW = ACTIVE.child("ROW"); ROW;
+			ROW = ROW.next_sibling())
+	{
+		for (pugi::xml_node PAIR = ROW.child("PAIR"); PAIR; PAIR =
+				PAIR.next_sibling())
+		{
+			NEXT_SQUARE[i][j].first =
+					PAIR.attribute("first").as_int();
+			NEXT_SQUARE[i][j].second =
+					PAIR.attribute("second").as_int();
+			j++;
+		}
+		i++;
+	}
+	cout << "DEBUG: NEXT_SQUARE" << endl;
+	for (int f = 0; f < 15; f++)
+	{
+		for (int n = 0; n < 15; n++)
+		{
+			cout << NEXT_SQUARE[f][n].first << " "
+					<< NEXT_SQUARE[f][n].second << endl;
+		}
+	}
+}
+
+void Initialization::InitACTIVE_SQUARES(pugi::xml_node& constants)
+{
+	//ACTIVE_SQUARES
+	pugi::xml_node ACTIVE = constants.child("ACTIVE_SQUARES");
+
+	int i = 0;
+	for (pugi::xml_node ROW = ACTIVE.child("ROW"); ROW;
+			ROW = ROW.next_sibling())
+	{
+		for (pugi::xml_node PAIR = ROW.child("PAIR"); PAIR; PAIR =
+				PAIR.next_sibling())
+		{
+			ACTIVE_SQUARES[i].first =
+					PAIR.child("first").text().as_int();
+			ACTIVE_SQUARES[i].second =
+					PAIR.child("second").text().as_int();
+			i++;
+		}
+	}
+	cout << "DEBUG: ACTIVE_SQUARES" << endl;
+	for (int j = 0; j < 46; j++)
+	{
+		cout << ACTIVE_SQUARES[j].first << " "
+				<< ACTIVE_SQUARES[j].second << endl;
+	}
 }
 
 void Initialization::InitSTART_POS(pugi::xml_node& constants)
@@ -136,6 +190,105 @@ void Initialization::InitIDLE_POS(pugi::xml_node& constants)
 	{
 		cout << IDLE_POS[j].first << " " << IDLE_POS[j].second
 				<< endl;
+	}
+}
+
+void Initialization::InitSAFE_SQUARES(pugi::xml_node& constants)
+{
+	cout << "-------------" << endl;
+	//SAFE_SQUARES
+	pugi::xml_node SAFE = constants.child("SAFE_SQUARES");
+
+	int i = 0;
+	int j = 0;
+	for (pugi::xml_node Y = SAFE.child("YELLOW"); Y;
+			Y = Y.next_sibling())
+	{
+		for (pugi::xml_node f = Y.child("first"); f;
+				f = f.next_sibling())
+		{
+			SAFE_SQUARES[i][j].first = f.child("x").text().as_int();
+			SAFE_SQUARES[i][j].second = f.child("y").text().as_int();
+			cout << i << " : " << j << endl;
+			cout << f.child("x").text().as_int() << " : "
+					<< f.child("y").text().as_int() << endl;
+			cout << endl;
+			j++;
+		}
+		i++;
+	}
+
+	cout << "DEBUG: SAFE_SQUARES" << endl;
+	for (int z = 0; z < 5; z++)
+	{
+		for (int a = 0; a < 5; a++)
+		{
+			cout << SAFE_SQUARES[z][a].first << " "
+					<< SAFE_SQUARES[z][a].second << ", ";
+		}
+		cout << endl;
+	}
+}
+
+void Initialization::InitNEXT_SAFE(pugi::xml_node& constants)
+{
+	//NEXT_SAFE
+	pugi::xml_node POS = constants.child("NEXT_SAFE");
+
+	int i = 0;
+	for (pugi::xml_node YELLOW = POS.child("YELLOW"); YELLOW; YELLOW =
+			YELLOW.next_sibling())
+	{
+		NEXT_SAFE[i].first = YELLOW.child("x").text().as_int();
+		NEXT_SAFE[i].second = YELLOW.child("y").text().as_int();
+		i++;
+	}
+	cout << "DEBUG: NEXT_SAFE" << endl;
+	for (int j = 0; j < 3; j++)
+	{
+		cout << NEXT_SAFE[j].first << " " << NEXT_SAFE[j].second
+				<< endl;
+	}
+}
+
+void Initialization::InitBASE_SQUARES(pugi::xml_node& constants)
+{
+	cout << "-------------" << endl;
+	//BASE_SQUARES
+	pugi::xml_node SQUARES = constants.child("BASE_SQUARES");
+
+	int i = 0;
+	int j = 0;
+	for (pugi::xml_node YELLOW = SQUARES.child("YELLOW"); YELLOW;
+			YELLOW = YELLOW.next_sibling())
+	{
+
+		for (pugi::xml_node first = YELLOW.child("first"); first;
+				first = first.next_sibling())
+		{
+			BASE_SQUARES[i][j].first =
+					first.child("x").text().as_int();
+			BASE_SQUARES[i][j].second =
+					first.child("y").text().as_int();
+			cout << i << " : " << j << endl;
+			cout << first.child("x").text().as_int() << " : "
+					<< first.child("y").text().as_int() << endl;
+			cout << endl;
+			j++;
+		}
+		i++;
+
+	}
+
+	cout << "DEBUG: BASE_SQUARES" << endl;
+	for (int z = 0; z < 5; z++)
+	{
+		for (int a = 0; a < 5; a++)
+		{
+			cout << BASE_SQUARES[z][a].first << " "
+					<< BASE_SQUARES[z][a].second << ", ";
+		}
+		cout << endl;
 	}
 }
 
@@ -223,6 +376,27 @@ void Initialization::InitPAWN_LAYOUT(pugi::xml_node& constants)
 	}
 }
 
+void Initialization::InitDicePos(pugi::xml_node& constants)
+{
+	// DICE_POS
+	pugi::xml_node POS = constants.child("DICE_POS");
+
+	int i = 0;
+	for (pugi::xml_node YELLOW = POS.child("YELLOW"); YELLOW; YELLOW =
+			YELLOW.next_sibling())
+	{
+		DICE_POS[i].first = YELLOW.child("x").text().as_int();
+		DICE_POS[i].second = YELLOW.child("y").text().as_int();
+		i++;
+	}
+	cout << "DEBUG: DICE_POS" << endl;
+	for (int j = 0; j < 3; j++)
+	{
+		cout << DICE_POS[j].first << " " << DICE_POS[j].second
+				<< endl;
+	}
+}
+
 void Initialization::InitSCREEN_COORDS(pugi::xml_node& constants)
 {
 	// SCREEN_COORDS
@@ -242,27 +416,6 @@ void Initialization::InitSCREEN_COORDS(pugi::xml_node& constants)
 	{
 		cout << SCREEN_COORDS[j].first << " "
 				<< SCREEN_COORDS[j].second << endl;
-	}
-}
-
-void Initialization::InitDicePos(pugi::xml_node& constants)
-{
-	// DICE_POS
-	pugi::xml_node POS = constants.child("DICE_POS");
-
-	int i = 0;
-	for (pugi::xml_node YELLOW = POS.child("YELLOW"); YELLOW; YELLOW =
-			YELLOW.next_sibling())
-	{
-		DICE_POS[i].first = YELLOW.child("x").text().as_int();
-		DICE_POS[i].second = YELLOW.child("y").text().as_int();
-		i++;
-	}
-	cout << "DEBUG: DICE_POS" << endl;
-	for (int j = 0; j < 3; j++)
-	{
-		cout << DICE_POS[j].first << " " << DICE_POS[j].second
-				<< endl;
 	}
 }
 
@@ -393,7 +546,12 @@ void Initialization::InitializeData()
 	InitSpacing(constants);
 	InitCoordinates(constants);
 
+	InitNEXT_SQUARE(constants);
+	InitSAFE_SQUARES(constants);
+	InitBASE_SQUARES(constants);
 	InitSTART_POS(constants);
+	InitNEXT_SAFE(constants);
+	InitACTIVE_SQUARES(constants);
 	InitIDLE_POS(constants);
 	InitFINAL_SQUARES(constants);
 	InitSTART_SQUARES(constants);

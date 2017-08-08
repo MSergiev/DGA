@@ -60,10 +60,14 @@ public:
 	int X_OFF;
 	int Y_OFF;
 
-	//pair<int, int> BASE_SQUARES[][];
+	pair<int, int> NEXT_SQUARE[15][15];
+	pair<int, int> SAFE_SQUARES[3][5];
+	pair<int, int> BASE_SQUARES[3][5];
 
 	unsigned START_POS[];
 
+	pair<int, int> ACTIVE_SQUARES[];
+	pair<int, int> NEXT_SAFE[];
 	pair<int, int> IDLE_POS[];
 	pair<int, int> FINAL_SQUARES[];
 	pair<int, int> START_SQUARES[];
@@ -146,10 +150,14 @@ private:
 	void InitSTART_SQUARES(pugi::xml_node&);
 	void InitFINAL_SQUARES(pugi::xml_node& constants);
 	void InitIDLE_POS(pugi::xml_node& constants);
+	void InitNEXT_SAFE(pugi::xml_node& constants);
+	void InitACTIVE_SQUARES(pugi::xml_node& constants);
 
 	void InitSTART_POS(pugi::xml_node& constants);
 
+	void InitNEXT_SQUARE(pugi::xml_node& constants);
 	void InitBASE_SQUARES(pugi::xml_node& constants);
+	void InitSAFE_SQUARES(pugi::xml_node& constants);
 
 public:
 	Initialization();

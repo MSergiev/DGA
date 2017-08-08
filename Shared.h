@@ -397,20 +397,18 @@ extern int ZERO_Y_INDEX;
 extern int X_OFF;
 extern int Y_OFF;
 /*
-
-
-
  bool MOVEABLE_SQUARES[BOARD_HEIGHT][BOARD_WIDTH] {
 
- };
- pair<int, int> NEXT_SQUARE[BOARD_HEIGHT][BOARD_WIDTH] {
+ };*/
 
- };
- pair<int, int> NEXT_SAFE[3] { };
- pair<int, int> ACTIVE_SQUARES[BOARD_LENGTH] { };
- pair<int, int> SAFE_SQUARES[BOARD_HEIGHT][BOARD_WIDTH] { };*/
-//extern pair<int, int> BASE_SQUARES[][];
+
+extern pair<int, int> NEXT_SQUARE[15][15];
+extern pair<int, int> SAFE_SQUARES[3][5];
+extern pair<int, int> BASE_SQUARES[3][5];
+
+extern pair<int, int> ACTIVE_SQUARES[];
 extern unsigned START_POS[];
+extern pair<int, int> NEXT_SAFE[];
 extern pair<int, int> IDLE_POS[];
 extern pair<int, int> FINAL_SQUARES[];
 extern pair<int, int> START_SQUARES[];
