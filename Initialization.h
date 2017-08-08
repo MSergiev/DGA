@@ -82,138 +82,219 @@ public:
 	int KNOB_WIDTH;
 	int KNOB_HEIGHT;
 
+	string START_PATH;
+	string RESTART_PATH;
+	string CONTINUE_PATH;
+	string QUIT_PATH;
+	string SOUND_ON_PATH;
+	string SOUND_OFF_PATH;
+	string RULES_PATH;
+	string SFX_SLIDER_PATH;
+	string BGM_SLIDER_PATH;
+	string SLIDER_KNOB_PATH;
+
+	string FONT_PATH;
+	string PAWN_PATH;
+	string DICE_PATH;
+	string BOARD_PATH;
+	string SCROLLABLE_PATH;
+	string WIN_PATH;
+	string TITLE_PATH;
+	string HIGHLIGHTER_PATH;
+
+	string EXPLODE_PATH;
+	int EXPLODE_WIDTH;
+	int EXPLODE_HEIGHT;
+	int EXPLODE_FRAMES;
+	int EXPLODE_DELAY;
+
+	string SHOCK_PATH;
+	int SHOCK_WIDTH;
+	int SHOCK_HEIGHT;
+	int SHOCK_FRAMES;
+	int SHOCK_DELAY;
+
 private:
+	// method which initialize shared constants
 	void InitializeData();
+
+	// helper methods which initialized
+	// the different nodes of the xml
+	void InitSizes(pugi::xml_node &);
+	void InitGame(pugi::xml_node &);
+	void InitAnimation(pugi::xml_node &);
+	void InitSpacing(pugi::xml_node &);
+	void InitDrawnColors(pugi::xml_node &);
+	void InitCoordinates(pugi::xml_node&);
+	void InitEnumColors(pugi::xml_node &);
+	void InitUI_CONSTANTS(pugi::xml_node &);
+	void InitUI_ELEMENTS_PATHS(pugi::xml_node &);
+	void InitBASIC_PATHS(pugi::xml_node &);
+	void InitExplosion_FX_DATA(pugi::xml_node &);
+	void InitShockwave_FX_DATA(pugi::xml_node &);
 
 public:
 	Initialization();
 	virtual ~Initialization();
 
-	int getBoardHeight() const;
+	// setters
 	void setBoardHeight(int boardHeight);
 
-	int getBoardLength() const;
 	void setBoardLength(int boardLength);
 
-	int getBoardWidth() const;
 	void setBoardWidth(int boardWidth);
 
-	int getButtonHeight() const;
 	void setButtonHeight(int buttonHeight);
 
-	int getButtonWidth() const;
 	void setButtonWidth(int buttonWidth);
 
-	int getFieldHeight() const;
 	void setFieldHeight(int fieldHeight);
 
-	int getFieldWidth() const;
 	void setFieldWidth(int fieldWidth);
 
-	int getFontSize() const;
 	void setFontSize(int fontSize);
 
-	int getHeight() const;
 	void setHeight(int height);
 
-	int getRulesHeight() const;
 	void setRulesHeight(int rulesHeight);
 
-	int getRulesWidth() const;
 	void setRulesWidth(int rulesWidth);
 
-	int getSquareSize() const;
 	void setSquareSize(int squareSize);
 
-	int getWidth() const;
 	void setWidth(int width);
 
-	// tried to make a template function
-	// which can init int and string data
-	//template<typename T>
-	int InitIntData(int &variable, char* name);
-
-	const char * makeChar(char[]);
-
-	int getMovementDelay() const;
 	void setMovementDelay(int movementDelay);
 
-	int getPawns() const;
 	void setPawns(int pawns);
 
-	int getPlayerData() const;
 	void setPlayerData(int playerData);
 
-	int getPlayers() const;
 	void setPlayers(int players);
-	int getPawnFrames() const;
+
 	void setPawnFrames(int pawnFrames);
-	int getVertOffset() const;
+
 	void setVertOffset(int vertOffset);
-	int getWinShadowOff() const;
+
 	void setWinShadowOff(int winShadowOff);
-	int getWinXData() const;
+
 	void setWinXData(int winXData);
-	int getWinXOff() const;
+
 	void setWinXOff(int winXOff);
-	int getWinYData() const;
+
 	void setWinYData(int winYData);
-	int getWinYOff() const;
+
 	void setWinYOff(int winYOff);
-	SDL_Color getBlack() const;
+
 	void setBlack(SDL_Color black);
-	SDL_Color getBlue() const;
+
 	void setBlue(SDL_Color blue);
-	SDL_Color getGreen() const;
+
 	void setGreen(SDL_Color green);
-	SDL_Color getRed() const;
+
 	void setRed(SDL_Color red);
-	SDL_Color getWhite() const;
+
 	void setWhite(SDL_Color white);
-	SDL_Color getYellow() const;
+
 	void setYellow(SDL_Color yellow);
-	int getYOff() const;
+
 	void setYOff(int off);
-	int getXOff() const;
+
 	void setXOff(int off);
-	int getZeroXIndex() const;
+
 	void setZeroXIndex(int zeroXIndex);
-	int getZeroXPos() const;
+
 	void setZeroXPos(int zeroXPos);
-	int getZeroYIndex() const;
+
 	void setZeroYIndex(int zeroYIndex);
-	int getZeroYPos() const;
+
 	void setZeroYPos(int zeroYPos);
-	int getControlsQuit() const;
+
 	void setControlsQuit(int controlsQuit);
-	int getControlsRules() const;
+
 	void setControlsRules(int controlsRules);
-	int getControlsSound() const;
+
 	void setControlsSound(int controlsSound);
-	int getFadeFactor() const;
+
 	void setFadeFactor(int fadeFactor);
-	int getKnobHeight() const;
+
 	void setKnobHeight(int knobHeight);
-	int getKnobWidth() const;
+
 	void setKnobWidth(int knobWidth);
-	int getRulesBack() const;
+
 	void setRulesBack(int rulesBack);
-	int getRulesNext() const;
+
 	void setRulesNext(int rulesNext);
-	int getSliderHeight() const;
+
 	void setSliderHeight(int sliderHeight);
-	int getSliderWidth() const;
+
 	void setSliderWidth(int sliderWidth);
-	int getTitleContinue() const;
+
 	void setTitleContinue(int titleContinue);
-	int getTitleQuit() const;
+
 	void setTitleQuit(int titleQuit);
-	int getTitleStart() const;
+
 	void setTitleStart(int titleStart);
-	int getWinQuit() const;
+
 	void setWinQuit(int winQuit);
-	int getWinRestart() const;
+
 	void setWinRestart(int winRestart);
+
+	void setBgmSliderPath(const string& bgmSliderPath);
+
+	void setContinuePath(const string& continuePath);
+
+	void setQuitPath(const string& quitPath);
+
+	void setRestartPath(const string& restartPath);
+
+	void setRulesPath(const string& rulesPath);
+
+	void setSfxSliderPath(const string& sfxSliderPath);
+
+	void setSliderKnobPath(const string& sliderKnobPath);
+
+	void setSoundOffPath(const string& soundOffPath);
+
+	void setSoundOnPath(const string& soundOnPath);
+
+	void setStartPath(const string& startPath);
+
+	void setBoardPath(const string& boardPath);
+
+	void setDicePath(const string& dicePath);
+
+	void setFontPath(const string& fontPath);
+
+	void setHighlighterPath(const string& highlighterPath);
+
+	void setPawnPath(const string& pawnPath);
+
+	void setScrollablePath(const string& scrollablePath);
+
+	void setTitlePath(const string& titlePath);
+
+	void setWinPath(const string& winPath);
+
+	void setExplodeDelay(int explodeDelay);
+
+	void setExplodeFrames(int explodeFrames);
+
+	void setExplodeHeight(int explodeHeight);
+
+	void setExplodePath(const string& explodePath);
+
+	void setExplodeWidth(int explodeWidth);
+
+	void setShockDelay(int shockDelay);
+
+	void setShockFrames(int shockFrames);
+
+	void setShockHeight(int shockHeight);
+
+	void setShockPath(const string& shockPath);
+
+	void setShockWidth(int shockWidth);
 };
 
 #endif /* INITIALIZATION_H_ */

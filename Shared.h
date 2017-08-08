@@ -425,36 +425,36 @@ extern int SLIDER_HEIGHT;
 extern int KNOB_WIDTH;
 extern int KNOB_HEIGHT;
 
-static string FONT_PATH;
-static string PAWN_PATH;
-static string DICE_PATH;
-static string BOARD_PATH;
-static string SCROLLABLE_PATH;
-static string WIN_PATH;
-static string TITLE_PATH;
-static string HIGHLIGHTER_PATH;
+extern string START_PATH;
+extern string RESTART_PATH;
+extern string CONTINUE_PATH;
+extern string QUIT_PATH;
+extern string SOUND_ON_PATH;
+extern string SOUND_OFF_PATH;
+extern string RULES_PATH;
+extern string SFX_SLIDER_PATH;
+extern string BGM_SLIDER_PATH;
+extern string SLIDER_KNOB_PATH;
 
-static string START_PATH;
-static string RESTART_PATH;
-static string CONTINUE_PATH;
-static string QUIT_PATH;
-static string SOUND_ON_PATH;
-static string SOUND_OFF_PATH;
-static string RULES_PATH;
-static string SFX_SLIDER_PATH;
-static string BGM_SLIDER_PATH;
-static string SLIDER_KNOB_PATH;
+extern string FONT_PATH;
+extern string PAWN_PATH;
+extern string DICE_PATH;
+extern string BOARD_PATH;
+extern string SCROLLABLE_PATH;
+extern string WIN_PATH;
+extern string TITLE_PATH;
+extern string HIGHLIGHTER_PATH;
 
-static string EXPLODE_PATH;
-static int EXPLODE_WIDTH;
-static int EXPLODE_HEIGHT;
-static int EXPLODE_FRAMES;
-static int EXPLODE_DELAY;
+extern string EXPLODE_PATH;
+extern int EXPLODE_WIDTH;
+extern int EXPLODE_HEIGHT;
+extern int EXPLODE_FRAMES;
+extern int EXPLODE_DELAY;
 
-static string SHOCK_PATH;
-static int SHOCK_WIDTH;
-static int SHOCK_HEIGHT;
-static int SHOCK_FRAMES;
-static int SHOCK_DELAY;
+extern string SHOCK_PATH;
+extern int SHOCK_WIDTH;
+extern int SHOCK_HEIGHT;
+extern int SHOCK_FRAMES;
+extern int SHOCK_DELAY;
 
 #endif

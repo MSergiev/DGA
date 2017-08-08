@@ -9,138 +9,9 @@
 
 Initialization::Initialization()
 {
+
 	InitializeData();
 
-}
-
-int Initialization::getBoardHeight() const
-{
-	return BOARD_HEIGHT;
-}
-
-void Initialization::setBoardHeight(int boardHeight)
-{
-	BOARD_HEIGHT = boardHeight;
-}
-
-int Initialization::getBoardLength() const
-{
-	return BOARD_LENGTH;
-}
-
-void Initialization::setBoardLength(int boardLength)
-{
-	BOARD_LENGTH = boardLength;
-}
-
-int Initialization::getBoardWidth() const
-{
-	return BOARD_WIDTH;
-}
-
-void Initialization::setBoardWidth(int boardWidth)
-{
-	BOARD_WIDTH = boardWidth;
-}
-
-int Initialization::getButtonHeight() const
-{
-	return BUTTON_HEIGHT;
-}
-
-void Initialization::setButtonHeight(int buttonHeight)
-{
-	BUTTON_HEIGHT = buttonHeight;
-}
-
-int Initialization::getButtonWidth() const
-{
-	return BUTTON_WIDTH;
-}
-
-void Initialization::setButtonWidth(int buttonWidth)
-{
-	BUTTON_WIDTH = buttonWidth;
-}
-
-int Initialization::getFieldHeight() const
-{
-	return FIELD_HEIGHT;
-}
-
-void Initialization::setFieldHeight(int fieldHeight)
-{
-	FIELD_HEIGHT = fieldHeight;
-}
-
-int Initialization::getFieldWidth() const
-{
-	return FIELD_WIDTH;
-}
-
-void Initialization::setFieldWidth(int fieldWidth)
-{
-	FIELD_WIDTH = fieldWidth;
-}
-
-int Initialization::getFontSize() const
-{
-	return FONT_SIZE;
-}
-
-void Initialization::setFontSize(int fontSize)
-{
-	FONT_SIZE = fontSize;
-}
-
-int Initialization::getHeight() const
-{
-	return HEIGHT;
-}
-
-void Initialization::setHeight(int height)
-{
-	HEIGHT = height;
-}
-
-int Initialization::getRulesHeight() const
-{
-	return RULES_HEIGHT;
-}
-
-void Initialization::setRulesHeight(int rulesHeight)
-{
-	RULES_HEIGHT = rulesHeight;
-}
-
-int Initialization::getRulesWidth() const
-{
-	return RULES_WIDTH;
-}
-
-void Initialization::setRulesWidth(int rulesWidth)
-{
-	RULES_WIDTH = rulesWidth;
-}
-
-int Initialization::getSquareSize() const
-{
-	return SQUARE_SIZE;
-}
-
-void Initialization::setSquareSize(int squareSize)
-{
-	SQUARE_SIZE = squareSize;
-}
-
-int Initialization::getWidth() const
-{
-	return WIDTH;
-}
-
-void Initialization::setWidth(int width)
-{
-	WIDTH = width;
 }
 
 Initialization::~Initialization()
@@ -148,22 +19,8 @@ Initialization::~Initialization()
 
 }
 
-void Initialization::InitializeData()
+void Initialization::InitSizes(pugi::xml_node& constants)
 {
-	pugi::xml_document doc;
-	pugi::xml_parse_result res = doc.load_file("Constants.xml");
-
-	// checking if the file is loaded
-	if (!res)
-	{
-		// show what is the problem
-		cerr << "ERROR with the xml file: " << res.description()
-				<< endl;
-		return;
-	}
-
-	pugi::xml_node constants = doc.first_child();
-
 	// sizes
 	pugi::xml_node sizes = constants.first_child();
 	setWidth(sizes.child("WIDTH").text().as_int());
@@ -178,18 +35,27 @@ void Initialization::InitializeData()
 	setFontSize(sizes.child("FONT_SIZE").text().as_int());
 	setRulesWidth(sizes.child("RULES_WIDTH").text().as_int());
 	setRulesHeight(sizes.child("RULES_HEIGHT").text().as_int());
+}
 
+void Initialization::InitGame(pugi::xml_node& constants)
+{
 	// game
 	pugi::xml_node game = constants.child("game");
 	setPlayers(game.child("PLAYERS").text().as_int());
 	setPawns(game.child("PAWNS").text().as_int());
 	setPlayerData(game.child("PLAYER_DATA").text().as_int());
 	setMovementDelay(game.child("MOVEMENT_DELAY").text().as_int());
+}
 
+void Initialization::InitAnimation(pugi::xml_node& constants)
+{
 	// animation
 	pugi::xml_node animation = constants.child("animation");
 	setPawnFrames(animation.child("PAWN_FRAMES").text().as_int());
+}
 
+void Initialization::InitSpacing(pugi::xml_node& constants)
+{
 	// spacing
 	pugi::xml_node spacing = constants.child("spacing");
 	setWinXOff(spacing.child("WIN_X_OFF").text().as_int());
@@ -198,7 +64,10 @@ void Initialization::InitializeData()
 	setWinYData(spacing.child("WIN_Y_DATA").text().as_int());
 	setWinShadowOff(spacing.child("WIN_SHADOW_OFF").text().as_int());
 	setVertOffset(spacing.child("VERT_OFFSET").text().as_int());
+}
 
+void Initialization::InitDrawnColors(pugi::xml_node& constants)
+{
 	// drawnColors
 	pugi::xml_node drawnColors = constants.child("drawnColors");
 	pugi::xml_node c_white = drawnColors.child("C_WHITE");
@@ -219,9 +88,16 @@ void Initialization::InitializeData()
 
 	pugi::xml_node C_YELLOW = drawnColors.child("C_YELLOW");
 	pugi::xml_attribute_iterator aitri = C_YELLOW.attributes_begin();
+}
+
+void Initialization::InitEnumColors(pugi::xml_node& constants)
+{
 
 	//enumColors
+}
 
+void Initialization::InitCoordinates(pugi::xml_node& constants)
+{
 	// coordinates
 	pugi::xml_node coordinates = constants.child("coordinates");
 	setZeroXPos(coordinates.child("ZERO_X_POS").text().as_int());
@@ -230,56 +106,205 @@ void Initialization::InitializeData()
 	setZeroYIndex(coordinates.child("ZERO_Y_INDEX").text().as_int());
 	setXOff(coordinates.child("X_OFF").text().as_int());
 	setYOff(coordinates.child("Y_OFF").text().as_int());
+}
 
-	//
+void Initialization::InitUI_CONSTANTS(pugi::xml_node& constants)
+{
+
+	//UI_CONSTANTS
+	pugi::xml_node UI_CONSTANTS = constants.child("UI_CONSTANTS");
+	setTitleStart(UI_CONSTANTS.child("TITLE_START").text().as_int());
+	setTitleContinue(
+			UI_CONSTANTS.child("TITLE_CONTINUE").text().as_int());
+	setTitleQuit(UI_CONSTANTS.child("TITLE_QUIT").text().as_int());
+	setWinRestart(UI_CONSTANTS.child("WIN_RESTART").text().as_int());
+	setWinQuit(UI_CONSTANTS.child("WIN_QUIT").text().as_int());
+	setControlsSound(
+			UI_CONSTANTS.child("CONTROLS_SOUND").text().as_int());
+	setControlsRules(
+			UI_CONSTANTS.child("CONTROLS_RULES").text().as_int());
+	setControlsQuit(
+			UI_CONSTANTS.child("CONTROLS_QUIT").text().as_int());
+	setRulesBack(UI_CONSTANTS.child("RULES_BACK").text().as_int());
+	setRulesNext(UI_CONSTANTS.child("RULES_NEXT").text().as_int());
+	setFadeFactor(UI_CONSTANTS.child("FADE_FACTOR").text().as_int());
+	setSliderWidth(
+			UI_CONSTANTS.child("SLIDER_WIDTH").text().as_int());
+	setSliderHeight(
+			UI_CONSTANTS.child("SLIDER_HEIGHT").text().as_int());
+	setKnobWidth(UI_CONSTANTS.child("KNOB_WIDTH").text().as_int());
+	setKnobHeight(UI_CONSTANTS.child("KNOB_HEIGHT").text().as_int());
+}
+
+void Initialization::InitUI_ELEMENTS_PATHS(pugi::xml_node& constants)
+{
+
+	// UI_ELEMENTS_PATHS
+	pugi::xml_node UI_ELEMENTS_PATHS = constants.child(
+			"UI_CONSTANTS");
+	setRestartPath(
+			UI_ELEMENTS_PATHS.child("RESTART_PATH").text().as_string());
+	setContinuePath(
+			UI_ELEMENTS_PATHS.child("CONTINUE_PATH").text().as_string());
+	setQuitPath(
+			UI_ELEMENTS_PATHS.child("QUIT_PATH").text().as_string());
+	setSoundOnPath(
+			UI_ELEMENTS_PATHS.child("SOUND_ON_PATH").text().as_string());
+	setSoundOffPath(
+			UI_ELEMENTS_PATHS.child("SOUND_OFF_PATH").text().as_string());
+	setRulesPath(
+			UI_ELEMENTS_PATHS.child("RULES_PATH").text().as_string());
+	setSfxSliderPath(
+			UI_ELEMENTS_PATHS.child("SFX_SLIDER_PATH").text().as_string());
+	setBgmSliderPath(
+			UI_ELEMENTS_PATHS.child("BGM_SLIDER_PATH").text().as_string());
+	setSliderKnobPath(
+			UI_ELEMENTS_PATHS.child("SLIDER_KNOB_PATH").text().as_string());
+}
+
+void Initialization::InitBASIC_PATHS(pugi::xml_node& constants)
+{
+	//BASIC_PATHS
+	pugi::xml_node BASIC_PATHS = constants.child("BASIC_PATHS");
+	setFontPath(BASIC_PATHS.child("FONT_PATH").text().as_string());
+	setPawnPath(BASIC_PATHS.child("PAWN_PATH").text().as_string());
+	setDicePath(BASIC_PATHS.child("DICE_PATH").text().as_string());
+	setBoardPath(BASIC_PATHS.child("BOARD_PATH").text().as_string());
+	setScrollablePath(
+			BASIC_PATHS.child("SCROLLABLE_PATH").text().as_string());
+	setWinPath(BASIC_PATHS.child("WIN_PATH").text().as_string());
+	setTitlePath(BASIC_PATHS.child("TITLE_PATH").text().as_string());
+	setHighlighterPath(
+			BASIC_PATHS.child("HIGHLIGHTER_PATH").text().as_string());
 
 }
 
-//template<typename T>
-int Initialization::InitIntData(int& variable, char* name)
+void Initialization::InitExplosion_FX_DATA(pugi::xml_node& constants)
 {
+	//Explosion_FX_DATA
+	pugi::xml_node Explosion_FX_DATA = constants.child(
+			"Explosion_FX_DATA");
+	setExplodePath(
+			Explosion_FX_DATA.child("EXPLODE_PATH").text().as_string());
+	setExplodeWidth(
+			Explosion_FX_DATA.child("EXPLODE_WIDTH").text().as_int());
+	setExplodeHeight(
+			Explosion_FX_DATA.child("EXPLODE_HEIGHT").text().as_int());
+	setExplodeFrames(
+			Explosion_FX_DATA.child("EXPLODE_FRAMES").text().as_int());
+	setExplodeDelay(
+			Explosion_FX_DATA.child("EXPLODE_DELAY").text().as_int());
+}
 
+void Initialization::InitShockwave_FX_DATA(pugi::xml_node& constants)
+{
+	//Shockwave_FX_DATA
+	pugi::xml_node Shockwave_FX_DATA = constants.child(
+			"Shockwave_FX_DATA");
+	setShockPath(
+			Shockwave_FX_DATA.child("SHOCK_PATH").text().as_string());
+	setShockWidth(
+			Shockwave_FX_DATA.child("SHOCK_WIDTH").text().as_int());
+	setShockHeight(
+			Shockwave_FX_DATA.child("SHOCK_HEIGHT").text().as_int());
+	setShockFrames(
+			Shockwave_FX_DATA.child("SHOCK_FRAMES").text().as_int());
+	setShockDelay(
+			Shockwave_FX_DATA.child("SHOCK_DELAY").text().as_int());
+}
+
+void Initialization::InitializeData()
+{
 	pugi::xml_document doc;
 	pugi::xml_parse_result res = doc.load_file("Constants.xml");
-
-// checking if the file is loaded
+	// checking if the file is loaded
 	if (!res)
 	{
 		// show what is the problem
 		cerr << "ERROR with the xml file: " << res.description()
 				<< endl;
+		return;
 	}
 
 	pugi::xml_node constants = doc.first_child();
-	pugi::xml_node sizes = constants.first_child();
 
-	string intString = "int";
-	string str = "string";
-
-	for (pugi::xml_node constants = constants.first_child();
-			constants; constants = constants.next_sibling())
-	{
-		for (pugi::xml_node size = sizes.first_child(); size; size =
-				size.next_sibling())
-		{
-			if (intString.compare(typeid(variable).name()))
-			{
-				cout << size.child(name).text().as_int();
-				return size.child(name).text().as_int();
-			} else
-			{
-				if (str.compare(typeid(variable).name()))
-				{
-					//return size.child(name).text().as_string();
-				}
-			}
-		}
-	}
+	InitSizes(constants);
+	InitGame(constants);
+	InitAnimation(constants);
+	InitSpacing(constants);
+	InitDrawnColors(constants);
+	InitCoordinates(constants);
+	InitEnumColors(constants);
+	InitUI_CONSTANTS(constants);
+	InitUI_ELEMENTS_PATHS(constants);
+	InitBASIC_PATHS(constants);
+	InitExplosion_FX_DATA(constants);
+	InitShockwave_FX_DATA(constants);
 }
 
-int Initialization::getMovementDelay() const
+void Initialization::setBoardHeight(int boardHeight)
 {
-	return MOVEMENT_DELAY;
+	BOARD_HEIGHT = boardHeight;
+}
+
+void Initialization::setBoardLength(int boardLength)
+{
+	BOARD_LENGTH = boardLength;
+}
+
+void Initialization::setBoardWidth(int boardWidth)
+{
+	BOARD_WIDTH = boardWidth;
+}
+
+void Initialization::setButtonHeight(int buttonHeight)
+{
+	BUTTON_HEIGHT = buttonHeight;
+}
+
+void Initialization::setButtonWidth(int buttonWidth)
+{
+	BUTTON_WIDTH = buttonWidth;
+}
+
+void Initialization::setFieldHeight(int fieldHeight)
+{
+	FIELD_HEIGHT = fieldHeight;
+}
+
+void Initialization::setFieldWidth(int fieldWidth)
+{
+	FIELD_WIDTH = fieldWidth;
+}
+
+void Initialization::setFontSize(int fontSize)
+{
+	FONT_SIZE = fontSize;
+}
+
+void Initialization::setHeight(int height)
+{
+	HEIGHT = height;
+}
+
+void Initialization::setRulesHeight(int rulesHeight)
+{
+	RULES_HEIGHT = rulesHeight;
+}
+
+void Initialization::setRulesWidth(int rulesWidth)
+{
+	RULES_WIDTH = rulesWidth;
+}
+
+void Initialization::setSquareSize(int squareSize)
+{
+	SQUARE_SIZE = squareSize;
+}
+
+void Initialization::setWidth(int width)
+{
+	WIDTH = width;
 }
 
 void Initialization::setMovementDelay(int movementDelay)
@@ -287,19 +312,9 @@ void Initialization::setMovementDelay(int movementDelay)
 	MOVEMENT_DELAY = movementDelay;
 }
 
-int Initialization::getPawns() const
-{
-	return PAWNS;
-}
-
 void Initialization::setPawns(int pawns)
 {
 	PAWNS = pawns;
-}
-
-int Initialization::getPlayerData() const
-{
-	return PLAYER_DATA;
 }
 
 void Initialization::setPlayerData(int playerData)
@@ -307,59 +322,22 @@ void Initialization::setPlayerData(int playerData)
 	PLAYER_DATA = playerData;
 }
 
-int Initialization::getPlayers() const
-{
-	return PLAYERS;
-}
-
-int Initialization::getPawnFrames() const
-{
-	return PAWN_FRAMES;
-}
-
-int Initialization::getVertOffset() const
-{
-	return VERT_OFFSET;
-}
-
 void Initialization::setVertOffset(int vertOffset)
 {
 	VERT_OFFSET = vertOffset;
 }
-
-int Initialization::getWinShadowOff() const
-{
-	return WIN_SHADOW_OFF;
-}
-
 void Initialization::setWinShadowOff(int winShadowOff)
 {
 	WIN_SHADOW_OFF = winShadowOff;
-}
-
-int Initialization::getWinXData() const
-{
-	return WIN_X_DATA;
 }
 
 void Initialization::setWinXData(int winXData)
 {
 	WIN_X_DATA = winXData;
 }
-
-int Initialization::getWinXOff() const
-{
-	return WIN_X_OFF;
-}
-
 void Initialization::setWinXOff(int winXOff)
 {
 	WIN_X_OFF = winXOff;
-}
-
-int Initialization::getWinYData() const
-{
-	return WIN_Y_DATA;
 }
 
 void Initialization::setWinYData(int winYData)
@@ -367,24 +345,9 @@ void Initialization::setWinYData(int winYData)
 	WIN_Y_DATA = winYData;
 }
 
-int Initialization::getWinYOff() const
-{
-	return WIN_Y_OFF;
-}
-
-SDL_Color Initialization::getBlack() const
-{
-	return C_BLACK;
-}
-
 void Initialization::setBlack(SDL_Color black)
 {
 	C_BLACK = black;
-}
-
-SDL_Color Initialization::getBlue() const
-{
-	return C_BLUE;
 }
 
 void Initialization::setBlue(SDL_Color blue)
@@ -392,19 +355,9 @@ void Initialization::setBlue(SDL_Color blue)
 	C_BLUE = blue;
 }
 
-SDL_Color Initialization::getGreen() const
-{
-	return C_GREEN;
-}
-
 void Initialization::setGreen(SDL_Color green)
 {
 	C_GREEN = green;
-}
-
-SDL_Color Initialization::getRed() const
-{
-	return C_RED;
 }
 
 void Initialization::setRed(SDL_Color red)
@@ -412,24 +365,9 @@ void Initialization::setRed(SDL_Color red)
 	C_RED = red;
 }
 
-SDL_Color Initialization::getWhite() const
-{
-	return C_WHITE;
-}
-
 void Initialization::setWhite(SDL_Color white)
 {
 	C_WHITE = white;
-}
-
-SDL_Color Initialization::getYellow() const
-{
-	return C_YELLOW;
-}
-
-int Initialization::getXOff() const
-{
-	return X_OFF;
 }
 
 void Initialization::setXOff(int off)
@@ -437,19 +375,9 @@ void Initialization::setXOff(int off)
 	X_OFF = off;
 }
 
-int Initialization::getYOff() const
-{
-	return Y_OFF;
-}
-
 void Initialization::setYOff(int off)
 {
 	Y_OFF = off;
-}
-
-int Initialization::getZeroXIndex() const
-{
-	return ZERO_X_INDEX;
 }
 
 void Initialization::setZeroXIndex(int zeroXIndex)
@@ -457,44 +385,18 @@ void Initialization::setZeroXIndex(int zeroXIndex)
 	ZERO_X_INDEX = zeroXIndex;
 }
 
-int Initialization::getZeroXPos() const
-{
-	return ZERO_X_POS;
-}
-
 void Initialization::setZeroXPos(int zeroXPos)
 {
 	ZERO_X_POS = zeroXPos;
-}
-
-int Initialization::getZeroYIndex() const
-{
-	return ZERO_Y_INDEX;
 }
 
 void Initialization::setZeroYIndex(int zeroYIndex)
 {
 	ZERO_Y_INDEX = zeroYIndex;
 }
-
-int Initialization::getZeroYPos() const
-{
-	return ZERO_Y_POS;
-}
-
-int Initialization::getControlsQuit() const
-{
-	return CONTROLS_QUIT;
-}
-
 void Initialization::setControlsQuit(int controlsQuit)
 {
 	CONTROLS_QUIT = controlsQuit;
-}
-
-int Initialization::getControlsRules() const
-{
-	return CONTROLS_RULES;
 }
 
 void Initialization::setControlsRules(int controlsRules)
@@ -502,19 +404,9 @@ void Initialization::setControlsRules(int controlsRules)
 	CONTROLS_RULES = controlsRules;
 }
 
-int Initialization::getControlsSound() const
-{
-	return CONTROLS_SOUND;
-}
-
 void Initialization::setControlsSound(int controlsSound)
 {
 	CONTROLS_SOUND = controlsSound;
-}
-
-int Initialization::getFadeFactor() const
-{
-	return FADE_FACTOR;
 }
 
 void Initialization::setFadeFactor(int fadeFactor)
@@ -522,19 +414,9 @@ void Initialization::setFadeFactor(int fadeFactor)
 	FADE_FACTOR = fadeFactor;
 }
 
-int Initialization::getKnobHeight() const
-{
-	return KNOB_HEIGHT;
-}
-
 void Initialization::setKnobHeight(int knobHeight)
 {
 	KNOB_HEIGHT = knobHeight;
-}
-
-int Initialization::getKnobWidth() const
-{
-	return KNOB_WIDTH;
 }
 
 void Initialization::setKnobWidth(int knobWidth)
@@ -542,19 +424,9 @@ void Initialization::setKnobWidth(int knobWidth)
 	KNOB_WIDTH = knobWidth;
 }
 
-int Initialization::getRulesBack() const
-{
-	return RULES_BACK;
-}
-
 void Initialization::setRulesBack(int rulesBack)
 {
 	RULES_BACK = rulesBack;
-}
-
-int Initialization::getRulesNext() const
-{
-	return RULES_NEXT;
 }
 
 void Initialization::setRulesNext(int rulesNext)
@@ -562,39 +434,18 @@ void Initialization::setRulesNext(int rulesNext)
 	RULES_NEXT = rulesNext;
 }
 
-int Initialization::getSliderHeight() const
-{
-	return SLIDER_HEIGHT;
-}
-
 void Initialization::setSliderHeight(int sliderHeight)
 {
 	SLIDER_HEIGHT = sliderHeight;
-}
-
-int Initialization::getSliderWidth() const
-{
-	return SLIDER_WIDTH;
 }
 
 void Initialization::setSliderWidth(int sliderWidth)
 {
 	SLIDER_WIDTH = sliderWidth;
 }
-
-int Initialization::getTitleContinue() const
-{
-	return TITLE_CONTINUE;
-}
-
 void Initialization::setTitleContinue(int titleContinue)
 {
 	TITLE_CONTINUE = titleContinue;
-}
-
-int Initialization::getTitleQuit() const
-{
-	return TITLE_QUIT;
 }
 
 void Initialization::setTitleQuit(int titleQuit)
@@ -602,19 +453,9 @@ void Initialization::setTitleQuit(int titleQuit)
 	TITLE_QUIT = titleQuit;
 }
 
-int Initialization::getTitleStart() const
-{
-	return TITLE_START;
-}
-
 void Initialization::setTitleStart(int titleStart)
 {
 	TITLE_START = titleStart;
-}
-
-int Initialization::getWinQuit() const
-{
-	return WIN_QUIT;
 }
 
 void Initialization::setWinQuit(int winQuit)
@@ -622,9 +463,144 @@ void Initialization::setWinQuit(int winQuit)
 	WIN_QUIT = winQuit;
 }
 
-int Initialization::getWinRestart() const
+void Initialization::setBgmSliderPath(const string& bgmSliderPath)
 {
-	return WIN_RESTART;
+	BGM_SLIDER_PATH = bgmSliderPath;
+}
+
+void Initialization::setContinuePath(const string& continuePath)
+{
+	CONTINUE_PATH = continuePath;
+}
+
+void Initialization::setQuitPath(const string& quitPath)
+{
+	QUIT_PATH = quitPath;
+}
+
+void Initialization::setRestartPath(const string& restartPath)
+{
+	RESTART_PATH = restartPath;
+}
+
+void Initialization::setRulesPath(const string& rulesPath)
+{
+	RULES_PATH = rulesPath;
+}
+
+void Initialization::setSfxSliderPath(const string& sfxSliderPath)
+{
+	SFX_SLIDER_PATH = sfxSliderPath;
+}
+
+void Initialization::setSliderKnobPath(const string& sliderKnobPath)
+{
+	SLIDER_KNOB_PATH = sliderKnobPath;
+}
+
+void Initialization::setSoundOffPath(const string& soundOffPath)
+{
+	SOUND_OFF_PATH = soundOffPath;
+}
+
+void Initialization::setSoundOnPath(const string& soundOnPath)
+{
+	SOUND_ON_PATH = soundOnPath;
+}
+
+void Initialization::setBoardPath(const string& boardPath)
+{
+	BOARD_PATH = boardPath;
+}
+
+void Initialization::setDicePath(const string& dicePath)
+{
+	DICE_PATH = dicePath;
+}
+
+void Initialization::setFontPath(const string& fontPath)
+{
+	FONT_PATH = fontPath;
+}
+
+void Initialization::setHighlighterPath(const string& highlighterPath)
+{
+	HIGHLIGHTER_PATH = highlighterPath;
+}
+
+void Initialization::setPawnPath(const string& pawnPath)
+{
+	PAWN_PATH = pawnPath;
+}
+
+void Initialization::setScrollablePath(const string& scrollablePath)
+{
+	SCROLLABLE_PATH = scrollablePath;
+}
+
+void Initialization::setTitlePath(const string& titlePath)
+{
+	TITLE_PATH = titlePath;
+}
+
+void Initialization::setExplodeDelay(int explodeDelay)
+{
+	EXPLODE_DELAY = explodeDelay;
+}
+
+void Initialization::setExplodeFrames(int explodeFrames)
+{
+	EXPLODE_FRAMES = explodeFrames;
+}
+
+void Initialization::setExplodeHeight(int explodeHeight)
+{
+	EXPLODE_HEIGHT = explodeHeight;
+}
+
+void Initialization::setExplodePath(const string& explodePath)
+{
+	EXPLODE_PATH = explodePath;
+}
+
+void Initialization::setShockDelay(int shockDelay)
+{
+	SHOCK_DELAY = shockDelay;
+}
+
+void Initialization::setShockFrames(int shockFrames)
+{
+	SHOCK_FRAMES = shockFrames;
+}
+
+void Initialization::setShockHeight(int shockHeight)
+{
+	SHOCK_HEIGHT = shockHeight;
+}
+
+void Initialization::setShockPath(const string& shockPath)
+{
+	SHOCK_PATH = shockPath;
+}
+
+void Initialization::setShockWidth(int shockWidth)
+{
+	SHOCK_WIDTH = shockWidth;
+}
+
+void Initialization::setExplodeWidth(int explodeWidth)
+{
+	EXPLODE_WIDTH = explodeWidth;
+}
+
+void Initialization::setWinPath(const string& winPath)
+{
+	WIN_PATH = winPath;
+}
+
+void Initialization::setStartPath(const string& startPath)
+{
+	START_PATH = startPath;
 }
 
 void Initialization::setWinRestart(int winRestart)
@@ -655,10 +631,4 @@ void Initialization::setPawnFrames(int pawnFrames)
 void Initialization::setPlayers(int players)
 {
 	PLAYERS = players;
-}
-
-const char* Initialization::makeChar(char name[])
-{
-	char* n = name;
-	return n;
 }
