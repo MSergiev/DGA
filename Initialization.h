@@ -61,7 +61,7 @@ public:
 	int Y_OFF;
 
 	pair<int, int> NEXT_SQUARE[15][15];
-	pair<int, int> SAFE_SQUARES[3][5];
+	pair<int, int> SAFE_SQUARES[][5];
 	pair<int, int> BASE_SQUARES[3][5];
 
 	unsigned START_POS[];
@@ -124,6 +124,10 @@ public:
 	int SHOCK_FRAMES;
 	int SHOCK_DELAY;
 
+public:
+	Initialization();
+	virtual ~Initialization();
+
 private:
 	// method which initialize shared constants
 	void InitializeData();
@@ -159,10 +163,7 @@ private:
 	void InitBASE_SQUARES(pugi::xml_node& constants);
 	void InitSAFE_SQUARES(pugi::xml_node& constants);
 
-public:
-	Initialization();
-	virtual ~Initialization();
-
+private:
 	// setters
 	void setBoardHeight(int boardHeight);
 
