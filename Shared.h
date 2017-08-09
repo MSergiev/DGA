@@ -349,6 +349,7 @@ extern bool quit;
 #define ON_SIX orchHit
 #define ON_DICE ding
 
+///Drawing colors
 #define C_WHITE {255,255,255,255}
 #define C_BLACK {0,0,0,255}
 #define C_RED {255,0,0,255}
@@ -356,6 +357,7 @@ extern bool quit;
 #define C_GREEN {0,0,255,255}
 #define C_YELLOW {255,255,0,255}
 
+///Player colors
 enum Colors
 {
 	NONE = 0, YELLOW, RED, BLUE
@@ -396,11 +398,8 @@ extern int ZERO_X_INDEX;
 extern int ZERO_Y_INDEX;
 extern int X_OFF;
 extern int Y_OFF;
-/*
- bool MOVEABLE_SQUARES[BOARD_HEIGHT][BOARD_WIDTH] {
 
- };*/
-
+extern bool MOVEABLE_SQUARES[15][15];
 
 extern pair<int, int> NEXT_SQUARE[15][15];
 extern pair<int, int> SAFE_SQUARES[3][5];

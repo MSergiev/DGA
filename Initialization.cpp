@@ -95,6 +95,41 @@ void Initialization::InitCoordinates(pugi::xml_node& constants)
 	cout << "end of coordinates" << endl;
 }
 
+void Initialization::InitMOVEABLE_SQUARES(pugi::xml_node& constants)
+{
+
+	//MOVEABLE_SQUARES
+	pugi::xml_node MOVEABLE = constants.child("MOVEABLE_SQUARES");
+
+	int i = 0;
+	int j = 0;
+
+	for (pugi::xml_node ROW = MOVEABLE.first_child(); ROW;
+			ROW = ROW.next_sibling())
+	{
+		for (pugi::xml_attribute atr = ROW.first_attribute(); atr;
+				atr = atr.next_attribute())
+		{
+			MOVEABLE_SQUARES[i][j] = atr.as_int();
+			j++;
+			if (j >= 15)
+			{
+				j = 0;
+			}
+		}
+		i++;
+	}
+	cout << "DEBUG: NEXT_SQUARE" << endl;
+	for (int f = 0; f < 15; f++)
+	{
+		for (int n = 0; n < 15; n++)
+		{
+			cout << MOVEABLE_SQUARES[f][n] << " ";
+		}
+		cout << endl;
+	}
+}
+
 void Initialization::InitNEXT_SQUARE(pugi::xml_node& constants)
 {
 	//NEXT_SQUARE
@@ -113,7 +148,8 @@ void Initialization::InitNEXT_SQUARE(pugi::xml_node& constants)
 			NEXT_SQUARE[i][j].second =
 					PAIR.attribute("second").as_int();
 			j++;
-			if (j>=15){
+			if (j >= 15)
+			{
 				j = 0;
 			}
 		}
@@ -218,7 +254,8 @@ void Initialization::InitSAFE_SQUARES(pugi::xml_node& constants)
 			SAFE_SQUARES[i][j].first = f.child("x").text().as_int();
 			SAFE_SQUARES[i][j].second = f.child("y").text().as_int();
 			j++;
-			if (j>=5){
+			if (j >= 5)
+			{
 				j = 0;
 			}
 		}
@@ -228,7 +265,7 @@ void Initialization::InitSAFE_SQUARES(pugi::xml_node& constants)
 	cout << "DEBUG: SAFE_SQUARES" << endl;
 	for (int z = 0; z < 3; z++)
 	{
-		for (int a = 0; a <5; a++)
+		for (int a = 0; a < 5; a++)
 		{
 			cout << SAFE_SQUARES[z][a].first << " "
 					<< SAFE_SQUARES[z][a].second << ", ";
@@ -278,7 +315,8 @@ void Initialization::InitBASE_SQUARES(pugi::xml_node& constants)
 			BASE_SQUARES[i][j].second =
 					first.child("y").text().as_int();
 			j++;
-			if (j>=5){
+			if (j >= 5)
+			{
 				j = 0;
 			}
 		}
@@ -551,20 +589,20 @@ void Initialization::InitializeData()
 	InitAnimation(constants);
 	InitSpacing(constants);
 	InitCoordinates(constants);
-
+	InitMOVEABLE_SQUARES(constants);
 	InitNEXT_SQUARE(constants);
+	InitACTIVE_SQUARES(constants);
+	InitSTART_POS(constants);
+	InitIDLE_POS(constants);
+	InitNEXT_SAFE(constants);
 	InitSAFE_SQUARES(constants);
 	InitBASE_SQUARES(constants);
-	InitSTART_POS(constants);
-	InitNEXT_SAFE(constants);
-	InitACTIVE_SQUARES(constants);
-	InitIDLE_POS(constants);
 	InitFINAL_SQUARES(constants);
 	InitSTART_SQUARES(constants);
 	InitENTRY_SQUARES(constants);
 	InitPAWN_LAYOUT(constants);
-	InitSCREEN_COORDS(constants);
 	InitDicePos(constants);
+	InitSCREEN_COORDS(constants);
 	InitUI_CONSTANTS(constants);
 	InitUI_ELEMENTS_PATHS(constants);
 	InitBASIC_PATHS(constants);
